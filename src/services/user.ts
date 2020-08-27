@@ -9,7 +9,9 @@ export async function query(): Promise<any> {
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request(`/sso-api/user/info?access_token=${accessToken}`);
+  return request(`user/info?access_token=${accessToken}`, {
+    prefixType: 'sso',
+  });
 }
 
 export async function queryNotices(): Promise<any> {

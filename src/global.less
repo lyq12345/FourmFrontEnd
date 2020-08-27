@@ -76,3 +76,124 @@ ol {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: @lines;
 }
+.nav {
+  width: 100%;
+  height: 50px;
+  background-color: brown;
+  display: flex;
+  z-index: 1999;
+}
+.ant-layout-header {
+  height: 65px;
+  padding: 0 80px;
+  background-color: #D40B25;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  height: 65px;
+  .left-content {
+    span {
+      font-size:24px;
+      font-weight:normal;
+    }
+  }
+  .right-content {
+    img {
+      width: 35px;
+      height: 35px;
+      margin-left: 20px;
+    }
+  }
+}
+.ant-layout-footer {
+  background-color: #fff;
+  padding: 0;
+  position: relative;
+  &::before{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 600px;
+    height: 84px;
+    background-color: #CE1925;
+    left: 0;
+    bottom: 0;
+  }
+}
+.footer {
+  width: 1200px;
+  height: 304px;
+  margin: 0 auto;
+  display: flex;
+  position: relative;
+  z-index: 100;
+  // background-color: #fff;
+  p {
+    padding: 0;
+    margin: 0;
+  }
+  .left-content {
+    width: 925px;
+    height: 304px;
+    border-right: 1px solid #D8D8D8;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .company-name {
+      width: 100%;
+      color: #333333;
+      font-size:20px;
+      line-height:28px;
+      padding: 53px 0 0 0;
+      .group-name {
+        color: #333333;
+        font-size: 24px;
+        line-height:33px;
+        margin-bottom: 24px;
+      }
+      .son1-company-name {
+        span {
+          margin-right: 11px;
+        }
+      }
+      .son2-company-name {
+        span {
+          margin-right: 11px;
+        }
+      }
+    }
+    .footer-company-logo {
+      width: 100%;
+      height: 84px;
+      background-color: #CE1925;
+    }
+  }
+  .right-content {
+    text-align: center;
+    .IT-service-phone {
+      color: #CE1925;
+      .IT-service {
+        font-size: 24px;
+        line-height: 33px;
+      }
+      .phone-num {
+        span:first-child {
+          font-size: 32px;
+          line-height: 48px;
+          margin-right: 6px;
+        }
+        span:last-child {
+          font-size:18px;
+          line-height:25px;
+        }
+      }
+    }
+    .remark {
+      color: #999999;
+      font-size:20px;
+      line-height:20px;
+    }
+  }
+}

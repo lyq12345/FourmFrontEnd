@@ -1,7 +1,6 @@
 const { router: demoRouter } = require('./demo-router');
 
 module.exports = {
-  
   routes: [
     {
       path: '/',
@@ -9,22 +8,22 @@ module.exports = {
       routes: [
         {
           path: '/',
-          component: '../layouts/BasicLayout',
+          component: '../layouts/Navigation',
+          // component: '../layouts/BasicLayout',
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/home',
             },
             {
-              path: '/welcome',
-              name: '欢迎',
+              path: '/home',
+              name: '首页',
               icon: 'smile',
-              component: './Welcome',
+              component: './Home',
             },
             // 示例路由
             ...demoRouter,
-            
-            
+
             {
               component: './404',
             },
@@ -39,5 +38,4 @@ module.exports = {
       component: './404',
     },
   ],
-  
 };

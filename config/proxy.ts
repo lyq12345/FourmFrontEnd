@@ -19,7 +19,7 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sso-api': '' },
     },
-    
+
   },
   test: {
     '/yst-iwork-alpha-api': {
@@ -32,6 +32,6 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sso-api': '' },
     },
-    
+
   },
 };

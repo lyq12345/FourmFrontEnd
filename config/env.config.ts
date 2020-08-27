@@ -12,7 +12,7 @@ function getConfig(name: String) {
   envConfig.REACT_APP_SSO_DOMAIN = `sso${currentEnvDomainFlag}.yst.com.cn`
   envConfig.REACT_APP_SSO_SDK_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_sdk.js`
   envConfig.REACT_APP_SSO_CLIENT_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_client.js`
-  envConfig.REACT_APP_SSO_CLIENT_ID = 'iworktest'
+  envConfig.REACT_APP_SSO_CLIENT_ID = 'newiwork'
    
   envConfig.USE_LOCAL_PREMISSION = true
   
