@@ -67,9 +67,9 @@ const Navigation = (props) => {
                   <span>养生堂有限公司 |</span>
                   <span>农夫山泉股份有限公司 |</span>
                   <span>养生堂浙江食品有限公司 |</span>
+                  <span>养生堂化妆品有限公司｜</span>
                 </p>
                 <p className="son2-company-name">
-                  <span>养生堂化妆品有限公司｜</span>
                   <span>北京万泰生物药业股份有限公司</span>
                 </p>
               </div>

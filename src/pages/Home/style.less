@@ -1,5 +1,9 @@
 @import '~antd/lib/style/themes/default.less';
 
+p,h3 {
+  margin: 0;
+  padding: 0;
+}
 .pre {
   margin: 12px 0;
   padding: 12px 20px;
@@ -15,4 +19,114 @@
   border-radius: 6px 0px 0px 6px;
   margin-top: 20px;
   border-left: 4px solid #CE1925;
+  padding: 0 41px 0 16px;
+  justify-content: space-between;
+  .titleText {
+    display: flex;
+    align-items: center;
+    color: #D30B24;
+    .name {
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 16px;
+      margin-right: 9px;
+      .today {
+        margin: 0 3px;
+      }
+    }
+    .HallWords {
+      font-size: 12px;
+      line-height: 17px;
+    }
+    img {
+      width: 37px;
+      height: 15px;
+      margin-left: 9px;
+      margin-right: 3px;
+    }
+  }
+  .task {
+    display: flex;
+    align-items: center;
+    img {
+      width: 22px;
+      height: 22px;
+    }
+    span {
+      font-size: 14px;
+      color: #D80024;
+      line-height: 17px;
+    }
+    .messageTost {
+      // width: 28px;
+      padding: 0 8px;
+      height: 14px;
+      border-radius: 7px;
+      display: flex;
+      line-height: 14px;
+      background-color: #CE1925;
+      color: #F2F2F2;
+      text-align: center;
+      margin-left: 7px;
+      align-self: center
+    }
+    .message {
+      margin-right: 28px;
+    }
+    // span:last-child {
+    //   margin-left: 26px;
+    // }
+  }
+}
+.somethingHall {
+  width: 100%;
+  height: 352px;
+  background-color: #fff;
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 20px 20px;
+  border-radius: 6px;
+  .leftContent {
+    width: 796px;
+    .leftCarousel {
+      display: flex;
+      justify-content: space-between;
+      .Carousel {
+        width: 487px;
+        height: 273px;
+      }
+      .rightCarouselContent {
+        width: 299px;
+        height: 273px;
+        background-color: #F4F4F4;
+        .rightcontentText {
+          width: 100%;
+          height: 58px;
+          padding: 10px;
+        }
+        .lookMore {
+          margin-top: 12px;
+          margin-left: 12px;
+        }
+      }
+    }
+    .somethingHallTitle {
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 18px;
+      margin-bottom: 12px;
+    }
+  }
+  .rightContent {
+    width: 372px;
+  }
+}
+.otherContent {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  .leftContent {}
+  .rightContent {}
 }
