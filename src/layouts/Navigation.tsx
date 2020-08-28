@@ -3,6 +3,13 @@ import { Layout, Result, Button } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
+import logo from '@/assets/img/logo.png';
+import ystLogoMax from '@/assets/img/yst-logo-Max.png';
+import NFSQlogo from '@/assets/img/NFSQ-logo.png';
+import YSTLogo from '@/assets/img/YST-logo.png';
+import WTSWLogo from '@/assets/img/WTSW-logo.png';
+import mobile from '@/assets/img/mobile.png';
+import phone from '@/assets/img/phone.png';
 
 import { Link } from 'umi';
 
@@ -36,7 +43,7 @@ const Navigation = (props) => {
       <Header>
         <div className="header">
           <div className="left-content">
-            <span>集团内网</span>
+            <img src={logo} alt="" />
           </div>
           <div className="right-content">
             <span>8:30签入</span>
@@ -51,38 +58,55 @@ const Navigation = (props) => {
         </Authorized>
       </Content>
       <Footer>
-        <div className="footer">
-          <div className="left-content">
-            <div className="company-name">
-              <p className="group-name">养生堂集团有限公司</p>
-              <p className="son1-company-name">
-                <span>养生堂有限公司 |</span>
-                <span>农夫山泉股份有限公司 |</span>
-                <span>养生堂浙江食品有限公司 |</span>
-              </p>
-              <p className="son2-company-name">
-                <span>养生堂化妆品有限公司｜</span>
-                <span>北京万泰生物药业股份有限公司</span>
-              </p>
+        <div className="footer-info">
+          <div className="footer">
+            <div className="left-content">
+              <div className="company-name">
+                <p className="group-name">养生堂集团有限公司</p>
+                <p className="son1-company-name">
+                  <span>养生堂有限公司 |</span>
+                  <span>农夫山泉股份有限公司 |</span>
+                  <span>养生堂浙江食品有限公司 |</span>
+                </p>
+                <p className="son2-company-name">
+                  <span>养生堂化妆品有限公司｜</span>
+                  <span>北京万泰生物药业股份有限公司</span>
+                </p>
+              </div>
+              {/* <p className="footer-company-logo">
+              <img src="" alt="" />
+            </p> */}
             </div>
-            <p className="footer-company-logo">{/* <img src="" alt="" /> */}</p>
-          </div>
-          <div className="right-content">
-            <div className="IT-service-phone">
-              <p className="IT-service">IT服务台：</p>
-              <p className="phone-num">
-                <span>0571-87663116</span>
-                <span>工作日</span>
-              </p>
-              <p className="phone-num">
-                <span>18072772789</span>
-                <span>节假日</span>
-              </p>
+            <div className="right-content">
+              <div className="IT-service-phone">
+                <p className="IT-service">IT服务台：</p>
+                <p className="phone-num">
+                  <img src={mobile} alt="" />
+                  <span>0571-87663116</span>
+                  <span>工作日</span>
+                </p>
+                <p className="phone-num">
+                  <img src={phone} alt="" />
+                  <span>18072772789</span>
+                  <span>节假日</span>
+                </p>
+              </div>
             </div>
-            <p className="remark">All Rights Reserved.浙ICP备10201315号-3</p>
           </div>
         </div>
-        <div className="footer-company-logo" />
+        <div className="footer-company-logo">
+          <div className="footer-left-content">
+            <div className="left-logo">
+              <img src={ystLogoMax} alt="" />
+              <img src={NFSQlogo} alt="" />
+              <img src={YSTLogo} alt="" />
+              <img src={WTSWLogo} alt="" />
+            </div>
+            <div className="right-logo">
+              <p className="remark">All Rights Reserved.浙ICP备10201315号-3</p>
+            </div>
+          </div>
+        </div>
       </Footer>
     </Layout>
   );
