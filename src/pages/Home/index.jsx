@@ -3,6 +3,7 @@ import { Card, Carousel } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
+import MySchedule from '@/components/MySchedule';
 import CardComponent from '@/components/Card';
 import styles from './style.less';
 
@@ -86,6 +87,7 @@ const Home = () => {
       <div className={styles.otherContent}>
         <div className={styles.leftContent} />
         <div className={styles.rightContent}>
+          <MySchedule />
           <CardComponent />
           <CardComponent />
           <CardComponent />
