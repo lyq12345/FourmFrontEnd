@@ -8,6 +8,10 @@ p {
   padding: 20px 20px 22px 20px;
   margin-bottom: 12px;
   border-radius: 6px;
+  &.noPadding{
+    padding: 8px 4px 10px 4px;
+    margin-bottom: 0;
+  }
   .cardTitle {
     display: flex;
     justify-content: space-between;
@@ -22,6 +26,7 @@ p {
       font-size: 16px;
       line-height: 22px;
       color: #666666;
+      cursor: pointer;
     }
   }
   .contentInfo {
@@ -34,12 +39,48 @@ p {
     }
     p:first-child {
       width: 278px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .contentTitle {
-      
+      display: flex;
+      align-items: center;
+      .dot {
+        width: 2px;
+        height: 2px;
+        display: inline-block;
+        border-radius: 50%;
+        background-color: #333;
+        margin-right: 10px;
+      }
+      &:hover {
+        color: #CE1925;
+        cursor: pointer;
+        .dot {
+          background-color: #CE1925;
+        }
+      }
     }
     .contentDate {
       color: #999999;
+    }
+  }
+  .bottomLookMore {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    cursor: pointer;
+    span {
+      font-size: 14px;
+      line-height: 14px;
+      color: #666;
+      margin-right: 9px;
+    }
+    img {
+      width: 16px;
+      height: 16px;
     }
   }
 }

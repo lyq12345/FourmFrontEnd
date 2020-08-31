@@ -30,8 +30,8 @@ function getModulePackageName(module: { context: string }) {
 const webpackPlugin = (config: IWebpackChainConfig) => {
   config.merge({
     output: {
-      filename: `static/js/[name]_[${ isProd() ? 'chunkhash' : 'hash' }].js`,
-      chunkFilename: `static/js/[name]_[${ isProd() ? 'chunkhash' : 'hash' }].js`
+      filename: `static/js/[name]_[${isProd() ? 'chunkhash' : 'hash'}].js`,
+      chunkFilename: `static/js/[name]_[${isProd() ? 'chunkhash' : 'hash'}].js`
     }
   })
   config.plugin('extract-css').tap(args => [{
@@ -44,17 +44,17 @@ const webpackPlugin = (config: IWebpackChainConfig) => {
     .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
     .use("url-loader")
     .tap(() => {
-    return {
-      limit: 10240, // 图片小于10Kb才会base64编码
-      fallback: {
-        loader: 'file-loader',
-        options: {
-          name: `static/img/[name].[hash:5].[ext]`
+      return {
+        limit: 10240, // 图片小于10Kb才会base64编码
+        fallback: {
+          loader: 'file-loader',
+          options: {
+            name: `static/img/[name].[hash:5].[ext]`
+          }
         }
       }
-    }
-  })
-  
+    })
+
   // optimize chunks
   config.optimization
     // share the same chunks across different modules
@@ -103,7 +103,7 @@ const webpackPlugin = (config: IWebpackChainConfig) => {
         zipName: `${packageJson.name}.zip`
       },
     ]);
-    
+
     //gzip压缩
     config.plugin('compression-webpack-plugin').use(CompressionPlugin, [
       {

@@ -1,13 +1,23 @@
-import React from 'react';
-import { Card, Carousel } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Card, Carousel, Popover, Badge } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
+import HallPeople from '@/assets/img/HallPeople.png';
+import waterHealth from '@/assets/img/waterHealth.png';
 import MySchedule from '@/components/MySchedule';
 import CardComponent from '@/components/Card';
 import styles from './style.less';
 
 const Home = () => {
+  const [yearWeek, setYearWeek] = useState(null)
+  useEffect(() => {
+    const myDate = new Date();
+    const fullYear = myDate.getFullYear()
+    const month = myDate.getMonth() + 1
+    const day = myDate.getDate()
+    setYearWeek(getYearWeek(fullYear, month, day))
+  }, [])
   const contentStyle = {
     height: '273px',
     color: '#fff',
@@ -15,6 +25,24 @@ const Home = () => {
     textAlign: 'center',
     background: '#364d79',
   };
+  const getYearWeek = (a, b, c) => {
+    /*  
+      date1是当前日期  
+      date2是当年第一天  
+      d是当前日期是今年第多少天  
+      用d + 当前年的第一天的周差距的和在除以7就是本年第几周  
+    */
+    const date1 = new Date(a, parseInt(b) - 1, c)
+    const date2 = new Date(a, 0, 1)
+    const d = Math.round((date1.valueOf() - date2.valueOf()) / 86400000);
+    return Math.ceil((d + ((date2.getDay() + 1) - 1)) / 7);
+  };
+  const popoverContent = (
+    <div>
+      <CardComponent title noPadding bottomLookMore />
+    </div>
+  )
+
   return (
     <div>
       <div className={styles.infoTitle}>
@@ -29,12 +57,22 @@ const Home = () => {
           </span>
         </div>
         <div className={styles.task}>
-          <img src={unreadMessages} alt="" />
-          <span>未读消息</span>
-          <span className={`${styles.messageTost} ${styles.message}`}>11</span>
-          <img src={toDoTasks} alt="" />
-          <span>待办任务</span>
-          <span className={styles.messageTost}>99</span>
+          <Popover placement="bottomRight" content={popoverContent} trigger="hover">
+            <p>
+              <img src={unreadMessages} alt="" />
+              <span className={styles.messageText}>未读消息</span>
+              {/* <span className={`${styles.messageTost} ${styles.message}`}>11</span> */}
+              <Badge className={styles.messageTost1} style={{ backgroundColor: '#CE1925' }} count={25} />
+            </p>
+          </Popover>
+          <Popover placement="bottomRight" content={popoverContent} trigger="click">
+            <p>
+              <img src={toDoTasks} alt="" />
+              <span className={styles.messageText}>待办任务</span>
+              {/* <span className={styles.messageTost}>99</span> */}
+              <Badge className={styles.messageTost2} style={{ backgroundColor: '#CE1925' }} count={108} />
+            </p>
+          </Popover>
         </div>
       </div>
       {/* 堂里新鲜事 */}
@@ -49,12 +87,6 @@ const Home = () => {
                 </div>
                 <div>
                   <h3 style={contentStyle}>2</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>3</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>4</h3>
                 </div>
               </Carousel>
             </div>
@@ -80,7 +112,24 @@ const Home = () => {
           </div>
         </div>
         <div className={styles.rightContent}>
-          <p>111</p>
+          <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
+          <div className={styles.contentInfo}>
+            <p className={styles.currentWeek}>{yearWeek}</p>
+            <p className={styles.contentText}>
+              利他，不仅仅是顺境下的按部就班，更是逆境中
+              的迎难而上。不管遇到什么困难，最展示四十字
+            </p>
+            <p className={styles.hallPeopleName}>
+              <span>饶红明</span>
+              <span>— 农夫山泉股份有限公司/生产营运中心</span>
+            </p>
+            <p className={styles.hallPeopleImg}>
+              <img src={waterHealth} alt="" />
+            </p>
+          </div>
+          <div className={styles.lookMore}>
+            查看更多
+          </div>
         </div>
       </div>
       {/*  */}
