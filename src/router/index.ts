@@ -1,4 +1,5 @@
 const { router: demoRouter } = require('./demo-router');
+const { router: hallPeopleRouter } = require('./hall-people-router');
 
 module.exports = {
   routes: [
@@ -23,6 +24,7 @@ module.exports = {
             },
             // 示例路由
             ...demoRouter,
+            ...hallPeopleRouter,
 
             {
               component: './404',

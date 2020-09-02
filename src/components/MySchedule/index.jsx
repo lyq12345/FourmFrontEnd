@@ -102,7 +102,7 @@ const MySchedule = (props) => {
             <div className={styles.infoContent} key={index}>
               {
                 (isShowMore ? index < 3 : data.length) ?
-                  <p>
+                  <p key={index}>
                     <span className={styles.dot}></span>
                     <span className={styles.time}>{item.time}</span>
                     <span>{item.title}</span>

@@ -8,9 +8,13 @@ import waterHealth from '@/assets/img/waterHealth.png';
 import MySchedule from '@/components/MySchedule';
 import CardComponent from '@/components/Card';
 import styles from './style.less';
+import { carousel } from '@/constants/mock'
+import { withRouter } from 'umi';
 
-const Home = () => {
+const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null)
+  const [carouselCurrent, setCarouselCurrent] = useState(0)
+
   useEffect(() => {
     const myDate = new Date();
     const fullYear = myDate.getFullYear()
@@ -42,6 +46,19 @@ const Home = () => {
       <CardComponent title noPadding bottomLookMore />
     </div>
   )
+  const carouselFun = (current) => {
+    setCarouselCurrent(current)
+  }
+  const lookMoreHallPeople = (val) => {
+    props.history.push({
+      pathname: '/hall-people',
+    });
+  }
+  const lookMoreHallSomething = (val) => {
+    props.history.push({
+      pathname: '/hall-something',
+    });
+  }
 
   return (
     <div>
@@ -61,15 +78,13 @@ const Home = () => {
             <p>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>未读消息</span>
-              {/* <span className={`${styles.messageTost} ${styles.message}`}>11</span> */}
               <Badge className={styles.messageTost1} style={{ backgroundColor: '#CE1925' }} count={25} />
             </p>
           </Popover>
-          <Popover placement="bottomRight" content={popoverContent} trigger="click">
+          <Popover placement="bottomRight" content={popoverContent} trigger="hover">
             <p>
               <img src={toDoTasks} alt="" />
               <span className={styles.messageText}>待办任务</span>
-              {/* <span className={styles.messageTost}>99</span> */}
               <Badge className={styles.messageTost2} style={{ backgroundColor: '#CE1925' }} count={108} />
             </p>
           </Popover>
@@ -81,39 +96,34 @@ const Home = () => {
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
-              <Carousel autoplay dots={false}>
-                <div>
-                  <h3 style={contentStyle}>1</h3>
-                </div>
-                <div>
-                  <h3 style={contentStyle}>2</h3>
-                </div>
+              <Carousel autoplay dots={false} afterChange={carouselFun}>
+                {
+                  carousel && carousel.map((item, index) => (
+                    <div key={index}>
+                      <h3 style={contentStyle}>{index}</h3>
+                    </div>
+                  ))
+                }
               </Carousel>
             </div>
             <div className={styles.rightCarouselContent}>
-              <div className={styles.rightcontentText}>
-                <p>【每周一的堂里人】</p>
-                <p>利他，不仅仅是顺境下的按部就班，更是…</p>
-              </div>
-              <div className={styles.rightcontentText}>
-                <p>【每周一的堂里人】</p>
-                <p>利他，不仅仅是顺境下的按部就班，更是…</p>
-              </div>
-              <div className={styles.rightcontentText}>
-                <p>【每周一的堂里人】</p>
-                <p>利他，不仅仅是顺境下的按部就班，更是…</p>
-              </div>
-              <div className={styles.rightcontentText}>
-                <p>【每周一的堂里人】</p>
-                <p>利他，不仅仅是顺境下的按部就班，更是…</p>
-              </div>
-              <div className={styles.lookMore}>查看更多</div>
+              {
+                carousel && carousel.map((item, index) => (
+                  <div
+                    className={carouselCurrent === index ? `${styles.rightcontentText} ${styles.checkRightcontentText}` : styles.rightcontentText}
+                    key={index}>
+                    <p>{item.title}</p>
+                    <p>{item.content}</p>
+                  </div>
+                ))
+              }
+              <div onClick={lookMoreHallSomething} className={styles.lookMore}>查看更多</div>
             </div>
           </div>
         </div>
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
-          <div className={styles.contentInfo}>
+          <div className={styles.contentInfo} onClick={lookMoreHallPeople}>
             <p className={styles.currentWeek}>{yearWeek}</p>
             <p className={styles.contentText}>
               利他，不仅仅是顺境下的按部就班，更是逆境中
@@ -145,4 +155,4 @@ const Home = () => {
     </div>
   );
 };
-export default Home;
+export default withRouter(Home);

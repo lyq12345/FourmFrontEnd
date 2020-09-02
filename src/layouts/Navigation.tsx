@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Result, Button } from 'antd';
+import { Layout, Result, Button, Popover } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
@@ -27,6 +27,24 @@ const noMatch = (
     }
   />
 );
+const navigationInfo = [
+  {
+    label: '个人主页',
+    router: ''
+  },
+  {
+    label: '账号设置',
+    router: ''
+  },
+  {
+    label: '帮助',
+    router: ''
+  },
+  {
+    label: '退出',
+    router: ''
+  }
+]
 const Navigation = (props) => {
   const {
     children,
@@ -37,6 +55,17 @@ const Navigation = (props) => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+  const popoverContent = (
+    <div>
+      {
+        navigationInfo.map((item, index) => (
+          <div className='navgtionInfo' key={index}>
+            {item.label}
+          </div>
+        ))
+      }
+    </div>
+  )
   console.log(props);
   return (
     <Layout>
@@ -48,7 +77,9 @@ const Navigation = (props) => {
           <div className="right-content">
             <span>8:30签入</span>
             <span>下班未签出</span>
-            <img src={loginheadimg} alt="777" />
+            <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
+              <img src={loginheadimg} alt="777" />
+            </Popover>
           </div>
         </div>
       </Header>
