@@ -37,7 +37,7 @@ const NavSetting = () => {
   const handleCancel = () => {};
   return (
     <div>
-      <div style={{ backgroundColor: '#fff', margin: '0 70px' }}>
+      <div style={{ backgroundColor: '#fff' }}>
         <tagListContext.Provider value={{ tagList, setTagList }}>
           <MyNav />
           <AllNav />
