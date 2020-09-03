@@ -10,7 +10,7 @@ import stick from '@/assets/img/stick.png'
 
 
 const ListData = (props) => {
-  let { isStickIcon, isShowWeek, isLine, isInfoIntro } = props
+  let { isStickIcon, isShowWeek, isLine, isInfoIntro, routerLink = () => { }, } = props
   return (
     <div className={styles.listComponent}>
       <div className={styles.banner}>
@@ -20,7 +20,7 @@ const ListData = (props) => {
         <p>每周堂里人</p>
         {
           ListDataInfo && ListDataInfo.map((item, index) => (
-            <div className={styles.listConent} key={index}>
+            <div className={styles.listConent} key={index} onClick={() => routerLink()}>
               <p className={styles.leftImg}>
                 <img className={styles.contentImg} src={waterHealth} alt="" />
                 {
@@ -70,7 +70,7 @@ const ListData = (props) => {
           ))
         }
       </div>
-    </div>
+    </div >
   )
 }
 export default ListData

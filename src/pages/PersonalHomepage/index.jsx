@@ -4,7 +4,7 @@ import ListData from '@/components/ListData'
 import { Pagination } from 'antd';
 import { withRouter } from 'umi';
 
-const HallSomething = (props) => {
+const PersonalHomepage = (props) => {
 
   useEffect(() => {
 
@@ -23,4 +23,4 @@ const HallSomething = (props) => {
     </div >
   )
 }
-export default withRouter(HallSomething)
+export default withRouter(PersonalHomepage)
