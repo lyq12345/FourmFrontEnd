@@ -82,7 +82,6 @@ const MySchedule = (props) => {
           weekArr && weekArr.map((item, index) => (
             <div key={index} className={styles.dayText} onClick={() => { checkDate(index) }}>
               <p>{item.title}</p>
-              {item.isCheck}
               <p className={item.isCheck ? `${styles.day} ${styles.dayCheck}` : styles.day}>{item.day}</p>
             </div>
           ))

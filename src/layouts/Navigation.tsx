@@ -30,7 +30,7 @@ const noMatch = (
 const navigationInfo = [
   {
     label: '个人主页',
-    router: ''
+    router: '/personal-homepage'
   },
   {
     label: '账号设置',
@@ -59,9 +59,11 @@ const Navigation = (props) => {
     <div>
       {
         navigationInfo.map((item, index) => (
-          <div className='navgtionInfo' key={index}>
-            {item.label}
-          </div>
+          <Link to={item.router} key={index}>
+            <div className='navgtionInfo' key={index}>
+              {item.label}
+            </div>
+          </Link>
         ))
       }
     </div>
@@ -71,9 +73,12 @@ const Navigation = (props) => {
     <Layout>
       <Header>
         <div className="header">
-          <div className="left-content">
-            <img src={logo} alt="" />
-          </div>
+          <Link to="/">
+            <div className="left-content">
+
+              <img src={logo} alt="" />
+            </div>
+          </Link>
           <div className="right-content">
             <span>8:30签入</span>
             <span>下班未签出</span>

@@ -59,6 +59,16 @@ const Home = (props) => {
       pathname: '/hall-something',
     });
   }
+  const detailRouter = (val) => {
+    props.history.push({
+      pathname: '/hall-something/detail',
+    });
+  }
+  const detailHallPeople = (val) => {
+    props.history.push({
+      pathname: '/hall-people/detail',
+    });
+  }
 
   return (
     <div>
@@ -99,7 +109,7 @@ const Home = (props) => {
               <Carousel autoplay dots={false} afterChange={carouselFun}>
                 {
                   carousel && carousel.map((item, index) => (
-                    <div key={index}>
+                    <div key={index} onClick={() => detailRouter()}>
                       <h3 style={contentStyle}>{index}</h3>
                     </div>
                   ))
@@ -110,6 +120,7 @@ const Home = (props) => {
               {
                 carousel && carousel.map((item, index) => (
                   <div
+                    onClick={() => detailRouter()}
                     className={carouselCurrent === index ? `${styles.rightcontentText} ${styles.checkRightcontentText}` : styles.rightcontentText}
                     key={index}>
                     <p>{item.title}</p>
@@ -123,7 +134,7 @@ const Home = (props) => {
         </div>
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
-          <div className={styles.contentInfo} onClick={lookMoreHallPeople}>
+          <div className={styles.contentInfo} onClick={() => detailHallPeople()}>
             <p className={styles.currentWeek}>{yearWeek}</p>
             <p className={styles.contentText}>
               利他，不仅仅是顺境下的按部就班，更是逆境中
@@ -137,7 +148,7 @@ const Home = (props) => {
               <img src={waterHealth} alt="" />
             </p>
           </div>
-          <div className={styles.lookMore}>
+          <div className={styles.lookMore} onClick={() => lookMoreHallPeople()}>
             查看更多
           </div>
         </div>
