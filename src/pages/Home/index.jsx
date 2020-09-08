@@ -62,21 +62,17 @@ const Home = (props) => {
     props.history.push({
       pathname: '/hall-something',
     });
-<<<<<<< HEAD
-  }
+  };
   const detailRouter = (val) => {
     props.history.push({
       pathname: '/hall-something/detail',
     });
-  }
+  };
   const detailHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people/detail',
     });
-  }
-=======
   };
->>>>>>> develop_yqli_0831
 
   return (
     <div>
@@ -123,8 +119,8 @@ const Home = (props) => {
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
               <Carousel autoplay dots={false} afterChange={carouselFun}>
-                {
-                  carousel && carousel.map((item, index) => (
+                {carousel &&
+                  carousel.map((item, index) => (
                     <div key={index} onClick={() => detailRouter()}>
                       <h3 style={contentStyle}>{index}</h3>
                     </div>
@@ -136,8 +132,13 @@ const Home = (props) => {
                 carousel.map((item, index) => (
                   <div
                     onClick={() => detailRouter()}
-                    className={carouselCurrent === index ? `${styles.rightcontentText} ${styles.checkRightcontentText}` : styles.rightcontentText}
-                    key={index}>
+                    className={
+                      carouselCurrent === index
+                        ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
+                        : styles.rightcontentText
+                    }
+                    key={index}
+                  >
                     <p>{item.title}</p>
                     <p>{item.content}</p>
                   </div>
@@ -170,7 +171,9 @@ const Home = (props) => {
       </div>
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          {/* <Birthday /> */}
+          <MyNav />
+          <TangGuoBi />
+          <Birthday />
         </div>
         <div className={styles.rightContent}>
           <MySchedule />
@@ -179,7 +182,7 @@ const Home = (props) => {
           <CardComponent />
         </div>
       </div>
-      <ModelAdvertising />
+      {/* <ModelAdvertising /> */}
     </div>
   );
 };
