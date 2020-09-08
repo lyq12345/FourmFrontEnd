@@ -1,5 +1,6 @@
 import React from 'react';
-import { List } from 'antd';
+import { List, Avatar } from 'antd';
+import myAvatar from '@/assets/img/avatar.jpg';
 
 const data = [
   { title: '集团邮箱', icon: '', href: '' },
@@ -19,7 +20,16 @@ export default function NavHome() {
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>
             <span>
-              <a style={item.title === '添加' ? { color: 'red' } : { color: 'black' }}>
+              <Avatar size={26} icon={<img src={myAvatar} />} />
+              <a
+                style={{
+                  fontSize: '14px',
+                  fontFamily: 'PingFangSC-Regular, PingFang SC',
+                  fontWeight: 400,
+                  color: '#333',
+                  marginLeft: '12px',
+                }}
+              >
                 {item.title}
               </a>
             </span>

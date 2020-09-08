@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import BulletScreen from 'rc-bullets';
 import StyledBullet from './StyledBullet';
+import Banner from '@/assets/img/banner.png';
+import No1 from '@/assets/img/no1.png';
 
 const headUrl = 'https://zerosoul.github.io/rc-bullets/assets/img/heads/girl.jpg';
 
 const backColors = ['#FFEDED', '#FFF4E5', '#EEFBF9', '#F8F2FF', '#F0F5FF'];
 const fontColors = ['#FF441E', '#FFA200', '#00D390', '#C293FF', '#729CFF'];
-export default function Bullets() {
+export default function Bullets(props) {
   // 弹幕屏幕
   const [screen, setScreen] = useState(null);
   // 弹幕内容
@@ -23,7 +25,7 @@ export default function Bullets() {
           s.push(
             <StyledBullet
               head={headUrl}
-              msg={'11122222222222222221111111111111111111111111111111111'}
+              msg={'啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'}
               backgroundColor={backColors[index]}
               color={fontColors[index]}
               size="7px"
@@ -31,7 +33,7 @@ export default function Bullets() {
           );
           return seq + 1;
         });
-      }, 1000);
+      }, 1200);
     }
 
     return () => {
@@ -39,5 +41,12 @@ export default function Bullets() {
     };
   }, []);
 
-  return <div className="screen" style={{ margin: '0 117px', height: '110px' }}></div>;
+  return (
+    <div style={{ ...props.bgSetting }}>
+      <div
+        className="screen"
+        style={{ margin: '0 117px', height: '110px', ...props.bulSetting }}
+      ></div>
+    </div>
+  );
 }
