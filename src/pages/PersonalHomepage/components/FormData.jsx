@@ -71,77 +71,87 @@ const FormData = (props) => {
         break;
     }
   }
-  // const columns = [
-  //   {
-  //     title: 'Name',
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //     render: text => <a>{text}</a>,
-  //   },
-  //   {
-  //     title: 'Age',
-  //     dataIndex: 'age',
-  //     key: 'age',
-  //   },
-  //   {
-  //     title: 'Address',
-  //     dataIndex: 'address',
-  //     key: 'address',
-  //   },
-  //   {
-  //     title: 'Tags',
-  //     key: 'tags',
-  //     dataIndex: 'tags',
-  //     render: tags => (
-  //       <>
-  //         {tags.map(tag => {
-  //           let color = tag.length > 5 ? 'geekblue' : 'green';
-  //           if (tag === 'loser') {
-  //             color = 'volcano';
-  //           }
-  //           return (
-  //             <Tag color={color} key={tag}>
-  //               {tag.toUpperCase()}
-  //             </Tag>
-  //           );
-  //         })}
-  //       </>
-  //     ),
-  //   },
-  //   {
-  //     title: 'Action',
-  //     key: 'action',
-  //     render: (text, record) => (
-  //       <Space size="middle">
-  //         <a>Invite {record.name}</a>
-  //         <a>Delete</a>
-  //       </Space>
-  //     ),
-  //   },
-  // ];
-  // const data = [
-  //   {
-  //     key: '1',
-  //     name: 'John Brown',
-  //     age: 32,
-  //     address: 'New York No. 1 Lake Park',
-  //     tags: ['nice', 'developer'],
-  //   },
-  //   {
-  //     key: '2',
-  //     name: 'Jim Green',
-  //     age: 42,
-  //     address: 'London No. 1 Lake Park',
-  //     tags: ['loser'],
-  //   },
-  //   {
-  //     key: '3',
-  //     name: 'Joe Black',
-  //     age: 32,
-  //     address: 'Sidney No. 1 Lake Park',
-  //     tags: ['cool', 'teacher'],
-  //   },
-  // ];
+  const handleChange = () => { }
+  const getSelect = (text, record, index) => (
+    <Select
+      onChange={value => {
+        handleChange(value, 'repoCode', index);
+      }}
+      showSearch
+      style={{ width: 160 }}
+      value={record.repoCode}
+      placeholder="请选择"
+    >
+      {/* {whoAddress &&
+        whoAddress.map(item => (
+          <Option title={item.repoAddr} key={item.repoCode} value={item.repoCode}>
+            {item.repoAddr}
+          </Option>
+        ))} */}
+    </Select>
+  );
+  const getInput = (text, record, index) => (
+    <Input style={{ width: 160 }} autoComplete="off" placeholder="请输入" />
+  );
+  const columns = [
+    {
+      title: '与本人关系',
+      dataIndex: 'name',
+      key: 'name',
+      width: 160,
+      render: (text, record, index) => getSelect(text, record, index),
+    },
+    {
+      title: '姓名',
+      dataIndex: 'age',
+      key: 'age',
+      width: 160,
+      render: (text, record, index) => getInput(text, record, index),
+    },
+    {
+      title: '联系方式',
+      dataIndex: 'address',
+      key: 'address',
+      width: 160,
+      render: (text, record, index) => getInput(text, record, index),
+    },
+    {
+      title: '出生日期',
+      key: 'tags',
+      dataIndex: 'tags',
+      width: 160,
+      render: (text, record, index) => getSelect(text, record, index),
+    },
+    {
+      title: '地址',
+      key: 'action',
+      width: 160,
+      render: (text, record, index) => getSelect(text, record, index),
+    },
+  ];
+  const data = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 32,
+      address: 'New York No. 1 Lake Park',
+      tags: ['nice', 'developer'],
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 42,
+      address: 'London No. 1 Lake Park',
+      tags: ['loser'],
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 32,
+      address: 'Sidney No. 1 Lake Park',
+      tags: ['cool', 'teacher'],
+    },
+  ];
   return (
     <div className={styles.homePageForm}>
       {/* 基本信息 */}
@@ -432,22 +442,22 @@ const FormData = (props) => {
       </div>
       {/* 家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息 */}
       <div>
-        {/* <div className={styles.infoTitle}>
+        <div className={styles.infoTitle}>
           <p>家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息</p>
           {
             familyNum ? <p className={styles.isUpdate} onClick={() => updateFormData(4)}>修改</p> : <></>
           }
-        </div> */}
-        {/* <Table className={styles.tableStyles} pagination={false} columns={columns} dataSource={data} /> */}
+        </div>
+        <Table className='tableBackgroundStylesd' pagination={false} columns={columns} dataSource={data} />
       </div>
-      {/* <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
+      <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
         <Button style={{ marginRight: '26px' }}>
           取消
               </Button>
         <Button type="primary" htmlType="emergencyContactSubmit">
           保存
               </Button>
-      </div> */}
+      </div>
     </div >
   )
 }
