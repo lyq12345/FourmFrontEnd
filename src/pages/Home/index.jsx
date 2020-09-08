@@ -11,6 +11,7 @@ import styles from './style.less';
 import { carousel } from '@/constants/mock';
 import { withRouter } from 'umi';
 import MyNav from '@/components/MyNav';
+import TangGuoBi from '@/components/TangGuoBi';
 
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
@@ -156,6 +157,7 @@ const Home = (props) => {
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
           <MyNav />
+          <TangGuoBi />
         </div>
         <div className={styles.rightContent}>
           <MySchedule />

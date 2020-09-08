@@ -5,11 +5,15 @@ import RankingList from './components/RankingList';
 
 const Index = () => {
   return (
-    <div style={{ backgroundColor: '#fff' }}>
-      <h2>
-        <span>堂果币排行榜</span>
-      </h2>
-      <Bullets />
+    <div className={styles.tgbContainer}>
+      <div className={styles.navHead}>
+        <span className={styles.title}>堂果币排行榜</span>
+        <div style={{ flex: 1 }}></div>
+        <a href="./tangguobi-rank" className={styles.tgbmore}>
+          更多
+        </a>
+      </div>
+      <Bullets bulSetting={{ marginLeft: '250px', marginRight: '250px' }} />
       <RankingList />
     </div>
   );

@@ -11,7 +11,7 @@ export default function TopThree(props) {
   return (
     <div style={{ display: 'inline-block' }}>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col span={8} style={{ padding: 0 }}>
           <div
             style={{
               display: 'flex',
@@ -33,7 +33,7 @@ export default function TopThree(props) {
                 backgroundColor: '#aaa',
               }}
             >
-              <img src={No2}></img>
+              <img src={No1}></img>
             </div>
           </div>
           <div>
@@ -42,7 +42,7 @@ export default function TopThree(props) {
             <p className={styles.top3Amount}>{props.content[0].amount}</p>
           </div>
         </Col>
-        <Col span={8}>
+        <Col span={8} style={{ padding: 0 }}>
           <div
             style={{
               display: 'flex',
@@ -72,7 +72,7 @@ export default function TopThree(props) {
             <p className={styles.top3Amount}>{props.content[1].amount}</p>
           </div>
         </Col>
-        <Col span={8}>
+        <Col span={8} style={{ padding: 0 }}>
           <div
             style={{
               display: 'flex',

@@ -43,10 +43,7 @@ export default function Bullets(props) {
 
   return (
     <div style={{ ...props.bgSetting }}>
-      <div
-        className="screen"
-        style={{ margin: '0 117px', height: '110px', ...props.bulSetting }}
-      ></div>
+      <div className="screen" style={{ height: '110px', ...props.bulSetting }}></div>
     </div>
   );
 }

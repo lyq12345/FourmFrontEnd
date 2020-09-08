@@ -18,11 +18,11 @@ const RankingContent = (props) => {
   }, []);
   return (
     <Row>
-      <Col style={{ margin: '-15px 0' }} span={10}>
+      <Col style={{ margin: '-15px 0' }} span={12}>
         <TopThree content={props.content.slice(0, 3)} />
       </Col>
 
-      <Col style={{ margin: '10px 0' }} span={7}>
+      <Col style={{ margin: '10px 0' }} span={6}>
         <ol style={{ padding: 0 }}>
           {otherLeft.map((item, index) => (
             <li key={index} style={{ margin: '10px 0' }}>
@@ -34,8 +34,8 @@ const RankingContent = (props) => {
           ))}
         </ol>
       </Col>
-      <Col style={{ margin: '10px 0' }} span={7}>
-        <ol>
+      <Col style={{ margin: '10px 0' }} span={6}>
+        <ol style={{ padding: 0 }}>
           {otherRight.map((item, index) => (
             <li key={index} style={{ margin: '10px 0' }}>
               <span className={styles.last7Num}>{index + 8}</span>

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-09-07 10:55:57
+ * @LastEditTime: 2020-09-08 15:06:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
@@ -26,7 +26,7 @@ export default function RankingList() {
     console.log(key);
   };
   return (
-    <div style={{ padding: '12px' }}>
+    <div style={{ padding: '0 12px 12px 12px' }}>
       <Tabs type="card" defaultActiveKey="1" onChange={handleChange}>
         <TabPane tab="年度榜单" key="1">
           <RankingContent content={content} />
