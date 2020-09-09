@@ -19,6 +19,11 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sso-api': '' },
     },
+    // '/basic-api': {
+    //   target: 'http://basiccommon-test.yst.com.cn',
+    //   changeOrigin: true,
+    //   pathRewrite: { '^/basic-api': '' },
+    // },
 
   },
   test: {
