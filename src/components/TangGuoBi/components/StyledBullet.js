@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-09-08 16:57:32
+ * @LastEditTime: 2020-09-08 17:23:06
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/StyledBullet.js
+ */
 import React from 'react';
 
 const WrapperStyle = {
@@ -6,7 +14,6 @@ const WrapperStyle = {
   padding: '0.5em 1em',
   borderRadius: '2.2em',
   position: 'relative',
-  boxShadow: '0 0 .8em rgba(0, 0, 0, 0.5)',
   wordBreak: 'keep-all',
   whiteSpace: 'pre-wrap',
 };

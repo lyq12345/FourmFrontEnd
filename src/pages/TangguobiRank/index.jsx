@@ -8,7 +8,7 @@ const TangguobiRank = () => {
     display: 'absolute',
     top: '25%',
     height: '180px',
-    margin: '0 340px 0 340px',
+    overflow: 'hidden',
   };
   const bkgSetting = {
     backgroundImage: `url(${banner})`,
