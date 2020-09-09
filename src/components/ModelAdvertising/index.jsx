@@ -80,6 +80,11 @@ const ModelAdvertising = (props) => {
           </div>
         </div>
       </Modal>
+      {
+        !isVisible ?
+          <div className={styles.footerActivity} onClick={() => setIsVisible(!isVisible)}>
+          </div> : <></>
+      }
     </div >
   );
 };

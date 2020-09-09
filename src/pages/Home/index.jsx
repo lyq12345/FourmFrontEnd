@@ -7,7 +7,6 @@ import HallPeople from '@/assets/img/HallPeople.png';
 import waterHealth from '@/assets/img/waterHealth.png';
 import MySchedule from '@/components/MySchedule';
 import Birthday from './components/Birthday';
-import ModelAdvertising from './components/ModelAdvertising';
 import CardComponent from '@/components/Card';
 import styles from './style.less';
 import { carousel } from '@/constants/mock'
@@ -158,7 +157,7 @@ const Home = (props) => {
       {/*  */}
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          {/* <Birthday /> */}
+          <Birthday />
         </div>
         <div className={styles.rightContent}>
           <MySchedule />
@@ -167,7 +166,6 @@ const Home = (props) => {
           <CardComponent />
         </div>
       </div>
-      <ModelAdvertising />
     </div>
   );
 };
