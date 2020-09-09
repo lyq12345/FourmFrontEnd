@@ -9,20 +9,22 @@ import MySchedule from '@/components/MySchedule';
 import Birthday from './components/Birthday';
 import CardComponent from '@/components/Card';
 import styles from './style.less';
-import { carousel } from '@/constants/mock'
+import { carousel } from '@/constants/mock';
 import { withRouter } from 'umi';
+import MyNav from '@/components/MyNav';
+import TangGuoBi from '@/components/TangGuoBi';
 
 const Home = (props) => {
-  const [yearWeek, setYearWeek] = useState(null)
-  const [carouselCurrent, setCarouselCurrent] = useState(0)
+  const [yearWeek, setYearWeek] = useState(null);
+  const [carouselCurrent, setCarouselCurrent] = useState(0);
 
   useEffect(() => {
     const myDate = new Date();
-    const fullYear = myDate.getFullYear()
-    const month = myDate.getMonth() + 1
-    const day = myDate.getDate()
-    setYearWeek(getYearWeek(fullYear, month, day))
-  }, [])
+    const fullYear = myDate.getFullYear();
+    const month = myDate.getMonth() + 1;
+    const day = myDate.getDate();
+    setYearWeek(getYearWeek(fullYear, month, day));
+  }, []);
   const contentStyle = {
     height: '273px',
     color: '#fff',
@@ -37,39 +39,39 @@ const Home = (props) => {
       d是当前日期是今年第多少天  
       用d + 当前年的第一天的周差距的和在除以7就是本年第几周  
     */
-    const date1 = new Date(a, parseInt(b) - 1, c)
-    const date2 = new Date(a, 0, 1)
+    const date1 = new Date(a, parseInt(b) - 1, c);
+    const date2 = new Date(a, 0, 1);
     const d = Math.round((date1.valueOf() - date2.valueOf()) / 86400000);
-    return Math.ceil((d + ((date2.getDay() + 1) - 1)) / 7);
+    return Math.ceil((d + (date2.getDay() + 1 - 1)) / 7);
   };
   const popoverContent = (
     <div>
       <CardComponent title noPadding bottomLookMore />
     </div>
-  )
+  );
   const carouselFun = (current) => {
-    setCarouselCurrent(current)
-  }
+    setCarouselCurrent(current);
+  };
   const lookMoreHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people',
     });
-  }
+  };
   const lookMoreHallSomething = (val) => {
     props.history.push({
       pathname: '/hall-something',
     });
-  }
+  };
   const detailRouter = (val) => {
     props.history.push({
       pathname: '/hall-something/detail',
     });
-  }
+  };
   const detailHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people/detail',
     });
-  }
+  };
 
   return (
     <div>
@@ -89,14 +91,22 @@ const Home = (props) => {
             <p>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>未读消息</span>
-              <Badge className={styles.messageTost1} style={{ backgroundColor: '#CE1925' }} count={25} />
+              <Badge
+                className={styles.messageTost1}
+                style={{ backgroundColor: '#CE1925' }}
+                count={25}
+              />
             </p>
           </Popover>
           <Popover placement="bottomRight" content={popoverContent} trigger="hover">
             <p>
               <img src={toDoTasks} alt="" />
               <span className={styles.messageText}>待办任务</span>
-              <Badge className={styles.messageTost2} style={{ backgroundColor: '#CE1925' }} count={108} />
+              <Badge
+                className={styles.messageTost2}
+                style={{ backgroundColor: '#CE1925' }}
+                count={108}
+              />
             </p>
           </Popover>
         </div>
@@ -108,28 +118,33 @@ const Home = (props) => {
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
               <Carousel autoplay dots={false} afterChange={carouselFun}>
-                {
-                  carousel && carousel.map((item, index) => (
+                {carousel &&
+                  carousel.map((item, index) => (
                     <div key={index} onClick={() => detailRouter()}>
                       <h3 style={contentStyle}>{index}</h3>
                     </div>
-                  ))
-                }
+                  ))}
               </Carousel>
             </div>
             <div className={styles.rightCarouselContent}>
-              {
-                carousel && carousel.map((item, index) => (
+              {carousel &&
+                carousel.map((item, index) => (
                   <div
                     onClick={() => detailRouter()}
-                    className={carouselCurrent === index ? `${styles.rightcontentText} ${styles.checkRightcontentText}` : styles.rightcontentText}
-                    key={index}>
+                    className={
+                      carouselCurrent === index
+                        ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
+                        : styles.rightcontentText
+                    }
+                    key={index}
+                  >
                     <p>{item.title}</p>
                     <p>{item.content}</p>
                   </div>
-                ))
-              }
-              <div onClick={lookMoreHallSomething} className={styles.lookMore}>查看更多</div>
+                ))}
+              <div onClick={lookMoreHallSomething} className={styles.lookMore}>
+                查看更多
+              </div>
             </div>
           </div>
         </div>
@@ -138,8 +153,7 @@ const Home = (props) => {
           <div className={styles.contentInfo} onClick={() => detailHallPeople()}>
             <p className={styles.currentWeek}>{yearWeek}</p>
             <p className={styles.contentText}>
-              利他，不仅仅是顺境下的按部就班，更是逆境中
-              的迎难而上。不管遇到什么困难，最展示四十字
+              利他，不仅仅是顺境下的按部就班，更是逆境中 的迎难而上。不管遇到什么困难，最展示四十字
             </p>
             <p className={styles.hallPeopleName}>
               <span>饶红明</span>
@@ -154,9 +168,10 @@ const Home = (props) => {
           </div>
         </div>
       </div>
-      {/*  */}
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
+          <MyNav />
+          <TangGuoBi />
           <Birthday />
         </div>
         <div className={styles.rightContent}>
@@ -166,6 +181,7 @@ const Home = (props) => {
           <CardComponent />
         </div>
       </div>
+      {/* <ModelAdvertising /> */}
     </div>
   );
 };
