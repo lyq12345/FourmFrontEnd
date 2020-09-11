@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './style.less';
-import Bullets from './components/Bullets';
 import RankingList from './components/RankingList';
+import Bullets from './components/Bullets';
 
 const Index = () => {
   return (

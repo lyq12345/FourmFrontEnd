@@ -3,6 +3,8 @@ import Bullets from '@/components/TangGuoBi/components/Bullets';
 import banner from '@/assets/img/banner.png';
 import RankingList from './components/RankingList';
 import TGBDetail from './components/TGBDetail';
+import { modalContext } from './components/context';
+
 const TangguobiRank = () => {
   const bulSetting = {
     display: 'absolute',
@@ -16,6 +18,7 @@ const TangguobiRank = () => {
   };
 
   const [visible, setVisible] = useState(false);
+  const [personCode, setPersonCode] = useState(null);
 
   const handleClick = () => {
     queryDetail();
@@ -43,12 +46,14 @@ const TangguobiRank = () => {
         {/*公司列表 */}
         <div>
           <h2>堂果币排行榜</h2>
-          <RankingList handleClick={handleClick} />
+          <modalContext.Provider value={{ setVisible, setPersonCode }}>
+            <RankingList handleClick={handleClick} />
+          </modalContext.Provider>
         </div>
 
         {/*榜单 */}
       </div>
-      <TGBDetail visible={visible} handleCancel={handleCancel} />
+      <TGBDetail visible={visible} handleCancel={handleCancel} personCode={personCode} />
     </div>
   );
 };

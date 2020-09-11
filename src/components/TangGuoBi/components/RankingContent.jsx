@@ -15,38 +15,40 @@ const RankingContent = (props) => {
     setTop3(arr.slice(0, 3));
     setOtherLeft(arr.slice(3, 7));
     setOtherRight(arr.slice(7));
-  }, []);
+  }, [props.content]);
   return (
-    <Row>
-      <Col style={{ margin: '-15px 0' }} span={12}>
-        <TopThree content={props.content.slice(0, 3)} />
-      </Col>
+    <div style={{ paddingTop: '10px', backgroundColor: '#FAFAFA' }}>
+      <Row>
+        <Col style={{ margin: '-15px 0' }} span={12}>
+          <TopThree content={top3} />
+        </Col>
 
-      <Col style={{ margin: '10px 0' }} span={6}>
-        <ol style={{ padding: 0 }}>
-          {otherLeft.map((item, index) => (
-            <li key={index} style={{ margin: '10px 0' }}>
-              <span className={styles.last7Num}>{index + 3}</span>
-              <Avatar icon={<img src={myAvatar} />} />
-              <span className={styles.last7Name}>{item.name}</span>
-              <span className={styles.last7Num}>{item.amount}</span>
-            </li>
-          ))}
-        </ol>
-      </Col>
-      <Col style={{ margin: '10px 0' }} span={6}>
-        <ol style={{ padding: 0 }}>
-          {otherRight.map((item, index) => (
-            <li key={index} style={{ margin: '10px 0' }}>
-              <span className={styles.last7Num}>{index + 8}</span>
-              <Avatar icon={<img src={myAvatar} />} />
-              <span className={styles.last7Name}>{item.name}</span>
-              <span className={styles.last7Num}>{item.amount}</span>
-            </li>
-          ))}
-        </ol>
-      </Col>
-    </Row>
+        <Col style={{ margin: '10px 0' }} span={6}>
+          <ol style={{ padding: 0 }}>
+            {otherLeft.map((item, index) => (
+              <li key={index} style={{ margin: '10px 0' }}>
+                <span className={styles.last7Num}>{index + 3}</span>
+                <Avatar icon={<img src={item.avatar} />} />
+                <span className={styles.last7Name}>{item.personName}</span>
+                <span className={styles.last7Num}>{item.coin}</span>
+              </li>
+            ))}
+          </ol>
+        </Col>
+        <Col style={{ margin: '10px 0' }} span={6}>
+          <ol style={{ padding: 0 }}>
+            {otherRight.map((item, index) => (
+              <li key={index} style={{ margin: '10px 0' }}>
+                <span className={styles.last7Num}>{index + 8}</span>
+                <Avatar icon={<img src={item.avatar} />} />
+                <span className={styles.last7Name}>{item.personName}</span>
+                <span className={styles.last7Num}>{item.coin}</span>
+              </li>
+            ))}
+          </ol>
+        </Col>
+      </Row>
+    </div>
   );
 };
 

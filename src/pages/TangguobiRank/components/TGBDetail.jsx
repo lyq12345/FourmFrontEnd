@@ -1,103 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, Button, Table, Avatar } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
-
-const data = [
-  {
-    key: '1',
-    personNameTo: 'yyy',
-    deptNameTo: '财务部',
-    comNameTo: '养生堂',
-    reason:
-      '萨斯发链接卡拉胶克鲁赛德荆防颗粒克拉斯就案件受到了疯狂拉科技是考虑对方加拉手机打开了房间阿萨德骄傲凉快圣诞节快乐风景阿萨德拉时间段里看风景',
-    coin: '10000',
-    valuesType: '利他',
-    giveDate: '2020.08.31',
-    headImg: '@/assets/img/avatar.jpg',
-    fromPerInfo: {
-      personNameFrom: '你爸爸',
-      deptNameFrom: '信息技术部',
-      comNameFrom: '彩虹鱼',
-    },
-  },
-  {
-    key: '2',
-    personNameTo: 'yyy',
-    deptNameTo: '财务部',
-    comNameTo: '养生堂',
-    personNameFrom: '你爷爷',
-    reason: '太帅了',
-    coin: '10000',
-    valuesType: '利他',
-    giveDate: '2020.08.31',
-    deptNameFrom: '信息技术部',
-    comNameFrom: '彩虹鱼',
-    headImg: '@/assets/img/avatar.jpg',
-    fromPerInfo: {
-      personNameFrom: '你爸爸',
-      deptNameFrom: '信息技术部',
-      comNameFrom: '彩虹鱼',
-    },
-  },
-  {
-    key: '3',
-    personNameTo: 'yyy',
-    deptNameTo: '财务部',
-    comNameTo: '养生堂',
-    personNameFrom: '你奶奶',
-    reason: '太帅了',
-    coin: '10000',
-    valuesType: '利他',
-    giveDate: '2020.08.31',
-    deptNameFrom: '信息技术部',
-    comNameFrom: '彩虹鱼',
-    headImg: '@/assets/img/avatar.jpg',
-    fromPerInfo: {
-      personNameFrom: '你爸爸',
-      deptNameFrom: '信息技术部',
-      comNameFrom: '彩虹鱼',
-    },
-  },
-  {
-    key: '4',
-    personNameTo: 'yyy',
-    deptNameTo: '财务部',
-    comNameTo: '养生堂',
-    personNameFrom: '你奶奶',
-    reason: '太帅了',
-    coin: '10000',
-    valuesType: '利他',
-    giveDate: '2020.08.31',
-    deptNameFrom: '信息技术部',
-    comNameFrom: '彩虹鱼',
-    headImg: '@/assets/img/avatar.jpg',
-    fromPerInfo: {
-      personNameFrom: '你爸爸',
-      deptNameFrom: '信息技术部',
-      comNameFrom: '彩虹鱼',
-    },
-  },
-  {
-    key: '5',
-    personNameTo: 'yyy',
-    deptNameTo: '财务部',
-    comNameTo: '养生堂',
-    personNameFrom: '你奶奶',
-    reason: '太帅了',
-    coin: '10000',
-    valuesType: '利他',
-    giveDate: '2020.08.31',
-    deptNameFrom: '信息技术部',
-    comNameFrom: '彩虹鱼',
-    headImg: '@/assets/img/avatar.jpg',
-    fromPerInfo: {
-      personNameFrom: '你爸爸',
-      deptNameFrom: '信息技术部',
-      comNameFrom: '彩虹鱼',
-    },
-  },
-];
+import { coinDetailPaging, getPersonInfo, getMyRank } from '@/api/tangguobi';
 
 const columns = [
   {
@@ -164,6 +69,45 @@ const columns = [
   },
 ];
 const TGBDetail = (props) => {
+  const [giveData, setGiveData] = useState([]);
+  const [personInfo, setPersonInfo] = useState({});
+  const [coins, setCoins] = useState(0);
+  useEffect(() => {
+    const date = new Date();
+    const year = date.getFullYear();
+    if (props.personCode !== null) {
+      coinDetailPaging({ personCode: props.personCode, year, type: 0 }).then(
+        ({ success, data }) => {
+          if (success) {
+            const records = data.records;
+            const arr = [];
+            records.forEach((item) => {
+              const info = {
+                key: item.id,
+                fromPerInfo: {
+                  personNameFrom: item.personNameFrom,
+                  comNameFrom: item.comNameFrom,
+                  deptNameFrom: item.deptNameFrom,
+                },
+                coin: item.coin,
+                giveDate: item.giveDateStr,
+                valuesType: item.valuesType,
+                reason: item.reason,
+              };
+              arr.push(info);
+            });
+            console.log(arr);
+            setGiveData(arr);
+          }
+        },
+      );
+      getMyRank({ personCode: props.personCode }).then(({ success, data }) => {
+        if (success) {
+          setPersonInfo(data);
+        }
+      });
+    }
+  }, [props.personCode]);
   return (
     <Modal
       className={styles.detailModal}
@@ -180,7 +124,7 @@ const TGBDetail = (props) => {
       }
     >
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '15px' }}>
-        <Avatar icon={<img src={myAvatar} />} size={80} />
+        <Avatar icon={<img src={personInfo.avatar} />} size={80} />
         <div style={{ margin: '0 30px 0px 10px' }}>
           <p
             style={{
@@ -191,7 +135,7 @@ const TGBDetail = (props) => {
               lineHeight: '20px',
             }}
           >
-            赵倩
+            {personInfo.personName}
           </p>
           <p
             style={{
@@ -202,7 +146,7 @@ const TGBDetail = (props) => {
               lineHeight: '17px',
             }}
           >
-            开发四部
+            {personInfo.deptName}
           </p>
         </div>
         <div style={{ width: '1px', height: '32px', background: '#D8D8D8' }}></div>
@@ -216,7 +160,7 @@ const TGBDetail = (props) => {
               lineHeight: '22px',
             }}
           >
-            2300
+            {personInfo.coinAll}
           </p>
           <p
             style={{
@@ -227,7 +171,7 @@ const TGBDetail = (props) => {
               lineHeight: '22px',
             }}
           >
-            截止今天2020年度累计获得堂果币
+            {`截止今天${personInfo.year}年度累计获得堂果币`}
           </p>
         </div>
       </div>
@@ -235,7 +179,7 @@ const TGBDetail = (props) => {
         className={styles.detailTable}
         pagination={false}
         columns={columns}
-        dataSource={data}
+        dataSource={giveData}
         size="middle"
         scroll={{ y: 340 }}
       />

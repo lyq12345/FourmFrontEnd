@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import Light from '@/assets/img/light.png';
 import No1 from '@/assets/img/no1.png';
@@ -8,6 +8,13 @@ import avatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
 
 export default function TopThree(props) {
+  const [top3, setTop3] = useState([]);
+  const arr = props.content;
+
+  useEffect(() => {
+    console.log('sss', arr);
+    setTop3(arr);
+  }, [arr]);
   return (
     <div style={{ display: 'inline-block' }}>
       <Row gutter={16}>
@@ -28,8 +35,8 @@ export default function TopThree(props) {
                 width: '80px',
                 height: '80px',
                 borderRadius: '50%',
-                background: `url(${avatar})`,
-                backgroundSize: 'cover',
+                backgroundImage: `url(${top3[0] ? top3[0].avatar : ''})`,
+                backgroundSize: '80px 80px',
                 backgroundColor: '#aaa',
               }}
             >
@@ -37,9 +44,9 @@ export default function TopThree(props) {
             </div>
           </div>
           <div>
-            <p className={styles.top3Name}>{props.content[0].name}</p>
-            <p className={styles.top3Depart}>{props.content[0].depart}</p>
-            <p className={styles.top3Amount}>{props.content[0].amount}</p>
+            <p className={styles.top3Name}>{top3[0] ? top3[0].personName : ''}</p>
+            <p className={styles.top3Depart}>{top3[0] ? top3[0].deptName : ''}</p>
+            <p className={styles.top3Amount}>{top3[0] ? top3[0].coin : ''}</p>
           </div>
         </Col>
         <Col span={8} style={{ padding: 0 }}>
@@ -58,8 +65,8 @@ export default function TopThree(props) {
                 width: '80px',
                 height: '80px',
                 borderRadius: '50%',
-                background: `url(${avatar})`,
-                backgroundSize: 'cover',
+                backgroundImage: `url(${top3[1] ? top3[1].avatar : ''})`,
+                backgroundSize: '80px 80px',
                 backgroundColor: '#aaa',
               }}
             >
@@ -67,9 +74,9 @@ export default function TopThree(props) {
             </div>
           </div>
           <div>
-            <p className={styles.top3Name}>{props.content[1].name}</p>
-            <p className={styles.top3Depart}>{props.content[1].depart}</p>
-            <p className={styles.top3Amount}>{props.content[1].amount}</p>
+            <p className={styles.top3Name}>{top3[1] ? top3[1].personName : ''}</p>
+            <p className={styles.top3Depart}>{top3[1] ? top3[1].deptName : ''}</p>
+            <p className={styles.top3Amount}>{top3[1] ? top3[1].coin : ''}</p>
           </div>
         </Col>
         <Col span={8} style={{ padding: 0 }}>
@@ -88,8 +95,8 @@ export default function TopThree(props) {
                 width: '80px',
                 height: '80px',
                 borderRadius: '50%',
-                background: `url(${avatar})`,
-                backgroundSize: 'cover',
+                backgroundImage: `url(${top3[2] ? top3[2].avatar : ''})`,
+                backgroundSize: '80px 80px',
                 backgroundColor: '#aaa',
               }}
             >
@@ -97,9 +104,9 @@ export default function TopThree(props) {
             </div>
           </div>
           <div>
-            <p className={styles.top3Name}>{props.content[2].name}</p>
-            <p className={styles.top3Depart}>{props.content[2].depart}</p>
-            <p className={styles.top3Amount}>{props.content[2].amount}</p>
+            <p className={styles.top3Name}>{top3[2] ? top3[2].personName : ''}</p>
+            <p className={styles.top3Depart}>{top3[2] ? top3[2].deptName : ''}</p>
+            <p className={styles.top3Amount}>{top3[2] ? top3[2].coin : ''}</p>
           </div>
         </Col>
       </Row>

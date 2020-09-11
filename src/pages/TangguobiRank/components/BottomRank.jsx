@@ -4,6 +4,7 @@ import { Row, Col } from 'antd';
 const data = [];
 for (let i = 0; i < 30; i++) {
   let item = {
+    personCode: 'zhsong3',
     personName: '张三',
     deptName: '信息技术部',
     coin: '10000',
@@ -12,10 +13,10 @@ for (let i = 0; i < 30; i++) {
   };
   data.push(item);
 }
-const BottomRank = () => {
-  const list1 = data.slice(0, 10);
-  const list2 = data.slice(10, 20);
-  const list3 = data.slice(20);
+const BottomRank = (props) => {
+  const list1 = props.content.slice(0, 10);
+  const list2 = props.content.slice(10, 20);
+  const list3 = props.content.slice(20);
   return (
     <div style={{ margin: '20px 0' }}>
       <Row>
