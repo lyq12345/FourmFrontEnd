@@ -75,11 +75,11 @@ const data = [
     headImg: '@/assets/img/avatar.jpg',
   },
 ];
-const RankingContent = () => {
+const RankingContent = (props) => {
   return (
     <div>
-      <Top10 content={data} />
-      <BottomRank />
+      <Top10 content={props.content.top10Rank} />
+      <BottomRank content={props.content.otherRank} />
     </div>
   );
 };

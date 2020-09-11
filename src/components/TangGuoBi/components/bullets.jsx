@@ -12,38 +12,53 @@ export default function Bullets(props) {
   // 弹幕屏幕
   const [screen, setScreen] = useState(null);
   // 弹幕内容
-  const [bullet, setBullet] = useState('');
+  const [bullets, setBullets] = useState([]);
   const [sequence, setSequence] = useState(0);
+  let timer = 0;
+  function fn() {
+    setSequence((seq) => {
+      const size = bullets.length;
+      const bulletIndex = seq % size;
+      const styleIndex = seq % 5;
+      const item = bullets[bulletIndex];
+      const msg = item.personNameTo + ' 获得' + item.coin + '堂果币 ';
+      const valuesType = item.valuesType + ' | ';
+      const reason = item.reason;
+      screen.push(
+        <StyledBullet
+          head={item.avatar}
+          msg={msg}
+          valuesType={valuesType}
+          reason={reason}
+          backgroundColor={backColors[styleIndex]}
+          color={fontColors[styleIndex]}
+          size="7px"
+        />,
+      );
+      return seq + 1;
+    });
+    const newTime = Math.random() * 1200 + 2000;
+    clearInterval(timer);
+    timer = setInterval(fn, newTime);
+  }
+  useEffect(() => {
+    let s = new BulletScreen('.screen', { duration: 13 });
+    setScreen(s);
+    coinDetailRandom().then(({ success, data }) => {
+      if (success) {
+        setBullets(data);
+      }
+    });
+  }, []);
 
   useEffect(() => {
-    const param1 = {};
-    coinDetailRandom().then(({ success, data }) => {
-      console.log(data);
-    });
-    let s = new BulletScreen('.screen', { duration: 10 });
-    let timer = 0;
-    if (sequence >= 0) {
-      timer = setInterval(() => {
-        setSequence((seq) => {
-          const index = seq % 5;
-          s.push(
-            <StyledBullet
-              head={headUrl}
-              msg={'啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊'}
-              backgroundColor={backColors[index]}
-              color={fontColors[index]}
-              size="7px"
-            />,
-          );
-          return seq + 1;
-        });
-      }, 1200);
+    if (bullets.length !== 0) {
+      timer = setInterval(fn, 1000);
     }
-
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [bullets]);
 
   return (
     <div style={{ ...props.bgSetting }}>

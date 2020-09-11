@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 16:57:32
- * @LastEditTime: 2020-09-08 17:23:06
- * @LastEditors: your name
+ * @LastEditTime: 2020-09-11 11:12:08
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/StyledBullet.js
  */
@@ -10,9 +10,9 @@ import React from 'react';
 
 const WrapperStyle = {
   display: 'flex',
+  height: '30px',
   alignItems: 'center',
-  padding: '0.5em 1em',
-  borderRadius: '2.2em',
+  borderRadius: '20px',
   position: 'relative',
   wordBreak: 'keep-all',
   whiteSpace: 'pre-wrap',
@@ -23,19 +23,15 @@ const MsgStyle = {
   fontSize: '12px',
   fontWeight: '400',
   lineHeight: '17px',
-  maxWidth: '300px',
   overflow: 'hidden',
+  whiteSpace: 'nowrap',
 };
 const HeadStyle = {
-  //position: 'absolute',
-  //left: '-4.6em',
-  //top: '50%',
   display: 'inline-block',
-  //transform: 'translateY(-50%)',
-  width: '30px',
-  height: '30px',
+  width: '24px',
+  height: '24px',
+  marginLeft: '3px',
   borderRadius: '50%',
-  // boxShadow: '0 0 .8em rgba(0, 0, 0, 0.8)',
 };
 const ImageStyle = {
   borderRadius: '50%',
@@ -48,7 +44,15 @@ const sizes = {
   large: '14px',
   huge: '16px',
 };
-const StyledBullet = ({ msg, head, size = 'normal', color, backgroundColor = '#fff' }) => {
+const StyledBullet = ({
+  msg,
+  reason,
+  head,
+  valuesType,
+  size = 'normal',
+  color,
+  backgroundColor = '#fff',
+}) => {
   color = color || '#aaa';
   const fontSize = sizes[size] || size;
   return (
@@ -58,7 +62,47 @@ const StyledBullet = ({ msg, head, size = 'normal', color, backgroundColor = '#f
           <img src={head} style={ImageStyle} alt="msg head" />
         </div>
       )}
-      <div style={{ ...MsgStyle, color }}>{msg}</div>
+      <div style={{ display: 'inline-block', padding: '0 10px', color }}>
+        <span
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'nowrap',
+            verticalAlign: 'middle',
+            fontSize: '12px',
+            fontWeight: '400',
+            color,
+          }}
+        >
+          {msg}
+        </span>
+        <span
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'nowrap',
+            verticalAlign: 'middle',
+            fontSize: '12px',
+            fontWeight: '500',
+            color,
+          }}
+        >
+          {valuesType}
+        </span>
+        <span
+          style={{
+            display: 'inline-block',
+            whiteSpace: 'nowrap',
+            fontSize: '12px',
+            fontWeight: '400',
+            maxWidth: '15em',
+            overflow: 'hidden',
+            textOverflow: 'hidden',
+            color,
+            verticalAlign: 'middle',
+          }}
+        >
+          {reason}
+        </span>
+      </div>
     </div>
   );
 };

@@ -37,8 +37,8 @@ const Top10Item = (props) => {
             width: '80px',
             height: '80px',
             borderRadius: '50%',
-            background: `url(${avatar})`,
-            backgroundSize: 'cover',
+            backgroundImage: `url(${props.content.avatar})`,
+            backgroundSize: '80px 80px',
             backgroundColor: '#aaa',
           }}
         >
@@ -46,9 +46,9 @@ const Top10Item = (props) => {
         </div>
       </div>
       <div>
+        <p className={styles.top10Amount}>{props.content.coin}</p>
         <p className={styles.top10Name}>{props.content.personName}</p>
         <p className={styles.top10Depart}>{props.content.deptName}</p>
-        <p className={styles.top10Amount}>{props.content.coin}</p>
       </div>
     </div>
   );
