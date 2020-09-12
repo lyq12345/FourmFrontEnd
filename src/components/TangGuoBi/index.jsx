@@ -2,12 +2,22 @@ import React, { useState, useEffect } from 'react';
 import styles from './style.less';
 import RankingList from './components/RankingList';
 import Bullets from './components/Bullets';
+import { getPersonInfo } from '@/api/tangguobi';
 
 const Index = () => {
+  const [personInfo, setPersonInfo] = useState({});
+  useEffect(() => {
+    const { personCode } = JSON.parse(localStorage.getItem('userInfo'));
+    getPersonInfo({ personCode }).then(({ data }) => {
+      setPersonInfo(data);
+    });
+  }, []);
   return (
     <div className={styles.tgbContainer}>
       <div className={styles.navHead}>
         <span className={styles.title}>堂果币排行榜</span>
+        <span className={styles.comName}>{personInfo.comName}</span>
+        <span className={styles.orgName}>{personInfo.orgName}</span>
         <div style={{ flex: 1 }}></div>
         <a href="./tangguobi-rank" className={styles.tgbmore}>
           更多

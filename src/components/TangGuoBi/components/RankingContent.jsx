@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Tabs, Card, Row, Col, List, Avatar } from 'antd';
+import { Tabs, Card, Row, Col, List, Avatar, Spin } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
 const { TabPane } = Tabs;
 import TopThree from './TopThree';
@@ -27,7 +27,7 @@ const RankingContent = (props) => {
           <ol style={{ padding: 0 }}>
             {otherLeft.map((item, index) => (
               <li key={index} style={{ margin: '10px 0' }}>
-                <span className={styles.last7Num}>{index + 3}</span>
+                <span className={styles.last7Num}>{item.coinOrder}</span>
                 <Avatar icon={<img src={item.avatar} />} />
                 <span className={styles.last7Name}>{item.personName}</span>
                 <span className={styles.last7Num}>{item.coin}</span>
@@ -39,7 +39,7 @@ const RankingContent = (props) => {
           <ol style={{ padding: 0 }}>
             {otherRight.map((item, index) => (
               <li key={index} style={{ margin: '10px 0' }}>
-                <span className={styles.last7Num}>{index + 8}</span>
+                <span className={styles.last7Num}>{item.coinOrder}</span>
                 <Avatar icon={<img src={item.avatar} />} />
                 <span className={styles.last7Name}>{item.personName}</span>
                 <span className={styles.last7Num}>{item.coin}</span>
