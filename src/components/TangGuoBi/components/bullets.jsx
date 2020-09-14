@@ -18,7 +18,7 @@ export default function Bullets(props) {
   useEffect(() => {
     const param1 = {};
     coinDetailRandom().then(({ success, data }) => {
-      console.log(data);
+      // console.log(data);
     });
     let s = new BulletScreen('.screen', { duration: 10 });
     let timer = 0;

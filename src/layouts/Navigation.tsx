@@ -71,11 +71,11 @@ const Navigation = (props) => {
     <div>
       {
         navigationInfo.map((item, index) => (
-          <div>
+          <div key={index}>
             {
               item.router !== 'logout' ?
-                <Link to={item.router} key={index}>
-                  <div className='navgtionInfo' key={index}>
+                <Link to={item.router}>
+                  <div className='navgtionInfo'>
                     {item.label}
                   </div>
                 </Link> : <div onClick={() => onMenuClick()} className='navgtionInfo'>{item.label}</div>

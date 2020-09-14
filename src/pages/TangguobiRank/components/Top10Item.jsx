@@ -17,7 +17,7 @@ const nos = [No1, No2, No3, No4, No5, No6, No7, No8, No9, No10];
 
 const Top10Item = (props) => {
   const handleClick = () => {
-    console.log('click!');
+    // console.log('click!');
   };
   return (
     <div onClick={handleClick} style={{ display: 'inline-block', margin: '0 -13px' }}>

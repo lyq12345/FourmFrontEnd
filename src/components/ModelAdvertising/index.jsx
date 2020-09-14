@@ -6,19 +6,19 @@ import birthdayCard from '@/assets/img/birthday-card.png';
 import buttonCardButtom from '@/assets/img/button-card-buttom.png';
 import greetingCardClose from '@/assets/img/greeting-card-close.png';
 const ModelAdvertising = (props) => {
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
   useEffect(() => {
     // info()
   }, [])
   const handleOk = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   const handleCancel = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });

@@ -11,14 +11,14 @@ const ModelAdvertising = (props) => {
     // info()
   }, [])
   const handleOk = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   const handleCancel = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });

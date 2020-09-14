@@ -21,7 +21,7 @@ const TangguobiRank = () => {
     queryDetail();
   };
   const queryDetail = () => {
-    console.log('query detail!');
+    // console.log('query detail!');
   };
 
   const handleCancel = () => {

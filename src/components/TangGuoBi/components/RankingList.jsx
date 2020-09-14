@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-09-08 15:06:14
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-09-11 15:41:52
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
  */
@@ -23,7 +23,7 @@ for (let i = 0; i < 10; i++) {
 
 export default function RankingList() {
   const handleChange = (key) => {
-    console.log(key);
+    // console.log(key);
   };
   return (
     <div style={{ padding: '0 12px 12px 12px' }}>

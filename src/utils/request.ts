@@ -26,21 +26,24 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-interface ERROR  {
-  response:{
-    statusText:any,
-    status:any,
-    url:String,
+interface ERROR {
+  response: {
+    statusText: any,
+    status: any,
+    url: String,
   }
 }
-const errorHandler = (error:ERROR) => {
+const errorHandler = (error: ERROR) => {
+  debugger
   const { response } = error;
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
+
     if (status === 401) {
+      debugger
       logout();
     } else {
       notification.error({
@@ -82,7 +85,7 @@ request.interceptors.request.use((url, options) => {
   }
   return {
     url: URL,
-    options: { ...options,...headers  },
+    options: { ...options, ...headers },
   };
 });
 

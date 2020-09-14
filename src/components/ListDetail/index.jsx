@@ -9,7 +9,7 @@ import endGiveLike from '@/assets/img/endGiveLike.png';
 import noGiveLike from '@/assets/img/noGiveLike.png';
 
 const ListDetail = (props) => {
-  console.log(props)
+  // console.log(props)
   const [praiseStatus, setPraiseStatus] = useState(false)
   const [praiseNum, setPraiseNum] = useState(199)
 

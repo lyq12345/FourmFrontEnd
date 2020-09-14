@@ -13,10 +13,15 @@ import { carousel } from '@/constants/mock';
 import { withRouter } from 'umi';
 import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
+import HWPlayer from "HWPlayer";
+import hwplayerloaded from "hwplayerloaded";
 
+// let topVideo = {}
+let video2 = {}
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
   const [carouselCurrent, setCarouselCurrent] = useState(0);
+  const [topVideo, setTopVideo] = useState({});
 
   useEffect(() => {
     const myDate = new Date();
@@ -24,6 +29,8 @@ const Home = (props) => {
     const month = myDate.getMonth() + 1;
     const day = myDate.getDate();
     setYearWeek(getYearWeek(fullYear, month, day));
+    // info()
+    // initVideo()
   }, []);
   const contentStyle = {
     height: '273px',
@@ -52,6 +59,92 @@ const Home = (props) => {
   const carouselFun = (current) => {
     setCarouselCurrent(current);
   };
+  // 初始化回调
+  const initVideo = () => {
+    // let { transcodeUrl, file } = this.advertiseVideos[0] || {}
+    // let sources = [{
+    //   src: transcodeUrl,
+    //   type: 'application/x-mpegURL'
+    // }]
+    hwplayerloaded(() => {
+      var options = {
+        //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
+        controls: true,
+        width: 487,
+        height: 278,
+      };
+      // let player = new HWPlayer(`videoPlayer`, {
+      //   preload: 'auto',
+      //   muted: true,
+      //   // poster: this.fileSource.poster,
+      //   controls: true
+      // }, () => {
+      // })
+      var player = new HWPlayer('videoPlayer', options, function () {
+        //播放器已经准备好了
+        player.src("https://35.cdn-vod.huaweicloud.com/asset/ba4f5df688f4ed6f569470d688ec4a22/c5d8003cb1d108035d3a902adb2bc5cc.mp4");
+        // "this"指向的是HWPlayer的实例对象player
+        // player.play();
+        // 使用事件监听
+        player.on('ended', function () {
+          //播放结束了
+        });
+      });
+      // this.player = new HWPlayer(`videoPlayer`, {
+      //   preload: 'auto',
+      //   muted: true,
+      //   height: "100%",
+      //   // poster: 'https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png',
+      //   controls: true
+      // }, () => {
+      // })
+      // this.player.src('https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8')
+    })
+  }
+  // const info = () => {
+
+  //   const option = {
+  //     bigPlayButton: true,
+  //     controls: true,
+  //     preload: "auto",
+  //     fluid: true,
+  //     autoplay: false,
+  //     loop: false,
+  //     muted: false,
+  //     height: "100%",
+  //     hls: {
+  //       withCredentials: true
+  //     }
+  //   };
+  //   hwplayerloaded(() => {
+  //     let topVideo = HWPlayer("topVideo", option, () => {
+  //       // const { src, type } = this.currentTopVideo.video_resources[0];
+  //       let src = 'https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8'
+  //       let type = 'application/x-mpegURL'
+  //       topVideo.src({ src, type });
+  //     })
+  //     debugger
+  //     console.log(topVideo)
+  //     setTopVideo(topVideo)
+  //     // video2 = HWPlayer("video2", option, () => { });
+  //     debugger
+  //     playControl();
+  //   });
+  // }
+
+  // const playControl = () => {
+  //   debugger
+  //   const top = document.getElementById("topVideo");
+  //   debugger
+  //   if (top) {
+  //     top.onpause = () => {
+  //       topPlay = false;
+  //     };
+  //     top.onplay = () => {
+  //       topPlay = true;
+  //     };
+  //   }
+  // }
   const lookMoreHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people',
@@ -120,8 +213,36 @@ const Home = (props) => {
               <Carousel autoplay dots={false} afterChange={carouselFun}>
                 {carousel &&
                   carousel.map((item, index) => (
-                    <div key={index} onClick={() => detailRouter()}>
-                      <h3 style={contentStyle}>{index}</h3>
+                    // onClick={() => detailRouter()}
+                    <div key={index}>
+                      <video
+                        controls
+                        id='videoPlayer'
+                        src='https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8'
+                        poster='https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png'
+                        type='application/x-mpegURL'
+                        style={{ width: '487px', height: '273px' }}
+                        playsInline
+                        x5-video-player-type="h5"
+                        x5-playsinline="true"
+                        webkit-playsinline="true"
+                        x5-video-orientation="landscape"
+                        width="487"
+                        autoPlay
+                        height="273"
+                        className="video-js vjs-default-skin vjs-big-play-centered"
+                      ></video>
+                      {/* <div className="video-container" style={{ position: 'relative' }}>
+                        <video id="topVideo"
+                          style={{ width: '487px', height: '273px', position: 'absolute' }}
+                          className="video-js vjs-default-skin vjs-big-play-centered"></video>
+                        <div className="play" style={{
+                          backgroundImage: `url(${'https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png'})`,
+                          backgroundSize: '100% 100%', width: '487px', height: '273px'
+                        }}>
+                          <div onClick={() => goPlay(currentTopVideo, topVideoIndex, false, true)}></div>
+                        </div>
+                      </div> */}
                     </div>
                   ))}
               </Carousel>
@@ -167,12 +288,12 @@ const Home = (props) => {
             查看更多
           </div>
         </div>
-      </div>
+      </div >
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          <MyNav />
+          {/* <MyNav />
           <TangGuoBi />
-          <Birthday />
+          <Birthday /> */}
         </div>
         <div className={styles.rightContent}>
           <MySchedule />
@@ -182,7 +303,7 @@ const Home = (props) => {
         </div>
       </div>
       {/* <ModelAdvertising /> */}
-    </div>
+    </div >
   );
 };
 export default withRouter(Home);

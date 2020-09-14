@@ -91,6 +91,8 @@ export default defineConfig({
     basePath: '/',
   },
   externals: {
+    HWPlayer: 'HWPlayer',
+    hwplayerloaded: 'hwplayerloaded',
   },
   proxy: proxy[BUILD_PRODUCTION || 'dev'],
   chainWebpack: webpackPlugin,

@@ -83,6 +83,8 @@
     "use-json-comparison": "^1.0.5",
     "use-media-antd-query": "^1.0.1",
     "use-merge-value": "^1.0.1",
+    "video-react": "^0.14.1",
+    "videojs-contrib-hls": "^5.15.0",
     "warning": "^4.0.3"
   },
   "devDependencies": {
