@@ -6,6 +6,7 @@ import {
   EditEmpInfo, updatePernrInfo, getFamilyInfo,
   addFamilyInfo, updateFamilyInfo
 } from '@/api/personalHomepage'
+import { listCityInfos } from '@/api/public'
 import { DeleteOutlined } from '@ant-design/icons';
 
 const FormData = (props) => {
@@ -109,6 +110,9 @@ const FormData = (props) => {
         setExigenceDetailInfo(res.exigence)
         setDataList(res.familyInfo)
       }
+    })
+    listCityInfos({}).then(res => {
+      console.log(res)
     })
   }
   // 个人信息

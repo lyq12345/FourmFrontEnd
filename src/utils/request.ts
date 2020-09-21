@@ -73,6 +73,9 @@ request.interceptors.request.use((url, options) => {
   let headers = null;
   if (options.prefixType === 'sso') {
     URL = `${REACT_APP_SSO_API}${url}`;
+  } else if (options.prefixType === 'basic') {
+    // eslint-disable-next-line no-undef
+    URL = `${REACT_APP_ADDRESS}${url}`;
   } else {
     // eslint-disable-next-line no-undef
     URL = `${REACT_APP_BASIC_API}${url}`;

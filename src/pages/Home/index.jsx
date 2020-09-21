@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Card, Carousel, Popover, Badge } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
 import HallPeople from '@/assets/img/HallPeople.png';
 import waterHealth from '@/assets/img/waterHealth.png';
+import play from '@/assets/img/play.png';
 import MySchedule from '@/components/MySchedule';
 import Birthday from './components/Birthday';
 import CardComponent from '@/components/Card';
@@ -15,12 +16,15 @@ import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
 import HWPlayer from "HWPlayer";
 import hwplayerloaded from "hwplayerloaded";
+import { set } from 'lodash';
 
 // let topVideo = {}
 let video2 = {}
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
   const [carouselCurrent, setCarouselCurrent] = useState(0);
+  const [autoplay, setAutoplay] = useState(false);
+
   const [topVideo, setTopVideo] = useState({});
 
   useEffect(() => {
@@ -30,15 +34,12 @@ const Home = (props) => {
     const day = myDate.getDate();
     setYearWeek(getYearWeek(fullYear, month, day));
     // info()
-    // initVideo()
+    // carousel.map((item, index) => {
+    //   initVideo(index)
+    // })
+    hwplayerloaded(() => { initVideo(0) })
+    // initVideo(0)
   }, []);
-  const contentStyle = {
-    height: '273px',
-    color: '#fff',
-    lineHeight: '273px',
-    textAlign: 'center',
-    background: '#364d79',
-  };
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -57,94 +58,41 @@ const Home = (props) => {
     </div>
   );
   const carouselFun = (current) => {
+    initVideo(current)
     setCarouselCurrent(current);
   };
-  // 初始化回调
-  const initVideo = () => {
-    // let { transcodeUrl, file } = this.advertiseVideos[0] || {}
-    // let sources = [{
-    //   src: transcodeUrl,
-    //   type: 'application/x-mpegURL'
-    // }]
-    hwplayerloaded(() => {
-      var options = {
-        //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
-        controls: true,
-        width: 487,
-        height: 278,
-      };
-      // let player = new HWPlayer(`videoPlayer`, {
-      //   preload: 'auto',
-      //   muted: true,
-      //   // poster: this.fileSource.poster,
-      //   controls: true
-      // }, () => {
-      // })
-      var player = new HWPlayer('videoPlayer', options, function () {
-        //播放器已经准备好了
-        player.src("https://35.cdn-vod.huaweicloud.com/asset/ba4f5df688f4ed6f569470d688ec4a22/c5d8003cb1d108035d3a902adb2bc5cc.mp4");
-        // "this"指向的是HWPlayer的实例对象player
-        // player.play();
-        // 使用事件监听
-        player.on('ended', function () {
-          //播放结束了
-        });
-      });
-      // this.player = new HWPlayer(`videoPlayer`, {
-      //   preload: 'auto',
-      //   muted: true,
-      //   height: "100%",
-      //   // poster: 'https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png',
-      //   controls: true
-      // }, () => {
-      // })
-      // this.player.src('https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8')
-    })
+
+  const goPlay = (item, index) => {
+    setAutoplay(false)
   }
-  // const info = () => {
+  // 初始化回调
+  const initVideo = (index) => {
+    // setAutoplay(false)
+    console.error("initvideo")
 
-  //   const option = {
-  //     bigPlayButton: true,
-  //     controls: true,
-  //     preload: "auto",
-  //     fluid: true,
-  //     autoplay: false,
-  //     loop: false,
-  //     muted: false,
-  //     height: "100%",
-  //     hls: {
-  //       withCredentials: true
-  //     }
-  //   };
-  //   hwplayerloaded(() => {
-  //     let topVideo = HWPlayer("topVideo", option, () => {
-  //       // const { src, type } = this.currentTopVideo.video_resources[0];
-  //       let src = 'https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8'
-  //       let type = 'application/x-mpegURL'
-  //       topVideo.src({ src, type });
-  //     })
-  //     debugger
-  //     console.log(topVideo)
-  //     setTopVideo(topVideo)
-  //     // video2 = HWPlayer("video2", option, () => { });
-  //     debugger
-  //     playControl();
-  //   });
-  // }
+    console.error("hwplayerloaded")
+    var options = {
+      //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
+      // controls: index ? false : true,
+      // controls: true,
+      poster: carousel[index].img,
+      sources: carousel[index].src
+    };
+    var player = HWPlayer(`#video-${index}`, options, function () {
+      console.log('hw loaded')
+      //播放器已经准备好了
+      // player.src();
+      // "this"指向的是HWPlayer的实例对象player
+      // player.play();
+      // // 使用事件监听
+      player.on('ended', function () {
+        //播放结束了
+        setAutoplay(true)
+      });
+    });
+    console.log(autoplay)
 
-  // const playControl = () => {
-  //   debugger
-  //   const top = document.getElementById("topVideo");
-  //   debugger
-  //   if (top) {
-  //     top.onpause = () => {
-  //       topPlay = false;
-  //     };
-  //     top.onplay = () => {
-  //       topPlay = true;
-  //     };
-  //   }
-  // }
+  }
   const lookMoreHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people',
@@ -181,7 +129,7 @@ const Home = (props) => {
         </div>
         <div className={styles.task}>
           <Popover placement="bottomRight" content={popoverContent} trigger="hover">
-            <p>
+            <div>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>未读消息</span>
               <Badge
@@ -189,10 +137,10 @@ const Home = (props) => {
                 style={{ backgroundColor: '#CE1925' }}
                 count={25}
               />
-            </p>
+            </div>
           </Popover>
           <Popover placement="bottomRight" content={popoverContent} trigger="hover">
-            <p>
+            <div>
               <img src={toDoTasks} alt="" />
               <span className={styles.messageText}>待办任务</span>
               <Badge
@@ -200,7 +148,7 @@ const Home = (props) => {
                 style={{ backgroundColor: '#CE1925' }}
                 count={108}
               />
-            </p>
+            </div>
           </Popover>
         </div>
       </div>
@@ -210,39 +158,27 @@ const Home = (props) => {
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
-              <Carousel autoplay dots={false} afterChange={carouselFun}>
+              <Carousel autoplay={autoplay} autoplaySpeed={4000} afterChange={carouselFun}>
+                {/* <div className={styles.play}> */}
+                {/* </div> */}
                 {carousel &&
                   carousel.map((item, index) => (
-                    // onClick={() => detailRouter()}
-                    <div key={index}>
+                    <div className={styles.carouselContentImg} onClick={() => goPlay(item, index)} key={index}>
                       <video
-                        controls
-                        id='videoPlayer'
-                        src='https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8'
-                        poster='https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png'
-                        type='application/x-mpegURL'
-                        style={{ width: '487px', height: '273px' }}
+                        id={`video-${index}`}
+                        style={{ width: '487px', height: '278px' }}
                         playsInline
                         x5-video-player-type="h5"
                         x5-playsinline="true"
                         webkit-playsinline="true"
                         x5-video-orientation="landscape"
                         width="487"
-                        autoPlay
-                        height="273"
+                        // autoPlay
+                        height="278"
                         className="video-js vjs-default-skin vjs-big-play-centered"
                       ></video>
-                      {/* <div className="video-container" style={{ position: 'relative' }}>
-                        <video id="topVideo"
-                          style={{ width: '487px', height: '273px', position: 'absolute' }}
-                          className="video-js vjs-default-skin vjs-big-play-centered"></video>
-                        <div className="play" style={{
-                          backgroundImage: `url(${'https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png'})`,
-                          backgroundSize: '100% 100%', width: '487px', height: '273px'
-                        }}>
-                          <div onClick={() => goPlay(currentTopVideo, topVideoIndex, false, true)}></div>
-                        </div>
-                      </div> */}
+                      {/* <img className={styles.playImg} src={item.img} alt="" /> */}
+                      {/* <img src='https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png' alt="" /> */}
                     </div>
                   ))}
               </Carousel>
@@ -291,9 +227,9 @@ const Home = (props) => {
       </div >
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          {/* <MyNav />
+          <MyNav />
           <TangGuoBi />
-          <Birthday /> */}
+          <Birthday />
         </div>
         <div className={styles.rightContent}>
           <MySchedule />

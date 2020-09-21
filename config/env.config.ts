@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-09-09 10:31:46
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-09-15 14:13:52
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/env.config.ts
  */
@@ -11,6 +11,7 @@ function getConfig(name: String) {
   let envConfig = {
     REACT_APP_TITLE: currentEnvTitle,
     REACT_APP_BASIC_API: '/yst-iwork-alpha-api',
+    REACT_APP_ADDRESS: '/basic-address',
   };
 
   const currentEnvDomainFlag = name === 'prod' ? '' : `-${name}`;
