@@ -34,7 +34,6 @@ interface ERROR {
   }
 }
 const errorHandler = (error: ERROR) => {
-  debugger
   const { response } = error;
 
   if (response && response.status) {
@@ -43,7 +42,6 @@ const errorHandler = (error: ERROR) => {
 
 
     if (status === 401) {
-      debugger
       logout();
     } else {
       notification.error({

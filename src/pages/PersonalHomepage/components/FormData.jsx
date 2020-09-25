@@ -6,8 +6,10 @@ import {
   EditEmpInfo, updatePernrInfo, getFamilyInfo,
   addFamilyInfo, updateFamilyInfo
 } from '@/api/personalHomepage'
-import { listCityInfos } from '@/api/public'
+import { listCityInfosByParentId } from '@/api/public'
 import { DeleteOutlined } from '@ant-design/icons';
+import TableArea from './TableArea'
+import moment from 'moment'
 
 const FormData = (props) => {
 
@@ -17,18 +19,20 @@ const FormData = (props) => {
   const [isContactInfo, setIsContactInfo] = useState(false)
   const [isPersonageInfo, setIsPersonageInfo] = useState(false)
   const [isEmergencyContact, setIsEmergencyContact] = useState(false)
-  const [isFamilyNum, setFamilyNum] = useState(false)
   const [detailInfo, setDetailInfo] = useState({});
   const [personageDetailInfo, setPersonageDetailInfo] = useState({});
   const [exigenceDetailInfo, setExigenceDetailInfo] = useState({});
-  const [dataList, setDataList] = useState([]);
+
   const [pcodeList, setPcodeList] = useState([]);
   const [zzhukotypeList, setZzhukotypeList] = useState([]);
   const [famstList, setFamstList] = useState([]);
   const [famsaList, setFamsaList] = useState([]);
   const [stateList, setStateList] = useState([]);
+  const [addressoptionsList, setAddressoptionsList] = useState([]);
 
 
+
+  const { Option } = Select;
   useEffect(() => {
     info()
   }, [])
@@ -39,17 +43,48 @@ const FormData = (props) => {
   const tailLayout = {
     wrapperCol: { offset: 0, span: 16 },
   };
+  // 选择框数据拼装
+  const infoAssemble = (val, values) => {
+    let data = values
+    if (val == 'personalInfoSubmit') {
+      pcodeList.map(item => {
+        if (item.FDateNum == data.PCODE) {
+          data.PCODEStr = item.FDateName
+        }
+      })
+      famstList.map(item => {
+        if (item.FDateNum == data.FAMST) {
+          data.FAMSTStr = item.FDateName
+        }
+      })
+      zzhukotypeList.map(item => {
+        if (item.FDateNum == data.ZZHUKOTYPE) {
+          data.ZZHUKOTYPEStr = item.FDateName
+        }
+      })
+      return data
+    }
+
+  }
   const personalInfoSubmit = (values) => {
     const item = pcodeList.find(v => v.FDateNum === values.PCODE)
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    values = infoAssemble('personalInfoSubmit', values)
+    values.ZZHUKOL = personageDetailInfo.ZZHUKOL
+    values.HOME_ADD = personageDetailInfo.HOME_ADD
+    values.POST_ADD = personageDetailInfo.POST_ADD
+    values.ZZHUKOL = values.ZZHUKOL + values.ZZHUKOL_DETAIL
+    values.HOME_ADD = values.HOME_ADD + values.HOME_ADD_DETAIL
+    values.POST_ADD = values.POST_ADD + values.POST_ADD_DETAIL
+    values.PERNR = 127350
     updatePernrInfo(values).then(res => {
       if (res.success) {
         message.success('操作成功')
-        const creatData = saveSucAssignment(values, personageDetailInfo)
-        setPersonageDetailInfo(creatData)
+        // const creatData = saveSucAssignment(values, personageDetailInfo)
+        setPersonageDetailInfo(values)
         setIsPersonageInfo(false)
       }
     })
@@ -91,13 +126,14 @@ const FormData = (props) => {
     return flag
   }
   const info = () => {
-    GetEmpInfo({ userId: 111 }).then(res => {
+    GetEmpInfo(JSON.stringify({ userId: 127350 })).then(res => {
       if (res.success) {
         setDetailInfo(res.EmpInfo)
       }
     })
-    getPernrInfo({ sapId: 111 }).then(res => {
+    getPernrInfo({ sapId: 127350 }).then(res => {
       if (res.success) {
+        personageInfoForm.setFieldsValue(res.pernrInfo);
         setPersonageDetailInfo(res.pernrInfo)
         setPcodeList(res.pcodeList)
         setZzhukotypeList(res.zzhukotypeList)
@@ -105,33 +141,47 @@ const FormData = (props) => {
         setFamsaList(res.famsaList)
       }
     })
-    getFamilyInfo({ sapId: 111 }).then(res => {
+    getFamilyInfo({ sapId: 127350 }).then(res => {
       if (res.success) {
         setExigenceDetailInfo(res.exigence)
-        setDataList(res.familyInfo)
+        console.log(moment(res.exigence.FGBDT, 'YYYY-MM-DD'))
+        let date = {
+          FGBDT: moment(res.exigence.FGBDT, 'YYYY-MM-DD')
+        }
+        let data = { ...res.exigence, ...date }
+        emergencyContactForm.setFieldsValue(data)
+        // setDataList(res.familyInfo)
       }
     })
-    listCityInfos({}).then(res => {
-      console.log(res)
+    listCityInfosByParentId({ parentId: 100000 }).then(res => {
+      res.data.map(item => {
+        item.isLeaf = false
+        item.children = null
+        return item
+      })
+      setAddressoptionsList(res.data)
+      // setAddressoptionsList(JSON.parse(JSON.stringify(res.data).replace('children: []', 'children: null')))
     })
   }
-  // 个人信息
-  // const onFinish = (form) => {
-  //   debugger
-  //   console.log(form)
-  // }
+
   // 紧急联系人
   const emergencyContactSubmit = (values) => {
     values.PERNR = '11'
+    values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
+    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
     }
     let data = []
     data.push(values)
-    addFamilyInfo({ data: data }).then(res => {
+    // const creatData = saveSucAssignment(data[0], exigenceDetailInfo)
+    // setExigenceDetailInfo(data[0])
+    // debugger
+    // setIsEmergencyContact(false)
+    addFamilyInfo(data).then(res => {
       if (res.success) {
-        const creatData = saveSucAssignment(values, detailInfo)
+        const creatData = saveSucAssignment(values, exigenceDetailInfo)
         setExigenceDetailInfo(creatData)
         setIsEmergencyContact(false)
       }
@@ -146,6 +196,14 @@ const FormData = (props) => {
         break;
       case 2:
         personageInfoForm.setFieldsValue(personageDetailInfo)
+        personageInfoForm.setFieldsValue({
+          mailAddress: [],
+          hukouLocation: [],
+          homeAddress: [],
+          ZZHUKOL_DETAIL: '',
+          HOME_ADD_DETAIL: '',
+          POST_ADD_DETAIL: '',
+        });
         setIsPersonageInfo(true)
         break;
       case 3:
@@ -158,120 +216,45 @@ const FormData = (props) => {
     }
   }
 
-  const familyNumSubmit = () => {
+  // 级联加载下一级
+  const loadData = selectedOptions => {
+    const targetOption = selectedOptions[selectedOptions.length - 1];
+    targetOption.loading = true;
 
+    listCityInfosByParentId({ parentId: targetOption.id }).then(res => {
+      targetOption.loading = false;
+      if (selectedOptions[selectedOptions.length - 1].level != 3) {
+        res.data.map(item => {
+          item.isLeaf = false
+          item.children = null
+          return item
+        })
+      }
+      if (selectedOptions[selectedOptions.length - 1].level == 3) {
+        res.data.map(item => {
+          item.children = null
+          return item
+        })
+      }
+      targetOption.children = res.data
+      setAddressoptionsList([...addressoptionsList])
+    })
+  };
+  // 级联change
+  const cascaderChange = (value, selectedOptions, variables, val) => {
+    let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
+    if (variables == 'exigenceDetailInfo') {
+      let exigenceDetail = exigenceDetailInfo
+      exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
+      setExigenceDetailInfo(exigenceDetail)
+    } else {
+      let personageDetail = personageDetailInfo
+      personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
+      personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
+      personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
+      setPersonageDetailInfo(personageDetail)
+    }
   }
-  const handleChange = () => { }
-  const getSelect = (text, record, index) => (
-    <Select
-      onChange={value => {
-        handleChange(value, 'repoCode', index);
-      }}
-      showSearch
-      style={{ width: 136 }}
-      value={record.repoCode}
-      placeholder="请选择"
-    >
-      {/* {whoAddress &&
-        whoAddress.map(item => (
-          <Option title={item.repoAddr} key={item.repoCode} value={item.repoCode}>
-            {item.repoAddr}
-          </Option>
-        ))} */}
-    </Select>
-  );
-  const getInput = (text, record, index, styleNum) => (
-    <Input style={{ width: styleNum ? 125 : 136, marginLeft: styleNum ? '4px' : '0', }} autoComplete="off" placeholder="请输入" />
-  );
-  const columns = [
-    {
-      title: '与本人关系',
-      dataIndex: 'FAMSAStr',
-      key: 'FAMSAStr',
-      width: 136,
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              isFamilyNum ? getSelect(text, record, index) : <span>{text}</span>
-            }
-          </div>
-        )
-      },
-    },
-    {
-      title: '姓名',
-      dataIndex: 'FANAM',
-      key: 'FANAM',
-      width: 136,
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              isFamilyNum ? getInput(text, record, index) : <span>{text}</span>
-            }
-          </div>
-        )
-      },
-    },
-    {
-      title: '联系方式',
-      dataIndex: 'TELNR',
-      key: 'TELNR',
-      width: 136,
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              isFamilyNum ? getInput(text, record, index) : <span>{text}</span>
-            }
-          </div>
-        )
-      },
-    },
-    {
-      title: '出生日期',
-      key: 'FGBDT',
-      dataIndex: 'FGBDT',
-      width: 136,
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              isFamilyNum ? <DatePicker style={{ width: 136 }} /> : <span>{text}</span>
-            }
-          </div>
-        )
-      },
-    },
-    {
-      title: '地址',
-      key: 'STRAS',
-      dataIndex: 'STRAS',
-      width: 500,
-      render: (text, record, index) => {
-        return (
-          <div>
-            {
-              isFamilyNum ?
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  {
-                    getSelect(text, record, index)
-                  }
-                  {
-                    getInput(text, record, index, 125)
-                  }
-                  <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'flex-end' }}>
-                    <DeleteOutlined />
-                  </span>
-                </div>
-                : <span>{text}</span>
-            }
-          </div>
-        )
-      },
-    },
-  ];
   return (
     <div className={styles.homePageForm}>
       {/* 基本信息 */}
@@ -401,7 +384,7 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.PCODE} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.PCODEStr} </span>
                 }
               </Form.Item>
             </Col>
@@ -415,7 +398,7 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.FAMST} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.FAMSTStr} </span>
                 }
 
               </Form.Item>
@@ -438,16 +421,21 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOTYPE} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOTYPEStr} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="户口所在地：" name="ZZHUKOL">
+              <Form.Item label="户口所在地：" name="hukouLocation">
                 {
-                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOL} </span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      autoComplete="off"
+                      loadData={loadData}
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'hukouLocation')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOL} </span>
                 }
               </Form.Item>
             </Col>
@@ -459,11 +447,16 @@ const FormData = (props) => {
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="家庭住址：" name="HOME_ADD">
+              <Form.Item label="家庭住址：" name="homeAddress">
                 {
-                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.HOME_ADD} </span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      loadData={loadData}
+                      autoComplete="off"
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'homeAddress')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.HOME_ADD} </span>
                 }
               </Form.Item>
             </Col>
@@ -475,11 +468,16 @@ const FormData = (props) => {
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="邮寄地址：" name="POST_ADD">
+              <Form.Item label="邮寄地址：" name="mailAddress">
                 {
-                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.POST_ADD} </span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      loadData={loadData}
+                      autoComplete="off"
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'mailAddress')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.POST_ADD} </span>
                 }
               </Form.Item>
             </Col>
@@ -518,11 +516,17 @@ const FormData = (props) => {
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="紧急联系人：" name="FAMSAStr">
+              <Form.Item label="紧急联系人：" name="FAMSA">
                 {
-                  isEmergencyContact ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr}</span>
+                  isEmergencyContact ?
+                    <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
+                      {famsaList &&
+                        famsaList.map((item) => (
+                          <Option key={item.FDateNum} value={item.FDateNum}>
+                            {item.FDateName}
+                          </Option>
+                        ))}
+                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr}</span>
                 }
               </Form.Item>
             </Col>
@@ -535,21 +539,31 @@ const FormData = (props) => {
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="出生日期：" name="FGBDT">
+              <Form.Item label="出生日期：" name='FGBDT'>
                 {
-                  isEmergencyContact ? <Input autoComplete="off" placeholder="请输入" /> :
+                  isEmergencyContact ?
+                    <DatePicker
+                      format="YYYY-MM-DD"
+                      // defaultValue={moment(exigenceDetailInfo.FGBDT, 'YYYY-MM-DD')}
+                      style={{ width: 210 }} />
+                    :
                     <span>{exigenceDetailInfo && exigenceDetailInfo.FGBDT}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}></Col>
             <Col span={9}>
-              <Form.Item label="联络人地址：" name="STRAS">
+              <Form.Item label="联络人地址：" name="contactAddress">
                 {
                   isEmergencyContact ?
-                    <Select style={{ width: '210px' }} allowClear>
-                      <Option value="lucy">Lucy</Option>
-                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.STRAS}</span>
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      style={{ width: 210 }}
+                      onChange={(val, data) => cascaderChange(val, data, 'exigenceDetailInfo', 'STRAS')}
+                      loadData={loadData}
+                    />
+                    : <span>{exigenceDetailInfo && exigenceDetailInfo.STRAS}</span>
                 }
               </Form.Item>
             </Col>
@@ -573,24 +587,37 @@ const FormData = (props) => {
           }
         </Form>
       </div>
+      {/* <TableList famsaList={famsaList} addressoptionsList={addressoptionsList} /> */}
+      <TableArea
+        famsaList={famsaList} addressoptionsList={addressoptionsList}
+      ></TableArea>
       {/* 家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息 */}
-      <div>
-        <div className={styles.infoTitle}>
+      {/* <div> */}
+
+      {/* <div className={styles.infoTitle}>
           <p>家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息</p>
           {
             !isFamilyNum ? <p className={styles.isUpdate} onClick={() => updateFormData(4)}>修改</p> : <></>
           }
-        </div>
-        <Table className='tableBackgroundStylesd' rowKey='key' pagination={false} columns={columns} dataSource={dataList} />
-      </div>
-      <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
+        </div> */}
+      {/* <EditableTable /> */}
+      {/* <TableList isFamilyNum /> */}
+      {/* <Table className='tableBackgroundStylesd' rowKey={record => record.id} pagination={false} columns={columns} dataSource={dataList} /> */}
+      {/* </div> */}
+      {/* <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
         <Button style={{ marginRight: '26px' }}>
           取消
               </Button>
+        {
+          isFamilyNum ?
+            <Button style={{ marginRight: '26px' }} onClick={createRow}>
+              增加
+              </Button> : <></>
+        }
         <Button type="primary" onClick={() => familyNumSubmit()}>
           保存
               </Button>
-      </div>
+      </div> */}
     </div >
   )
 }

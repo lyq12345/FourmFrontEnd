@@ -8,7 +8,7 @@ export const GetEmpInfo = async (data) =>
   });
 // 获取个人信息
 export const getPernrInfo = async (data) =>
-  request('/default/getPernrInfo', {
+  request('/Default/getPernrInfo', {
     method: 'POST',
     data,
   });
