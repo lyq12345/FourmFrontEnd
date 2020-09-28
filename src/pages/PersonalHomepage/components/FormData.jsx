@@ -4,12 +4,13 @@ import styles from './styles.less'
 import {
   GetEmpInfo, getPernrInfo,
   EditEmpInfo, updatePernrInfo, getFamilyInfo,
-  addFamilyInfo, updateFamilyInfo
+  editFamilyInfo
 } from '@/api/personalHomepage'
 import { listCityInfosByParentId } from '@/api/public'
 import { DeleteOutlined } from '@ant-design/icons';
 import TableArea from './TableArea'
 import moment from 'moment'
+import { getCommonRules } from '@/constants/rules';
 
 const FormData = (props) => {
 
@@ -29,11 +30,15 @@ const FormData = (props) => {
   const [famsaList, setFamsaList] = useState([]);
   const [stateList, setStateList] = useState([]);
   const [addressoptionsList, setAddressoptionsList] = useState([]);
+  const [tableList, setTableList] = useState([]);
+  const [loadings, setLoadings] = useState([]);
+
 
 
 
   const { Option } = Select;
   useEffect(() => {
+    // getEmpInfodata()
     info()
   }, [])
   const formItemLayout = {
@@ -79,8 +84,14 @@ const FormData = (props) => {
     values.ZZHUKOL = values.ZZHUKOL + values.ZZHUKOL_DETAIL
     values.HOME_ADD = values.HOME_ADD + values.HOME_ADD_DETAIL
     values.POST_ADD = values.POST_ADD + values.POST_ADD_DETAIL
-    values.PERNR = 127350
-    updatePernrInfo(values).then(res => {
+    values.PERNR = detailInfo.FID
+    let loadingList = [...loadings]
+    loadingList[1] = true
+    setLoadings(loadingList)
+    updatePernrInfo({ data: JSON.stringify(values) }).then(res => {
+      let loadingList = [...loadings]
+      loadingList[1] = true
+      setLoadings(loadingList)
       if (res.success) {
         message.success('操作成功')
         // const creatData = saveSucAssignment(values, personageDetailInfo)
@@ -91,12 +102,23 @@ const FormData = (props) => {
   }
   // 联系方式
   const contactWaySubmit = (values) => {
-    values.FCompanName = detailInfo.FCompanName
+    values.FItemNumber = detailInfo.FItemNumber
+    values.FID = detailInfo.FID
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    if (!/^1[3456789]\d{9}$/.test(values.FMobiePhone)) {
+      message.error('手机号码格式不正确')
+      return false
+    }
+    let loadingList = [...loadings]
+    loadingList[0] = true
+    setLoadings(loadingList)
     EditEmpInfo(values).then(res => {
+      let loadingList = [...loadings]
+      loadingList[0] = false
+      setLoadings(loadingList)
       if (res.success) {
         message.success('操作成功')
         const creatData = saveSucAssignment(values, detailInfo)
@@ -105,6 +127,7 @@ const FormData = (props) => {
       }
     })
   }
+  // 对象赋值
   const saveSucAssignment = (val, info) => {
     Object.keys(info).map(function (i) {
       Object.keys(val).map(function (v) {
@@ -115,6 +138,7 @@ const FormData = (props) => {
     })
     return info
   }
+  // 保存对象中value是否有值
   const isObjEmpty = (obj) => {
     let flag = true;
     Object.keys(obj).map(function (i) {
@@ -125,34 +149,38 @@ const FormData = (props) => {
     })
     return flag
   }
-  const info = () => {
-    GetEmpInfo(JSON.stringify({ userId: 127350 })).then(res => {
+  const info = async () => {
+    // 获取基本信息
+    GetEmpInfo({ userId: 'jjwang17' }).then(res => {
       if (res.success) {
         setDetailInfo(res.EmpInfo)
       }
     })
-    getPernrInfo({ sapId: 127350 }).then(res => {
-      if (res.success) {
-        personageInfoForm.setFieldsValue(res.pernrInfo);
-        setPersonageDetailInfo(res.pernrInfo)
-        setPcodeList(res.pcodeList)
-        setZzhukotypeList(res.zzhukotypeList)
-        setFamstList(res.famstList)
-        setFamsaList(res.famsaList)
-      }
-    })
-    getFamilyInfo({ sapId: 127350 }).then(res => {
-      if (res.success) {
-        setExigenceDetailInfo(res.exigence)
-        console.log(moment(res.exigence.FGBDT, 'YYYY-MM-DD'))
-        let date = {
-          FGBDT: moment(res.exigence.FGBDT, 'YYYY-MM-DD')
+    setTimeout(() => {
+      getPernrInfo({ sapId: 127350 }).then(res => {
+        if (res.success) {
+          personageInfoForm.setFieldsValue(res.pernrInfo);
+          setPersonageDetailInfo(res.pernrInfo)
+          setPcodeList(res.pcodeList)
+          setZzhukotypeList(res.zzhukotypeList)
+          setFamstList(res.famstList)
+          setFamsaList(res.famsaList)
         }
-        let data = { ...res.exigence, ...date }
-        emergencyContactForm.setFieldsValue(data)
-        // setDataList(res.familyInfo)
-      }
-    })
+      })
+      // 获取紧急联系人/家庭
+      getFamilyInfo({ sapId: 127350 }).then(res => {
+        if (res.success && res.exigence) {
+          let tempData = { ...res.exigence, FGBDT: moment(res.exigence.FGBDT) }
+          setExigenceDetailInfo(tempData)
+          emergencyContactForm.setFieldsValue(res.exigence)
+        }
+        if (res.success && res.familyInfo) {
+          setTableList(res.familyInfo)
+        }
+      })
+    }, 0)
+
+    // 或者省级联
     listCityInfosByParentId({ parentId: 100000 }).then(res => {
       res.data.map(item => {
         item.isLeaf = false
@@ -160,34 +188,40 @@ const FormData = (props) => {
         return item
       })
       setAddressoptionsList(res.data)
-      // setAddressoptionsList(JSON.parse(JSON.stringify(res.data).replace('children: []', 'children: null')))
     })
   }
 
-  // 紧急联系人
+  // 紧急联系人保存
   const emergencyContactSubmit = (values) => {
-    values.PERNR = '11'
+    values.PERNR = detailInfo.FID
     values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
     values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    if (!/^1[3456789]\d{9}$/.test(values.TELNR)) {
+      message.error('手机号码格式不正确')
+      return false
+    }
     let data = []
     data.push(values)
-    // const creatData = saveSucAssignment(data[0], exigenceDetailInfo)
-    // setExigenceDetailInfo(data[0])
-    // debugger
-    // setIsEmergencyContact(false)
-    addFamilyInfo(data).then(res => {
+    let loadingList = [...loadings]
+    loadingList[2] = true
+    setLoadings(loadingList)
+    editFamilyInfo({ data: JSON.stringify(data) }).then(res => {
+      let loadingList = [...loadings]
+      loadingList[2] = true
+      setLoadings(loadingList)
       if (res.success) {
         const creatData = saveSucAssignment(values, exigenceDetailInfo)
         setExigenceDetailInfo(creatData)
+        message.success('操作成功')
         setIsEmergencyContact(false)
       }
     })
   }
-  // 修改
+  // 点击修改按钮修改状态
   const updateFormData = (val) => {
     switch (val) {
       case 1:
@@ -207,7 +241,13 @@ const FormData = (props) => {
         setIsPersonageInfo(true)
         break;
       case 3:
-        emergencyContactForm.setFieldsValue(exigenceDetailInfo)
+        let tempData = { ...exigenceDetailInfo, FGBDT: moment(exigenceDetailInfo.FGBDT) }
+        setExigenceDetailInfo(tempData)
+        emergencyContactForm.setFieldsValue(tempData)
+        emergencyContactForm.setFieldsValue({
+          contactAddress: [],
+          STRAS_DETAIL_ADD: '',
+        });
         setIsEmergencyContact(true)
         break;
       case 4:
@@ -255,6 +295,16 @@ const FormData = (props) => {
       setPersonageDetailInfo(personageDetail)
     }
   }
+
+  let birthdayString = ''
+  if (exigenceDetailInfo && exigenceDetailInfo.FGBDT) {
+    if (typeof exigenceDetailInfo.FGBDT === 'string') {
+      birthdayString = exigenceDetailInfo.FGBDT
+    } else {
+      birthdayString = exigenceDetailInfo.FGBDT.format('YYYY-MM-DD')
+    }
+  }
+
   return (
     <div className={styles.homePageForm}>
       {/* 基本信息 */}
@@ -293,7 +343,7 @@ const FormData = (props) => {
             </Col>
             <Col span={16}>
               <Form.Item label="司龄时间" name="marketPersonAccount">
-                <span>{detailInfo && detailInfo.FEnterGroupDate}</span>
+                <span>{detailInfo && detailInfo.FEnterGroup}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
@@ -332,7 +382,9 @@ const FormData = (props) => {
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="手机号码" name="FMobiePhone">
+              <Form.Item
+                label="手机号码"
+                name="FMobiePhone">
                 {
                   isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
                     <span>{detailInfo && detailInfo.FMobiePhone}</span>
@@ -353,7 +405,7 @@ const FormData = (props) => {
               <Button style={{ marginRight: '26px' }} onClick={() => setIsContactInfo(!isContactInfo)}>
                 取消
               </Button>
-              <Button type="primary" htmlType="contactWaySubmit">
+              <Button type="primary" loading={loadings[0]} htmlType="contactWaySubmit">
                 保存
               </Button>
             </div> : <></>
@@ -365,7 +417,7 @@ const FormData = (props) => {
         <div className={styles.infoTitle}>
           <p>个人信息</p>
           {
-            !isPersonageInfo ? <p className={styles.isUpdate} onClick={() => updateFormData(2)}>修改</p> : <></>
+            !isPersonageInfo ? <p className={styles.isUpdate} style={{ cursor: 'pointer' }} onClick={() => updateFormData(2)}>修改</p> : <></>
           }
         </div>
         <Form
@@ -494,7 +546,7 @@ const FormData = (props) => {
               <Button style={{ marginRight: '26px' }} onClick={() => setIsPersonageInfo(!isPersonageInfo)}>
                 取消
                   </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" loading={loadings[1]} htmlType="submit">
                 保存
                   </Button>
             </div> : <></>
@@ -513,6 +565,9 @@ const FormData = (props) => {
           {...formItemLayout}
           form={emergencyContactForm}
           onFinish={emergencyContactSubmit}
+          initialValues={{
+            FGBDT: exigenceDetailInfo.FGBDT
+          }}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
@@ -543,11 +598,10 @@ const FormData = (props) => {
                 {
                   isEmergencyContact ?
                     <DatePicker
-                      format="YYYY-MM-DD"
                       // defaultValue={moment(exigenceDetailInfo.FGBDT, 'YYYY-MM-DD')}
                       style={{ width: 210 }} />
                     :
-                    <span>{exigenceDetailInfo && exigenceDetailInfo.FGBDT}</span>
+                    <span>{birthdayString}</span>
                 }
               </Form.Item>
             </Col>
@@ -580,44 +634,22 @@ const FormData = (props) => {
               <Button style={{ marginRight: '26px' }} onClick={() => setIsEmergencyContact(!isEmergencyContact)}>
                 取消
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" loading={loadings[2]} htmlType="submit">
                 保存
               </Button>
             </div> : <></>
           }
         </Form>
       </div>
-      {/* <TableList famsaList={famsaList} addressoptionsList={addressoptionsList} /> */}
-      <TableArea
-        famsaList={famsaList} addressoptionsList={addressoptionsList}
-      ></TableArea>
-      {/* 家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息 */}
-      {/* <div> */}
+      {
+        detailInfo && detailInfo.FID ?
+          <TableArea
+            famsaList={famsaList} addressoptionsList={addressoptionsList}
+            tableList={tableList}
+            FID={detailInfo.FID}
+          ></TableArea> : <></>
+      }
 
-      {/* <div className={styles.infoTitle}>
-          <p>家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息</p>
-          {
-            !isFamilyNum ? <p className={styles.isUpdate} onClick={() => updateFormData(4)}>修改</p> : <></>
-          }
-        </div> */}
-      {/* <EditableTable /> */}
-      {/* <TableList isFamilyNum /> */}
-      {/* <Table className='tableBackgroundStylesd' rowKey={record => record.id} pagination={false} columns={columns} dataSource={dataList} /> */}
-      {/* </div> */}
-      {/* <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
-        <Button style={{ marginRight: '26px' }}>
-          取消
-              </Button>
-        {
-          isFamilyNum ?
-            <Button style={{ marginRight: '26px' }} onClick={createRow}>
-              增加
-              </Button> : <></>
-        }
-        <Button type="primary" onClick={() => familyNumSubmit()}>
-          保存
-              </Button>
-      </div> */}
     </div >
   )
 }

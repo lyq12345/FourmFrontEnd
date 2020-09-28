@@ -2,9 +2,9 @@ import request from '@/utils/request';
 
 // 获取基本信息
 export const GetEmpInfo = async (data) =>
-  request('/default/GetEmpInfo', {
-    method: 'POST',
-    data,
+  request(`/default/GetEmpInfo`, {
+    method: 'get',
+    params: data,
   });
 // 获取个人信息
 export const getPernrInfo = async (data) =>
@@ -16,18 +16,18 @@ export const getPernrInfo = async (data) =>
 // 修改联系方式
 export const EditEmpInfo = async (data) =>
   request('/default/EditEmpInfo', {
-    method: 'POST',
-    data,
+    method: 'get',
+    params: data,
   });
 
 // 修改个人信息
 export const updatePernrInfo = async (data) =>
-  request('/default/updatePernrInfo', {
-    method: 'POST',
-    data,
+  request(`/default/updatePernrInfo`, {
+    method: 'get',
+    params: data,
   });
 
-// 修改个人信息
+// 获取家庭信息
 export const getFamilyInfo = async (data) =>
   request('/default/getFamilyInfo', {
     method: 'POST',
@@ -53,4 +53,11 @@ export const getMyRank = async (data) =>
     method: 'POST',
     data,
   });
+// 编辑紧急联络人和家庭成员
+export const editFamilyInfo = async (data) =>
+  request('/default/editFamilyInfo', {
+    method: 'get',
+    params: data,
+  });
+
 

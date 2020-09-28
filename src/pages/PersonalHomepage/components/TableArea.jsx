@@ -6,23 +6,35 @@ import {
 } from 'antd';
 import styles from './styles.less'
 import { listCityInfosByParentId } from '@/api/public'
-import { getFamilyInfo } from '@/api/personalHomepage'
+import { getFamilyInfo, editFamilyInfo } from '@/api/personalHomepage'
 import { DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import moment from 'moment'
+import { getCommonRules } from '@/constants/rules';
 
 const TableArea = (props) => {
   const { Option } = Select;
   const [dataList, setDataList] = useState([
     {
-      FAMSAStr: '',
+      PERNR: '',
+      FAMSA: '',
       FANAM: '',
       TELNR: '',
-      FGBDT: '',
+      LAND1: '',
+      STATE: '',
+      CITY1: '',
+      DISTR: '',
       STRAS: '',
+      FASEX: '1',
+      FGBDT: '',
+      Type: 0,
+      key: 0
     }
   ]);
+  // const [tableList, setTableList] = useState([]);
   const [isFamilyNum, setFamilyNum] = useState(false)
+  const [btnLoadding, setBtnLoadding] = useState(false);
   const [addressoptionsList, setAddressoptionsList] = useState([]);
-  let { famsaList } = props
+  let { famsaList, tableList, FID } = props
   useEffect(() => {
     console.log(props)
     listCityInfosByParentId({ parentId: 100000 }).then(res => {
@@ -33,9 +45,10 @@ const TableArea = (props) => {
       })
       setAddressoptionsList(res.data)
     })
-    getFamilyInfo({ sapId: 127350 }).then(res => {
+    getFamilyInfo({ sapId: FID }).then(res => {
       if (res.success) {
-        setDataList(res.familyInfo)
+        res.familyInfo.map((item, index) => { item.key = index })
+        setDataList([...res.familyInfo])
       }
     })
   }, [])
@@ -86,29 +99,25 @@ const TableArea = (props) => {
     })
   };
   // 级联change
-  const cascaderChange = (value, selectedOptions, variables, val) => {
-    // let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
-    // if (variables == 'exigenceDetailInfo') {
-    //   let exigenceDetail = exigenceDetailInfo
-    //   exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
-    //   setExigenceDetailInfo(exigenceDetail)
-    // } else {
-    //   let personageDetail = personageDetailInfo
-    //   personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
-    //   personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
-    //   personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
-    //   setPersonageDetailInfo(personageDetail)
-    // }
+  const cascaderChange = (value, selectedOptions, record, index, dataName) => {
+    let tableArr = [...dataList]
+    let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
+    tableArr[index][dataName] = addressDeatil.replace(/,/g, '')
+    tableArr[index].STRAS = record.DETAIL_STRAS ? tableArr[index][dataName] + record.DETAIL_STRAS : ''
+    setDataList(tableArr)
   }
   // 选择框change
-  const assignmentChange = (value, name, index, dataName, type) => {
+  const assignmentChange = (value, record, index, dataName, type) => {
+    let tableArr = [...dataList]
     let val = ''
     if (type == 'input') {
-      val = value.nativeEvent.data
+      val = value.currentTarget.defaultValue
+      if (dataName === 'DETAIL_STRAS') {
+        tableArr[index].STRAS = record.ADDRESS ? record.ADDRESS + val : ''
+      }
     } else {
       val = value
     }
-    let tableArr = [...dataList]
     tableArr[index][dataName] = val
     setDataList(tableArr)
   }
@@ -120,7 +129,7 @@ const TableArea = (props) => {
       }}
       showSearch
       style={{ width: 136 }}
-      value={record.FAMSA}
+      defaultValue={record.FAMSA || null}
       placeholder="请选择"
     >
       {famsaList &&
@@ -133,10 +142,10 @@ const TableArea = (props) => {
   );
   const getInput = (text, record, index, dataName, styleNum) => (
     <Input
-      onChange={(value) => { assignmentChange(value, record, index, dataName, 'input') }}
+      onBlur={(value) => { assignmentChange(value, record, index, dataName, 'input') }}
       style={{ width: styleNum ? 125 : 136, marginLeft: styleNum ? '4px' : '0', }}
       autoComplete="off"
-      value={dataName == 'STRAS' ? '' : text}
+      defaultValue={dataName == 'DETAIL_STRAS' ? '' : text}
       placeholder="请输入" />
   );
   // 删除行
@@ -157,14 +166,14 @@ const TableArea = (props) => {
   const columns = [
     {
       title: '与本人关系',
-      dataIndex: 'FAMSAStr',
-      key: 'FAMSAStr',
+      dataIndex: 'FAMSA',
+      key: 'FAMSA',
       width: 136,
       render: (text, record, index, dataIndex) => {
         return (
           <div>
             {
-              isFamilyNum ? getSelect(text, record, index, 'FAMSAStr') : <span>{text}</span>
+              isFamilyNum ? getSelect(text, record, index, 'FAMSA') : <span>{record.FAMSAStr}</span>
             }
           </div>
         )
@@ -211,6 +220,7 @@ const TableArea = (props) => {
             {
               isFamilyNum ? <DatePicker
                 onChange={(value, data) => { assignmentChange(data, record, index, 'FGBDT', 'DatePicker') }}
+                defaultValue={text ? moment(text) : null}
                 format="YYYY-MM-DD"
                 style={{ width: 136 }} /> : <span>{text}</span>
             }
@@ -220,8 +230,8 @@ const TableArea = (props) => {
     },
     {
       title: '地址',
-      key: 'STRAS',
-      dataIndex: 'STRAS',
+      key: 'ADDRESS',
+      dataIndex: 'ADDRESS',
       width: 500,
       render: (text, record, index) => {
         return (
@@ -230,58 +240,135 @@ const TableArea = (props) => {
               isFamilyNum ?
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   {
-                    // getSelect(text, record, index)
                     <Cascader
                       fieldNames={{ label: 'name', value: 'id' }}
                       options={addressoptionsList}
                       autoComplete="off"
                       loadData={loadData}
                       style={{ width: 136 }}
-                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'hukouLocation')}
+                      onChange={(val, data) => cascaderChange(val, data, record, index, 'ADDRESS')}
                     />
                   }
                   {
-                    getInput(text, record, index, 'STRAS', 125)
+                    getInput(text, record, index, 'DETAIL_STRAS', 125)
                   }
                   <span style={{ marginLeft: '5px', display: 'flex', alignItems: 'flex-end', cursor: 'pointer' }}>
                     {
-                      record.OBJPS ? <></> :
+                      record.Type === 1 ? <></> :
                         <DeleteOutlined onClick={() => removeRow(index)} />
                     }
                   </span>
 
 
                 </div>
-                : <span>{text}</span>
+                : <span>{record.STATE}{record.CITY1}{record.DISTR}{record.STRAS}</span>
             }
           </div>
         )
       },
     },
   ];
-  const familyNumSubmit = () => {
-    debugger
-    console.log(dataList)
+  const buildMap = (obj) => {
+    return Object.keys(obj).reduce(
+      (map, key) => map.set(key, obj[key]),
+      new Map()
+    );
+  }
+  const isObjEmptyFamily = (tableArr) => {
+    let filedObj = {
+      TELNR: '',
+      FGBDT: '',
+      FAMSA: '',
+      FANAM: '',
+      STRAS: '',
+      ADDRESS: '',
+      DETAIL_STRAS: '',
+    }
+    let isDifferent = true
+    tableArr.forEach((val, index) => {
+      Object.keys(filedObj).map(function (i) {
+        Object.keys(val).map(function (v) {
+          if ((i === v) && (!tableArr[index][v])) {
+            isDifferent = false
+            return isDifferent
+          }
+        })
+      })
+    });
+    return isDifferent
+  }
+  // 手机号码校验
+  const isChecking = (arr) => {
     let isError = true
-    dataList.forEach(item => {
-      if (!isObjEmpty(item)) {
+    arr.map(item => {
+      if (!/^1[3456789]\d{9}$/.test(item.TELNR)) {
         isError = false
-        return
+        return isError
       }
     })
-    if (!isError) {
+    return isError
+  }
+
+  // 家庭成员提交
+  const familyNumSubmit = () => {
+    const tableArr = [...dataList]
+    let isError = true
+    tableArr.forEach(item => item.PERNR = FID)
+    setDataList(tableArr)
+    if (!isObjEmptyFamily(tableArr)) {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    if (!isChecking(tableArr)) {
+      message.error('手机号码格式不正确')
+      return false
+    }
+    setBtnLoadding(true)
+    editFamilyInfo({ data: JSON.stringify(tableArr) }).then(res => {
+      setBtnLoadding(false)
+      if (res.success) {
+        const arrList = [...dataList]
+        message.success('操作成功')
+        arrList.forEach(item => {
+          if (item.FAMSA) {
+            const famst = famsaList.find(v => v.FDateNum === item.FAMSA)
+            item.FAMSAStr = famst.FDateName
+          }
+          item.Type = 1
+        })
+        // let newObj = {}
+        // let newArr = [];
+        // arrList.forEach(function (item, i) {
+        //   for (var key in item) {
+        //     if (key != 'id') {
+        //       newObj[key] = item[key];
+        //     }
+        //   }
+        //   newArr.push(newObj);
+        //   newObj = {};//这步至关重要，每循环一次，都要清空一次，否则拿到的数据总是最后一条
+        // });
+        // console.log(newArr, newObj)
+        setDataList(arrList)
+        setFamilyNum(false)
+      }
+    })
   }
   const createRow = () => {
     let arr = [...dataList]
     arr.push({
-      FAMSAStr: '',
+      PERNR: '',
+      FAMSA: '',
       FANAM: '',
       TELNR: '',
-      FGBDT: '',
+      LAND1: '',
+      STATE: '',
+      CITY1: '',
+      DISTR: '',
       STRAS: '',
+      FASEX: '',
+      FGBDT: '',
+      Type: 0,
+      key: dataList.length + 1
     })
     setDataList(arr)
   }
@@ -296,23 +383,28 @@ const TableArea = (props) => {
       <Table
         rowClassName={() => 'editable-row'}
         className='tableBackgroundStylesd'
-        rowKey={record => record.id}
+        // rowKey={(record, index) => index}
+        rowKey={(record) => record.key}
         pagination={false}
         columns={columns}
         dataSource={dataList} />
       <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
-        <Button style={{ marginRight: '26px' }} onClick={() => setFamilyNum(false)}>
-          取消
-              </Button>
+
         {
           isFamilyNum ?
-            <Button style={{ marginRight: '26px' }} onClick={createRow}>
-              增加
-              </Button> : <></>
-        }
-        <Button type="primary" onClick={() => familyNumSubmit()}>
-          保存
+            <>
+              <Button style={{ marginRight: '26px' }} onClick={() => setFamilyNum(false)}>
+                取消
               </Button>
+              <Button style={{ marginRight: '26px' }} onClick={createRow}>
+                增加
+              </Button>
+              <Button type="primary" loading={btnLoadding} onClick={() => familyNumSubmit()}>
+                保存
+              </Button>
+            </>
+            : <></>
+        }
       </div>
     </div>
   )
