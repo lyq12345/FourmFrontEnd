@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { Card, Carousel, Popover, Badge } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
@@ -16,30 +16,144 @@ import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
 import HWPlayer from "HWPlayer";
 import hwplayerloaded from "hwplayerloaded";
-import { set } from 'lodash';
+// import { set } from 'lodash'
+import Swiper from 'swiper';
 
-// let topVideo = {}
+import Slider from "react-slick";
+
 let video2 = {}
+let mySwiper
+let slickConfig
+
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
   const [carouselCurrent, setCarouselCurrent] = useState(0);
   const [autoplay, setAutoplay] = useState(false);
 
   const [topVideo, setTopVideo] = useState({});
+  const swiperRef = useRef()
 
   useEffect(() => {
+    debugger
+    // console.log(carousel.length - 1)
+    hwplayerloaded(() => {
+      debugger
+      console.log('111111111111111111111111111')
+      let obj = document.querySelector(".slick-slide>div")
+      console.log(obj.firstChild)
+      obj.firstChild.id = 'video-first-0930'
+      obj.firstChild.poster = carousel[0].img
+      obj.firstChild.src = carousel[0].src
+
+      let ele = document.querySelector(".slick-slide>div")
+      ele.lastChild.id = 'video-last-0930'
+      ele.lastChild.poster = carousel[carousel.length - 1].img
+      ele.lastChild.src = carousel[carousel.length - 1].src
+      console.log(carousel[0].src)
+      console.log(carousel[carousel.length - 1].src)
+      // initVideo(obj.firstChild.id)
+      // initVideo(obj.lastChild.id)
+      // const ele = document.querySelector(`#video-3`)
+      // ele && ele.removeAttribute("id")
+      // // ele.id = 'video-last-0930'
+      // ele.poster = carousel[0].img
+      // ele.src = carousel[1].src
+      var options = {
+        poster: carousel[0].img,
+      };
+      // console.log(obj.firstChild.id)
+
+      var player = HWPlayer(obj.firstChild.id, options, function () {
+        console.log('hw loaded')
+        //播放器已经准备好了
+        debugger
+        player.src(carousel[0].src);
+        // "this"指向的是HWPlayer的实例对象player
+        // player.play();
+        // // 使用事件监听
+        player.on('ended', function () {
+          //播放结束了
+          setAutoplay(true)
+        });
+      });
+      var player = HWPlayer(obj.lastChild.id, options, function () {
+        console.log('hw loaded')
+        //播放器已经准备好了
+        debugger
+        player.src(carousel[0].src);
+        // "this"指向的是HWPlayer的实例对象player
+        // player.play();
+        // // 使用事件监听
+        player.on('ended', function () {
+          //播放结束了
+          setAutoplay(true)
+        });
+      });
+    })
+  }, [])
+
+  useEffect(() => {
+
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
     const month = myDate.getMonth() + 1;
     const day = myDate.getDate();
     setYearWeek(getYearWeek(fullYear, month, day));
-    // info()
-    // carousel.map((item, index) => {
-    //   initVideo(index)
-    // })
-    hwplayerloaded(() => { initVideo(0) })
-    // initVideo(0)
+    slickConfig = {
+      dots: false,
+      arrows: false,
+      infinite: true,
+      autoplay: true,
+      autoplaySpeed: 2000,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      // beforeChange: (current, next) => {
+      //   debugger
+      //   console.log(carousel, carousel.length - 1, current)
+      //   if (carousel.length - 1 === current) {
+      //     initVideo(0)
+      //   }
+      // }
+    }
+    // swiperOption()
+    hwplayerloaded(() => {
+      carousel.forEach((_, i) => initVideo(i))
+    })
+    mySwiper = new Swiper('.swiper-container', {
+      loop: true, // 循环模式选项
+      autoplay: true,//等同于以下设置
+    })
   }, []);
+
+  // 初始化回调
+  const initVideo = (index) => {
+    // setAutoplay(false)
+    console.error("initvideo")
+
+    console.error("hwplayerloaded")
+    console.log(carousel[index].img, index)
+    var options = {
+      //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
+      // controls: index ? false : true,
+      // controls: true,
+      poster: carousel[index].img,
+      // sources: carousel[index].src
+    };
+    var player = HWPlayer(`#video-${index}`, options, function () {
+      console.log('hw loaded')
+      //播放器已经准备好了
+      player.src(carousel[index].src);
+      // "this"指向的是HWPlayer的实例对象player
+      // player.play();
+      // // 使用事件监听
+      player.on('ended', function () {
+        //播放结束了
+        setAutoplay(true)
+      });
+    });
+    console.log(autoplay)
+
+  }
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -65,34 +179,7 @@ const Home = (props) => {
   const goPlay = (item, index) => {
     setAutoplay(false)
   }
-  // 初始化回调
-  const initVideo = (index) => {
-    // setAutoplay(false)
-    console.error("initvideo")
 
-    console.error("hwplayerloaded")
-    var options = {
-      //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
-      // controls: index ? false : true,
-      // controls: true,
-      poster: carousel[index].img,
-      sources: carousel[index].src
-    };
-    var player = HWPlayer(`#video-${index}`, options, function () {
-      console.log('hw loaded')
-      //播放器已经准备好了
-      // player.src();
-      // "this"指向的是HWPlayer的实例对象player
-      // player.play();
-      // // 使用事件监听
-      player.on('ended', function () {
-        //播放结束了
-        setAutoplay(true)
-      });
-    });
-    console.log(autoplay)
-
-  }
   const lookMoreHallPeople = (val) => {
     props.history.push({
       pathname: '/hall-people',
@@ -113,6 +200,7 @@ const Home = (props) => {
       pathname: '/hall-people/detail',
     });
   };
+
 
   return (
     <div>
@@ -158,30 +246,23 @@ const Home = (props) => {
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
-              <Carousel autoplay={autoplay} autoplaySpeed={4000} afterChange={carouselFun}>
-                {/* <div className={styles.play}> */}
-                {/* </div> */}
-                {carousel &&
-                  carousel.map((item, index) => (
-                    <div className={styles.carouselContentImg} onClick={() => goPlay(item, index)} key={index}>
-                      <video
-                        id={`video-${index}`}
-                        style={{ width: '487px', height: '278px' }}
-                        playsInline
-                        x5-video-player-type="h5"
-                        x5-playsinline="true"
-                        webkit-playsinline="true"
-                        x5-video-orientation="landscape"
-                        width="487"
-                        // autoPlay
-                        height="278"
-                        className="video-js vjs-default-skin vjs-big-play-centered"
-                      ></video>
-                      {/* <img className={styles.playImg} src={item.img} alt="" /> */}
-                      {/* <img src='https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png' alt="" /> */}
-                    </div>
-                  ))}
-              </Carousel>
+              <Slider {...slickConfig}>{
+                carousel && carousel.map((item, index) => (
+                  <video
+                    id={`video-${index}`}
+                    playsInline
+                    x5-video-player-type="h5"
+                    x5-playsinline="true"
+                    webkit-playsinline="true"
+                    x5-video-orientation="landscape"
+                    width="487"
+                    height="278"
+                    className="video-js vjs-default-skin vjs-big-play-centered"
+                  ></video>
+
+                ))
+              }
+              </Slider>
             </div>
             <div className={styles.rightCarouselContent}>
               {carousel &&
@@ -227,15 +308,15 @@ const Home = (props) => {
       </div >
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          <MyNav />
+          {/* <MyNav />
           <TangGuoBi />
-          <Birthday />
+          <Birthday /> */}
         </div>
         <div className={styles.rightContent}>
-          <MySchedule />
+          {/* <MySchedule />
           <CardComponent />
           <CardComponent />
-          <CardComponent />
+          <CardComponent /> */}
         </div>
       </div>
       {/* <ModelAdvertising /> */}

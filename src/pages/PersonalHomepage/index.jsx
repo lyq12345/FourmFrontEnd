@@ -14,7 +14,8 @@ import { getMyRank } from '@/api/personalHomepage'
 const PersonalHomepage = (props) => {
   const [personInfo, setPersonInfo] = useState({});
   useEffect(() => {
-    getMyRank({ personCode: '111' }).then(res => {
+    debugger
+    getMyRank({ userId: '111' }).then(res => {
       if (res.success) {
         setPersonInfo(res.data[0])
       }

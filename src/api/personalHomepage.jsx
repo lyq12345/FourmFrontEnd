@@ -47,11 +47,11 @@ export const updateFamilyInfo = async (data) =>
     method: 'POST',
     data,
   });
-// 查询员工的总堂果币和在本公司中积分排名
+// 查询员工的堂果币信息
 export const getMyRank = async (data) =>
-  request('/coinRank/getMyRank', {
-    method: 'POST',
-    data,
+  request('/default/getMyRank', {
+    method: 'get',
+    params: data,
   });
 // 编辑紧急联络人和家庭成员
 export const editFamilyInfo = async (data) =>
