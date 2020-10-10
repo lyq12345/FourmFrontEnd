@@ -6,7 +6,7 @@ import birthdayCard from '@/assets/img/birthday-card.png';
 import buttonCardButtom from '@/assets/img/button-card-buttom.png';
 import greetingCardClose from '@/assets/img/greeting-card-close.png';
 const ModelAdvertising = (props) => {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(true)
   useEffect(() => {
     // info()
   }, [])

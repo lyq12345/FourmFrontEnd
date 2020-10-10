@@ -28,6 +28,8 @@ let video2 = {}
 // })
 let slickConfig
 let waterSwiper = {}
+// let player
+let playerMap = {}
 
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
@@ -66,16 +68,21 @@ const Home = (props) => {
           let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
           if (idArr.includes(myId.id)) {
             myId.id = `video-${v}`
-            initVideo(idSub.split('-')[1], `video-${v}`, 'firstCpy')
+            initVideo(idSub.split('-')[1], v, 'firstCpy')
           }
           idArr.push(myId.id)
         }
       }
     })
+    return () => {
+      Object.values(playerMap).map(player => {
+        player.dispose()
+      })
+    }
   }, []);
 
   // 初始化回调
-  const initVideo = (index, id, copy) => {
+  const initVideo = (index, value, copy) => {
     // setAutoplay(false)
     var options = {
       //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
@@ -85,12 +92,15 @@ const Home = (props) => {
       muted: true,
       playbackRates: [],
       controls: true,
-      height: 278
+      height: 278,
+      width: 487,
       // sources: carousel[index].src
     };
     console.log(carousel[index].img)
-    var player = HWPlayer(copy ? `#${id}` : `#video-${index}`, options, function () {
-      console.log('hw loaded')
+    let id = copy ? value : index
+    playerMap[`player-${id}`] = HWPlayer(`#video-${id}`, options, function () {
+      console.log('hw loaded', carousel[index].src)
+      let player = playerMap[`player-${index}`]
       //播放器已经准备好了
       player.src(carousel[index].src);
       // "this"指向的是HWPlayer的实例对象player
@@ -211,11 +221,6 @@ const Home = (props) => {
                       <div key={index} className={`swiper-slide swiper-slide-${index}`}>
                         <video
                           id={`video-${index}`}
-                          // playsInline
-                          // x5-video-player-type="h5"
-                          // x5-playsinline="true"
-                          // webkit-playsinline="true"
-                          // x5-video-orientation="landscape"
                           width="487"
                           height="278"
                           className="video-js vjs-default-skin vjs-big-play-centered"
