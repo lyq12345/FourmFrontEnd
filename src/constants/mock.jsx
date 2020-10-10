@@ -4,16 +4,6 @@ export const carousel = [
     title: '【每周一的堂里人】',
     content: '利他，不仅仅是顺境下的按部就班，更是…',
     img: 'https://file-cloud.yst.com.cn/website/2020/04/09/4344036bdf6e4293b55b4672c9b75a29.png',
-    // src: [{
-    //   src: 'https://videos.nfsq.com.cn/asset/6762d517cef3560002da059db814e48d/play_video/f014e89edc100ac73d76db3760cada49.m3u8',
-    //   type: 'application/x-mpegURL'
-    // }]
-    src: 'https://videos.nfsq.com.cn/asset/a2290e25e7a1e66e7897336ae6d12c4d/play_video/522fc926a3bacbecfe73ceea735dbf36.m3u8'
-  },
-  {
-    title: '【每周一的堂里人】',
-    content: '利他，不仅仅是顺境下的按部就班，更是…',
-    img: 'https://file-cloud.yst.com.cn/website/2020/04/09/6d09ad7ccba14e19ad324c0ab0f7640a.png',
     src: 'https://videos.nfsq.com.cn/asset/a2290e25e7a1e66e7897336ae6d12c4d/play_video/522fc926a3bacbecfe73ceea735dbf36.m3u8'
   },
   {
@@ -27,10 +17,6 @@ export const carousel = [
     content: '利他，不仅仅是顺境下的按部就班，更是…',
     img: 'https://file-cloud.yst.com.cn/website/2020/04/09/6d09ad7ccba14e19ad324c0ab0f7640a.png',
     src: 'https://videos.nfsq.com.cn/asset/a2290e25e7a1e66e7897336ae6d12c4d/play_video/522fc926a3bacbecfe73ceea735dbf36.m3u8',
-    // src: [{
-
-    //   type: 'application/x-mpegURL'
-    // }]
   },
 ]
 

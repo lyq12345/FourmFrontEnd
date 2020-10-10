@@ -22,8 +22,12 @@ import Swiper from 'swiper';
 import Slider from "react-slick";
 
 let video2 = {}
-let mySwiper
+// let mySwiper = new Swiper('.swiper-container', {
+//   loop: true, // 循环模式选项
+//   autoplay: true,//等同于以下设置
+// })
 let slickConfig
+let waterSwiper = {}
 
 const Home = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
@@ -33,123 +37,78 @@ const Home = (props) => {
   const [topVideo, setTopVideo] = useState({});
   const swiperRef = useRef()
 
-  useEffect(() => {
-    debugger
-    // console.log(carousel.length - 1)
-    hwplayerloaded(() => {
-      debugger
-      console.log('111111111111111111111111111')
-      let obj = document.querySelector(".slick-slide>div")
-      console.log(obj.firstChild)
-      obj.firstChild.id = 'video-first-0930'
-      obj.firstChild.poster = carousel[0].img
-      obj.firstChild.src = carousel[0].src
-
-      let ele = document.querySelector(".slick-slide>div")
-      ele.lastChild.id = 'video-last-0930'
-      ele.lastChild.poster = carousel[carousel.length - 1].img
-      ele.lastChild.src = carousel[carousel.length - 1].src
-      console.log(carousel[0].src)
-      console.log(carousel[carousel.length - 1].src)
-      // initVideo(obj.firstChild.id)
-      // initVideo(obj.lastChild.id)
-      // const ele = document.querySelector(`#video-3`)
-      // ele && ele.removeAttribute("id")
-      // // ele.id = 'video-last-0930'
-      // ele.poster = carousel[0].img
-      // ele.src = carousel[1].src
-      var options = {
-        poster: carousel[0].img,
-      };
-      // console.log(obj.firstChild.id)
-
-      var player = HWPlayer(obj.firstChild.id, options, function () {
-        console.log('hw loaded')
-        //播放器已经准备好了
-        debugger
-        player.src(carousel[0].src);
-        // "this"指向的是HWPlayer的实例对象player
-        // player.play();
-        // // 使用事件监听
-        player.on('ended', function () {
-          //播放结束了
-          setAutoplay(true)
-        });
-      });
-      var player = HWPlayer(obj.lastChild.id, options, function () {
-        console.log('hw loaded')
-        //播放器已经准备好了
-        debugger
-        player.src(carousel[0].src);
-        // "this"指向的是HWPlayer的实例对象player
-        // player.play();
-        // // 使用事件监听
-        player.on('ended', function () {
-          //播放结束了
-          setAutoplay(true)
-        });
-      });
-    })
-  }, [])
 
   useEffect(() => {
-
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
     const month = myDate.getMonth() + 1;
     const day = myDate.getDate();
+    const idArr = []
+    let activeIndex = null
     setYearWeek(getYearWeek(fullYear, month, day));
-    slickConfig = {
-      dots: false,
-      arrows: false,
-      infinite: true,
+    waterSwiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      loop: true,
       autoplay: true,
-      autoplaySpeed: 2000,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-      // beforeChange: (current, next) => {
-      //   debugger
-      //   console.log(carousel, carousel.length - 1, current)
-      //   if (carousel.length - 1 === current) {
-      //     initVideo(0)
-      //   }
-      // }
-    }
-    // swiperOption()
-    hwplayerloaded(() => {
-      carousel.forEach((_, i) => initVideo(i))
+      allowTouchMove: false,//禁止拖动
+      on: {
+        slideChangeTransitionEnd: function () {
+          carouselFun(this.realIndex)
+        }
+      }
     })
-    mySwiper = new Swiper('.swiper-container', {
-      loop: true, // 循环模式选项
-      autoplay: true,//等同于以下设置
+    hwplayerloaded(() => {
+      let dom = document.getElementsByClassName(`swiper-slide`)
+      carousel.forEach((_, i) => initVideo(i))
+      if (dom && dom.length > 1) {
+        for (var v = 0; v < dom.length; v++) {
+          let myId = dom[v].children[0]
+          let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
+          if (idArr.includes(myId.id)) {
+            myId.id = `video-${v}`
+            initVideo(idSub.split('-')[1], `video-${v}`, 'firstCpy')
+          }
+          idArr.push(myId.id)
+        }
+      }
     })
   }, []);
 
   // 初始化回调
-  const initVideo = (index) => {
+  const initVideo = (index, id, copy) => {
     // setAutoplay(false)
-    console.error("initvideo")
-
-    console.error("hwplayerloaded")
-    console.log(carousel[index].img, index)
     var options = {
       //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
       // controls: index ? false : true,
       // controls: true,
       poster: carousel[index].img,
+      muted: true,
+      playbackRates: [],
+      controls: true,
+      height: 278
       // sources: carousel[index].src
     };
-    var player = HWPlayer(`#video-${index}`, options, function () {
+    console.log(carousel[index].img)
+    var player = HWPlayer(copy ? `#${id}` : `#video-${index}`, options, function () {
       console.log('hw loaded')
       //播放器已经准备好了
       player.src(carousel[index].src);
       // "this"指向的是HWPlayer的实例对象player
       // player.play();
       // // 使用事件监听
+      // 开始播放
+      player.on('play', function () {
+        waterSwiper && waterSwiper.autoplay.stop()
+      });
+      // 暂停播放
+      player.on('pause', function () {
+        waterSwiper && waterSwiper.autoplay.start()
+      });
       player.on('ended', function () {
         //播放结束了
-        setAutoplay(true)
+        waterSwiper && waterSwiper.autoplay.start()
       });
+      // player.removeEvent('eventName', myFunc);
     });
     console.log(autoplay)
 
@@ -172,7 +131,6 @@ const Home = (props) => {
     </div>
   );
   const carouselFun = (current) => {
-    initVideo(current)
     setCarouselCurrent(current);
   };
 
@@ -246,23 +204,27 @@ const Home = (props) => {
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
           <div className={styles.leftCarousel}>
             <div className={styles.Carousel}>
-              <Slider {...slickConfig}>{
-                carousel && carousel.map((item, index) => (
-                  <video
-                    id={`video-${index}`}
-                    playsInline
-                    x5-video-player-type="h5"
-                    x5-playsinline="true"
-                    webkit-playsinline="true"
-                    x5-video-orientation="landscape"
-                    width="487"
-                    height="278"
-                    className="video-js vjs-default-skin vjs-big-play-centered"
-                  ></video>
-
-                ))
-              }
-              </Slider>
+              <div className="swiper-container">
+                <div className="swiper-wrapper">
+                  {
+                    carousel && carousel.map((item, index) => (
+                      <div key={index} className={`swiper-slide swiper-slide-${index}`}>
+                        <video
+                          id={`video-${index}`}
+                          // playsInline
+                          // x5-video-player-type="h5"
+                          // x5-playsinline="true"
+                          // webkit-playsinline="true"
+                          // x5-video-orientation="landscape"
+                          width="487"
+                          height="278"
+                          className="video-js vjs-default-skin vjs-big-play-centered"
+                        ></video>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
             </div>
             <div className={styles.rightCarouselContent}>
               {carousel &&
