@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { Card, Carousel, Popover, Badge } from 'antd';
+import { Card, Carousel, Popover, Badge, Spin } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
@@ -38,6 +38,7 @@ const Home = (props) => {
 
   const [topVideo, setTopVideo] = useState({});
   const swiperRef = useRef()
+  const [spinning, setSpinning] = useState(true)
 
 
   useEffect(() => {
@@ -48,18 +49,8 @@ const Home = (props) => {
     const idArr = []
     let activeIndex = null
     setYearWeek(getYearWeek(fullYear, month, day));
-    waterSwiper = new Swiper('.swiper-container', {
-      direction: 'horizontal',
-      loop: true,
-      autoplay: true,
-      allowTouchMove: false,//禁止拖动
-      on: {
-        slideChangeTransitionEnd: function () {
-          carouselFun(this.realIndex)
-        }
-      }
-    })
     hwplayerloaded(() => {
+      setSpinning(false)
       let dom = document.getElementsByClassName(`swiper-slide`)
       carousel.forEach((_, i) => initVideo(i))
       if (dom && dom.length > 1) {
@@ -71,6 +62,17 @@ const Home = (props) => {
             initVideo(idSub.split('-')[1], v, 'firstCpy')
           }
           idArr.push(myId.id)
+        }
+      }
+    })
+    waterSwiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      loop: true,
+      autoplay: true,
+      allowTouchMove: false,//禁止拖动
+      on: {
+        slideChangeTransitionEnd: function () {
+          carouselFun(this.realIndex)
         }
       }
     })
@@ -212,46 +214,66 @@ const Home = (props) => {
       <div className={styles.somethingHall}>
         <div className={styles.leftContent}>
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
-          <div className={styles.leftCarousel}>
-            <div className={styles.Carousel}>
-              <div className="swiper-container">
-                <div className="swiper-wrapper">
-                  {
-                    carousel && carousel.map((item, index) => (
-                      <div key={index} className={`swiper-slide swiper-slide-${index}`}>
-                        <video
-                          id={`video-${index}`}
-                          width="487"
-                          height="278"
-                          className="video-js vjs-default-skin vjs-big-play-centered"
-                        ></video>
+          {
+            spinning ?
+              <div className={styles.leftCarousel}>
+                <div className={styles.Carousel}>
+                  <div className="swiper-container">
+                    <div className="swiper-wrapper">
+                      {
+                        carousel && carousel.map((item, index) => (
+                          <div key={index} className={`swiper-slide swiper-slide-${index}`}>
+                            <video
+                              id={`video-${index}`}
+                              width="487"
+                              height="278"
+                              className="video-js vjs-default-skin vjs-big-play-centered"
+                            ></video>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div>
+                  {/* <div className="swiper-container">
+                    <div className="swiper-wrapper">
+                      {
+                        carousel && carousel.map((item, index) => (
+                          <div key={index} className={`swiper-slide swiper-slide-${index}`}>
+                            <video
+                              id={`video-${index}`}
+                              width="487"
+                              height="278"
+                              className="video-js vjs-default-skin vjs-big-play-centered"
+                            ></video>
+                          </div>
+                        ))
+                      }
+                    </div>
+                  </div> */}
+                </div>
+                <div className={styles.rightCarouselContent}>
+                  {carousel &&
+                    carousel.map((item, index) => (
+                      <div
+                        onClick={() => detailRouter()}
+                        className={
+                          carouselCurrent === index
+                            ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
+                            : styles.rightcontentText
+                        }
+                        key={index}
+                      >
+                        <p>{item.title}</p>
+                        <p>{item.content}</p>
                       </div>
-                    ))
-                  }
+                    ))}
+                  <div onClick={lookMoreHallSomething} className={styles.lookMore}>
+                    查看更多
+              </div>
                 </div>
               </div>
-            </div>
-            <div className={styles.rightCarouselContent}>
-              {carousel &&
-                carousel.map((item, index) => (
-                  <div
-                    onClick={() => detailRouter()}
-                    className={
-                      carouselCurrent === index
-                        ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
-                        : styles.rightcontentText
-                    }
-                    key={index}
-                  >
-                    <p>{item.title}</p>
-                    <p>{item.content}</p>
-                  </div>
-                ))}
-              <div onClick={lookMoreHallSomething} className={styles.lookMore}>
-                查看更多
-              </div>
-            </div>
-          </div>
+              : <div className={styles.spingLoading}><Spin spinning={spinning} /></div>
+          }
         </div>
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />

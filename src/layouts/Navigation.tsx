@@ -118,10 +118,10 @@ const Navigation = (props) => {
             <div className="footer">
               <div className="left-content">
                 <div className="company-name">
-                  <p className="group-name">
+                  <div className="group-name">
                     <a href="http://www.yst.com.cn" target="_Blank">养生堂集团有限公司</a>
-                  </p>
-                  <p className="son1-company-name">
+                  </div>
+                  <div className="son1-company-name">
                     <a href="http://www.yst.com.cn" target="_Blank">养生堂有限公司</a>
                     <Divider className='link-divider' type="vertical" />
                     <a href="https://www.nongfuspring.com" target="_Blank">农夫山泉股份有限公司</a>
@@ -129,10 +129,10 @@ const Navigation = (props) => {
                     <a href="http://www.ystco.com.cn" target="_Blank">养生堂浙江食品有限公司</a>
                     <Divider className='link-divider' type="vertical" />
                     <a href="http://yoseido.yst.com.cn" target="_Blank">养生堂化妆品有限公司</a>
-                  </p>
-                  <p className="son2-company-name">
+                  </div>
+                  <div className="son2-company-name">
                     <a href='https://www.ystwt.com' target="_Blank">北京万泰生物药业股份有限公司</a>
-                  </p>
+                  </div>
                 </div>
                 {/* <p className="footer-company-logo">
                   <img src="" alt="" />
