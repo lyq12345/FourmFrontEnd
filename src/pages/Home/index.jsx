@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { Card, Carousel, Popover, Badge, Spin } from 'antd';
+import { Card, Carousel, Popover, Badge, Spin, Divider } from 'antd';
 import toDoTasks from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
@@ -179,7 +179,7 @@ const Home = (props) => {
           <span className={styles.name}>
             亲爱的王佳佳，这是你在堂里的第<i className={styles.today}>2020</i>天
           </span>
-          <span>|</span>
+          <Divider className={styles.dividerVertical} type="vertical" />
           <img src={hallWords} alt="" />
           <span className={styles.HallWords}>
             能正确的提出问题就是迈出创新第一步能正确的提出问题就是迈出创最多出创最多三九字

@@ -2,6 +2,14 @@ p {
   padding: 0;
   margin: 0;
 }
+@keyframes UpbelowYY {
+  16.65% { transform: translateY(8px); }
+  33.3% { transform: translateY(-6px); }
+  49.95% { transform: translateY(4px); }
+  66.6% { transform: translateY(-2px); }
+  83.25% { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
 .modelAdvertising {
   width: 100%;
   height: 100%;
@@ -14,15 +22,18 @@ p {
     display: block;
     z-index: 10001;
     position: fixed;
-    right: 0.69vw;
-    bottom: 0.69vw;
+    left: 93.69vw;
+    bottom: 1.69vw;
     img {
-      width: 100%;
-      height: 100%;
+      width: 52px;
+      height: 52px;
     }
     // &:hover {
     //   box-shadow: 5px 5px 5px #888888;
     // }
+  }
+  .footerActivity:hover, .footerActivity:focus, .footerActivity:active {
+    animation: UpbelowYY 1s ease-in-out 1;
   }
 }
 .modalStyle {
