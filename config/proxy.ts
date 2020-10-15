@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-09-09 10:25:39
+ * @LastEditTime: 2020-10-15 14:05:56
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -17,7 +17,7 @@ export default {
   dev: {
     // 当前应用
     '/yst-iwork-alpha-api': {
-      target: 'http://10.213.10.49:8080',
+      target: 'http://10.213.3.39:8081',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },
@@ -27,10 +27,15 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sso-api': '' },
     },
+    '/candy': {
+      target: 'http://10.213.10.49:8080',
+      changeOrigin: true,
+      pathRewrite: { '^/candy-api': '' },
+    }
   },
   test: {
     '/yst-iwork-alpha-api': {
-      target: 'http://10.213.10.49:8080',
+      target: 'http://10.213.3.39:8081',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },
@@ -39,5 +44,10 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/sso-api': '' },
     },
+    '/candy': {
+      target: 'http://10.213.10.49:8080',
+      changeOrigin: true,
+      pathRewrite: { '^/candy-api': '' },
+    }
   },
 };

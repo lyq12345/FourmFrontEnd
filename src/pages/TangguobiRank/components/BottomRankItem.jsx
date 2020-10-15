@@ -11,7 +11,7 @@ const BottomRankItem = (props) => {
     setPersonCode(props.content.personCode);
   };
   return (
-    <div style={{ margin: '10px 0' }} onClick={handleClick}>
+    <div style={{ margin: '10px 0', cursor: 'pointer' }} onClick={handleClick}>
       <span className={styles.bottomOrder}>{props.content.coinOrder}</span>
       <Avatar icon={<img src={props.content.avatar} />} />
       <span className={styles.bottomName}>{props.content.personName}</span>

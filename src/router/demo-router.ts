@@ -21,10 +21,5 @@ module.exports = {
       name: '堂果币排行榜',
       component: './TangguobiRank',
     },
-    {
-      path: '/tangguobi',
-      name: '堂果币主页',
-      component: '@/components/TangGuoBi',
-    },
   ],
 };

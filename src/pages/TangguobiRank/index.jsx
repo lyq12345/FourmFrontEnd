@@ -5,7 +5,7 @@ import RankingList from './components/RankingList';
 import TGBDetail from './components/TGBDetail';
 import { modalContext } from './components/context';
 
-const TangguobiRank = () => {
+const TangguobiRank = (porps) => {
   const bulSetting = {
     display: 'absolute',
     top: '25%',
@@ -34,7 +34,8 @@ const TangguobiRank = () => {
   const showModal = () => {
     setVisible(true);
   };
-
+  const { loaction } = porps;
+  console.log(location);
   return (
     <div>
       <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '6px' }}>
