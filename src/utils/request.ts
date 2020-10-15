@@ -68,12 +68,23 @@ request.interceptors.request.use((url, options) => {
   const Authorization = sessionStorage.getItem('Authorization');
   let URL;
   let headers = null;
-  if (options.prefixType === 'sso') {
-    URL = `${REACT_APP_SSO_API}${url}`;
-  } else {
-    // eslint-disable-next-line no-undef
+  switch(options.prefixType){
+    case 'sso':
+      URL = `${REACT_APP_SSO_API}${url}`;
+      break;
+    case 'candy':
+      URL = `/candy-api${url}`;
+      break;
+    default:
+      // eslint-disable-next-line no-undef
     URL = `${REACT_APP_BASIC_API}${url}`;
   }
+  // if (options.prefixType === 'sso') {
+  //   URL = `${REACT_APP_SSO_API}${url}`;
+  // } else {
+  //   // eslint-disable-next-line no-undef
+  //   URL = `${REACT_APP_BASIC_API}${url}`;
+  // }
   if (Authorization) {
     headers = {
       Authorization,

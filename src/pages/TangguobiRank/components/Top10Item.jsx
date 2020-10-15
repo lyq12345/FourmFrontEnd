@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './style.less';
 import Light from '@/assets/img/light.png';
 import No1 from '@/assets/img/no1.png';
@@ -11,16 +11,23 @@ import No7 from '@/assets/img/no7.png';
 import No8 from '@/assets/img/no8.png';
 import No9 from '@/assets/img/no9.png';
 import No10 from '@/assets/img/no10.png';
+import x2No1 from '@/assets/img/2xno1.png';
 import avatar from '@/assets/img/avatar.jpg';
+import { modalContext } from './context';
 
 const nos = [No1, No2, No3, No4, No5, No6, No7, No8, No9, No10];
 
 const Top10Item = (props) => {
+  const { setVisible, setPersonCode } = useContext(modalContext);
   const handleClick = () => {
-    console.log('click!');
+    setVisible(true);
+    setPersonCode(props.content.personCode);
   };
   return (
-    <div onClick={handleClick} style={{ display: 'inline-block', margin: '0 -13px' }}>
+    <div
+      onClick={handleClick}
+      style={{ display: 'inline-block', margin: '0 -13px', cursor: 'pointer' }}
+    >
       <div
         style={{
           display: 'flex',

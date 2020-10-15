@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Radio, Tabs, Checkbox, Pagination } from 'antd';
+import { Radio, Tabs, Checkbox, Pagination, Spin } from 'antd';
 import RankingContent from './RankingContent';
 import styles from './style.less';
 import { getOrgList, getPersonInfo, coinRankPaging } from '@/api/tangguobi';
@@ -17,6 +17,7 @@ const RankingList = () => {
   const [pageSize, setPageSize] = useState(30);
   const [total, setTotal] = useState(50);
   const [pageIndex, setPageIndex] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const renderTabBar = (props, DefaultTabBar) => {
     ({ style }) => {
@@ -32,6 +33,7 @@ const RankingList = () => {
   };
 
   const queryRankData = (deptNumber, page, pageSize) => {
+    setLoading(true);
     const date = new Date();
     const year = date.getFullYear();
     const lastMonth = date.getMonth();
@@ -39,66 +41,92 @@ const RankingList = () => {
 
     // 年度榜单
     // 前十
-    coinRankPaging({ deptNumber, year, page: 1, pageSize: 10 }).then(({ success, data }) => {
-      if (success) {
-        setYearRank((pre) => {
-          return { ...pre, top10Rank: data.records };
-        });
-      }
-    });
-    // 其他
-    coinRankPaging({ deptNumber, year, page, pageSize, offset: 10 }).then(({ success, data }) => {
-      if (success) {
-        setYearRank((pre) => {
-          return { ...pre, otherRank: data.records };
-        });
-        setTotal(data.total);
-        setPageIndex(page);
-      }
-    });
-    // 上月榜单
-    coinRankPaging({ deptNumber, year, month: lastMonth, page: 1, pageSize: 10 }).then(
-      ({ success, data }) => {
+    let p1 = new Promise(function (resolve, reject) {
+      coinRankPaging({ deptNumber, year, page: 1, pageSize: 10 }).then(({ success, data }) => {
         if (success) {
-          setLastMonthRank((pre) => {
+          setYearRank((pre) => {
             return { ...pre, top10Rank: data.records };
           });
+          resolve();
         }
-      },
-    );
-    coinRankPaging({ deptNumber, year, month: lastMonth, page, pageSize, offset: 10 }).then(
-      ({ success, data }) => {
-        if (success) {
-          setLastMonthRank((pre) => {
-            return { ...pre, otherRank: data.records };
-          });
-          setTotal(data.total);
-          setPageIndex(page);
-        }
-      },
-    );
+      });
+    });
 
-    // 本月榜单
-    coinRankPaging({ deptNumber, year, month: curMonth, page: 1, pageSize: 10 }).then(
-      ({ success, data }) => {
+    // 其他
+    let p2 = new Promise(function (resolve, reject) {
+      coinRankPaging({ deptNumber, year, page, pageSize, offset: 10 }).then(({ success, data }) => {
         if (success) {
-          setCurMonthRank((pre) => {
-            return { ...pre, top10Rank: data.records };
-          });
-        }
-      },
-    );
-    coinRankPaging({ deptNumber, year, month: curMonth, page, pageSize, offset: 10 }).then(
-      ({ success, data }) => {
-        if (success) {
-          setCurMonthRank((pre) => {
+          setYearRank((pre) => {
             return { ...pre, otherRank: data.records };
           });
           setTotal(data.total);
           setPageIndex(page);
+          resolve();
         }
-      },
-    );
+      });
+    });
+
+    let p3 = new Promise(function (resolve, reject) {
+      // 上月榜单
+      coinRankPaging({ deptNumber, year, month: lastMonth, page: 1, pageSize: 10 }).then(
+        ({ success, data }) => {
+          if (success) {
+            setLastMonthRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+            resolve();
+          }
+        },
+      );
+    });
+
+    let p4 = new Promise(function (resolve, reject) {
+      coinRankPaging({ deptNumber, year, month: lastMonth, page, pageSize, offset: 10 }).then(
+        ({ success, data }) => {
+          if (success) {
+            setLastMonthRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(page);
+            resolve();
+          }
+        },
+      );
+    });
+
+    let p5 = new Promise(function (resolve, reject) {
+      // 本月榜单
+      coinRankPaging({ deptNumber, year, month: curMonth, page: 1, pageSize: 10 }).then(
+        ({ success, data }) => {
+          if (success) {
+            setCurMonthRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+            resolve();
+          }
+        },
+      );
+    });
+
+    let p6 = new Promise(function (resolve, reject) {
+      coinRankPaging({ deptNumber, year, month: curMonth, page, pageSize, offset: 10 }).then(
+        ({ success, data }) => {
+          if (success) {
+            setCurMonthRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(page);
+            resolve();
+          }
+        },
+      );
+    });
+
+    Promise.all([p1, p2, p3, p4, p5, p6]).then(() => {
+      setLoading(false);
+    });
   };
 
   // 页码变化回调
@@ -234,19 +262,21 @@ const RankingList = () => {
   return (
     <div>
       <div>
-        <Radio.Group
-          buttonStyle="solid"
-          optionType="button"
-          value={selectedOrg}
-          onChange={handleChange}
-          className={styles.companyRadioGroup}
-        >
-          {orgList.map((item) => (
-            <Radio.Button className={styles.companyRadio} value={item.deptNumber}>
-              {item.deptName}
-            </Radio.Button>
-          ))}
-        </Radio.Group>
+        <Spin spinning={loading}>
+          <Radio.Group
+            buttonStyle="solid"
+            optionType="button"
+            value={selectedOrg}
+            onChange={handleChange}
+            className={styles.companyRadioGroup}
+          >
+            {orgList.map((item) => (
+              <Radio.Button className={styles.companyRadio} value={item.deptNumber}>
+                {item.deptName}
+              </Radio.Button>
+            ))}
+          </Radio.Group>
+        </Spin>
       </div>
       <div className={styles.rankTabContainer}>
         <Tabs

@@ -1,9 +1,10 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import MyNav from './components/MyNav';
 import AllNav from './components/AllNav';
 import { Button, message, Card } from 'antd';
 import styles from './style.less';
 import Hint from '@/assets/img/hint2.png';
+import {GetAllMenu} from '@/api/navigation'
 
 // 创建上下文
 export const tagListContext = createContext(null);
@@ -35,6 +36,10 @@ const NavSetting = () => {
   };
 
   const handleCancel = () => {};
+
+  useEffect(() => {
+    GetAllMenu();
+  }, [])
   return (
     <div>
       <div style={{ backgroundColor: '#fff' }}>
