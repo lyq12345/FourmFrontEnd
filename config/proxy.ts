@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-10-15 14:05:56
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-10-16 14:26:24
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
  */
@@ -20,6 +20,12 @@ export default {
       target: 'http://10.213.3.39:8081',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
+    },
+    '/basic-address': {
+      target: 'http://basiccommon-test.yst.com.cn',
+      // target: 'http://10.213.10.49:8080',
+      changeOrigin: true,
+      pathRewrite: { '^/basic-address': '' },
     },
     // sso接口转发
     '/sso-api': {

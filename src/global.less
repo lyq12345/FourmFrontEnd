@@ -193,16 +193,34 @@ ol {
           font-size: 14px;
           line-height:33px;
           margin-bottom: 11px;
+          >a {
+            color: black;
+          }
+          a:hover {
+            color: red;
+          }
         }
         .son1-company-name {
-          span {
-            margin-right: 11px;
+          cursor: pointer;
+          a {
+            color: black;
+          }
+          a:hover {
+            color: red;
+          }
+          .link-divider {
+            height: 20px;
+            background-color: black;
           }
         }
         .son2-company-name {
+          cursor: pointer;
           margin-top: 14px;
-          span {
-            margin-right: 11px;
+          a {
+            color: black;
+          }
+          a:hover {
+            color: red;
           }
         }
       }
@@ -260,6 +278,15 @@ ol {
   .ant-table-tbody > tr > td {
     border: none;
     padding: 0 12px 12px 0;
+    // &:nth-last-child(3) {
+    //   padding: 0 8px 12px 0;
+    // }
+    // &:nth-last-child(2) {
+    //   padding: 0 0 12px 0;
+    // }
+    // &:last-child {
+    //   padding: 0 0 12px 0;
+    // }
   }
 }
 // 首页弹窗广告修改样式
@@ -298,6 +325,7 @@ ol {
         width: 100px;
         height: 38px;
         margin-right: 30px;
+        cursor: pointer;
       }
     }
     .right-logo {
@@ -310,7 +338,12 @@ ol {
     }
   }
 }
-
+.vjs-control-bar {
+  background-color: #2B333F !important;
+}
+.vjs-poster {
+  background-color: #fff !important;
+}
 .noPopoverTriangle {
   padding-top: 0;
   top: 65px !important;

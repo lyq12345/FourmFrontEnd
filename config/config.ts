@@ -48,6 +48,8 @@ export default defineConfig({
   theme: {
     // ...darkTheme,
     'primary-color': defaultSettings.primaryColor,
+    'modal-mask-bg': defaultSettings.modalMaskBg,
+    'animation-duration-base': '0.8s',
   },
   define: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:
@@ -91,6 +93,8 @@ export default defineConfig({
     basePath: '/',
   },
   externals: {
+    HWPlayer: 'HWPlayer',
+    hwplayerloaded: 'hwplayerloaded',
   },
   proxy: proxy[BUILD_PRODUCTION || 'dev'],
   chainWebpack: webpackPlugin,

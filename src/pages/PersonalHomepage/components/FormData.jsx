@@ -1,16 +1,45 @@
 import React, { useEffect, useState } from 'react'
-import { Form, Input, Button, Row, Col, Cascader, Select, Table, Tag, Space, message } from 'antd';
+import { Form, Input, Button, Row, Col, Cascader, Select, Table, Tag, Space, message, DatePicker } from 'antd';
 import styles from './styles.less'
+import {
+  GetEmpInfo, getPernrInfo,
+  EditEmpInfo, updatePernrInfo, getFamilyInfo,
+  editFamilyInfo
+} from '@/api/personalHomepage'
+import { listCityInfosByParentId } from '@/api/public'
+import { DeleteOutlined } from '@ant-design/icons';
+import TableArea from './TableArea'
+import moment from 'moment'
+import { getCommonRules } from '@/constants/rules';
 
 const FormData = (props) => {
 
-  const [form] = Form.useForm();
-  const [contactInfo, setContactInfo] = useState(false)
-  const [personageInfo, setPersonageInfo] = useState(false)
-  const [emergencyContact, setEmergencyContact] = useState(false)
-  const [familyNum, setFamilyNum] = useState(false)
-  useEffect(() => {
+  const [contactInfoForm] = Form.useForm();
+  const [personageInfoForm] = Form.useForm();
+  const [emergencyContactForm] = Form.useForm();
+  const [isContactInfo, setIsContactInfo] = useState(false)
+  const [isPersonageInfo, setIsPersonageInfo] = useState(false)
+  const [isEmergencyContact, setIsEmergencyContact] = useState(false)
+  const [detailInfo, setDetailInfo] = useState({});
+  const [personageDetailInfo, setPersonageDetailInfo] = useState({});
+  const [exigenceDetailInfo, setExigenceDetailInfo] = useState({});
 
+  const [pcodeList, setPcodeList] = useState([]);
+  const [zzhukotypeList, setZzhukotypeList] = useState([]);
+  const [famstList, setFamstList] = useState([]);
+  const [famsaList, setFamsaList] = useState([]);
+  const [stateList, setStateList] = useState([]);
+  const [addressoptionsList, setAddressoptionsList] = useState([]);
+  const [tableList, setTableList] = useState([]);
+  const [loadings, setLoadings] = useState([]);
+
+
+
+
+  const { Option } = Select;
+  useEffect(() => {
+    // getEmpInfodata()
+    info()
   }, [])
   const formItemLayout = {
     labelCol: { span: 8 },
@@ -19,19 +48,97 @@ const FormData = (props) => {
   const tailLayout = {
     wrapperCol: { offset: 0, span: 16 },
   };
+  // 选择框数据拼装
+  const infoAssemble = (val, values) => {
+    let data = values
+    if (val == 'personalInfoSubmit') {
+      pcodeList.map(item => {
+        if (item.FDateNum == data.PCODE) {
+          data.PCODEStr = item.FDateName
+        }
+      })
+      famstList.map(item => {
+        if (item.FDateNum == data.FAMST) {
+          data.FAMSTStr = item.FDateName
+        }
+      })
+      zzhukotypeList.map(item => {
+        if (item.FDateNum == data.ZZHUKOTYPE) {
+          data.ZZHUKOTYPEStr = item.FDateName
+        }
+      })
+      return data
+    }
+
+  }
   const personalInfoSubmit = (values) => {
+    const item = pcodeList.find(v => v.FDateNum === values.PCODE)
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
+      return false
     }
-    setPersonageInfo(false)
+    values = infoAssemble('personalInfoSubmit', values)
+    values.ZZHUKOL = personageDetailInfo.ZZHUKOL
+    values.HOME_ADD = personageDetailInfo.HOME_ADD
+    values.POST_ADD = personageDetailInfo.POST_ADD
+    values.ZZHUKOL = values.ZZHUKOL + values.ZZHUKOL_DETAIL
+    values.HOME_ADD = values.HOME_ADD + values.HOME_ADD_DETAIL
+    values.POST_ADD = values.POST_ADD + values.POST_ADD_DETAIL
+    values.PERNR = detailInfo.FID
+    let loadingList = [...loadings]
+    loadingList[1] = true
+    setLoadings(loadingList)
+    updatePernrInfo({ data: JSON.stringify(values) }).then(res => {
+      let loadingList = [...loadings]
+      loadingList[1] = true
+      setLoadings(loadingList)
+      if (res.success) {
+        message.success('操作成功')
+        // const creatData = saveSucAssignment(values, personageDetailInfo)
+        setPersonageDetailInfo(values)
+        setIsPersonageInfo(false)
+      }
+    })
   }
   // 联系方式
   const contactWaySubmit = (values) => {
+    values.FItemNumber = detailInfo.FItemNumber
+    values.FID = detailInfo.FID
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
+      return false
     }
-    setContactInfo(false)
+    if (!/^1[3456789]\d{9}$/.test(values.FMobiePhone)) {
+      message.error('手机号码格式不正确')
+      return false
+    }
+    let loadingList = [...loadings]
+    loadingList[0] = true
+    setLoadings(loadingList)
+    EditEmpInfo(values).then(res => {
+      let loadingList = [...loadings]
+      loadingList[0] = false
+      setLoadings(loadingList)
+      if (res.success) {
+        message.success('操作成功')
+        const creatData = saveSucAssignment(values, detailInfo)
+        setDetailInfo(creatData)
+        setIsContactInfo(false)
+      }
+    })
   }
+  // 对象赋值
+  const saveSucAssignment = (val, info) => {
+    Object.keys(info).map(function (i) {
+      Object.keys(val).map(function (v) {
+        if (i === v) {
+          info[i] = val[i]
+        }
+      })
+    })
+    return info
+  }
+  // 保存对象中value是否有值
   const isObjEmpty = (obj) => {
     let flag = true;
     Object.keys(obj).map(function (i) {
@@ -42,116 +149,162 @@ const FormData = (props) => {
     })
     return flag
   }
-  // 个人信息
-  // const onFinish = (form) => {
-  //   debugger
-  //   console.log(form)
-  // }
-  // 紧急联系人
+  const info = async () => {
+    // 获取基本信息
+    GetEmpInfo({ userId: 'jjwang17' }).then(res => {
+      if (res.success) {
+        setDetailInfo(res.EmpInfo)
+      }
+    })
+    setTimeout(() => {
+      getPernrInfo({ sapId: 127350 }).then(res => {
+        if (res.success) {
+          personageInfoForm.setFieldsValue(res.pernrInfo);
+          setPersonageDetailInfo(res.pernrInfo)
+          setPcodeList(res.pcodeList)
+          setZzhukotypeList(res.zzhukotypeList)
+          setFamstList(res.famstList)
+          setFamsaList(res.famsaList)
+        }
+      })
+      // 获取紧急联系人/家庭
+      getFamilyInfo({ sapId: 127350 }).then(res => {
+        if (res.success && res.exigence) {
+          let tempData = { ...res.exigence, FGBDT: moment(res.exigence.FGBDT) }
+          setExigenceDetailInfo(tempData)
+          emergencyContactForm.setFieldsValue(res.exigence)
+        }
+        if (res.success && res.familyInfo) {
+          setTableList(res.familyInfo)
+        }
+      })
+    }, 0)
+
+    // 或者省级联
+    listCityInfosByParentId({ parentId: 100000 }).then(res => {
+      res.data.map(item => {
+        item.isLeaf = false
+        item.children = null
+        return item
+      })
+      setAddressoptionsList(res.data)
+    })
+  }
+
+  // 紧急联系人保存
   const emergencyContactSubmit = (values) => {
+    values.PERNR = detailInfo.FID
+    values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
+    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
+      return false
     }
-    setEmergencyContact(false)
+    if (!/^1[3456789]\d{9}$/.test(values.TELNR)) {
+      message.error('手机号码格式不正确')
+      return false
+    }
+    let data = []
+    data.push(values)
+    let loadingList = [...loadings]
+    loadingList[2] = true
+    setLoadings(loadingList)
+    editFamilyInfo({ data: JSON.stringify(data) }).then(res => {
+      let loadingList = [...loadings]
+      loadingList[2] = true
+      setLoadings(loadingList)
+      if (res.success) {
+        const creatData = saveSucAssignment(values, exigenceDetailInfo)
+        setExigenceDetailInfo(creatData)
+        message.success('操作成功')
+        setIsEmergencyContact(false)
+      }
+    })
   }
-  // 修改
+  // 点击修改按钮修改状态
   const updateFormData = (val) => {
     switch (val) {
       case 1:
-        setContactInfo(true)
+        contactInfoForm.setFieldsValue(detailInfo)
+        setIsContactInfo(true)
         break;
       case 2:
-        setPersonageInfo(true)
+        personageInfoForm.setFieldsValue(personageDetailInfo)
+        personageInfoForm.setFieldsValue({
+          mailAddress: [],
+          hukouLocation: [],
+          homeAddress: [],
+          ZZHUKOL_DETAIL: '',
+          HOME_ADD_DETAIL: '',
+          POST_ADD_DETAIL: '',
+        });
+        setIsPersonageInfo(true)
         break;
       case 3:
-        setEmergencyContact(true)
+        let tempData = { ...exigenceDetailInfo, FGBDT: moment(exigenceDetailInfo.FGBDT) }
+        setExigenceDetailInfo(tempData)
+        emergencyContactForm.setFieldsValue(tempData)
+        emergencyContactForm.setFieldsValue({
+          contactAddress: [],
+          STRAS_DETAIL_ADD: '',
+        });
+        setIsEmergencyContact(true)
         break;
       case 4:
         setFamilyNum(true)
         break;
     }
   }
-  const handleChange = () => { }
-  const getSelect = (text, record, index) => (
-    <Select
-      onChange={value => {
-        handleChange(value, 'repoCode', index);
-      }}
-      showSearch
-      style={{ width: 160 }}
-      value={record.repoCode}
-      placeholder="请选择"
-    >
-      {/* {whoAddress &&
-        whoAddress.map(item => (
-          <Option title={item.repoAddr} key={item.repoCode} value={item.repoCode}>
-            {item.repoAddr}
-          </Option>
-        ))} */}
-    </Select>
-  );
-  const getInput = (text, record, index) => (
-    <Input style={{ width: 160 }} autoComplete="off" placeholder="请输入" />
-  );
-  const columns = [
-    {
-      title: '与本人关系',
-      dataIndex: 'name',
-      key: 'name',
-      width: 160,
-      render: (text, record, index) => getSelect(text, record, index),
-    },
-    {
-      title: '姓名',
-      dataIndex: 'age',
-      key: 'age',
-      width: 160,
-      render: (text, record, index) => getInput(text, record, index),
-    },
-    {
-      title: '联系方式',
-      dataIndex: 'address',
-      key: 'address',
-      width: 160,
-      render: (text, record, index) => getInput(text, record, index),
-    },
-    {
-      title: '出生日期',
-      key: 'tags',
-      dataIndex: 'tags',
-      width: 160,
-      render: (text, record, index) => getSelect(text, record, index),
-    },
-    {
-      title: '地址',
-      key: 'action',
-      width: 160,
-      render: (text, record, index) => getSelect(text, record, index),
-    },
-  ];
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-      tags: ['nice', 'developer'],
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 42,
-      address: 'London No. 1 Lake Park',
-      tags: ['loser'],
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 32,
-      address: 'Sidney No. 1 Lake Park',
-      tags: ['cool', 'teacher'],
-    },
-  ];
+
+  // 级联加载下一级
+  const loadData = selectedOptions => {
+    const targetOption = selectedOptions[selectedOptions.length - 1];
+    targetOption.loading = true;
+
+    listCityInfosByParentId({ parentId: targetOption.id }).then(res => {
+      targetOption.loading = false;
+      if (selectedOptions[selectedOptions.length - 1].level != 3) {
+        res.data.map(item => {
+          item.isLeaf = false
+          item.children = null
+          return item
+        })
+      }
+      if (selectedOptions[selectedOptions.length - 1].level == 3) {
+        res.data.map(item => {
+          item.children = null
+          return item
+        })
+      }
+      targetOption.children = res.data
+      setAddressoptionsList([...addressoptionsList])
+    })
+  };
+  // 级联change
+  const cascaderChange = (value, selectedOptions, variables, val) => {
+    let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
+    if (variables == 'exigenceDetailInfo') {
+      let exigenceDetail = exigenceDetailInfo
+      exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
+      setExigenceDetailInfo(exigenceDetail)
+    } else {
+      let personageDetail = personageDetailInfo
+      personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
+      personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
+      personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
+      setPersonageDetailInfo(personageDetail)
+    }
+  }
+
+  let birthdayString = ''
+  if (exigenceDetailInfo && exigenceDetailInfo.FGBDT) {
+    if (typeof exigenceDetailInfo.FGBDT === 'string') {
+      birthdayString = exigenceDetailInfo.FGBDT
+    } else {
+      birthdayString = exigenceDetailInfo.FGBDT.format('YYYY-MM-DD')
+    }
+  }
+
   return (
     <div className={styles.homePageForm}>
       {/* 基本信息 */}
@@ -160,43 +313,42 @@ const FormData = (props) => {
           基本信息
         </div>
         <Form
-          form={form}
           {...formItemLayout}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={8}>
               <Form.Item label="姓名：" style={{ marginBottom: '17px' }} name="orgId">
-                <span>王佳佳</span>
+                <span>{detailInfo && detailInfo.FItemName}</span>
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label="性别" name="operatorId">
-                <span>女</span>
+                <span>{detailInfo && detailInfo.FSex === 1 ? '男' : '女'}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="工号：" name="operationPersonAccount">
-                <span>127350 </span>
+                <span>{detailInfo && detailInfo.FID} </span>
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label="账号" name="marketPersonAccount">
-                <span>jjwang</span>
+                <span>{detailInfo && detailInfo.FItemNumber}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="部门岗位：" name="operationPersonAccount">
-                <span>产品分析师 </span>
+                <span>{detailInfo && detailInfo.FPositionName} </span>
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label="司龄时间" name="marketPersonAccount">
-                <span>2008.10.10</span>
+                <span>{detailInfo && detailInfo.FEnterGroup}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="职级" name="operationPersonAccount">
-                <span>T3 </span>
+                <span>{detailInfo && detailInfo.FJobLevel}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -207,48 +359,53 @@ const FormData = (props) => {
         <div className={styles.infoTitle}>
           <p>联系方式</p>
           {
-            !contactInfo ? <p className={styles.isUpdate} onClick={() => updateFormData(1)}>修改</p> : <></>
+            !isContactInfo ? <p className={styles.isUpdate} onClick={() => updateFormData(1)}>修改</p> : <></>
           }
         </div>
         <Form
-          form={form}
+          form={contactInfoForm}
           {...formItemLayout}
           onFinish={contactWaySubmit}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="办公电话" name="orgId">
+              <Form.Item label="办公电话" name="FTelePhone">
                 {
-                  contactInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
+                    <span>{detailInfo && detailInfo.FTelePhone}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
-              <Form.Item label="隶属公司" name="operatorId">
-                <span>浙江彩虹鱼科技有限公司</span>
+              <Form.Item label="隶属公司" name="FCompanName">
+                <span>{detailInfo && detailInfo.FCompanName}</span>
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="手机号码" name="operationPersonAccount">
+              <Form.Item
+                label="手机号码"
+                name="FMobiePhone">
                 {
-                  contactInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
+                    <span>{detailInfo && detailInfo.FMobiePhone}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
-              <Form.Item label="办公地址" name="marketPersonAccount">
+              <Form.Item label="办公地址" name="FAdress">
                 {
-                  contactInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
+                    <span>{detailInfo && detailInfo.FAdress}</span>
                 }
               </Form.Item>
             </Col>
           </Row>
           {
-            contactInfo ? <div className={styles.operationBtn}>
-              <Button style={{ marginRight: '26px' }}>
+            isContactInfo ? <div className={styles.operationBtn}>
+              <Button style={{ marginRight: '26px' }} onClick={() => setIsContactInfo(!isContactInfo)}>
                 取消
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" loading={loadings[0]} htmlType="contactWaySubmit">
                 保存
               </Button>
             </div> : <></>
@@ -260,104 +417,136 @@ const FormData = (props) => {
         <div className={styles.infoTitle}>
           <p>个人信息</p>
           {
-            !personageInfo ? <p className={styles.isUpdate} onClick={() => updateFormData(2)}>修改</p> : <></>
+            !isPersonageInfo ? <p className={styles.isUpdate} style={{ cursor: 'pointer' }} onClick={() => updateFormData(2)}>修改</p> : <></>
           }
         </div>
         <Form
-          form={form}
           {...formItemLayout}
+          form={personageInfoForm}
           onFinish={personalInfoSubmit}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="政治面貌：" name="orgId">
+              <Form.Item label="政治面貌：" name="PCODE">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
+                    {pcodeList &&
+                      pcodeList.map((item) => (
+                        <Option key={item.FDateNum} value={item.FDateNum}>
+                          {item.FDateName}
+                        </Option>
+                      ))}
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.PCODEStr} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
-              <Form.Item label="婚姻状况：" name="operatorId">
+              <Form.Item label="婚姻状况：" name="FAMST">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
+                    {famstList &&
+                      famstList.map((item) => (
+                        <Option key={item.FDateNum} value={item.FDateNum}>
+                          {item.FDateName}
+                        </Option>
+                      ))}
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.FAMSTStr} </span>
                 }
+
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="子女数目：" name="marketPersonAccount">
+              <Form.Item label="子女数目：" name="ANZKD">
                 {
-                  personageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isPersonageInfo ? <Input autoComplete="off" placeholder="请输入" /> :
+                    <span>{personageDetailInfo && personageDetailInfo.ANZKD} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
-              <Form.Item label="户口类型：" name="operatorId">
+              <Form.Item label="户口类型：" name="ZZHUKOTYPE">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ? <Select style={{ width: '210px' }} allowClear>
+                    {zzhukotypeList &&
+                      zzhukotypeList.map((item) => (
+                        <Option key={item.FDateNum} value={item.FDateNum}>
+                          {item.FDateName}
+                        </Option>
+                      ))}
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOTYPEStr} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="户口所在地：" name="operationPersonAccount">
+              <Form.Item label="户口所在地：" name="hukouLocation">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      autoComplete="off"
+                      loadData={loadData}
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'hukouLocation')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOL} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={15} style={{ paddingLeft: '0' }}>
-              <Form.Item name="operationPersonAccount" {...tailLayout}>
+              <Form.Item name="ZZHUKOL_DETAIL" {...tailLayout}>
                 {
-                  personageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isPersonageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <></>
                 }
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="家庭住址：" name="marketPersonAccount">
+              <Form.Item label="家庭住址：" name="homeAddress">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      loadData={loadData}
+                      autoComplete="off"
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'homeAddress')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.HOME_ADD} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={15} style={{ paddingLeft: '0' }}>
-              <Form.Item name="operationPersonAccount" {...tailLayout}>
+              <Form.Item name="HOME_ADD_DETAIL" {...tailLayout}>
                 {
-                  personageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isPersonageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <></>
                 }
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="邮寄地址：" name="marketPersonAccount">
+              <Form.Item label="邮寄地址：" name="mailAddress">
                 {
-                  personageInfo ? <Select style={{ width: '210px' }} allowClear>
-                    <Option value="lucy">Lucy</Option>
-                  </Select> : <span>11</span>
+                  isPersonageInfo ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      loadData={loadData}
+                      autoComplete="off"
+                      onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'mailAddress')}
+                    /> : <span>{personageDetailInfo && personageDetailInfo.POST_ADD} </span>
                 }
               </Form.Item>
             </Col>
             <Col span={15} style={{ paddingLeft: '0' }}>
-              <Form.Item name="operationPersonAccount" {...tailLayout}>
+              <Form.Item name="POST_ADD_DETAIL" {...tailLayout}>
                 {
-                  personageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isPersonageInfo ? <Input autoComplete="off" placeholder="请输入" /> : <></>
                 }
               </Form.Item>
             </Col>
           </Row>
           {
-            personageInfo ? <div className={styles.operationBtn}>
-              <Button style={{ marginRight: '26px' }}>
+            isPersonageInfo ? <div className={styles.operationBtn}>
+              <Button style={{ marginRight: '26px' }} onClick={() => setIsPersonageInfo(!isPersonageInfo)}>
                 取消
                   </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" loading={loadings[1]} htmlType="submit">
                 保存
                   </Button>
             </div> : <></>
@@ -369,95 +558,98 @@ const FormData = (props) => {
         <div className={styles.infoTitle}>
           <p>紧急联络人</p>
           {
-            !emergencyContact ? <p className={styles.isUpdate} onClick={() => updateFormData(3)}>修改</p> : <></>
+            !isEmergencyContact ? <p className={styles.isUpdate} onClick={() => updateFormData(3)}>修改</p> : <></>
           }
         </div>
         <Form
-          form={form}
           {...formItemLayout}
+          form={emergencyContactForm}
           onFinish={emergencyContactSubmit}
+          initialValues={{
+            FGBDT: exigenceDetailInfo.FGBDT
+          }}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="紧急联系人：" name="orgId">
+              <Form.Item label="紧急联系人：" name="FAMSA">
                 {
-                  emergencyContact ? <Select
-                    showSearch
-                    placeholder="请输入"
-                    defaultActiveFirstOption={false}
-                    filterOption={false}
-                    allowClear
-                    style={{ width: '210px' }}
-                    showArrow={false}
-                    notFoundContent={null}
-                  >
-                  </Select> : <span>111</span>
+                  isEmergencyContact ?
+                    <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
+                      {famsaList &&
+                        famsaList.map((item) => (
+                          <Option key={item.FDateNum} value={item.FDateNum}>
+                            {item.FDateName}
+                          </Option>
+                        ))}
+                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
-              <Form.Item label="联络人电话：" name="operatorId">
+              <Form.Item label="联络人电话：" name="TELNR">
                 {
-                  emergencyContact ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isEmergencyContact ? <Input autoComplete="off" placeholder="请输入" /> :
+                    <span>{exigenceDetailInfo && exigenceDetailInfo.TELNR}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={9}>
-              <Form.Item label="出生日期：" name="marketPersonAccount">
+              <Form.Item label="出生日期：" name='FGBDT'>
                 {
-                  emergencyContact ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isEmergencyContact ?
+                    <DatePicker
+                      // defaultValue={moment(exigenceDetailInfo.FGBDT, 'YYYY-MM-DD')}
+                      style={{ width: 210 }} />
+                    :
+                    <span>{birthdayString}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}></Col>
             <Col span={9}>
-              <Form.Item label="联络人地址：" name="operationPersonAccount">
+              <Form.Item label="联络人地址：" name="contactAddress">
                 {
-                  emergencyContact ?
-                    <Select style={{ width: '210px' }} allowClear>
-                      <Option value="lucy">Lucy</Option>
-                    </Select> : <span>11</span>
+                  isEmergencyContact ?
+                    <Cascader
+                      fieldNames={{ label: 'name', value: 'id' }}
+                      options={addressoptionsList}
+                      style={{ width: 210 }}
+                      onChange={(val, data) => cascaderChange(val, data, 'exigenceDetailInfo', 'STRAS')}
+                      loadData={loadData}
+                    />
+                    : <span>{exigenceDetailInfo && exigenceDetailInfo.STRAS}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15} style={{ paddingLeft: '0' }}>
-              <Form.Item name="operationPersonAccount" {...tailLayout}>
+              <Form.Item name="STRAS_DETAIL_ADD" {...tailLayout}>
                 {
-                  emergencyContact ? <Input autoComplete="off" placeholder="请输入" /> : <span>11</span>
+                  isEmergencyContact ? <Input autoComplete="off" placeholder="请输入" /> : <></>
                 }
               </Form.Item>
             </Col>
           </Row>
           {
-            emergencyContact ? <div className={styles.operationBtn}>
-              <Button style={{ marginRight: '26px' }}>
+            isEmergencyContact ? <div className={styles.operationBtn}>
+              <Button style={{ marginRight: '26px' }} onClick={() => setIsEmergencyContact(!isEmergencyContact)}>
                 取消
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" loading={loadings[2]} htmlType="submit">
                 保存
               </Button>
             </div> : <></>
           }
         </Form>
       </div>
-      {/* 家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息 */}
-      <div>
-        <div className={styles.infoTitle}>
-          <p>家庭成员 请填写父母、配偶、子女、兄弟姐妹的具体信息</p>
-          {
-            familyNum ? <p className={styles.isUpdate} onClick={() => updateFormData(4)}>修改</p> : <></>
-          }
-        </div>
-        <Table className='tableBackgroundStylesd' pagination={false} columns={columns} dataSource={data} />
-      </div>
-      <div className={styles.operationBtn} style={{ marginTop: '30px' }}>
-        <Button style={{ marginRight: '26px' }}>
-          取消
-              </Button>
-        <Button type="primary" htmlType="emergencyContactSubmit">
-          保存
-              </Button>
-      </div>
+      {
+        detailInfo && detailInfo.FID ?
+          <TableArea
+            famsaList={famsaList} addressoptionsList={addressoptionsList}
+            tableList={tableList}
+            FID={detailInfo.FID}
+          ></TableArea> : <></>
+      }
+
     </div >
   )
 }

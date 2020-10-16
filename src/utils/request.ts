@@ -26,19 +26,20 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-interface ERROR  {
-  response:{
-    statusText:any,
-    status:any,
-    url:String,
+interface ERROR {
+  response: {
+    statusText: any,
+    status: any,
+    url: String,
   }
 }
-const errorHandler = (error:ERROR) => {
+const errorHandler = (error: ERROR) => {
   const { response } = error;
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
+
 
     if (status === 401) {
       logout();
@@ -68,7 +69,7 @@ request.interceptors.request.use((url, options) => {
   const Authorization = sessionStorage.getItem('Authorization');
   let URL;
   let headers = null;
-  switch(options.prefixType){
+  switch (options.prefixType) {
     case 'sso':
       URL = `${REACT_APP_SSO_API}${url}`;
       break;
@@ -77,7 +78,7 @@ request.interceptors.request.use((url, options) => {
       break;
     default:
       // eslint-disable-next-line no-undef
-    URL = `${REACT_APP_BASIC_API}${url}`;
+      URL = `${REACT_APP_BASIC_API}${url}`;
   }
   // if (options.prefixType === 'sso') {
   //   URL = `${REACT_APP_SSO_API}${url}`;
@@ -93,7 +94,7 @@ request.interceptors.request.use((url, options) => {
   }
   return {
     url: URL,
-    options: { ...options,...headers  },
+    options: { ...options, ...headers },
   };
 });
 

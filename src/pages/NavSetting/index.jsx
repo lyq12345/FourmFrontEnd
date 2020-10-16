@@ -4,7 +4,7 @@ import AllNav from './components/AllNav';
 import { Button, message, Card } from 'antd';
 import styles from './style.less';
 import Hint from '@/assets/img/hint2.png';
-import {GetAllMenu} from '@/api/navigation'
+import { GetAllMenu } from '@/api/navigation'
 
 // 创建上下文
 export const tagListContext = createContext(null);
@@ -35,7 +35,7 @@ const NavSetting = () => {
     setClicked(true);
   };
 
-  const handleCancel = () => {};
+  const handleCancel = () => { };
 
   useEffect(() => {
     GetAllMenu();

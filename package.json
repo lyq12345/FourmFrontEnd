@@ -76,14 +76,18 @@
     "react-dom": "^16.8.6",
     "react-helmet-async": "^1.0.4",
     "react-router-dom": "^5.1.2",
+    "react-slick": "^0.27.11",
     "react-use": "^13.27.0",
     "redux-persist": "^6.0.0",
+    "swiper": "5.4.0",
     "umi": "^3.0.16",
     "umi-request": "^1.0.8",
     "unstated-next": "^1.1.0",
     "use-json-comparison": "^1.0.5",
     "use-media-antd-query": "^1.0.1",
     "use-merge-value": "^1.0.1",
+    "video-react": "^0.14.1",
+    "videojs-contrib-hls": "^5.15.0",
     "warning": "^4.0.3"
   },
   "devDependencies": {

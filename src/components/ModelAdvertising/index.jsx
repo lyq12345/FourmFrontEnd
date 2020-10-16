@@ -5,20 +5,21 @@ import close from '@/assets/img/close.png';
 import birthdayCard from '@/assets/img/birthday-card.png';
 import buttonCardButtom from '@/assets/img/button-card-buttom.png';
 import greetingCardClose from '@/assets/img/greeting-card-close.png';
+import activeIcon from '@/assets/img/active-icon.png';
 const ModelAdvertising = (props) => {
   const [isVisible, setIsVisible] = useState(true)
   useEffect(() => {
     // info()
   }, [])
   const handleOk = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   const handleCancel = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
@@ -54,35 +55,42 @@ const ModelAdvertising = (props) => {
         width='100%'
       >
         {/* 广告 */}
-        {/* <div className={styles.moalComponent}>
+        <div className={styles.moalComponent}>
           <div className={styles.modalAdvertisingContent}>
-            <p className={styles.backgroundCard}>
-              <img src={birthdayCard} alt="" />
+            <div className={styles.advertisingContent}>
+              <span className={styles.backgroundCard}>
+                <img src={birthdayCard} alt="" />
+              </span>
+              <span className={styles.buttomBtnCard} onClick={() => window.open('https://ant-design.gitee.io/components/modal-cn/')}>
+                <img src={buttonCardButtom} alt="" />
+              </span>
+            </div>
+            <p className={styles.closeMoal}>
+              <img src={close} alt="" onClick={() => closeModalFun()} />
             </p>
-            <p className={styles.buttomBtnCard} onClick={() => window.open('https://ant-design.gitee.io/components/modal-cn/')}>
-              < img src={buttonCardButtom} alt="" />
-            </p>
-          </div>
-          <p className={styles.closeMoal}>
-            <img src={close} alt="" />
-          </p>
-        </div> */}
-        {/* 生日/周年庆贺卡 */}
-        <div className={styles.modelGreetingCardContent}>
-          <img src={birthdayCard} alt="" />
-          <p className={styles.closeModal} onClick={() => closeModalFun()}>
-            <img src={greetingCardClose} alt="" />
-          </p>
-          <div className={styles.modalContent}>
-            <span></span>
-            <p>亲爱的王佳佳</p>
-            <p>生日快乐</p>
           </div>
         </div>
+        {/* 生日/周年庆贺卡 */}
+        {/* <div className={styles.cardContent}>
+          <div className={styles.modelGreetingCardContent}>
+            <div className={styles.dialogBackGround}>
+              <img src={birthdayCard} alt="" />
+              <span className={styles.closeModal} onClick={() => closeModalFun()}>
+                <img src={greetingCardClose} alt="" />
+              </span>
+              <div className={styles.modalContent}>
+                <p className={styles.headImg}></p>
+                <p className={styles.cardInfo}>亲爱的王佳佳</p>
+                <p className={styles.cardInfo}>生日快乐</p>
+              </div>
+            </div>
+          </div>
+        </div> */}
       </Modal>
       {
         !isVisible ?
           <div className={styles.footerActivity} onClick={() => setIsVisible(!isVisible)}>
+            <img src={activeIcon} alt="" />
           </div> : <></>
       }
     </div >

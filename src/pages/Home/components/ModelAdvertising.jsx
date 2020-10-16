@@ -11,14 +11,14 @@ const ModelAdvertising = (props) => {
     // info()
   }, [])
   const handleOk = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
   };
 
   const handleCancel = e => {
-    console.log(e);
+    // console.log(e);
     this.setState({
       visible: false,
     });
@@ -54,7 +54,7 @@ const ModelAdvertising = (props) => {
         width='100%'
       >
         {/* 广告 */}
-        {/* <div className={styles.moalComponent}>
+        <div className={styles.moalComponent}>
           <div className={styles.modalAdvertisingContent}>
             <p className={styles.backgroundCard}>
               <img src={birthdayCard} alt="" />
@@ -66,9 +66,9 @@ const ModelAdvertising = (props) => {
           <p className={styles.closeMoal}>
             <img src={close} alt="" />
           </p>
-        </div> */}
+        </div>
         {/* 生日/周年庆贺卡 */}
-        <div className={styles.modelGreetingCardContent}>
+        {/* <div className={styles.modelGreetingCardContent}>
           <img src={birthdayCard} alt="" />
           <p className={styles.closeModal} onClick={() => closeModalFun()}>
             <img src={greetingCardClose} alt="" />
@@ -78,7 +78,7 @@ const ModelAdvertising = (props) => {
             <p>亲爱的王佳佳</p>
             <p>生日快乐</p>
           </div>
-        </div>
+        </div> */}
       </Modal>
     </div >
   );
