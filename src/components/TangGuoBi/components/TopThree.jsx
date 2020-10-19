@@ -12,7 +12,6 @@ export default function TopThree(props) {
   const arr = props.content;
 
   useEffect(() => {
-    console.log('sss', arr);
     setTop3(arr);
   }, [arr]);
   return (

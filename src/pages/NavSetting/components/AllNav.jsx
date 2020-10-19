@@ -3,6 +3,7 @@ import { List, Card, message } from 'antd';
 import { PlusSquareOutlined } from '@ant-design/icons';
 import styles from './style.less';
 import { tagListContext } from '../index';
+import { GetAllMenu } from '@/api/navigation';
 
 // const data = [
 //   { title: '集团邮箱', icon: '', href: '', isAdded: true },
@@ -14,24 +15,25 @@ import { tagListContext } from '../index';
 //   { title: '添加', icon: '', href: '', isAdded: false },
 // ];
 const AllNav = () => {
-  const [data, setData] = useState([
-    { title: '集团邮箱', icon: '', href: '', isAdded: true },
-    { title: '流程中心', icon: '', href: '', isAdded: false },
-    { title: '考勤系统', icon: '', href: '', isAdded: false },
-    { title: 'IMS业务系统', icon: '', href: '', isAdded: false },
-    { title: '招聘系统', icon: '', href: '', isAdded: false },
-    { title: '会议室预定', icon: '', href: '', isAdded: false },
-    { title: '1', icon: '', href: '', isAdded: false },
-    { title: '2', icon: '', href: '', isAdded: false },
-    { title: '3', icon: '', href: '', isAdded: false },
-    { title: '4', icon: '', href: '', isAdded: false },
-    { title: '5', icon: '', href: '', isAdded: false },
-    { title: '6', icon: '', href: '', isAdded: false },
-    { title: '7', icon: '', href: '', isAdded: false },
-    { title: '8', icon: '', href: '', isAdded: false },
-    { title: '9', icon: '', href: '', isAdded: false },
-  ]);
+  const [data, setData] = useState([]);
   const { tagList, setTagList } = useContext(tagListContext);
+
+  useEffect(() => {
+    GetAllMenu().then(({ success, data }) => {
+      if (success) {
+        const newData = [];
+        data.map((item) => {
+          item.isAdded = false;
+          newData.push(item);
+        });
+        setData(newData);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    checkAdded();
+  }, [tagList,data.length]);
 
   const handleAdd = (index) => {
     if (tagList.length >= 15) {
@@ -51,7 +53,7 @@ const AllNav = () => {
     setData(JSON.parse(JSON.stringify(data1)));
   };
 
-  useEffect(() => {
+  const checkAdded = () => {
     for (let i = 0; i < data.length; i++) {
       let exist = false;
       let titleToSearch = data[i].title;
@@ -66,7 +68,8 @@ const AllNav = () => {
         setTagAdded(i, false);
       }
     }
-  }, tagList);
+  };
+
   return (
     <div className={styles.outsideContainer}>
       <h2>全部导航</h2>

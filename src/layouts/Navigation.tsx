@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Result, Button, Popover } from 'antd';
+import { Layout, Result, Button, Popover, Breadcrumb } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
@@ -11,7 +11,8 @@ import WTSWLogo from '@/assets/img/WTSW-logo.png';
 import mobile from '@/assets/img/mobile.png';
 import phone from '@/assets/img/phone.png';
 import ModelAdvertising from '@/components/ModelAdvertising';
-import { connect, ConnectState } from 'umi'
+import { connect, ConnectState } from 'umi';
+import router from '@/router/';
 
 import { Link } from 'umi';
 
@@ -32,33 +33,59 @@ const noMatch = (
 const navigationInfo = [
   {
     label: '个人主页',
-    router: '/personal-homepage'
+    router: '/personal-homepage',
   },
   {
     label: '账号设置',
-    router: ''
+    router: '',
   },
   {
     label: '帮助',
-    router: ''
+    router: '',
   },
   {
     label: '退出',
-    router: 'logout'
-  }
-]
+    router: 'logout',
+  },
+];
+const routeMap = new Map();
 const Navigation = (props) => {
   const {
     children,
     location = {
       pathname: '/',
     },
+    route,
   } = props;
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
-  const onMenuClick = () => {
 
+  let noSlashPath = '';
+  if (location.pathname[location.pathname.length - 1] === '/') {
+    noSlashPath = location.pathname.substring(0, location.pathname.length - 1);
+  } else {
+    noSlashPath = location.pathname;
+  }
+
+  const setRouteMap = (data) => {
+    for (let item of data) {
+      if (item.path !== '/home') {
+        routeMap.set(item.path, item.name);
+        if (item.routes) {
+          setRouteMap(item.routes);
+        }
+      }
+    }
+  };
+  console.log('/////', props.location.pathname);
+
+  const routeList = route.children;
+  setRouteMap(routeList);
+
+  console.log('???', routeMap.keys());
+
+  const onMenuClick = () => {
     const { dispatch } = props;
 
     if (dispatch) {
@@ -69,22 +96,23 @@ const Navigation = (props) => {
   };
   const popoverContent = (
     <div>
-      {
-        navigationInfo.map((item, index) => (
-          <div>
-            {
-              item.router !== 'logout' ?
-                <Link to={item.router} key={index}>
-                  <div className='navgtionInfo' key={index}>
-                    {item.label}
-                  </div>
-                </Link> : <div onClick={() => onMenuClick()} className='navgtionInfo'>{item.label}</div>
-            }
-          </div>
-        ))
-      }
+      {navigationInfo.map((item, index) => (
+        <div>
+          {item.router !== 'logout' ? (
+            <Link to={item.router} key={index}>
+              <div className="navgtionInfo" key={index}>
+                {item.label}
+              </div>
+            </Link>
+          ) : (
+            <div onClick={() => onMenuClick()} className="navgtionInfo">
+              {item.label}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
-  )
+  );
   return (
     <div>
       <Layout>
@@ -92,14 +120,18 @@ const Navigation = (props) => {
           <div className="header">
             <Link to="/">
               <div className="left-content">
-
                 <img src={logo} alt="" />
               </div>
             </Link>
             <div className="right-content">
               <span>8:30签入</span>
               <span>下班未签出</span>
-              <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
+              <Popover
+                overlayClassName="noPopoverTriangle"
+                placement="bottomRight"
+                content={popoverContent}
+                trigger="click"
+              >
                 <img src={loginheadimg} alt="777" />
               </Popover>
             </div>
@@ -107,6 +139,21 @@ const Navigation = (props) => {
         </Header>
         <Content>
           <Authorized authority={authorized!.authority} noMatch={noMatch}>
+            {routeMap.has(noSlashPath) ? (
+              <div style={{ margin: '10px 0' }}>
+                <Breadcrumb separator="" style={{ color: '#D30B24' }}>
+                  <Breadcrumb.Item href="/home">
+                    <span style={{ color: '#D30B24' }}>首页</span>
+                  </Breadcrumb.Item>
+                  <Breadcrumb.Separator>
+                    <span style={{ color: '#D30B24' }}>&gt;</span>
+                  </Breadcrumb.Separator>
+                  <Breadcrumb.Item href="">
+                    <span style={{ color: '#D30B24' }}>{routeMap.get(noSlashPath)}</span>
+                  </Breadcrumb.Item>
+                </Breadcrumb>
+              </div>
+            ) : null}
             {children}
           </Authorized>
         </Content>
@@ -162,9 +209,11 @@ const Navigation = (props) => {
           </div>
         </Footer>
       </Layout>
-      {
-        location.pathname === '/home' || location.pathname === '/' ? <ModelAdvertising pathname={location.pathname} /> : <></>
-      }
+      {location.pathname === '/home' || location.pathname === '/' ? (
+        <ModelAdvertising pathname={location.pathname} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

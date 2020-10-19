@@ -34,8 +34,6 @@ const TangguobiRank = (porps) => {
   const showModal = () => {
     setVisible(true);
   };
-  const { loaction } = porps;
-  console.log(location);
   return (
     <div>
       <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '6px' }}>

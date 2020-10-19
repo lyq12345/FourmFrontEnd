@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { List, Avatar } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
+import { GetMenuMy } from '@/api/navigation';
 
 const data = [
   { title: '集团邮箱', icon: '', href: '' },
@@ -12,10 +13,18 @@ const data = [
   { title: '添加', icon: '', href: '' },
 ];
 export default function NavHome() {
+  const [menuData, setMenuData] = useState([]);
+  useEffect(() => {
+    GetMenuMy().then(({ success, data }) => {
+      if (success) {
+        setMenuData(data);
+      }
+    });
+  }, []);
   return (
     <div>
       <List
-        dataSource={data}
+        dataSource={menuData}
         grid={{ gutter: 16, column: 5 }}
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>

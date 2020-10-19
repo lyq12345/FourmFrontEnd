@@ -4,31 +4,32 @@ import AllNav from './components/AllNav';
 import { Button, message, Card } from 'antd';
 import styles from './style.less';
 import Hint from '@/assets/img/hint2.png';
-import {GetAllMenu} from '@/api/navigation'
+import { GetMenuMy, SaveMyMenu } from '@/api/navigation';
 
 // 创建上下文
 export const tagListContext = createContext(null);
 const NavSetting = () => {
-  const [tagList, setTagList] = useState([
-    { title: '集团邮箱', icon: '', href: '' },
-    { title: '流程中心', icon: '', href: '' },
-    { title: '考勤系统', icon: '', href: '' },
-    { title: 'IMS业务系统', icon: '', href: '' },
-    { title: '招聘系统', icon: '', href: '' },
-    { title: '会议室预定', icon: '', href: '' },
-    { title: '添加', icon: '', href: '' },
-    { title: '1', icon: '', href: '' },
-    { title: '2', icon: '', href: '' },
-    { title: '3', icon: '', href: '' },
-    { title: '4', icon: '', href: '' },
-    { title: '5', icon: '', href: '' },
-    { title: '6', icon: '', href: '' },
-    { title: '添加', icon: '', href: '' },
-  ]);
-
+  const [tagList, setTagList] = useState([]);
   const [clicked, setClicked] = useState(false);
+
+  useEffect(() => {
+    GetMenuMy().then(({ success, data }) => {
+      if (success) {
+        setTagList(data);
+      }
+    });
+  }, []);
   const handleSave = () => {
-    message.success('保存成功');
+    const savedList = [];
+    tagList.map((item) => {
+      savedList.push(item.id);
+    });
+
+    SaveMyMenu({ savedList: savedList }).then(({ success }) => {
+      if (success) {
+        message.success('保存成功');
+      }
+    });
   };
 
   const handleClick = () => {
@@ -37,9 +38,6 @@ const NavSetting = () => {
 
   const handleCancel = () => {};
 
-  useEffect(() => {
-    GetAllMenu();
-  }, [])
   return (
     <div>
       <div style={{ backgroundColor: '#fff' }}>

@@ -8,15 +8,6 @@ import { tagListContext } from '../index';
 // import TagItem from './TagItem';
 import TagItem from './TagItem.jsx';
 
-const data = [
-  { title: '集团邮箱', icon: '', href: '' },
-  { title: '流程中心', icon: '', href: '' },
-  { title: '考勤系统', icon: '', href: '' },
-  { title: 'IMS业务系统', icon: '', href: '' },
-  { title: '招聘系统', icon: '', href: '' },
-  { title: '会议室预定', icon: '', href: '' },
-];
-
 const MyNav = () => {
   const { tagList, setTagList } = useContext(tagListContext);
 

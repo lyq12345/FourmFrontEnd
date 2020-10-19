@@ -96,7 +96,6 @@ const TGBDetail = (props) => {
               };
               arr.push(info);
             });
-            console.log(arr);
             setGiveData(arr);
           }
         },
