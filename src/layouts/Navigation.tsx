@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Result, Button, Popover, Breadcrumb } from 'antd';
+import { Layout, Result, Button, Popover, Breadcrumb, Divider } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
