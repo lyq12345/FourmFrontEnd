@@ -35,6 +35,12 @@ h3 {
         margin: 0 3px;
       }
     }
+    .dividerVertical {
+      width: 1px;
+      height: 16px;
+      background: #D40B25;
+      margin: 0;
+    }
     .HallWords {
       font-size: 12px;
       line-height: 17px;
@@ -92,13 +98,71 @@ h3 {
     .leftCarousel {
       display: flex;
       justify-content: space-between;
+      // position: relative;
       .Carousel {
+        // position: relative;
         width: 487px;
-        height: 273px;
+        height: 278px;
+        cursor: pointer;
+        video {
+          height: 100%;
+          object-fit: fill;
+        }
+        .spingLoading {
+          text-align: center;
+          // border-radius: 4px;
+          line-height: 278px;
+        }
+        // // div {
+        // //   height: 278px;
+        // // }
+        // .carouselContentImg {
+        //   width: 100%;
+        //   height: 278px;
+        //   background-color: black;
+        //   position: relative;
+        //   img {
+        //     width: 100%;
+        //     height: 100%;
+        //   }
+        //   .playImg {
+        //     width: 40px;
+        //     height: 40px;
+        //     position: absolute;
+        //     left: 50%;
+        //     margin-left: -20px;
+        //     top: 50%;
+        //     margin-top: -20px;
+        //   }
+        // }
+        // .play {
+        //   position: relative;
+        //   img {
+        //     position: absolute;
+        //     width: 36px;
+        //     height: 36px;
+        //     z-index: 222;
+        //     left: 50%;
+        //     top: 50%;
+        //     margin: -18px 0 0 -18px;
+        //   }
+        //   // position: relative;
+        //   // left: 0;
+        //   // top: 0;
+        //   // width: 487px;
+        //   // height: 273px;
+        //   // z-index: 999;
+        //   // background: url("../../assets/img/play.png") no-repeat center 80px;
+        //   // background-size: 57px 57px;
+        //   // &.stop {
+        //   //   background: url("../../assets/img/play.png") no-repeat center 80px;
+        //   //   background-size: 57px 57px;
+        //   // }
+        // }
       }
       .rightCarouselContent {
         width: 299px;
-        height: 273px;
+        height: 278px;
         background-color: #f4f4f4;
         border-radius: 6px;
         .rightcontentText {
@@ -169,7 +233,7 @@ h3 {
           line-height: 10px;
         }
       }
-      .hallPeopleImg {
+      .hallPeopleImg {  
         margin-left: 27.5px;
         margin-top: 7px;
         img {
@@ -209,3 +273,10 @@ h3 {
 .ant-carousel .slick-list {
   border-radius: 6px;
 }
+
+.myNavContainer {
+}
+.swiper_container {
+  width: 600px;
+  height: 300px;
+}  

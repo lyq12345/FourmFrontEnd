@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles.less'
 import ListData from '@/components/ListData'
 import { Pagination } from 'antd';
@@ -9,11 +9,16 @@ import FormData from './components/FormData';
 import study from '@/assets/img/study.png';
 import invitation from '@/assets/img/invitation.png';
 import candyCurrency from '@/assets/img/candy-currency.png';
+import { getMyRank } from '@/api/personalHomepage'
 
 const PersonalHomepage = (props) => {
-
+  const [personInfo, setPersonInfo] = useState({});
   useEffect(() => {
-
+    getMyRank({ userId: '111' }).then(res => {
+      if (res.success) {
+        setPersonInfo(res.data[0])
+      }
+    })
   }, [])
   const routerLink = () => {
     props.history.push({
@@ -24,7 +29,7 @@ const PersonalHomepage = (props) => {
     <div className={styles.personalHomepage}>
       <div className={styles.leftPersonalInfo}>
         <p>
-          <span className={styles.headImg}></span>
+          <img className={styles.headImg} src={personInfo && personInfo.avatar} alt="" />
         </p>
         <p className={styles.nameAndSex}>
           <span>王佳佳</span>
@@ -34,7 +39,7 @@ const PersonalHomepage = (props) => {
         <div className={styles.contentClassifie}>
           <div className={styles.classifie}>
             <img src={candyCurrency} alt="" />
-            <p className={styles.classifieNum}>3500</p>
+            <p className={styles.classifieNum}>{(personInfo && personInfo.coinAll) || 0}</p>
             <p className={styles.classifieNum}>糖果币</p>
           </div>
           <div className={styles.classifie}>

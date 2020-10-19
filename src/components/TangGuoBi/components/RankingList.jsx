@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-09-11 15:00:18
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-10-16 14:24:46
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
  */
