@@ -96,23 +96,22 @@ const Navigation = (props) => {
   };
   const imgDispatch = (url: string | undefined) => {
     window.open(url); //新页面打开
-  }
+  };
   const popoverContent = (
     <div>
-      {
-        navigationInfo.map((item, index) => (
-          <div key={index}>
-            {
-              item.router !== 'logout' ?
-                <Link to={item.router}>
-                  <div className='navgtionInfo'>
-                    {item.label}
-                  </div>
-                </Link> : <div onClick={() => onMenuClick()} className='navgtionInfo'>{item.label}</div>
-            }
-          </div>
-        ))
-      }
+      {navigationInfo.map((item, index) => (
+        <div key={index}>
+          {item.router !== 'logout' ? (
+            <Link to={item.router}>
+              <div className="navgtionInfo">{item.label}</div>
+            </Link>
+          ) : (
+            <div onClick={() => onMenuClick()} className="navgtionInfo">
+              {item.label}
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
   return (
@@ -165,19 +164,31 @@ const Navigation = (props) => {
               <div className="left-content">
                 <div className="company-name">
                   <div className="group-name">
-                    <a href="http://www.yst.com.cn" target="_Blank">养生堂集团有限公司</a>
+                    <a href="http://www.yst.com.cn" target="_Blank">
+                      养生堂集团有限公司
+                    </a>
                   </div>
                   <div className="son1-company-name">
-                    <a href="http://www.yst.com.cn" target="_Blank">养生堂有限公司</a>
-                    <Divider className='link-divider' type="vertical" />
-                    <a href="https://www.nongfuspring.com" target="_Blank">农夫山泉股份有限公司</a>
-                    <Divider className='link-divider' type="vertical" />
-                    <a href="http://www.ystco.com.cn" target="_Blank">养生堂浙江食品有限公司</a>
-                    <Divider className='link-divider' type="vertical" />
-                    <a href="http://yoseido.yst.com.cn" target="_Blank">养生堂化妆品有限公司</a>
+                    <a href="http://www.yst.com.cn" target="_Blank">
+                      养生堂有限公司
+                    </a>
+                    <Divider className="link-divider" type="vertical" />
+                    <a href="https://www.nongfuspring.com" target="_Blank">
+                      农夫山泉股份有限公司
+                    </a>
+                    <Divider className="link-divider" type="vertical" />
+                    <a href="http://www.ystco.com.cn" target="_Blank">
+                      养生堂浙江食品有限公司
+                    </a>
+                    <Divider className="link-divider" type="vertical" />
+                    <a href="http://yoseido.yst.com.cn" target="_Blank">
+                      养生堂化妆品有限公司
+                    </a>
                   </div>
                   <div className="son2-company-name">
-                    <a href='https://www.ystwt.com' target="_Blank">北京万泰生物药业股份有限公司</a>
+                    <a href="https://www.ystwt.com" target="_Blank">
+                      北京万泰生物药业股份有限公司
+                    </a>
                   </div>
                 </div>
                 {/* <p className="footer-company-logo">
@@ -205,8 +216,16 @@ const Navigation = (props) => {
             <div className="footer-left-content">
               <div className="left-logo">
                 <img src={ystLogoMax} alt="" onClick={() => imgDispatch('http://www.yst.com.cn')} />
-                <img src={NFSQlogo} alt="" onClick={() => imgDispatch('https://www.nongfuspring.com')} />
-                <img src={YSTLogo} alt="" onClick={() => imgDispatch('http://yoseido.yst.com.cn')} />
+                <img
+                  src={NFSQlogo}
+                  alt=""
+                  onClick={() => imgDispatch('https://www.nongfuspring.com')}
+                />
+                <img
+                  src={YSTLogo}
+                  alt=""
+                  onClick={() => imgDispatch('http://yoseido.yst.com.cn')}
+                />
                 <img src={WTSWLogo} alt="" onClick={() => imgDispatch('https://www.ystwt.com')} />
               </div>
               <div className="right-logo">
