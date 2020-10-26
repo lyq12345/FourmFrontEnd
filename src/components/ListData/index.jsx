@@ -5,12 +5,12 @@ import week from '@/assets/img/week.png';
 import waterHealth from '@/assets/img/waterHealth.png';
 import read from '@/assets/img/read.png';
 import praise from '@/assets/img/praise.png';
-import { ListDataInfo } from '@/constants/mock'
+// import { ListDataInfo } from '@/constants/mock'
 import stick from '@/assets/img/stick.png'
 
 
 const ListData = (props) => {
-  let { isStickIcon, isShowWeek, isLine, isInfoIntro, routerLink = () => { }, } = props
+  let { isStickIcon, isShowWeek, isLine, isInfoIntro, ListDataInfo, routerLink = () => { }, } = props
   return (
     <div className={styles.listComponent}>
       <div className={styles.banner}>
@@ -19,7 +19,7 @@ const ListData = (props) => {
       <div className={styles.listInfo}>
         <p>每周堂里人</p>
         {
-          ListDataInfo && ListDataInfo.map((item, index) => (
+          ListDataInfo.affairs && ListDataInfo.affairs.length && ListDataInfo.affairs.map((item, index) => (
             <div className={styles.listConent} key={index} onClick={() => routerLink()}>
               <p className={styles.leftImg}>
                 <img className={styles.contentImg} src={waterHealth} alt="" />
@@ -39,7 +39,7 @@ const ListData = (props) => {
                     {
                       isStickIcon ? <img src={stick} alt="" /> : <></>
                     }
-                    <span>{item.name}</span>
+                    <span>{item.title}</span>
                   </p>
                   {
                     isLine ?
@@ -53,14 +53,14 @@ const ListData = (props) => {
                 </div>
                 <div className={styles.authorAndRestsInfo}>
                   <div>
-                    <p>发布者：{item.promulgator}</p>
+                    <p>发布者：{item.creator}</p>
                     <p className={styles.praiseAmount}>
                       <img src={praise} alt="" />
-                      <span>赞</span>
+                      <span>赞</span><span style={{ marginLeft: '5px' }}>{item.loveCount}</span>
                     </p>
                     <p className={styles.readAmount}>
                       <img src={read} alt="" />
-                      <span>阅读</span>
+                      <span>阅读</span><span style={{ marginLeft: '5px' }}>{item.showCount}</span>
                     </p>
                   </div>
                   <p>2020.08.31</p>

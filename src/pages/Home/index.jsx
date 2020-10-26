@@ -13,6 +13,7 @@ import styles from './style.less';
 import { carousel } from '@/constants/mock';
 import { withRouter } from 'umi';
 import MyNav from '@/components/MyNav';
+import { GetUserTip, GetPortalTip, GetAffairIndex } from '@/api/common'
 import TangGuoBi from '@/components/TangGuoBi';
 import HWPlayer from "HWPlayer";
 import hwplayerloaded from "hwplayerloaded";
@@ -39,6 +40,9 @@ const Home = (props) => {
   const [topVideo, setTopVideo] = useState({});
   const swiperRef = useRef()
   const [spinning, setSpinning] = useState(true)
+  const [entryTime, setEntryTime] = useState(null)
+  const [hallWordsText, setHallWordsText] = useState(null)
+  const [carouselList, setCarouselList] = useState([])
 
 
   useEffect(() => {
@@ -49,10 +53,11 @@ const Home = (props) => {
     const idArr = []
     let activeIndex = null
     setYearWeek(getYearWeek(fullYear, month, day));
+    info()
     hwplayerloaded(() => {
       setSpinning(false)
       let dom = document.getElementsByClassName(`swiper-slide`)
-      carousel.forEach((_, i) => initVideo(i))
+      carouselList.forEach((_, i) => initVideo(i))
       if (dom && dom.length > 1) {
         for (var v = 0; v < dom.length; v++) {
           let myId = dom[v].children[0]
@@ -83,6 +88,26 @@ const Home = (props) => {
     }
   }, []);
 
+  const info = () => {
+    // 获取入职时间
+    GetUserTip().then(response => {
+      if (response.success) {
+        setEntryTime(response.data)
+      }
+    })
+    // 获取堂里话
+    GetPortalTip().then(response => {
+      if (response.success) {
+        setHallWordsText(response.data)
+      }
+    })
+    // 获取堂里新鲜事
+    GetAffairIndex().then(response => {
+      if (response.success) {
+        setCarouselList(response.data || [])
+      }
+    })
+  }
   // 初始化回调
   const initVideo = (index, value, copy) => {
     // setAutoplay(false)
@@ -90,7 +115,7 @@ const Home = (props) => {
       //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
       // controls: index ? false : true,
       // controls: true,
-      poster: carousel[index].img,
+      poster: carouselList[index].img,
       muted: true,
       playbackRates: [],
       controls: true,
@@ -98,13 +123,13 @@ const Home = (props) => {
       width: 487,
       // sources: carousel[index].src
     };
-    console.log(carousel[index].img)
+    console.log(carouselList[index].img)
     let id = copy ? value : index
     playerMap[`player-${id}`] = HWPlayer(`#video-${id}`, options, function () {
-      console.log('hw loaded', carousel[index].src)
+      console.log('hw loaded', carouselList[index].src)
       let player = playerMap[`player-${index}`]
       //播放器已经准备好了
-      player.src(carousel[index].src);
+      player.src(carouselList[index].src);
       // "this"指向的是HWPlayer的实例对象player
       // player.play();
       // // 使用事件监听
@@ -176,12 +201,13 @@ const Home = (props) => {
       <div className={styles.infoTitle}>
         <div className={styles.titleText}>
           <span className={styles.name}>
-            亲爱的王佳佳，这是你在堂里的第<i className={styles.today}>2020</i>天
+            亲爱的王佳佳，这是你在堂里的第<i className={styles.today}>{entryTime}</i>天
           </span>
           <Divider className={styles.dividerVertical} type="vertical" />
           <img src={hallWords} alt="" />
           <span className={styles.HallWords}>
-            能正确的提出问题就是迈出创新第一步能正确的提出问题就是迈出创最多出创最多三九字
+            {hallWordsText}
+            {/* 能正确的提出问题就是迈出创新第一步能正确的提出问题就是迈出创最多出创最多三九字 */}
           </span>
         </div>
         <div className={styles.task}>
@@ -213,27 +239,25 @@ const Home = (props) => {
       < div className={styles.somethingHall} >
         <div className={styles.leftContent}>
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
-          {
-            spinning ?
-              <div className={styles.leftCarousel}>
-                <div className={styles.Carousel}>
-                  <div className="swiper-container">
-                    <div className="swiper-wrapper">
-                      {
-                        carousel && carousel.map((item, index) => (
-                          <div key={index} className={`swiper-slide swiper-slide-${index}`}>
-                            <video
-                              id={`video-${index}`}
-                              width="487"
-                              height="278"
-                              className="video-js vjs-default-skin vjs-big-play-centered"
-                            ></video>
-                          </div>
-                        ))
-                      }
-                    </div>
-                  </div>
-                  {/* <div className="swiper-container">
+          <div className={styles.leftCarousel}>
+            <div className={styles.Carousel}>
+              <div className="swiper-container">
+                <div className="swiper-wrapper">
+                  {
+                    carouselList && carouselList.map((item, index) => (
+                      <div key={index} className={`swiper-slide swiper-slide-${index}`}>
+                        <video
+                          id={`video-${index}`}
+                          width="487"
+                          height="278"
+                          className="video-js vjs-default-skin vjs-big-play-centered"
+                        ></video>
+                      </div>
+                    ))
+                  }
+                </div>
+              </div>
+              {/* <div className="swiper-container">
                     <div className="swiper-wrapper">
                       {
                         carousel && carousel.map((item, index) => (
@@ -249,31 +273,30 @@ const Home = (props) => {
                       }
                     </div>
                   </div> */}
-                </div>
-                <div className={styles.rightCarouselContent}>
-                  {carousel &&
-                    carousel.map((item, index) => (
-                      <div
-                        onClick={() => detailRouter()}
-                        className={
-                          carouselCurrent === index
-                            ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
-                            : styles.rightcontentText
-                        }
-                        key={index}
-                      >
-                        <p>{item.title}</p>
-                        <p>{item.content}</p>
-                      </div>
-                    ))}
-                  <div onClick={lookMoreHallSomething} className={styles.lookMore}>
-                    查看更多
+            </div>
+            <div className={styles.rightCarouselContent}>
+              {carouselList &&
+                carouselList.map((item, index) => (
+                  <div
+                    onClick={() => detailRouter()}
+                    className={
+                      carouselCurrent === index
+                        ? `${styles.rightcontentText} ${styles.checkRightcontentText}`
+                        : styles.rightcontentText
+                    }
+                    key={index}
+                  >
+                    <p>{item.title}</p>
+                    <p className={styles.content}>{item.content}</p>
+                  </div>
+                ))}
+              <div onClick={lookMoreHallSomething} className={styles.lookMore}>
+                查看更多
               </div>
-                </div>
-              </div>
-              : <div className={styles.spingLoading}><Spin spinning={spinning} /></div>
-          }
-        </div >
+            </div>
+          </div>
+          <div className={styles.spingLoading}><Spin spinning={spinning} /></div>
+        </div>
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
           <div className={styles.contentInfo} onClick={() => detailHallPeople()}>
