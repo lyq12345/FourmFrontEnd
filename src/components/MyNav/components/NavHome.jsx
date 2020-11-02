@@ -29,7 +29,7 @@ export default function NavHome() {
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>
             <span>
-              <Avatar size={26} icon={<img src={myAvatar} />} />
+              <Avatar size={26} icon={<img src={item.icon} />} />
               <a
                 style={{
                   fontSize: '14px',

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { List, Tag } from 'antd';
+import { List, Tag, Avatar } from 'antd';
 import { CloseOutlined } from '@ant-design/icons';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DndProvider } from 'react-dnd';
@@ -51,7 +51,8 @@ const MyNav = () => {
                 index={index}
                 value={item.title}
                 moveSort={moveSort}
-                title={item?.title}
+                title={item.title}
+                icon={item.icon}
                 newRenderFn={newRenderFn}
                 newRender={newRender}
                 handleCancel={() => handleCancel(index)}

@@ -36,7 +36,7 @@ const NavSetting = () => {
     setClicked(true);
   };
 
-  const handleCancel = () => { };
+  const handleCancel = () => {};
 
   return (
     <div>

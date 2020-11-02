@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Tag, Card } from 'antd';
+import { Tag, Card, Avatar } from 'antd';
 import { CloseOutlined, TrophyOutlined } from '@ant-design/icons';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
@@ -66,7 +66,8 @@ class TagItem extends React.Component {
             size="small"
           >
             <div style={{ display: 'flex' }}>
-              <span>{this.props.title}</span>
+              <Avatar size={26} icon={<img src={this.props.icon} />} />
+              <span style={{ marginLeft: '10px' }}>{this.props.title}</span>
               <div style={{ flex: 1 }}></div>
               <div>
                 <CloseOutlined onClick={this.props.handleCancel} />

@@ -296,9 +296,10 @@ const Home = (props) => {
       </div >
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
-          {/* <MyNav />
+          
+          <MyNav />
           <TangGuoBi />
-          <Birthday /> */}
+          <Birthday />
         </div>
         <div className={styles.rightContent}>
           {/* <MySchedule />

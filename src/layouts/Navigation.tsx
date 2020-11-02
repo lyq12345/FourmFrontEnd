@@ -12,7 +12,6 @@ import mobile from '@/assets/img/mobile.png';
 import phone from '@/assets/img/phone.png';
 import ModelAdvertising from '@/components/ModelAdvertising';
 import { connect, ConnectState } from 'umi';
-import router from '@/router/';
 
 import { Link } from 'umi';
 
@@ -78,12 +77,9 @@ const Navigation = (props) => {
       }
     }
   };
-  console.log('/////', props.location.pathname);
 
   const routeList = route.children;
   setRouteMap(routeList);
-
-  console.log('???', routeMap.keys());
 
   const onMenuClick = () => {
     const { dispatch } = props;

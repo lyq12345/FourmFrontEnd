@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { List, Card, message } from 'antd';
+import { List, Card, message, Avatar } from 'antd';
 import { PlusSquareOutlined } from '@ant-design/icons';
 import styles from './style.less';
 import { tagListContext } from '../index';
@@ -33,7 +33,7 @@ const AllNav = () => {
 
   useEffect(() => {
     checkAdded();
-  }, [tagList,data.length]);
+  }, [tagList, data.length]);
 
   const handleAdd = (index) => {
     if (tagList.length >= 15) {
@@ -81,7 +81,8 @@ const AllNav = () => {
           <List.Item>
             <Card bordered={false} size="small">
               <div style={{ display: 'flex' }}>
-                <a style={{ color: 'black' }}>{item.title}</a>
+                <Avatar size={26} icon={<img src={item.icon} />} />
+                <a style={{ color: 'black', marginLeft: '10px' }}>{item.title}</a>
                 <div style={{ flex: 1 }}></div>
                 <div>
                   {item.isAdded ? (
