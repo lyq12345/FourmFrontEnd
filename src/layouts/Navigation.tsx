@@ -60,12 +60,22 @@ const Navigation = (props) => {
     authority: undefined,
   };
 
+  // 去除末尾的斜杠
   let noSlashPath = '';
   if (location.pathname[location.pathname.length - 1] === '/') {
     noSlashPath = location.pathname.substring(0, location.pathname.length - 1);
   } else {
     noSlashPath = location.pathname;
   }
+
+  // 按斜杠分割成数组
+  let routeArray = [];
+  noSlashPath.split('/').map((item) => {
+    if (item !== '') {
+      routeArray.push('/' + item);
+    }
+  });
+  console.log('????', routeArray);
 
   const setRouteMap = (data) => {
     for (let item of data) {
@@ -142,6 +152,18 @@ const Navigation = (props) => {
                   <Breadcrumb.Item href="/home">
                     <span style={{ color: '#D30B24' }}>首页</span>
                   </Breadcrumb.Item>
+                  {/* {routeArray.map((item, index) => {
+                    return (
+                      <div>
+                        <Breadcrumb.Separator>
+                          <span style={{ color: '#D30B24' }}>&gt;</span>
+                        </Breadcrumb.Separator>
+                        <Breadcrumb.Item>
+                          <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
+                        </Breadcrumb.Item>
+                      </div>
+                    );
+                  })} */}
                   <Breadcrumb.Separator>
                     <span style={{ color: '#D30B24' }}>&gt;</span>
                   </Breadcrumb.Separator>
