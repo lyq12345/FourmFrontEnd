@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Layout, Result, Button, Popover, Divider } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
@@ -11,7 +11,9 @@ import WTSWLogo from '@/assets/img/WTSW-logo.png';
 import mobile from '@/assets/img/mobile.png';
 import phone from '@/assets/img/phone.png';
 import ModelAdvertising from '@/components/ModelAdvertising';
-import { connect, ConnectState } from 'umi'
+import { connect, ConnectState } from 'umi';
+import { GetAtten } from '@/api/common'
+
 
 import { Link } from 'umi';
 
@@ -54,9 +56,20 @@ const Navigation = (props) => {
       pathname: '/',
     },
   } = props;
+  const [attendanceInfo, setAttendanceInfo] = useState(null)
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+  useEffect(() => {
+    getAttenDataList()
+  }, [])
+  const getAttenDataList = () => {
+    GetAtten().then(response => {
+      if (response.success) {
+        setAttendanceInfo(response.data)
+      }
+    })
+  }
   const onMenuClick = () => {
 
     const { dispatch } = props;
@@ -100,8 +113,7 @@ const Navigation = (props) => {
               </div>
             </Link>
             <div className="right-content">
-              <span>8:30签入</span>
-              <span>下班未签出</span>
+              <span>{attendanceInfo}</span>
               <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
                 <img src={loginheadimg} alt="777" />
               </Popover>

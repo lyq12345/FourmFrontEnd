@@ -20,14 +20,14 @@ const ListData = (props) => {
         <p>每周堂里人</p>
         {
           ListDataInfo.affairs && ListDataInfo.affairs.length && ListDataInfo.affairs.map((item, index) => (
-            <div className={styles.listConent} key={index} onClick={() => routerLink()}>
+            <div className={styles.listConent} key={index} onClick={() => routerLink(item)}>
               <p className={styles.leftImg}>
                 <img className={styles.contentImg} src={waterHealth} alt="" />
                 {
                   isShowWeek ?
                     <>
                       <img className={styles.week} src={week} alt="" />
-                      <span>56</span>
+                      <span>{item.weekIndex}</span>
                     </>
                     : <></>
                 }
@@ -39,7 +39,10 @@ const ListData = (props) => {
                     {
                       isStickIcon ? <img src={stick} alt="" /> : <></>
                     }
-                    <span>{item.title}</span>
+                    {
+                      isLine ? <span>{item.userName}</span> : <span>{item.title}</span>
+                    }
+
                   </p>
                   {
                     isLine ?
@@ -63,7 +66,7 @@ const ListData = (props) => {
                       <span>阅读</span><span style={{ marginLeft: '5px' }}>{item.showCount}</span>
                     </p>
                   </div>
-                  <p>2020.08.31</p>
+                  <p>{item.createDate}</p>
                 </div>
               </div>
             </div>

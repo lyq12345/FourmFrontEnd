@@ -3,29 +3,30 @@ import styles from './styles.less';
 import lookmoreBtn from '@/assets/img/lookmore-btn.png';
 
 const Card = (props) => {
-  const testData = [
-    { title: '经销商服务经理（化妆品）', date: '07.31' },
-    { title: '经销商服务经理（化妆品）', date: '07.31' },
-    { title: '经销商服务经理（化妆品）', date: '07.31' },
-  ];
-  let { title, noPadding, bottomLookMore } = props
+  let { title, noPadding, bottomLookMore, dataList, titlePaperwork } = props
+  const handleLink = (val) => {
+    const w = window.open('about:blank');
+    w.location.href = val.href
+  }
   return (
     <div className={`${styles.card} ${noPadding ? styles.noPadding : ''}`}>
       {
         !title ? <div className={styles.cardTitle} >
-          <p className={styles.titleName}>公告通知</p>
+          <p className={styles.titleName}>{titlePaperwork}</p>
           <p className={styles.lookMore}>更多</p>
         </div> : <></>
       }
-      {testData.length &&
-        testData.map((item, index) => (
-          <div className={styles.contentInfo} key={index}>
-
+      {dataList && dataList.length &&
+        dataList.map((item, index) => (
+          <div className={styles.contentInfo} key={index} onClick={() => handleLink(item)}>
             <p className={styles.contentTitle}>
               <span className={styles.dot}></span>
-              {item.title}
+              {
+                titlePaperwork ? item.title : item.fullTitle
+              }
+
             </p>
-            <p className={styles.contentDate}>{item.date}</p>
+            <p className={styles.contentDate}>{item.time}</p>
           </div>
         ))}
       {

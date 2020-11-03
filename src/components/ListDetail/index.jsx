@@ -16,7 +16,7 @@ const ListDetail = (props) => {
   const [praiseStatus, setPraiseStatus] = useState(false)
   const [praiseNum, setPraiseNum] = useState(0)
 
-  const { isName, isLine, isInfoIntro, dataInfo, giveLikeNum } = props
+  const { isName, isLine, isInfoIntro, dataInfo, giveLikeNum, id } = props
   useEffect(() => {
     hwplayerloaded(() => {
       initVideo()
@@ -40,7 +40,7 @@ const ListDetail = (props) => {
     if (!praiseStatus) {
       setPraiseStatus(true)
       // setPraiseNum(praiseNum + 1)
-      SetAffairLove({ id: '' }).then(response => {
+      SetAffairLove({ id: id }).then(response => {
         if (response.success) {
           setPraiseNum(response.data || 0)
         }
@@ -50,19 +50,19 @@ const ListDetail = (props) => {
   return (
     <div className={styles.listDetail}>
       <div className={styles.detailComponent}>
-        <p className={styles.title}>{dataInfo.title}</p>
+        <p className={styles.title}>{dataInfo && dataInfo.title}</p>
         <div className={styles.authorAndRestsInfo}>
           <div>
-            <p>发布者：刘琦</p>
+            <p>发布者：{dataInfo && dataInfo.creator}</p>
             <p className={styles.readAmount}>
               <img src={read} alt="" />
-              <span>阅读</span><span style={{ marginLeft: '5px' }}>{dataInfo.showCount}</span>
+              <span>阅读</span><span style={{ marginLeft: '5px' }}>{dataInfo && dataInfo.showCount}</span>
             </p>
-            <p>{dataInfo.createDate}</p>
+            <p>{dataInfo && dataInfo.createDate}</p>
           </div>
         </div>
         <div className={styles.imgOrVideo}>
-          <img src={waterHealth} alt="" />
+          <img src={dataInfo && dataInfo.href && dataInfo.href.src} alt="" />
           {/* <video
             id='detail-video'
             width="800"
@@ -72,16 +72,16 @@ const ListDetail = (props) => {
         </div>
         <div className={styles.contentIntroduced}>
           {
-            isName ? <p className={styles.name}>饶红明</p> : <></>
+            isName ? <p className={styles.name}>{dataInfo && dataInfo.userName}</p> : <></>
           }
           {
             isLine ? <p className={styles.line}></p> : <></>
           }
           {
-            isInfoIntro ? <p className={styles.companie}>农夫山泉股份有限公司/生产营运中心</p> : <></>
+            isInfoIntro ? <p className={styles.companie}>{dataInfo && dataInfo.company}</p> : <></>
           }
           <div className={styles.detailInfo}>
-            {dataInfo.content}
+            {dataInfo && dataInfo.content}
           </div>
         </div>
         <div className={praiseStatus ? `${styles.fakeLikes} ${styles.fakeLikesBackground}` : styles.fakeLikes} onClick={() => dotPraise()}>

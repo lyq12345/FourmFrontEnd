@@ -3,14 +3,15 @@ import styles from './styles.less'
 import ListDetail from '@/components/ListDetail'
 import { GetAffairView } from '@/api/common'
 
-const Detail = () => {
+const Detail = (props) => {
   const [dataInfo, setDataInfo] = useState({})
   const [giveLikeNum, setGiveLikeNum] = useState()
+  const { state } = props.location
   useEffect(() => {
     info()
   }, [])
   const info = () => {
-    GetAffairView({ id: '' }).then(response => {
+    GetAffairView({ id: state.id }).then(response => {
       if (response.success) {
         setDataInfo(response.data)
       }
@@ -19,7 +20,7 @@ const Detail = () => {
 
   return (
     <div>
-      <ListDetail dataInfo={dataInfo} giveLikeNum={giveLikeNum} />
+      <ListDetail id={state.id} dataInfo={dataInfo} giveLikeNum={giveLikeNum} />
     </div>
   )
 }
