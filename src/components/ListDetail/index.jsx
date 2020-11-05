@@ -18,26 +18,32 @@ const ListDetail = (props) => {
 
   const { isName, isLine, isInfoIntro, dataInfo, giveLikeNum, id } = props
   useEffect(() => {
-    hwplayerloaded(() => {
-      initVideo()
-    })
     return () => player && player.dispose()
   }, [])
+  useEffect(() => {
+    if (dataInfo && dataInfo.href && dataInfo.href.video) {
+      hwplayerloaded(() => {
+        initVideo()
+      })
+    }
+    // return () => player && player.dispose()
+  }, [dataInfo && dataInfo.href && dataInfo.href.video])
   const initVideo = () => {
     var options = {
       //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
-      poster: 'https://file-cloud.yst.com.cn/website/2020/04/09/6d09ad7ccba14e19ad324c0ab0f7640a.png',
+      poster: dataInfo.href.src,
       height: 447,
       width: 800,
     };
     player = HWPlayer(`detail-video`, options, function () {
       //播放器已经准备好了
-      player.src('https://videos.nfsq.com.cn/asset/a2290e25e7a1e66e7897336ae6d12c4d/play_video/522fc926a3bacbecfe73ceea735dbf36.m3u8');
+      player.src(dataInfo.href.video);
     });
   }
   // 点赞
   const dotPraise = () => {
-    if (!praiseStatus) {
+    debugger
+    if (!praiseStatus && dataInfo.isLove == 0) {
       setPraiseStatus(true)
       // setPraiseNum(praiseNum + 1)
       SetAffairLove({ id: id }).then(response => {
@@ -62,13 +68,17 @@ const ListDetail = (props) => {
           </div>
         </div>
         <div className={styles.imgOrVideo}>
-          <img src={dataInfo && dataInfo.href && dataInfo.href.src} alt="" />
-          {/* <video
-            id='detail-video'
-            width="800"
-            height="447"
-            className="video-js vjs-default-skin vjs-big-play-centered"
-          ></video> */}
+          {
+            dataInfo && dataInfo.href && dataInfo.href.video ?
+              <video
+                id='detail-video'
+                width="800"
+                muted
+                height="447"
+                className="video-js vjs-default-skin vjs-big-play-centered"
+              ></video>
+              : <img src={dataInfo && dataInfo.href && dataInfo.href.src} alt="" />
+          }
         </div>
         <div className={styles.contentIntroduced}>
           {
@@ -84,10 +94,10 @@ const ListDetail = (props) => {
             {dataInfo && dataInfo.content}
           </div>
         </div>
-        <div className={praiseStatus ? `${styles.fakeLikes} ${styles.fakeLikesBackground}` : styles.fakeLikes} onClick={() => dotPraise()}>
+        <div className={praiseStatus || (dataInfo && dataInfo.isLove == 1) ? `${styles.fakeLikes} ${styles.fakeLikesBackground}` : styles.fakeLikes} onClick={() => dotPraise()}>
           <p className={styles.fakeLikesImg}>
             {
-              praiseStatus ?
+              praiseStatus || (dataInfo && dataInfo.isLove == 1) ?
                 <img src={endGiveLike} alt="" />
                 : <img src={noGiveLike} alt="" />
             }

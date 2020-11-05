@@ -19,7 +19,7 @@ const Card = (props) => {
       {dataList && dataList.length &&
         dataList.map((item, index) => (
           <div className={styles.contentInfo} key={index} onClick={() => handleLink(item)}>
-            <p className={styles.contentTitle}>
+            <p className={styles.contentTitle} title={titlePaperwork ? item.title : item.fullTitle}>
               <span className={styles.dot}></span>
               {
                 titlePaperwork ? item.title : item.fullTitle

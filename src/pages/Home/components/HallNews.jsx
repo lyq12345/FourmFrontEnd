@@ -6,14 +6,13 @@ import hallWords from '@/assets/img/Hall-words.png';
 import HallPeople from '@/assets/img/HallPeople.png';
 import waterHealth from '@/assets/img/waterHealth.png';
 import CardComponent from '@/components/Card';
-import play from '@/assets/img/play.png';
+import playImg from '@/assets/img/play.png';
 import styles from '../style.less';
-import { carousel } from '@/constants/mock';
+// import { carouselList } from '@/constants/mock';
 import { withRouter } from 'umi';
 import { GetUserTip, GetPortalTip, GetAffairIndex, GetAffairPersonIndex, GetTask, GetMessage } from '@/api/common'
-import HWPlayer from "HWPlayer";
-import hwplayerloaded from "hwplayerloaded";
-// import { set } from 'lodash'
+// import HWPlayer from "HWPlayer";
+// import hwplayerloaded from "hwplayerloaded";
 import Swiper from 'swiper';
 
 import Slider from "react-slick";
@@ -26,7 +25,7 @@ let video2 = {}
 let slickConfig
 let waterSwiper = {}
 // let player
-let playerMap = {}
+let player = {}
 
 const HallNews = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
@@ -43,6 +42,11 @@ const HallNews = (props) => {
   const [unreadInfoList, setUnreadInfoList] = useState({})
   const [toDoTasksList, setToDoTasksNumList] = useState({})
   const [WeeklyChapelInfo, setWeeklyChapelInfo] = useState({})
+  const [isPaly, setIsPaly] = useState(true)
+  // const viedoRef0 = useRef(null)
+  // const viedoRef1 = useRef(null)
+  // const viedoRef2 = useRef(null)
+  // const viedoRef3 = useRef(null)
 
   useEffect(() => {
     const myDate = new Date();
@@ -52,10 +56,43 @@ const HallNews = (props) => {
     let activeIndex = null
     setYearWeek(getYearWeek(fullYear, month, day));
     info()
+    // videoPlay
+    // return () => {
+    //   Object.values(playerMap).map(player => {
+    //     player.dispose()
+    //   })
+    // }
+  }, []);
+  useEffect(() => {
+    let idArr = []
+    // hwplayerloaded(() => {
+    //   setSpinning(false)
+    // let dom = document.getElementsByClassName(`swiper-slide`)
+    // carouselList.forEach((v, i) => initVideo(i))
+    // carouselList.forEach((v, i) => {
+    //   if (v.href && v.href.video) {
+    //     initVideo(i)
+    //   }
+    // })
+    // if (dom && dom.length > 1) {
+    //   for (var v = 0; v < dom.length; v++) {
+    //     let myId = dom[v].children[0]
+    //     let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
+    //     console.log(idArr.includes(myId.id), idArr, myId.id, '--------------')
+    //     if (idArr.includes(myId.id)) {
+    //       myId.id = `video-${v}`
+    //       initVideo(idSub.split('-')[1], v, 'firstCpy')
+    //     }
+    //     if (myId.id) {
+    //       idArr.push(myId.id)
+    //     }
+    //   }
+    // }
+    // })
     waterSwiper = new Swiper('.swiper-container', {
       direction: 'horizontal',
       loop: true,
-      autoplay: false,
+      autoplay: true,
       allowTouchMove: false,//禁止拖动
       on: {
         slideChangeTransitionEnd: function () {
@@ -63,41 +100,57 @@ const HallNews = (props) => {
         }
       }
     })
-    return () => {
-      Object.values(playerMap).map(player => {
-        player.dispose()
-      })
-    }
-  }, []);
-  useEffect(() => {
-    const idArr = []
-    hwplayerloaded(() => {
-      setSpinning(false)
-      let dom = document.getElementsByClassName(`swiper-slide`)
-      carouselList.forEach((_, i) => initVideo(i))
-      if (dom && dom.length > 1) {
-        for (var v = 0; v < dom.length; v++) {
-          let myId = dom[v].children[0]
-          let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
-          if (idArr.includes(myId.id)) {
-            myId.id = `video-${v}`
-            initVideo(idSub.split('-')[1], v, 'firstCpy')
-          }
+    // player = document.getElementById('videoPlay')
+    // player && player.play();
+    // playVideo()
+    // carouselList && carouselList.map((v_, index) => initVideo(v_, index))
+    let dom = document.getElementsByClassName(`swiper-slide`)
+    carouselList && carouselList.forEach((v, i) => initVideo(i))
+    // carouselList.forEach((v, i) => {
+    //   if (v.href && v.href.video) {
+    //     initVideo(i)
+    //   }
+    // })
+    if (dom && dom.length > 1) {
+      for (var v = 0; v < dom.length; v++) {
+        let myId = dom[v].children[0]
+        let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
+        if (idArr.includes(myId.id)) {
+          myId.id = `videoPlay${v}`
+          initVideo(idSub.split('-')[1], v, 'firstCpy')
+        }
+        if (myId.id) {
           idArr.push(myId.id)
         }
       }
-    })
-  }, [carouselList.length > 0])
+    }
 
+
+  }, [carouselList && carouselList.length])
+
+  const initVideo = (index, value, copy) => {
+    let id = copy ? value : index
+    player = document.getElementById(`videoPlay${id}`)
+    player && player.addEventListener('play', function (e) {
+      waterSwiper && waterSwiper.autoplay.stop()
+    })
+    player && player.addEventListener('pause', function (e) {
+      waterSwiper && waterSwiper.autoplay.start()
+    })
+    player && player.addEventListener('ended', function (e) {
+      e.target.load()
+      waterSwiper && waterSwiper.autoplay.start()
+    })
+  }
   const info = () => {
     // 获取入职时间
-    GetUserTip().then(response => {
+    GetUserTip({}).then(response => {
       if (response.success) {
         setEntryTime(response.data)
       }
     })
     // 获取堂里话
-    GetPortalTip().then(response => {
+    GetPortalTip({}).then(response => {
       if (response.success) {
         setHallWordsText(response.data)
       }
@@ -129,47 +182,6 @@ const HallNews = (props) => {
       }
     })
   }
-  // 初始化回调
-  const initVideo = (index, value, copy) => {
-    // setAutoplay(false)
-    var options = {
-      //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
-      // controls: index ? false : true,
-      // controls: true,
-      poster: carouselList[index].href.src,
-      muted: true,
-      playbackRates: [],
-      controls: true,
-      height: 278,
-      width: 487,
-      // sources: carousel[index].src
-    };
-    let id = copy ? value : index
-    playerMap[`player-${id}`] = HWPlayer(`#video-${id}`, options, function () {
-      console.log('hw loaded', carouselList[index].href.video)
-      let player = playerMap[`player-${index}`]
-      //播放器已经准备好了
-      player.src(carouselList[index].href.video);
-      // "this"指向的是HWPlayer的实例对象player
-      // player.play();
-      // // 使用事件监听
-      // 开始播放
-      player.on('play', function () {
-        waterSwiper && waterSwiper.autoplay.stop()
-      });
-      // 暂停播放
-      player.on('pause', function () {
-        waterSwiper && waterSwiper.autoplay.start()
-      });
-      player.on('ended', function () {
-        //播放结束了
-        waterSwiper && waterSwiper.autoplay.start()
-      });
-      // player.removeEvent('eventName', myFunc);
-    });
-    console.log(autoplay)
-
-  }
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -188,8 +200,18 @@ const HallNews = (props) => {
     </div>
   );
   const carouselFun = (current) => {
+    setIsPaly(true)
     setCarouselCurrent(current);
   };
+  const carouselHandleClick = (val, index) => {
+    // waterSwiper && waterSwiper.autoplay.stop()
+    if (val.href.videoMP4) {
+      initVideo(val, index)
+    } else {
+      waterSwiper && waterSwiper.autoplay.stop()
+      detailRouter(val)
+    }
+  }
 
   const goPlay = (item, index) => {
     setAutoplay(false)
@@ -272,13 +294,23 @@ const HallNews = (props) => {
                 <div className="swiper-wrapper">
                   {
                     carouselList && carouselList.map((item, index) => (
-                      <div key={index} className={`swiper-slide swiper-slide-${index}`}>
+                      <div key={index} className={`swiper-slide swiper-slide-${index}`} onClick={() => carouselHandleClick(item, index)}>
                         <video
-                          id={`video-${index}`}
+                          controls={item.href.videoMP4 ? true : false}
+                          src={item.href.videoMP4}
+                          poster={item.href.src}
+                          id={`videoPlay${index}`}
+                          // id='videoPlay'
+                          // ref={`viedoRef${index}`}
+                          muted
                           width="487"
                           height="278"
+                          style={{ width: '487px', height: '278px' }}
                           className="video-js vjs-default-skin vjs-big-play-centered"
                         ></video>
+                        {/* {
+                          item.href.videoMP4 && isPaly ? <img onClick={() => carouselHandleClick(item, index)} className={styles.carouselPlayImg} src={playImg}></img> : <></>
+                        } */}
                       </div>
                     ))
                   }
@@ -297,8 +329,8 @@ const HallNews = (props) => {
                     }
                     key={index}
                   >
-                    <p>{item.title}</p>
-                    <p className={styles.content}>{item.content}</p>
+                    <p className={styles.content} title={item.title}>{item.title}</p>
+                    <p className={styles.content} title={item.content}>{item.content}</p>
                   </div>
                 ))}
               <div onClick={lookMoreHallSomething} className={styles.lookMore}>
@@ -306,7 +338,7 @@ const HallNews = (props) => {
               </div>
             </div>
           </div>
-          <div className={styles.spingLoading}><Spin spinning={spinning} /></div>
+          {/* <div className={styles.spingLoading}><Spin spinning={spinning} /></div> */}
         </div>
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
