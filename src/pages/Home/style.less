@@ -109,16 +109,6 @@ h3 {
           height: 100%;
           object-fit: fill;
         }
-        .carouselPlayImg {
-          position: absolute;
-          z-index: 40;
-          left: 50%;
-          top: 50%;
-          width: 80px;
-          margin-left: -40px;
-          margin-top: -40px;
-
-        }
         .spingLoading {
           text-align: center;
           // border-radius: 4px;
@@ -170,14 +160,6 @@ h3 {
         //   //   background-size: 57px 57px;
         //   // }
         // }
-      }
-      .carouselVideo {
-        position: absolute;
-        // left: 0;
-        width: 487px;
-        height: 278px;
-        background-color: black;
-        z-index: 100;
       }
       .rightCarouselContent {
         width: 299px;
@@ -244,6 +226,13 @@ h3 {
         margin-top: 22px;
         font-size: 14px;
         line-height: 22px;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
       .hallPeopleName {
         margin-top: 9px;

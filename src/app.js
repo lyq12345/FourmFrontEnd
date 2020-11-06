@@ -31,11 +31,6 @@ export const dva = {
 
 export async function render(oldRender) {
   let routeData = [];
-  LoginIn().then(response => {
-    if (response.success) {
-      localStorage.setItem(`userInfoLogin`, JSON.stringify(response.data));
-    }
-  })
 
   /**
  * TODO: 不使用权限是 本地菜单自定义

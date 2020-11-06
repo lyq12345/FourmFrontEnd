@@ -57,11 +57,14 @@ const Navigation = (props) => {
     },
   } = props;
   const [attendanceInfo, setAttendanceInfo] = useState(null)
+  const [headImage, setHeadImage] = useState(loginheadimg)
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
   useEffect(() => {
     getAttenDataList()
+    let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'))
+    setHeadImage(loginInUserInfo && loginInUserInfo.headImage)
   }, [])
   const getAttenDataList = () => {
     GetAtten().then(response => {
@@ -108,14 +111,13 @@ const Navigation = (props) => {
           <div className="header">
             <Link to="/">
               <div className="left-content">
-
                 <img src={logo} alt="" />
               </div>
             </Link>
             <div className="right-content">
               <span>{attendanceInfo}</span>
               <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
-                <img src={loginheadimg} alt="777" />
+                <img className='headerImg' src={JSON.parse(localStorage.getItem('userInfoLogin')) && JSON.parse(localStorage.getItem('userInfoLogin')).headImage} alt="" />
               </Popover>
             </div>
           </div>

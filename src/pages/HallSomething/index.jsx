@@ -9,7 +9,7 @@ const HallSomething = (props) => {
   const [ListDataInfo, setListDataInfo] = useState({})
   const [currentPage, setCurrentPage] = useState(1)
   const [total, setTotal] = useState(1)
-  const { state } = props.location
+  const { query } = props.location
   useEffect(() => {
     getAffairList(1)
   }, [])
@@ -26,10 +26,7 @@ const HallSomething = (props) => {
     })
   }
   const routerLink = (val) => {
-    props.history.push({
-      pathname: '/hall-something/detail',
-      state: { id: val.id },
-    });
+    window.open(`/hall-something/detail?id=${val.id}`)
   }
   return (
     <div className={styles.hallPeople}>

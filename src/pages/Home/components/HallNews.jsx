@@ -218,26 +218,16 @@ const HallNews = (props) => {
   }
 
   const lookMoreHallPeople = (val) => {
-    props.history.push({
-      pathname: '/hall-people',
-    });
+    window.open('/hall-people')
   };
   const lookMoreHallSomething = (val) => {
-    props.history.push({
-      pathname: '/hall-something',
-    });
+    window.open('/hall-something')
   };
   const detailRouter = (val) => {
-    props.history.push({
-      pathname: '/hall-something/detail',
-      state: { id: val.id }
-    });
+    window.open(`/hall-something/detail?id=${val.id}`)
   };
   const detailHallPeople = (val) => {
-    props.history.push({
-      pathname: '/hall-people/detail',
-      state: { id: val.id }
-    });
+    window.open(`/hall-people/detail?id=${val.id}`)
   };
 
   return (
@@ -344,7 +334,7 @@ const HallNews = (props) => {
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
           <div className={styles.contentInfo} onClick={() => detailHallPeople(WeeklyChapelInfo)}>
             <p className={styles.currentWeek}>{yearWeek}</p>
-            <p className={styles.contentText}>
+            <p className={styles.contentText} title={WeeklyChapelInfo && WeeklyChapelInfo.content}>
               {WeeklyChapelInfo && WeeklyChapelInfo.content}
             </p>
             <p className={styles.hallPeopleName}>

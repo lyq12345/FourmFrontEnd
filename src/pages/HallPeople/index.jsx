@@ -26,10 +26,7 @@ const HallPeople = (props) => {
     })
   }
   const routerLink = (val) => {
-    props.history.push({
-      pathname: '/hall-people/detail',
-      state: { id: val.id },
-    });
+    window.open(`/hall-people/detail?id=${val.id}`)
   }
   return (
     <div className={styles.hallPeople}>

@@ -8,12 +8,12 @@ const Detail = (props) => {
 
   const [dataInfo, setDataInfo] = useState({})
   const [giveLikeNum, setGiveLikeNum] = useState()
-  const { state } = props.location
+  const { query } = props.location
   useEffect(() => {
     info()
   }, [])
   const info = () => {
-    GetAffairPersonView({ id: state.id }).then(response => {
+    GetAffairPersonView({ id: query.id }).then(response => {
       if (response.success) {
         setDataInfo(response.data)
       }
@@ -22,7 +22,7 @@ const Detail = (props) => {
 
   return (
     <div>
-      <ListDetail id={state.id} dataInfo={dataInfo} giveLikeNum={giveLikeNum} isName isInfoIntro isLine />
+      <ListDetail id={query.id} dataInfo={dataInfo} giveLikeNum={giveLikeNum} isName isInfoIntro isLine />
     </div>
   )
 }
