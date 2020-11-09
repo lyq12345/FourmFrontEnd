@@ -14,6 +14,7 @@ import ModelAdvertising from '@/components/ModelAdvertising';
 import { connect, ConnectState } from 'umi';
 
 import { Link } from 'umi';
+import Item from 'antd/lib/list/Item';
 
 const { Header, Footer, Sider, Content } = Layout;
 
@@ -70,13 +71,19 @@ const Navigation = (props) => {
 
   // 按斜杠分割成数组
   let routeArray = [];
-  noSlashPath.split('/').map((item) => {
+  noSlashPath.split('/').map((item, index, arr) => {
     if (item !== '') {
-      routeArray.push('/' + item);
+      if (index === 1) {
+        routeArray.push('/' + item);
+      } else {
+        routeArray.push('/' + arr[index - 1] + '/' + item);
+      }
     }
   });
   console.log('????', routeArray);
+  console.log('!!!!', noSlashPath);
 
+  // 递归，map路由与导航名称
   const setRouteMap = (data) => {
     for (let item of data) {
       if (item.path !== '/home') {
@@ -87,7 +94,6 @@ const Navigation = (props) => {
       }
     }
   };
-
   const routeList = route.children;
   setRouteMap(routeList);
 
@@ -146,30 +152,30 @@ const Navigation = (props) => {
         </Header>
         <Content>
           <Authorized authority={authorized!.authority} noMatch={noMatch}>
-            {routeMap.has(noSlashPath) ? (
+            {routeMap.has(noSlashPath) && noSlashPath !== '/home' ? (
               <div style={{ margin: '10px 0' }}>
                 <Breadcrumb separator="" style={{ color: '#D30B24' }}>
                   <Breadcrumb.Item href="/home">
                     <span style={{ color: '#D30B24' }}>首页</span>
                   </Breadcrumb.Item>
-                  {/* {routeArray.map((item, index) => {
+                  {routeArray.map((item, index) => {
                     return (
-                      <div>
+                      <Breadcrumb separator="" style={{ display: 'inline', color: '#D30B24' }}>
                         <Breadcrumb.Separator>
                           <span style={{ color: '#D30B24' }}>&gt;</span>
                         </Breadcrumb.Separator>
-                        <Breadcrumb.Item>
-                          <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
-                        </Breadcrumb.Item>
-                      </div>
+                        {item === noSlashPath ? (
+                          <Breadcrumb.Item>
+                            <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
+                          </Breadcrumb.Item>
+                        ) : (
+                          <Breadcrumb.Item href={item}>
+                            <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
+                          </Breadcrumb.Item>
+                        )}
+                      </Breadcrumb>
                     );
-                  })} */}
-                  <Breadcrumb.Separator>
-                    <span style={{ color: '#D30B24' }}>&gt;</span>
-                  </Breadcrumb.Separator>
-                  <Breadcrumb.Item href="">
-                    <span style={{ color: '#D30B24' }}>{routeMap.get(noSlashPath)}</span>
-                  </Breadcrumb.Item>
+                  })}
                 </Breadcrumb>
               </div>
             ) : null}
