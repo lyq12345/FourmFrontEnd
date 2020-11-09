@@ -14,7 +14,6 @@ import ModelAdvertising from '@/components/ModelAdvertising';
 import { connect, ConnectState } from 'umi';
 
 import { Link } from 'umi';
-import Item from 'antd/lib/list/Item';
 
 const { Header, Footer, Sider, Content } = Layout;
 
