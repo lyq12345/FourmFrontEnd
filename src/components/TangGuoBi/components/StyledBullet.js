@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-08 16:57:32
- * @LastEditTime: 2020-10-16 14:24:06
- * @LastEditors: xnwang02
+ * @LastEditTime: 2020-11-09 13:26:40
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/StyledBullet.js
  */
@@ -73,7 +73,7 @@ const StyledBullet = ({
             color,
           }}
         >
-          {msg}
+          {msg}&nbsp;
         </span>
         <span
           style={{
@@ -85,7 +85,7 @@ const StyledBullet = ({
             color,
           }}
         >
-          {valuesType}
+          {valuesType}&nbsp;
         </span>
         <span
           style={{

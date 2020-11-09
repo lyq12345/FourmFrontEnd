@@ -5,6 +5,7 @@ import { Button, message, Card } from 'antd';
 import styles from './style.less';
 import Hint from '@/assets/img/hint2.png';
 import { GetMenuMy, SaveMyMenu } from '@/api/navigation';
+import { history } from 'umi';
 
 // 创建上下文
 export const tagListContext = createContext(null);
@@ -36,7 +37,9 @@ const NavSetting = () => {
     setClicked(true);
   };
 
-  const handleCancel = () => {};
+  const handleCancel = () => {
+    history.goBack();
+  };
 
   return (
     <div>

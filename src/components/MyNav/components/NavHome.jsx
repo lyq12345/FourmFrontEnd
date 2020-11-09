@@ -12,19 +12,12 @@ const data = [
   { title: '会议室预定', icon: '', href: '' },
   { title: '添加', icon: '', href: '' },
 ];
-export default function NavHome() {
-  const [menuData, setMenuData] = useState([]);
-  useEffect(() => {
-    GetMenuMy().then(({ success, data }) => {
-      if (success) {
-        setMenuData(data);
-      }
-    });
-  }, []);
+export default function NavHome(props) {
+ 
   return (
     <div>
       <List
-        dataSource={menuData}
+        dataSource={props.data}
         grid={{ gutter: 16, column: 5 }}
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>

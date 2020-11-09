@@ -1,17 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tabs, List } from 'antd';
 import styles from './style.less';
 import NavHome from './components/NavHome';
+import { GetSystems, GetAllMenu, GetMenuMy } from '@/api/navigation';
 
 const { TabPane } = Tabs;
 
 export default function Nav() {
+  const [myData, setMydata] = useState([]);
+  useEffect(() => {
+    GetMenuMy().then(({ success, data }) => {
+      if (success) {
+        setMydata(data);
+      }
+    });
+  }, []);
+  const queryCategories = (key) => {
+    if (key === '1') {
+      GetMenuMy().then(({ success, data }) => {
+        if (success) {
+          setMydata(data);
+        }
+      });
+    } else {
+      GetAllMenu({ id: key }).then(({ success, data }) => {
+        if (success) {
+          setMydata(data);
+        }
+      });
+    }
+  };
   return (
     <div className={styles.tabsContainer}>
       <Tabs
         className={styles.navTabs}
         defaultActiveKey="1"
         tabBarExtraContent={<a href="./nav-setting">设置</a>}
+        onChange={(anctiveKey) => {
+          queryCategories(anctiveKey);
+        }}
       >
         <TabPane
           tab={
@@ -28,28 +55,31 @@ export default function Nav() {
           }
           key="1"
         >
-          <NavHome />
+          <NavHome data={myData} />
         </TabPane>
-        <TabPane tab={<span>HR</span>} key="2">
-          HR
+        <TabPane tab={<span>门户</span>} key="4">
+          <NavHome data={myData} />
         </TabPane>
-        <TabPane tab={<span>行政</span>} key="3">
-          行政
+        <TabPane tab={<span>招聘</span>} key="5">
+          <NavHome data={myData} />
         </TabPane>
-        <TabPane tab={<span>财务</span>} key="4">
-          财务
-        </TabPane>
-        <TabPane tab={<span>IT</span>} key="5">
-          IT
-        </TabPane>
-        <TabPane tab={<span>法务</span>} key="6">
-          法务
+        <TabPane tab={<span>报表</span>} key="6">
+          <NavHome data={myData} />
         </TabPane>
         <TabPane tab={<span>采购</span>} key="7">
-          采购
+          <NavHome data={myData} />
         </TabPane>
-        <TabPane tab={<span>党建</span>} key="8">
-          党建
+        <TabPane tab={<span>考勤</span>} key="8">
+          <NavHome data={myData} />
+        </TabPane>
+        <TabPane tab={<span>绩效</span>} key="9">
+          <NavHome data={myData} />
+        </TabPane>
+        <TabPane tab={<span>问卷</span>} key="10">
+          <NavHome data={myData} />
+        </TabPane>
+        <TabPane tab={<span>审计</span>} key="11">
+          <NavHome data={myData} />
         </TabPane>
       </Tabs>
     </div>
