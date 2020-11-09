@@ -3,7 +3,7 @@ import request from '@/utils/request';
 // 获取导航
 export const GetAllMenu = async (data) =>
   request('/IWork/GetAllMenu', {
-    method: 'GET',
+    method: 'POST',
     data,
   });
 
@@ -18,5 +18,13 @@ export const GetMenuMy = async (data) =>
 export const SaveMyMenu = async (data) =>
   request('/IWork/SaveMyMenu', {
     method: 'POST',
+    data,
+  });
+
+// 获取系统分类
+
+export const GetSystems = async (data) =>
+  request('/IWork/GetSystems', {
+    method: 'GET',
     data,
   });

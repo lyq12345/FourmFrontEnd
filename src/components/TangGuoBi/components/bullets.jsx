@@ -21,7 +21,7 @@ export default function Bullets(props) {
       const bulletIndex = seq % size;
       const styleIndex = seq % 5;
       const item = bullets[bulletIndex];
-      const msg = item.personNameTo + ' 获得' + item.coin + '堂果币 ';
+      const msg = item.personNameTo + ' 获得' + item.coin + '堂果币';
       const valuesType = item.valuesType + ' | ';
       const reason = item.reason;
       screen.push(
