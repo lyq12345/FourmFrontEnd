@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { Card, Carousel, Popover, Badge, Spin, Divider } from 'antd';
+import { useHover } from 'ahooks';
 import toDoTasksImg from '@/assets/img/To-do-tasks.png';
 import unreadMessages from '@/assets/img/Unread-messages.png';
 import hallWords from '@/assets/img/Hall-words.png';
@@ -30,7 +31,7 @@ let player = {}
 const HallNews = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
   const [carouselCurrent, setCarouselCurrent] = useState(0);
-  const [autoplay, setAutoplay] = useState(false);
+  const [autoplay, setAutoplay] = useState(true);
   const [topVideo, setTopVideo] = useState({});
   const swiperRef = useRef()
   const [spinning, setSpinning] = useState(true)
@@ -43,52 +44,24 @@ const HallNews = (props) => {
   const [toDoTasksList, setToDoTasksNumList] = useState({})
   const [WeeklyChapelInfo, setWeeklyChapelInfo] = useState({})
   const [isPaly, setIsPaly] = useState(true)
-  // const viedoRef0 = useRef(null)
-  // const viedoRef1 = useRef(null)
-  // const viedoRef2 = useRef(null)
-  // const viedoRef3 = useRef(null)
+  const [controlsPlay, setControlsPlay] = useState(true)
+  const [isToDoTasksVisible, setIsToDoTasksVisible] = useState(false)
+  const [isUnreadVisible, setIsUnreadVisible] = useState(false)
 
   useEffect(() => {
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
     const month = myDate.getMonth() + 1;
     const day = myDate.getDate();
-    let activeIndex = null
     setYearWeek(getYearWeek(fullYear, month, day));
     info()
-    // videoPlay
-    // return () => {
-    //   Object.values(playerMap).map(player => {
-    //     player.dispose()
-    //   })
-    // }
   }, []);
   useEffect(() => {
     let idArr = []
-    // hwplayerloaded(() => {
-    //   setSpinning(false)
-    // let dom = document.getElementsByClassName(`swiper-slide`)
-    // carouselList.forEach((v, i) => initVideo(i))
-    // carouselList.forEach((v, i) => {
-    //   if (v.href && v.href.video) {
-    //     initVideo(i)
-    //   }
-    // })
-    // if (dom && dom.length > 1) {
-    //   for (var v = 0; v < dom.length; v++) {
-    //     let myId = dom[v].children[0]
-    //     let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
-    //     console.log(idArr.includes(myId.id), idArr, myId.id, '--------------')
-    //     if (idArr.includes(myId.id)) {
-    //       myId.id = `video-${v}`
-    //       initVideo(idSub.split('-')[1], v, 'firstCpy')
-    //     }
-    //     if (myId.id) {
-    //       idArr.push(myId.id)
-    //     }
-    //   }
-    // }
-    // })
+    if (carouselList.length === 0) {
+      return
+    }
+    let realIndex = null
     waterSwiper = new Swiper('.swiper-container', {
       direction: 'horizontal',
       loop: true,
@@ -96,52 +69,71 @@ const HallNews = (props) => {
       allowTouchMove: false,//禁止拖动
       on: {
         slideChangeTransitionEnd: function () {
-          carouselFun(this.realIndex)
+          setIsPaly(true)
+          realIndex = this.realIndex
+          setCarouselCurrent(this.realIndex);
+        },
+        touchStart: (swiper, event) => {
+          setIsPaly(false)
+          player = swiper.target.children.length ? swiper.target.children[0] : swiper.target
+          if (swiper.target && swiper.target.children && swiper.target.children.length) {
+            let { paused, ended, controls } = swiper.target && swiper.target.children && swiper.target.children[0]
+            swiper.target.children[0].controls = true
+            if (paused || ended) {
+              setIsPaly(false)
+              swiper.target.children[0].play()
+            }
+          } else {
+            if (carouselList[realIndex].href && !carouselList[realIndex].href.videoMP4) {
+              detailRouter(carouselList[realIndex])
+              return
+            }
+            swiper.target.controls = true
+            if (player.paused || player.ended) {
+              setIsPaly(false)
+              console.log('swiper.target.play()', '11111111111111111')
+              // swiper.target.play()
+            }
+          }
+          player && player.addEventListener('play', function (e) {
+            setIsPaly(false)
+            console.log('player.addEventListener-play', '11111111111111111')
+            waterSwiper && waterSwiper.autoplay.stop()
+          })
+          player && player.addEventListener('pause', function (e) {
+            console.log('player.addEventListener-pause', '11111111111111111')
+            waterSwiper && waterSwiper.autoplay.stop()
+          })
+          player && player.addEventListener('ended', function (e) {
+            e.target.load()
+            waterSwiper && waterSwiper.autoplay.start()
+          })
         }
       }
     })
-    // player = document.getElementById('videoPlay')
-    // player && player.play();
-    // playVideo()
-    // carouselList && carouselList.map((v_, index) => initVideo(v_, index))
-    let dom = document.getElementsByClassName(`swiper-slide`)
-    carouselList && carouselList.forEach((v, i) => initVideo(i))
-    // carouselList.forEach((v, i) => {
-    //   if (v.href && v.href.video) {
-    //     initVideo(i)
-    //   }
-    // })
-    if (dom && dom.length > 1) {
-      for (var v = 0; v < dom.length; v++) {
-        let myId = dom[v].children[0]
-        let idSub = JSON.parse(JSON.stringify(dom[v].children[0].id))
-        if (idArr.includes(myId.id)) {
-          myId.id = `videoPlay${v}`
-          initVideo(idSub.split('-')[1], v, 'firstCpy')
-        }
-        if (myId.id) {
-          idArr.push(myId.id)
-        }
-      }
-    }
+    // carouselList && carouselList.forEach((v, i) => initVideo(i))
 
 
   }, [carouselList && carouselList.length])
 
-  const initVideo = (index, value, copy) => {
-    let id = copy ? value : index
-    player = document.getElementById(`videoPlay${id}`)
-    player && player.addEventListener('play', function (e) {
-      waterSwiper && waterSwiper.autoplay.stop()
-    })
-    player && player.addEventListener('pause', function (e) {
-      waterSwiper && waterSwiper.autoplay.start()
-    })
-    player && player.addEventListener('ended', function (e) {
-      e.target.load()
-      waterSwiper && waterSwiper.autoplay.start()
-    })
-  }
+  // const initVideo = (index, value, copy) => {
+  //   let id = copy ? value : index
+  //   player = document.getElementById(`videoPlay${id}`)
+  //   player && player.addEventListener('play', function (e) {
+  //     setIsPaly(false)
+  //     waterSwiper && waterSwiper.autoplay.stop()
+  //     console.log('player.addEventListener-play', '11111111111111111')
+  //   })
+  //   player && player.addEventListener('pause', function (e) {
+  //     waterSwiper && waterSwiper.autoplay.stop()
+  //     console.log('player.addEventListener-pause', '11111111111111111')
+  //   })
+  //   player && player.addEventListener('ended', function (e) {
+  //     e.target.load()
+  //     // setIsPaly(true)
+  //     waterSwiper && waterSwiper.autoplay.start()
+  //   })
+  // }
   const info = () => {
     // 获取入职时间
     GetUserTip({}).then(response => {
@@ -160,11 +152,17 @@ const HallNews = (props) => {
       if (response.success) {
         setToDoTasksNumList(response.data.tasks || [])
         setToDoTasksNum(response.data.Total)
+        if (response.data.total && response.data.total > 0) {
+          setIsToDoTasksVisible(true)
+        } else {
+          setIsToDoTasksVisible(false)
+        }
       }
     })
     // 获取堂里新鲜事
     GetAffairIndex().then(response => {
       if (response.success) {
+        response.data[3].href.src = 'https://file-cloud.yst.com.cn/website/2020/04/09/5b47a54a68714de99bc14c05bf723b19.png'
         setCarouselList(response.data || [])
       }
     })
@@ -179,9 +177,25 @@ const HallNews = (props) => {
       if (response.success) {
         setUnreadInfoList(response.data.messages || [])
         setUnreadMessagesNum(response.data.total)
+        if (response.data.total && response.data.total > 0) {
+          setIsUnreadVisible(true)
+        } else {
+          setIsUnreadVisible(false)
+        }
       }
     })
   }
+  // 堂里新鲜事移除 /**遗留问题，移除区域后视频正在播放会有问题 */
+  const isHovering = useHover(() => document.getElementById('hover-div'), {
+    onEnter: () => {
+      waterSwiper && waterSwiper.autoplay && waterSwiper.autoplay.stop()
+    },
+    onLeave: () => {
+      if ((player && player.paused) || (player && player.ended)) {
+        waterSwiper && waterSwiper.autoplay && waterSwiper.autoplay.start()
+      }
+    },
+  });
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -199,18 +213,15 @@ const HallNews = (props) => {
       <CardComponent title noPadding bottomLookMore />
     </div>
   );
-  const carouselFun = (current) => {
-    setIsPaly(true)
-    setCarouselCurrent(current);
-  };
+  // const carouselFun = (current) => {
+  //   console.log(current, '111111111111111111111111111')
+  //   setIsPaly(true)
+  //   setCarouselCurrent(current);
+  // };
   const carouselHandleClick = (val, index) => {
-    // waterSwiper && waterSwiper.autoplay.stop()
-    if (val.href.videoMP4) {
-      initVideo(val, index)
-    } else {
-      waterSwiper && waterSwiper.autoplay.stop()
-      detailRouter(val)
-    }
+    // if (!val.href.videoMP4) {
+    //   detailRouter(val)
+    // }
   }
 
   const goPlay = (item, index) => {
@@ -229,6 +240,18 @@ const HallNews = (props) => {
   const detailHallPeople = (val) => {
     window.open(`/hall-people/detail?id=${val.id}`)
   };
+  const playVideo = () => {
+    setIsPaly(false)
+  }
+  const handleVisibleChange = (event, val) => {
+    if (val === 1 && unreadMessagesNum) {
+      setIsUnreadVisible(event)
+    }
+    if (val === 2 && toDoTasksNum) {
+      setIsToDoTasksVisible(event)
+    }
+  }
+
 
   return (
     <div>
@@ -246,12 +269,16 @@ const HallNews = (props) => {
           </span>
         </div>
         <div className={styles.task}>
-          <Popover placement="bottomRight" content={
-            <CardComponent title noPadding bottomLookMore dataList={unreadInfoList} />
-          } trigger="hover">
-            <div>
+          <Popover placement="bottomRight"
+            content={
+              <CardComponent title noPadding bottomLookMore dataList={unreadInfoList} moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=2" />
+            }
+            visible={isUnreadVisible}
+            onVisibleChange={(val) => handleVisibleChange(val, 1)}
+            trigger='hover'>
+            <div className={styles.popoverStyle} onClick={() => { window.open('http://10.213.3.39:8088/AutoLogin.aspx?type=2') }}>
               <img src={unreadMessages} alt="" />
-              <span className={styles.messageText}>未读消息</span>
+              <span className={styles.messageText}>我的消息</span>
               <Badge
                 className={styles.messageTost1}
                 style={{ backgroundColor: '#CE1925' }}
@@ -259,10 +286,14 @@ const HallNews = (props) => {
               />
             </div>
           </Popover>
-          <Popover placement="bottomRight" content={
-            <CardComponent title noPadding bottomLookMore dataList={toDoTasksList} />
-          } trigger="hover">
-            <div>
+          <Popover placement="bottomRight"
+            content={
+              <CardComponent title noPadding bottomLookMore dataList={toDoTasksList} moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=1" />
+            }
+            visible={isToDoTasksVisible}
+            onVisibleChange={(val) => handleVisibleChange(val, 2)}
+            trigger="hover">
+            <div className={styles.popoverStyle} onClick={() => { window.open('http://10.213.3.39:8088/AutoLogin.aspx?type=1') }}>
               <img src={toDoTasksImg} alt="" />
               <span className={styles.messageText}>待办任务</span>
               <Badge
@@ -278,29 +309,21 @@ const HallNews = (props) => {
       < div className={styles.somethingHall} >
         <div className={styles.leftContent}>
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
-          <div className={styles.leftCarousel}>
+          <div className={styles.leftCarousel} id="hover-div">
             <div className={styles.Carousel}>
               <div className="swiper-container">
                 <div className="swiper-wrapper">
                   {
                     carouselList && carouselList.map((item, index) => (
-                      <div key={index} className={`swiper-slide swiper-slide-${index}`} onClick={() => carouselHandleClick(item, index)}>
+                      <div key={index} className={`swiper-slide swiper-slide-${index} ${item.href.videoMP4 && isPaly ? styles.videoPlayStyle : ''}`} onClick={() => setIsPaly(false)}>
                         <video
-                          controls={item.href.videoMP4 ? true : false}
                           src={item.href.videoMP4}
                           poster={item.href.src}
+                          onPlay={() => setIsPaly(false)}
                           id={`videoPlay${index}`}
-                          // id='videoPlay'
-                          // ref={`viedoRef${index}`}
                           muted
-                          width="487"
-                          height="278"
-                          style={{ width: '487px', height: '278px' }}
-                          className="video-js vjs-default-skin vjs-big-play-centered"
+                          className={`video-js vjs-default-skin vjs-big-play-centered ${styles.videoPlayStyle}`}
                         ></video>
-                        {/* {
-                          item.href.videoMP4 && isPaly ? <img onClick={() => carouselHandleClick(item, index)} className={styles.carouselPlayImg} src={playImg}></img> : <></>
-                        } */}
                       </div>
                     ))
                   }

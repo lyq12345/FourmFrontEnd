@@ -55,6 +55,9 @@ h3 {
   .task {
     display: flex;
     align-items: center;
+    .popoverStyle {
+      cursor: pointer;
+    }
     img {
       width: 22px;
       height: 22px;
@@ -94,6 +97,27 @@ h3 {
   justify-content: space-between;
   padding: 20px 0 20px 20px;
   border-radius: 6px;
+  .videoPlayStyle {
+    position: relative;
+    // width: 100px !important;
+    // height: 100px !important;
+    // left:50%;
+    // top: 50%;
+    cursor: pointer;
+    &:before{
+      content:'';
+      position: absolute;
+      left:50%;
+      top: 50%;
+      width: 100px;
+      height: 100px;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: url('../../assets/img/play.png') no-repeat;
+      background-size: 100%;
+      z-index: 111;
+    }
+  }
   .leftContent {
     width: 796px;
     .leftCarousel {
@@ -104,15 +128,30 @@ h3 {
         // position: relative;
         width: 487px;
         height: 278px;
+       
         cursor: pointer;
         video {
           height: 100%;
           object-fit: fill;
+          width: 487px;
+          height: 278px;
+          
         }
+      
         .spingLoading {
           text-align: center;
           // border-radius: 4px;
           line-height: 278px;
+        }
+        .carouselPlayImg {
+          position: absolute;
+          z-index: 111;
+          top:50%;
+          left: 50%;
+          width: 100px;
+          height: 100px;
+          margin-left: -50px;
+          margin-top: -50px;
         }
         // // div {
         // //   height: 278px;

@@ -117,7 +117,7 @@ const Navigation = (props) => {
             <div className="right-content">
               <span>{attendanceInfo}</span>
               <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
-                <img className='headerImg' src={JSON.parse(localStorage.getItem('userInfoLogin')) && JSON.parse(localStorage.getItem('userInfoLogin')).headImage} alt="" />
+                <img className='headerImg' src={(JSON.parse(localStorage.getItem('userInfoLogin')) && JSON.parse(localStorage.getItem('userInfoLogin')).headImage) || loginheadimg} alt="" />
               </Popover>
             </div>
           </div>

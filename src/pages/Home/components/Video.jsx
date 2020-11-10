@@ -4,8 +4,8 @@ export default ({
   id,
 }) => {
   return (
-    <video>
+    <div>
 
-    </video>
+    </div>
   )
 } 

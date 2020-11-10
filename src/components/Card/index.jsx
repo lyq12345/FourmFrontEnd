@@ -3,7 +3,7 @@ import styles from './styles.less';
 import lookmoreBtn from '@/assets/img/lookmore-btn.png';
 
 const Card = (props) => {
-  let { title, noPadding, bottomLookMore, dataList, titlePaperwork } = props
+  let { title, noPadding, bottomLookMore, dataList, titlePaperwork, moreUrl } = props
   const handleLink = (val) => {
     const w = window.open('about:blank');
     w.location.href = val.href
@@ -13,7 +13,7 @@ const Card = (props) => {
       {
         !title ? <div className={styles.cardTitle} >
           <p className={styles.titleName}>{titlePaperwork}</p>
-          <p className={styles.lookMore}>更多</p>
+          <p className={styles.lookMore} onClick={() => window.open(moreUrl)}>更多</p>
         </div> : <></>
       }
       {dataList && dataList.length &&
