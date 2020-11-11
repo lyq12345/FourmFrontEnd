@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './style.less';
 import RankingList from './components/RankingList';
-import Bullets from './components/Bullets';
+import Bullets from './components/BulletBase';
 import { getPersonInfo } from '@/api/tangguobi';
 
 const Index = () => {

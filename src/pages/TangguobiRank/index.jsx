@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Bullets from '@/components/TangGuoBi/components/Bullets';
+import Bullets from '@/components/TangGuoBi/components/BulletBase';
 import banner from '@/assets/img/banner.png';
 import RankingList from './components/RankingList';
 import TGBDetail from './components/TGBDetail';
