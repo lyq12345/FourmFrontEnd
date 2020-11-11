@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-10-16 14:24:46
- * @LastEditors: xnwang02
+ * @LastEditTime: 2020-11-11 14:51:33
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
  */
@@ -17,11 +17,6 @@ import avatar from '@/assets/img/avatar.jpg';
 import RankingContent from './RankingContent';
 import { coinRankPaging, getPersonInfo } from '@/api/tangguobi';
 import styles from './style.less';
-
-const content = [];
-for (let i = 0; i < 10; i++) {
-  content.push({ name: '赵小赵', depart: '信息技术部', amount: '12345' });
-}
 
 export default function RankingList() {
   const [yearRank, setYearRank] = useState([]);
@@ -39,7 +34,7 @@ export default function RankingList() {
     getPersonInfo({ personCode }).then(({ success, data }) => {
       if (success) {
         setPersonInfo(data);
-        coinRankPaging({ deptNumber: data.orgCode }).then(({ success, data }) => {
+        coinRankPaging({ deptNumber: data.comCode }).then(({ success, data }) => {
           if (success) {
             const top10Data = data.records.slice(0, 10);
             setYearRank(top10Data);

@@ -37,7 +37,7 @@ const MyNav = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <div className={styles.outsideContainer}>
-        <h2>我的导航</h2>
+        <h2>常用导航</h2>
         <p>
           <span>{tagList.length}</span>/15
         </p>

@@ -17,7 +17,6 @@ const Index = () => {
       <div className={styles.navHead}>
         <span className={styles.title}>堂果币排行榜</span>
         <span className={styles.comName}>{personInfo.comName}</span>
-        <span className={styles.orgName}>{personInfo.orgName}</span>
         <div style={{ flex: 1 }}></div>
         <a href="./tangguobi-rank" className={styles.tgbmore}>
           更多
