@@ -8,6 +8,8 @@ const headUrl = 'https://zerosoul.github.io/rc-bullets/assets/img/heads/girl.jpg
 
 const backColors = ['#FFEDED', '#FFF4E5', '#EEFBF9', '#F8F2FF', '#F0F5FF'];
 const fontColors = ['#FF441E', '#FFA200', '#00D390', '#C293FF', '#729CFF'];
+
+// 弹幕组件
 export default function Bullets(props) {
   // 弹幕屏幕
   const [screen, setScreen] = useState(null);
