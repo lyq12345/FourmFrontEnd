@@ -76,6 +76,9 @@ request.interceptors.request.use((url, options) => {
     case 'candy':
       URL = `/candy-api${url}`;
       break;
+    case 'basic':
+      URL = `/basic-address${url}`;
+      break;
     default:
       // eslint-disable-next-line no-undef
       URL = `${REACT_APP_BASIC_API}${url}`;

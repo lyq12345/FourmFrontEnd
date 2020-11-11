@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/es/storage/session';
+import { LoginIn } from '@/api/public'
 
 const persistConfig = {
   key: 'yst-iwork-alpha',

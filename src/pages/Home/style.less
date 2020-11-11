@@ -55,6 +55,9 @@ h3 {
   .task {
     display: flex;
     align-items: center;
+    .popoverStyle {
+      cursor: pointer;
+    }
     img {
       width: 22px;
       height: 22px;
@@ -68,6 +71,7 @@ h3 {
       color: #d80024;
       line-height: 17px;
       font-size: 14px;
+      vertical-align: middle;
     }
     .messageTost1 {
       margin-left: 7px;
@@ -93,6 +97,27 @@ h3 {
   justify-content: space-between;
   padding: 20px 0 20px 20px;
   border-radius: 6px;
+  .videoPlayStyle {
+    position: relative;
+    // width: 100px !important;
+    // height: 100px !important;
+    // left:50%;
+    // top: 50%;
+    cursor: pointer;
+    &:before{
+      content:'';
+      position: absolute;
+      left:50%;
+      top: 50%;
+      width: 100px;
+      height: 100px;
+      margin-left: -50px;
+      margin-top: -50px;
+      background: url('../../assets/img/play.png') no-repeat;
+      background-size: 100%;
+      z-index: 111;
+    }
+  }
   .leftContent {
     width: 796px;
     .leftCarousel {
@@ -103,15 +128,50 @@ h3 {
         // position: relative;
         width: 487px;
         height: 278px;
+       
         cursor: pointer;
+        .container {
+          position: relative;
+          outline: 1px solid cyan;
+          width: 487px;
+          height: 278px;
+
+          &[data-state=pause]::before {
+            position: absolute;
+            content: url('../../assets/img/play.png');
+            // 居中
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            pointer-events: auto; // 允许点击 
+          }
+          video {
+            display: block;
+            width: 100%;
+          }
+        }
         video {
           height: 100%;
           object-fit: fill;
+          width: 487px;
+          height: 278px;
+          
         }
+      
         .spingLoading {
           text-align: center;
           // border-radius: 4px;
           line-height: 278px;
+        }
+        .carouselPlayImg {
+          position: absolute;
+          z-index: 111;
+          top:50%;
+          left: 50%;
+          width: 100px;
+          height: 100px;
+          margin-left: -50px;
+          margin-top: -50px;
         }
         // // div {
         // //   height: 278px;
@@ -184,6 +244,11 @@ h3 {
           margin-top: 12px;
           margin-left: 12px;
         }
+        .content {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
     .somethingHallTitle {
@@ -220,6 +285,13 @@ h3 {
         margin-top: 22px;
         font-size: 14px;
         line-height: 22px;
+        text-overflow: -o-ellipsis-lastline;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
       }
       .hallPeopleName {
         margin-top: 9px;

@@ -31,6 +31,25 @@
       redirect_uri: window.location.href, //【必填】登陆后回调地址
       banner: false, //【选填】是否推送登陆用户横幅
       client_id: '<%= context.config.define.REACT_APP_SSO_CLIENT_ID %>', //【必填】应用id，由sso后台来分配
+    }, () => {
+      console.warn(document.referrer)
+      fetch('<%= context.config.define.REACT_APP_BASIC_API %>/IWork/LoginIn', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        mode: 'cors',
+        cache: 'default'
+      }).then(res => res.json())
+        .then((data) => {
+          // let params = {
+          //   isAnniversaryOpend: false,
+          //   isBirthday: false,
+          //   test: false
+          // }
+          localStorage.setItem(`userInfoLogin`, JSON.stringify(data.data));
+          // localStorage.setItem(`beenOpend`, JSON.stringify(params));
+        })
     });
   </script>
 
