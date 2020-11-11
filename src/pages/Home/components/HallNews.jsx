@@ -12,13 +12,14 @@ import styles from '../style.less';
 // import { carouselList } from '@/constants/mock';
 import { withRouter } from 'umi';
 import { GetUserTip, GetPortalTip, GetAffairIndex, GetAffairPersonIndex, GetTask, GetMessage } from '@/api/common'
-// import HWPlayer from "HWPlayer";
-// import hwplayerloaded from "hwplayerloaded";
-import Swiper from 'swiper';
+import SwiperCore, { Autoplay } from 'swiper';
 
 import Slider from "react-slick";
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import 'swiper/swiper.scss';
 
-let video2 = {}
+// let video2 = {}
+SwiperCore.use([Autoplay]);
 // let mySwiper = new Swiper('.swiper-container', {
 //   loop: true, // 循环模式选项
 //   autoplay: true,//等同于以下设置
@@ -33,7 +34,7 @@ const HallNews = (props) => {
   const [carouselCurrent, setCarouselCurrent] = useState(0);
   const [autoplay, setAutoplay] = useState(true);
   const [topVideo, setTopVideo] = useState({});
-  const swiperRef = useRef()
+  // const swiperRef = useRef()
   const [spinning, setSpinning] = useState(true)
   const [entryTime, setEntryTime] = useState(null)
   const [hallWordsText, setHallWordsText] = useState(null)
@@ -43,11 +44,13 @@ const HallNews = (props) => {
   const [unreadInfoList, setUnreadInfoList] = useState({})
   const [toDoTasksList, setToDoTasksNumList] = useState({})
   const [WeeklyChapelInfo, setWeeklyChapelInfo] = useState({})
-  const [isPaly, setIsPaly] = useState(true)
-  const [controlsPlay, setControlsPlay] = useState(true)
   const [isToDoTasksVisible, setIsToDoTasksVisible] = useState(false)
   const [isUnreadVisible, setIsUnreadVisible] = useState(false)
-
+  const [swiper, setSwiper] = useState(null);
+  // 自动停止轮播
+  const ref = React.useRef();
+  const isHovering = useHover(ref);
+  const [isPlaying, setIsPlaying] = useState(false);
   useEffect(() => {
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
@@ -61,79 +64,13 @@ const HallNews = (props) => {
     if (carouselList.length === 0) {
       return
     }
-    let realIndex = null
-    waterSwiper = new Swiper('.swiper-container', {
-      direction: 'horizontal',
-      loop: true,
-      autoplay: true,
-      allowTouchMove: false,//禁止拖动
-      on: {
-        slideChangeTransitionEnd: function () {
-          setIsPaly(true)
-          realIndex = this.realIndex
-          setCarouselCurrent(this.realIndex);
-        },
-        touchStart: (swiper, event) => {
-          setIsPaly(false)
-          player = swiper.target.children.length ? swiper.target.children[0] : swiper.target
-          if (swiper.target && swiper.target.children && swiper.target.children.length) {
-            let { paused, ended, controls } = swiper.target && swiper.target.children && swiper.target.children[0]
-            swiper.target.children[0].controls = true
-            if (paused || ended) {
-              setIsPaly(false)
-              swiper.target.children[0].play()
-            }
-          } else {
-            if (carouselList[realIndex].href && !carouselList[realIndex].href.videoMP4) {
-              detailRouter(carouselList[realIndex])
-              return
-            }
-            swiper.target.controls = true
-            if (player.paused || player.ended) {
-              setIsPaly(false)
-              console.log('swiper.target.play()', '11111111111111111')
-              // swiper.target.play()
-            }
-          }
-          player && player.addEventListener('play', function (e) {
-            setIsPaly(false)
-            console.log('player.addEventListener-play', '11111111111111111')
-            waterSwiper && waterSwiper.autoplay.stop()
-          })
-          player && player.addEventListener('pause', function (e) {
-            console.log('player.addEventListener-pause', '11111111111111111')
-            waterSwiper && waterSwiper.autoplay.stop()
-          })
-          player && player.addEventListener('ended', function (e) {
-            e.target.load()
-            waterSwiper && waterSwiper.autoplay.start()
-          })
-        }
-      }
-    })
-    // carouselList && carouselList.forEach((v, i) => initVideo(i))
+    if (isHovering || isPlaying) {
+      swiper?.autoplay?.stop();
+    } else {
+      swiper?.autoplay?.start();
+    }
 
-
-  }, [carouselList && carouselList.length])
-
-  // const initVideo = (index, value, copy) => {
-  //   let id = copy ? value : index
-  //   player = document.getElementById(`videoPlay${id}`)
-  //   player && player.addEventListener('play', function (e) {
-  //     setIsPaly(false)
-  //     waterSwiper && waterSwiper.autoplay.stop()
-  //     console.log('player.addEventListener-play', '11111111111111111')
-  //   })
-  //   player && player.addEventListener('pause', function (e) {
-  //     waterSwiper && waterSwiper.autoplay.stop()
-  //     console.log('player.addEventListener-pause', '11111111111111111')
-  //   })
-  //   player && player.addEventListener('ended', function (e) {
-  //     e.target.load()
-  //     // setIsPaly(true)
-  //     waterSwiper && waterSwiper.autoplay.start()
-  //   })
-  // }
+  }, [isHovering, swiper, isPlaying])
   const info = () => {
     // 获取入职时间
     GetUserTip({}).then(response => {
@@ -185,17 +122,6 @@ const HallNews = (props) => {
       }
     })
   }
-  // 堂里新鲜事移除 /**遗留问题，移除区域后视频正在播放会有问题 */
-  const isHovering = useHover(() => document.getElementById('hover-div'), {
-    onEnter: () => {
-      waterSwiper && waterSwiper.autoplay && waterSwiper.autoplay.stop()
-    },
-    onLeave: () => {
-      if ((player && player.paused) || (player && player.ended)) {
-        waterSwiper && waterSwiper.autoplay && waterSwiper.autoplay.start()
-      }
-    },
-  });
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -213,20 +139,6 @@ const HallNews = (props) => {
       <CardComponent title noPadding bottomLookMore />
     </div>
   );
-  // const carouselFun = (current) => {
-  //   console.log(current, '111111111111111111111111111')
-  //   setIsPaly(true)
-  //   setCarouselCurrent(current);
-  // };
-  const carouselHandleClick = (val, index) => {
-    // if (!val.href.videoMP4) {
-    //   detailRouter(val)
-    // }
-  }
-
-  const goPlay = (item, index) => {
-    setAutoplay(false)
-  }
 
   const lookMoreHallPeople = (val) => {
     window.open('/hall-people')
@@ -240,9 +152,6 @@ const HallNews = (props) => {
   const detailHallPeople = (val) => {
     window.open(`/hall-people/detail?id=${val.id}`)
   };
-  const playVideo = () => {
-    setIsPaly(false)
-  }
   const handleVisibleChange = (event, val) => {
     if (val === 1 && unreadMessagesNum) {
       setIsUnreadVisible(event)
@@ -251,7 +160,35 @@ const HallNews = (props) => {
       setIsToDoTasksVisible(event)
     }
   }
-
+  const handleEnded = React.useCallback((e) => {
+    e.target.load();
+    setIsPlaying(false);
+  }, []);
+  // 播放控制
+  const handleClick = React.useCallback((e) => {
+    const video = e.target;
+    if (video.paused || video.ended) {
+      video.play();
+    } else {
+      video.pause();
+    }
+  }, []);
+  // 播放控制 - 样式
+  const handleCanPlay = React.useCallback((e) => {
+    e.target.parentElement.dataset.state = "pause";
+  }, []);
+  const handlePause = React.useCallback((e) => {
+    e.target.parentElement.dataset.state = "pause";
+    setIsPlaying(false);
+  }, []);
+  const handlePlaying = React.useCallback((e) => {
+    // e.target.controls = true;
+    e.target.parentElement.dataset.state = "";
+    setIsPlaying(true);
+  }, []);
+  const handleChange = (val) => {
+    setCarouselCurrent(val.realIndex)
+  }
 
   return (
     <div>
@@ -309,26 +246,39 @@ const HallNews = (props) => {
       < div className={styles.somethingHall} >
         <div className={styles.leftContent}>
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
-          <div className={styles.leftCarousel} id="hover-div">
+          <div className={styles.leftCarousel} ref={ref}>
             <div className={styles.Carousel}>
-              <div className="swiper-container">
-                <div className="swiper-wrapper">
-                  {
-                    carouselList && carouselList.map((item, index) => (
-                      <div key={index} className={`swiper-slide swiper-slide-${index} ${item.href.videoMP4 && isPaly ? styles.videoPlayStyle : ''}`} onClick={() => setIsPaly(false)}>
-                        <video
-                          src={item.href.videoMP4}
-                          poster={item.href.src}
-                          onPlay={() => setIsPaly(false)}
-                          id={`videoPlay${index}`}
-                          muted
-                          className={`video-js vjs-default-skin vjs-big-play-centered ${styles.videoPlayStyle}`}
-                        ></video>
+              <Swiper
+                spaceBetween={20}
+                slidesPerView={1}
+                onSwiper={(swiper) => setSwiper(swiper)}
+                autoplay={{ delay: 2000 }}
+                loop
+                onSlideChange={handleChange}
+              >
+                {carouselList.map((v, i) => {
+                  return (
+                    <SwiperSlide key={i}>
+                      <div className={styles.container}>
+                        {v.href.videoMP4 ? (
+                          <video
+                            src={v.href.videoMP4}
+                            poster={v.href.src}
+                            onEnded={handleEnded}
+                            onClick={handleClick}
+                            onCanPlay={handleCanPlay}
+                            onPause={handlePause}
+                            onPlaying={handlePlaying}
+                            preload="metadata"
+                          />
+                        ) : (
+                            <img style={{ width: '487px', height: '278px' }} src={v.href.src} alt="pic" />
+                          )}
                       </div>
-                    ))
-                  }
-                </div>
-              </div>
+                    </SwiperSlide>
+                  );
+                })}
+              </Swiper>
             </div>
             <div className={styles.rightCarouselContent}>
               {carouselList &&

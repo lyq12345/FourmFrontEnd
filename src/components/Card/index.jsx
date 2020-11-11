@@ -21,9 +21,10 @@ const Card = (props) => {
           <div className={styles.contentInfo} key={index} onClick={() => handleLink(item)}>
             <p className={styles.contentTitle} title={titlePaperwork ? item.title : item.fullTitle}>
               <span className={styles.dot}></span>
-              {
+              <span className={styles.title}>{
                 titlePaperwork ? item.title : item.fullTitle
               }
+              </span>
 
             </p>
             <p className={styles.contentDate}>{item.time}</p>

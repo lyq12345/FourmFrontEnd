@@ -42,7 +42,6 @@ const ListDetail = (props) => {
   }
   // 点赞
   const dotPraise = () => {
-    debugger
     if (!praiseStatus && dataInfo.isLove == 0) {
       setPraiseStatus(true)
       // setPraiseNum(praiseNum + 1)

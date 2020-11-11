@@ -130,6 +130,26 @@ h3 {
         height: 278px;
        
         cursor: pointer;
+        .container {
+          position: relative;
+          outline: 1px solid cyan;
+          width: 487px;
+          height: 278px;
+
+          &[data-state=pause]::before {
+            position: absolute;
+            content: url('../../assets/img/play.png');
+            // 居中
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%,-50%);
+            pointer-events: auto; // 允许点击 
+          }
+          video {
+            display: block;
+            width: 100%;
+          }
+        }
         video {
           height: 100%;
           object-fit: fill;
