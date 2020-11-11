@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState, useEffect} from 'react';
 import { Layout, Result, Button, Popover, Breadcrumb, Divider } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
@@ -75,8 +75,6 @@ const Navigation = (props) => {
       }
     })
   }
-  const onMenuClick = () => {
-
     // 去除末尾的斜杠
     let noSlashPath = '';
     if (location.pathname[location.pathname.length - 1] === '/') {

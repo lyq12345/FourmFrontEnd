@@ -1,8 +1,13 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-10-26 10:19:16
- * @LastEditors: xnwang02
+<<<<<<< HEAD
+ * @LastEditTime: 2020-11-11 17:08:54
+ * @LastEditors: Please set LastEditors
+=======
+ * @LastEditTime: 2020-11-11 14:39:26
+ * @LastEditors: Please set LastEditors
+>>>>>>> develop_yqli_0831
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
  */
@@ -38,12 +43,11 @@ export default {
       target: 'http://10.213.10.49:8080',
       changeOrigin: true,
       pathRewrite: { '^/candy-api': '' },
-    }
+    },
   },
   test: {
     '/yst-iwork-alpha-api': {
-      target: 'http://10.213.3.39:8081',
-      // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/151',
+      target: 'http://10.3.3.65:8081',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },

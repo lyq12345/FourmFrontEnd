@@ -8,6 +8,7 @@ const { TabPane } = Tabs;
 
 export default function Nav() {
   const [myData, setMydata] = useState([]);
+  const [currentKey, setKey] = useState('1');
   useEffect(() => {
     GetMenuMy().then(({ success, data }) => {
       if (success) {
@@ -35,12 +36,14 @@ export default function Nav() {
       <Tabs
         className={styles.navTabs}
         defaultActiveKey="1"
-        tabBarExtraContent={<a href="./nav-setting">设置</a>}
+        tabBarExtraContent={currentKey === '1' ? <a href="./nav-setting">设置</a> : null}
         onChange={(anctiveKey) => {
+          setKey(anctiveKey);
           queryCategories(anctiveKey);
         }}
       >
         <TabPane
+          disabled
           tab={
             <span
               style={{
@@ -53,8 +56,9 @@ export default function Nav() {
               我的导航
             </span>
           }
-          key="1"
-        >
+          key="0"
+        ></TabPane>
+        <TabPane tab={<span>常用</span>} key="1">
           <NavHome data={myData} />
         </TabPane>
         <TabPane tab={<span>门户</span>} key="4">

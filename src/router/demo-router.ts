@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-08-31 15:52:32
- * @LastEditTime: 2020-10-16 13:55:25
- * @LastEditors: xnwang02
+ * @LastEditTime: 2020-11-11 16:45:21
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/router/demo-router.ts
  */
@@ -13,7 +13,7 @@ module.exports = {
   router: [
     {
       path: '/nav-setting',
-      name: '导航设置',
+      name: '常用导航',
       component: './NavSetting',
     },
     {
