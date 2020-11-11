@@ -12,8 +12,7 @@ import mobile from '@/assets/img/mobile.png';
 import phone from '@/assets/img/phone.png';
 import ModelAdvertising from '@/components/ModelAdvertising';
 import { connect, ConnectState } from 'umi';
-import { GetAtten } from '@/api/common'
-
+import { GetAtten } from '@/api/common';
 
 import { Link } from 'umi';
 
@@ -58,23 +57,23 @@ const Navigation = (props) => {
     },
     route,
   } = props;
-  const [attendanceInfo, setAttendanceInfo] = useState(null)
-  const [headImage, setHeadImage] = useState(loginheadimg)
+  const [attendanceInfo, setAttendanceInfo] = useState(null);
+  const [headImage, setHeadImage] = useState(loginheadimg);
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
   useEffect(() => {
-    getAttenDataList()
-    let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'))
-    setHeadImage(loginInUserInfo && loginInUserInfo.headImage)
-  }, [])
+    getAttenDataList();
+    let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
+    setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
+  }, []);
   const getAttenDataList = () => {
-    GetAtten().then(response => {
+    GetAtten().then((response) => {
       if (response.success) {
-        setAttendanceInfo(response.data)
+        setAttendanceInfo(response.data);
       }
-    })
-  }
+    });
+  };
   // 去除末尾的斜杠
   let noSlashPath = '';
   if (location.pathname[location.pathname.length - 1] === '/') {
@@ -94,8 +93,6 @@ const Navigation = (props) => {
       }
     }
   });
-  console.log('????', routeArray);
-  console.log('!!!!', noSlashPath);
 
   // 递归，map路由与导航名称
   const setRouteMap = (data) => {
@@ -132,10 +129,10 @@ const Navigation = (props) => {
               <div className="navgtionInfo">{item.label}</div>
             </Link>
           ) : (
-              <div onClick={() => onMenuClick()} className="navgtionInfo">
-                {item.label}
-              </div>
-            )}
+            <div onClick={() => onMenuClick()} className="navgtionInfo">
+              {item.label}
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -152,8 +149,21 @@ const Navigation = (props) => {
             </Link>
             <div className="right-content">
               <span>{attendanceInfo}</span>
-              <Popover overlayClassName='noPopoverTriangle' placement="bottomRight" content={popoverContent} trigger="click">
-                <img className='headerImg' src={(JSON.parse(localStorage.getItem('userInfoLogin')) && JSON.parse(localStorage.getItem('userInfoLogin')).headImage) || loginheadimg} alt="" />
+              <Popover
+                overlayClassName="noPopoverTriangle"
+                placement="bottomRight"
+                content={popoverContent}
+                trigger="click"
+              >
+                <img
+                  className="headerImg"
+                  src={
+                    (JSON.parse(localStorage.getItem('userInfoLogin')) &&
+                      JSON.parse(localStorage.getItem('userInfoLogin')).headImage) ||
+                    loginheadimg
+                  }
+                  alt=""
+                />
               </Popover>
             </div>
           </div>
@@ -177,10 +187,10 @@ const Navigation = (props) => {
                             <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
                           </Breadcrumb.Item>
                         ) : (
-                            <Breadcrumb.Item href={item}>
-                              <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
-                            </Breadcrumb.Item>
-                          )}
+                          <Breadcrumb.Item href={item}>
+                            <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
+                          </Breadcrumb.Item>
+                        )}
                       </Breadcrumb>
                     );
                   })}
@@ -270,8 +280,8 @@ const Navigation = (props) => {
       {location.pathname === '/home' || location.pathname === '/' ? (
         <ModelAdvertising pathname={location.pathname} />
       ) : (
-          <></>
-        )}
+        <></>
+      )}
     </div>
   );
 };
