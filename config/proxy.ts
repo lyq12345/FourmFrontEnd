@@ -1,13 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
-<<<<<<< HEAD
- * @LastEditTime: 2020-11-11 17:08:54
- * @LastEditors: Please set LastEditors
-=======
- * @LastEditTime: 2020-11-11 14:39:26
- * @LastEditors: Please set LastEditors
->>>>>>> develop_yqli_0831
+ * @LastEditTime: 2020-11-12 09:38:15
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
  */
