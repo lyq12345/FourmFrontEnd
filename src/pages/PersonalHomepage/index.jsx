@@ -22,7 +22,7 @@ const PersonalHomepage = (props) => {
   }, [])
   const routerLink = () => {
     props.history.push({
-      pathname: '/hall-something/detail',
+      pathname: 'hall-something/detail',
     });
   }
   return (

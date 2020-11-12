@@ -26,7 +26,7 @@ const HallPeople = (props) => {
     })
   }
   const routerLink = (val) => {
-    window.open(`/hall-people/detail?id=${val.id}`)
+    window.open(`hall-people/detail?id=${val.id}`)
   }
   return (
     <div className={styles.hallPeople}>
