@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2020-10-19 14:50:34
+ * @LastEditTime: 2020-11-11 19:24:46
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: /yst-iwork-alpha/config/config.ts
+ */
 import { defineConfig, utils } from 'umi';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
@@ -8,14 +16,10 @@ import router from '../src/router/';
 const { winPath } = utils;
 // preview.pro.ant.design only do not use in your production ;
 // preview.pro.ant.design 专用环境变量，请不要在你的项目中使用它。
-const {
-  ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION,
-  BUILD_PRODUCTION,
-  GA_KEY,
-} = process.env;
+const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION, BUILD_PRODUCTION, GA_KEY } = process.env;
 
 const IS_PROD = BUILD_PRODUCTION && BUILD_PRODUCTION.includes('prod');
-const extraBabelPlugins = IS_PROD ? ['transform-remove-console'] : []
+const extraBabelPlugins = IS_PROD ? ['transform-remove-console'] : [];
 
 export default defineConfig({
   title: defaultSettings.title,

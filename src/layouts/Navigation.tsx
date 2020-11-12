@@ -173,8 +173,10 @@ const Navigation = (props) => {
             {routeMap.has(noSlashPath) && noSlashPath !== '/home' ? (
               <div style={{ margin: '10px 0' }}>
                 <Breadcrumb separator="" style={{ color: '#D30B24' }}>
-                  <Breadcrumb.Item href="/home">
-                    <span style={{ color: '#D30B24' }}>首页</span>
+                  <Breadcrumb.Item>
+                    <Link to="/home" style={{ color: '#D30B24' }}>
+                      首页
+                    </Link>
                   </Breadcrumb.Item>
                   {routeArray.map((item, index) => {
                     return (
@@ -187,8 +189,10 @@ const Navigation = (props) => {
                             <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
                           </Breadcrumb.Item>
                         ) : (
-                          <Breadcrumb.Item href={item}>
-                            <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
+                          <Breadcrumb.Item>
+                            <Link to={item} style={{ color: '#D30B24' }}>
+                              {routeMap.get(item)}
+                            </Link>
                           </Breadcrumb.Item>
                         )}
                       </Breadcrumb>

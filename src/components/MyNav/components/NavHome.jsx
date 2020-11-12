@@ -13,7 +13,6 @@ const data = [
   { title: '添加', icon: '', href: '' },
 ];
 export default function NavHome(props) {
- 
   return (
     <div>
       <List
@@ -21,7 +20,7 @@ export default function NavHome(props) {
         grid={{ gutter: 16, column: 5 }}
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>
-            <span>
+            <a href={item.href}>
               <Avatar size={26} icon={<img src={item.icon} />} />
               <a
                 style={{
@@ -34,7 +33,7 @@ export default function NavHome(props) {
               >
                 {item.title}
               </a>
-            </span>
+            </a>
           </List.Item>
         )}
       />
