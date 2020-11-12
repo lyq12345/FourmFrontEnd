@@ -1,5 +1,9 @@
 .top3Name {
+  overflow: hidden;
+  text-overflow: ellipsis; /* 加省略号 */
+  white-space: nowrap; /* 强制不换行 */
   margin: 0 auto;
+  max-width: 5em;
   color: #333;
   font-weight: 400;
   font-size: 14px;
@@ -44,10 +48,13 @@
 }
 
 .last7Name {
+  overflow: hidden;
+  text-overflow: ellipsis; /* 加省略号 */
+  white-space: nowrap; /* 强制不换行 */
+  max-width: 5em;
   display: inline-block;
   text-align: left;
   margin: 0 20px;
-  width: 36px;
   height: 17px;
   font-size: 12px;
   font-family: PingFangSC-Regular, PingFang SC;
