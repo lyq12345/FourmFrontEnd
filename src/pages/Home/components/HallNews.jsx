@@ -16,6 +16,7 @@ import SwiperCore, { Autoplay } from 'swiper';
 
 import Slider from "react-slick";
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperComponent from '@/components/Swiper/Swiperv'
 // import 'swiper/swiper.scss';
 
 // let video2 = {}
@@ -57,13 +58,63 @@ const HallNews = (props) => {
     const month = myDate.getMonth() + 1;
     const day = myDate.getDate();
     setYearWeek(getYearWeek(fullYear, month, day));
+
+    const info = () => {
+      // 获取入职时间
+      GetUserTip({}).then(response => {
+        if (response.success) {
+          setEntryTime(response.data)
+        }
+      })
+      // 获取堂里话
+      GetPortalTip({}).then(response => {
+        if (response.success) {
+          setHallWordsText(response.data)
+        }
+      })
+      // 获取待办任务
+      GetTask().then(response => {
+        if (response.success) {
+          setToDoTasksNumList(response.data.tasks || [])
+          setToDoTasksNum(response.data.Total)
+          if (response.data.total && response.data.total > 0) {
+            setIsToDoTasksVisible(true)
+          } else {
+            setIsToDoTasksVisible(false)
+          }
+        }
+      })
+      // 获取堂里新鲜事
+      GetAffairIndex().then(response => {
+        if (response.success) {
+          setCarouselList(response.data || [])
+        }
+      })
+      // 获取每周堂里人
+      GetAffairPersonIndex().then(response => {
+        if (response.success) {
+          setWeeklyChapelInfo(response.data)
+        }
+      })
+      // 获取未读接口
+      GetMessage().then(response => {
+        if (response.success) {
+          setUnreadInfoList(response.data.messages || [])
+          setUnreadMessagesNum(response.data.total)
+          if (response.data.total && response.data.total > 0) {
+            setIsUnreadVisible(true)
+          } else {
+            setIsUnreadVisible(false)
+          }
+        }
+      })
+    }
     info()
   }, []);
   useEffect(() => {
-    let idArr = []
-    if (carouselList.length === 0) {
-      return
-    }
+    // if (carouselList.length === 0) {
+    //   return
+    // }
     if (isHovering || isPlaying) {
       swiper?.autoplay?.stop();
     } else {
@@ -71,57 +122,7 @@ const HallNews = (props) => {
     }
 
   }, [isHovering, swiper, isPlaying])
-  const info = () => {
-    // 获取入职时间
-    GetUserTip({}).then(response => {
-      if (response.success) {
-        setEntryTime(response.data)
-      }
-    })
-    // 获取堂里话
-    GetPortalTip({}).then(response => {
-      if (response.success) {
-        setHallWordsText(response.data)
-      }
-    })
-    // 获取待办任务
-    GetTask().then(response => {
-      if (response.success) {
-        setToDoTasksNumList(response.data.tasks || [])
-        setToDoTasksNum(response.data.Total)
-        if (response.data.total && response.data.total > 0) {
-          setIsToDoTasksVisible(true)
-        } else {
-          setIsToDoTasksVisible(false)
-        }
-      }
-    })
-    // 获取堂里新鲜事
-    GetAffairIndex().then(response => {
-      if (response.success) {
-        response.data[3].href.src = 'https://file-cloud.yst.com.cn/website/2020/04/09/5b47a54a68714de99bc14c05bf723b19.png'
-        setCarouselList(response.data || [])
-      }
-    })
-    // 获取每周堂里人
-    GetAffairPersonIndex().then(response => {
-      if (response.success) {
-        setWeeklyChapelInfo(response.data)
-      }
-    })
-    // 获取未读接口
-    GetMessage().then(response => {
-      if (response.success) {
-        setUnreadInfoList(response.data.messages || [])
-        setUnreadMessagesNum(response.data.total)
-        if (response.data.total && response.data.total > 0) {
-          setIsUnreadVisible(true)
-        } else {
-          setIsUnreadVisible(false)
-        }
-      }
-    })
-  }
+
   const getYearWeek = (a, b, c) => {
     /*  
       date1是当前日期  
@@ -166,11 +167,14 @@ const HallNews = (props) => {
   }, []);
   // 播放控制
   const handleClick = React.useCallback((e) => {
+    e.target.controls = false;
     const video = e.target;
     if (video.paused || video.ended) {
       video.play();
+      e.target.controlsStand = true
     } else {
       video.pause();
+      e.target.controlsStand = false
     }
   }, []);
   // 播放控制 - 样式
@@ -178,11 +182,12 @@ const HallNews = (props) => {
     e.target.parentElement.dataset.state = "pause";
   }, []);
   const handlePause = React.useCallback((e) => {
+    e.target.controlsStand = true
     e.target.parentElement.dataset.state = "pause";
     setIsPlaying(false);
   }, []);
   const handlePlaying = React.useCallback((e) => {
-    // e.target.controls = true;
+    e.target.controls = e.target.controlsStand;
     e.target.parentElement.dataset.state = "";
     setIsPlaying(true);
   }, []);
@@ -248,37 +253,40 @@ const HallNews = (props) => {
           <p className={styles.somethingHallTitle}>堂里新鲜事</p>
           <div className={styles.leftCarousel} ref={ref}>
             <div className={styles.Carousel}>
-              <Swiper
-                spaceBetween={20}
-                slidesPerView={1}
-                onSwiper={(swiper) => setSwiper(swiper)}
-                autoplay={{ delay: 2000 }}
-                loop
-                onSlideChange={handleChange}
-              >
-                {carouselList.map((v, i) => {
-                  return (
-                    <SwiperSlide key={i}>
-                      <div className={styles.container}>
-                        {v.href.videoMP4 ? (
-                          <video
-                            src={v.href.videoMP4}
-                            poster={v.href.src}
-                            onEnded={handleEnded}
-                            onClick={handleClick}
-                            onCanPlay={handleCanPlay}
-                            onPause={handlePause}
-                            onPlaying={handlePlaying}
-                            preload="metadata"
-                          />
-                        ) : (
-                            <img style={{ width: '487px', height: '278px' }} src={v.href.src} alt="pic" />
-                          )}
-                      </div>
-                    </SwiperSlide>
-                  );
-                })}
-              </Swiper>
+              {
+                carouselList.length && <Swiper
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  onSwiper={(swiper) => setSwiper(swiper)}
+                  autoplay={{ delay: 2000 }}
+                  loop
+                  onSlideChange={handleChange}
+                >
+                  {carouselList.map((v, i) => {
+                    return (
+                      <SwiperSlide key={i}>
+                        <div className={styles.container}>
+                          {v.href.videoMP4 ? (
+                            <video
+                              src={v.href.videoMP4}
+                              poster={v.href.src}
+                              onEnded={handleEnded}
+                              onClick={handleClick}
+                              onCanPlay={handleCanPlay}
+                              onPause={handlePause}
+                              onPlaying={handlePlaying}
+                              preload="metadata"
+                              muted
+                            />
+                          ) : (
+                              <img style={{ width: '487px', height: '278px' }} src={v.href.src} alt="pic" />
+                            )}
+                        </div>
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              }
             </div>
             <div className={styles.rightCarouselContent}>
               {carouselList &&

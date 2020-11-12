@@ -1,9 +1,11 @@
 import React from 'react';
 import styles from './styles.less';
 import lookmoreBtn from '@/assets/img/lookmore-btn.png';
+import Cookies from 'js-cookie';
 
 const Card = (props) => {
   let { title, noPadding, bottomLookMore, dataList, titlePaperwork, moreUrl } = props
+  const accessToken = Cookies.get('access_token');
   const handleLink = (val) => {
     const w = window.open('about:blank');
     w.location.href = val.href
@@ -13,7 +15,7 @@ const Card = (props) => {
       {
         !title ? <div className={styles.cardTitle} >
           <p className={styles.titleName}>{titlePaperwork}</p>
-          <p className={styles.lookMore} onClick={() => window.open(moreUrl)}>更多</p>
+          <p className={styles.lookMore} onClick={() => window.open(`${moreUrl}&token=${accessToken}`)}>更多</p>
         </div> : <></>
       }
       {dataList && dataList.length &&
@@ -32,7 +34,7 @@ const Card = (props) => {
         ))}
       {
         bottomLookMore ? <div className={styles.bottomLookMore}>
-          <span>查看更多</span>
+          <span onClick={() => window.open(`${moreUrl}&token=${accessToken}`)}>查看更多</span>
           <img src={lookmoreBtn} alt="" />
         </div> : <></>
       }
