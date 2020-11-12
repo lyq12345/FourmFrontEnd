@@ -38,7 +38,7 @@ const NavSetting = () => {
   };
 
   const handleCancel = () => {
-    history.goBack();
+    history.push('/home');
   };
 
   return (
