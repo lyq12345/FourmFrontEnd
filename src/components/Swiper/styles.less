@@ -1,0 +1,25 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+}
+
+.container {
+  position: relative;
+  outline: 1px solid cyan;
+
+  &[data-state=pause]::before {
+    position: absolute;
+    content: url('/play.png');
+
+    // 居中
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    pointer-events: auto; // 允许点击 
+  }
+  video {
+    display: block;
+    width: 100%;
+  }
+}

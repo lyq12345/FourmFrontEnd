@@ -38,9 +38,20 @@ const FormData = (props) => {
 
   const { Option } = Select;
   useEffect(() => {
+    GetEmpInfo({ userId: props.account }).then(res => {
+      if (res.success) {
+        setDetailInfo(res.EmpInfo)
+      }
+    })
     // getEmpInfodata()
-    info()
+
   }, [])
+  useEffect(() => {
+    if (!detailInfo || !detailInfo.FID) {
+      return
+    }
+    info()
+  }, [detailInfo && detailInfo.FID])
   const formItemLayout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 16 },
@@ -151,13 +162,9 @@ const FormData = (props) => {
   }
   const info = async () => {
     // 获取基本信息
-    GetEmpInfo({ userId: 'jjwang17' }).then(res => {
-      if (res.success) {
-        setDetailInfo(res.EmpInfo)
-      }
-    })
+
     setTimeout(() => {
-      getPernrInfo({ sapId: 127350 }).then(res => {
+      getPernrInfo({ sapId: detailInfo.FID }).then(res => {
         if (res.success) {
           personageInfoForm.setFieldsValue(res.pernrInfo);
           setPersonageDetailInfo(res.pernrInfo)
@@ -168,7 +175,7 @@ const FormData = (props) => {
         }
       })
       // 获取紧急联系人/家庭
-      getFamilyInfo({ sapId: 127350 }).then(res => {
+      getFamilyInfo({ sapId: detailInfo.FID }).then(res => {
         if (res.success && res.exigence) {
           let tempData = { ...res.exigence, FGBDT: moment(res.exigence.FGBDT) }
           setExigenceDetailInfo(tempData)

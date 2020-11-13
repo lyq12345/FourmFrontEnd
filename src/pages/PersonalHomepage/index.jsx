@@ -12,9 +12,10 @@ import candyCurrency from '@/assets/img/candy-currency.png';
 import { getMyRank } from '@/api/personalHomepage'
 
 const PersonalHomepage = (props) => {
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const [personInfo, setPersonInfo] = useState({});
   useEffect(() => {
-    getMyRank({ userId: '111' }).then(res => {
+    getMyRank({ userId: userInfo.account }).then(res => {
       if (res.success) {
         setPersonInfo(res.data[0])
       }
@@ -59,7 +60,7 @@ const PersonalHomepage = (props) => {
         </div>
       </div>
       <div className={styles.rightFormInfo}>
-        <FormData />
+        <FormData account={userInfo.account} />
       </div>
     </div >
   )

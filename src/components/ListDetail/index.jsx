@@ -26,6 +26,9 @@ const ListDetail = (props) => {
         initVideo()
       })
     }
+    if (dataInfo) {
+      setPraiseNum(dataInfo.loveCount)
+    }
     // return () => player && player.dispose()
   }, [dataInfo && dataInfo.href && dataInfo.href.video])
   const initVideo = () => {

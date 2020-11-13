@@ -153,7 +153,7 @@ const Navigation = (props) => {
                 overlayClassName="noPopoverTriangle"
                 placement="bottomRight"
                 content={popoverContent}
-                trigger="click"
+                trigger="hover"
               >
                 <img
                   className="headerImg"
