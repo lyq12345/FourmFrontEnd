@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-11-11 14:51:33
+ * @LastEditTime: 2020-11-12 17:33:58
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
@@ -31,6 +31,7 @@ export default function RankingList() {
     const year = date.getFullYear();
     const currentMonth = date.getMonth() + 1;
     const lastMonth = date.getMonth();
+    setLoading(true);
     getPersonInfo({ personCode }).then(({ success, data }) => {
       if (success) {
         setPersonInfo(data);
@@ -38,23 +39,24 @@ export default function RankingList() {
           if (success) {
             const top10Data = data.records.slice(0, 10);
             setYearRank(top10Data);
+            setLoading(false);
           }
         });
 
-        coinRankPaging({ month: lastMonth, deptNumber: data.orgCode }).then(({ success, data }) => {
-          if (success) {
-            const top10Data = data.records.slice(0, 10);
-            setLastMonthRank(top10Data);
-          }
-        });
-        coinRankPaging({ month: currentMonth, deptNumber: data.orgCode }).then(
-          ({ success, data }) => {
-            if (success) {
-              const top10Data = data.records.slice(0, 10);
-              setCurMonthRank(top10Data);
-            }
-          },
-        );
+        // coinRankPaging({ month: lastMonth, deptNumber: data.comCode }).then(({ success, data }) => {
+        //   if (success) {
+        //     const top10Data = data.records.slice(0, 10);
+        //     setLastMonthRank(top10Data);
+        //   }
+        // });
+        // coinRankPaging({ month: currentMonth, deptNumber: data.comCode }).then(
+        //   ({ success, data }) => {
+        //     if (success) {
+        //       const top10Data = data.records.slice(0, 10);
+        //       setCurMonthRank(top10Data);
+        //     }
+        //   },
+        // );
       }
     });
   }, []);
@@ -67,7 +69,7 @@ export default function RankingList() {
     switch (key) {
       case '1':
         setLoading(true);
-        coinRankPaging({ deptNumber: personInfo.orgCode }).then(({ success, data }) => {
+        coinRankPaging({ deptNumber: personInfo.comCode }).then(({ success, data }) => {
           if (success) {
             const top10Data = data.records.slice(0, 10);
             setYearRank(top10Data);
@@ -76,7 +78,8 @@ export default function RankingList() {
         });
         break;
       case '2':
-        coinRankPaging({ month: lastMonth, deptNumber: personInfo.orgCode }).then(
+        setLoading(true);
+        coinRankPaging({ month: lastMonth, deptNumber: personInfo.comCode }).then(
           ({ success, data }) => {
             if (success) {
               const top10Data = data.records.slice(0, 10);
@@ -87,7 +90,8 @@ export default function RankingList() {
         );
         break;
       case '3':
-        coinRankPaging({ month: currentMonth, deptNumber: personInfo.orgCode }).then(
+        setLoading(true);
+        coinRankPaging({ month: currentMonth, deptNumber: personInfo.comCode }).then(
           ({ success, data }) => {
             if (success) {
               const top10Data = data.records.slice(0, 10);
@@ -104,7 +108,13 @@ export default function RankingList() {
   return (
     <div className={styles.mainTabRankContainer} style={{ padding: '0 12px 12px 12px' }}>
       <Spin spinning={loading}>
-        <Tabs type="card" defaultActiveKey="1" onChange={handleChange}>
+        <Tabs
+          type="card"
+          defaultActiveKey="1"
+          onChange={(anctiveKey) => {
+            handleChange(anctiveKey);
+          }}
+        >
           <TabPane tab="年度榜单" key="1">
             <RankingContent content={yearRank} />
           </TabPane>

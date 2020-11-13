@@ -19,7 +19,10 @@ const RankingContent = (props) => {
   return (
     <div style={{ paddingTop: '10px', backgroundColor: '#FAFAFA' }}>
       <Row>
-        <Col style={{ margin: '-15px 0' }} span={12}>
+        <Col
+          style={props.content.length <= 3 ? { margin: '10px 0' } : { margin: '-15px 0' }}
+          span={12}
+        >
           <TopThree content={top3} />
         </Col>
 

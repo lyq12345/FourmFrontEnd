@@ -39,7 +39,7 @@ export default function Bullets(props) {
       );
       return seq + 1;
     });
-    const newTime = Math.random() * 1200 + 2000;
+    const newTime = Math.random() * 1800 + 2000;
     clearInterval(timer);
     timer = setInterval(fn, newTime);
   }

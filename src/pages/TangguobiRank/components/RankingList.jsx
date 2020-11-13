@@ -35,9 +35,9 @@ const RankingList = () => {
   const queryRankData = (deptNumber, page, pageSize) => {
     setLoading(true);
     const date = new Date();
-    const year = date.getFullYear();
-    const lastMonth = date.getMonth();
-    const curMonth = date.getMonth() + 1;
+    const year = date.getFullYear().toString();
+    const lastMonth = date.getMonth().toString();
+    const curMonth = (date.getMonth() + 1).toString();
 
     // 年度榜单
     // 前十
@@ -262,58 +262,58 @@ const RankingList = () => {
   return (
     <div>
       <div>
-        <Spin spinning={loading}>
-          <Radio.Group
-            buttonStyle="solid"
-            optionType="button"
-            value={selectedOrg}
-            onChange={handleChange}
-            className={styles.companyRadioGroup}
-          >
-            {orgList.map((item) => (
-              <Radio.Button className={styles.companyRadio} value={item.deptNumber}>
-                {item.deptName}
-              </Radio.Button>
-            ))}
-          </Radio.Group>
-        </Spin>
+        <Radio.Group
+          buttonStyle="solid"
+          optionType="button"
+          value={selectedOrg}
+          onChange={handleChange}
+          className={styles.companyRadioGroup}
+        >
+          {orgList.map((item) => (
+            <Radio.Button className={styles.companyRadio} value={item.deptNumber}>
+              {item.deptName}
+            </Radio.Button>
+          ))}
+        </Radio.Group>
       </div>
       <div className={styles.rankTabContainer}>
-        <Tabs
-          defaultActiveKey="1"
-          type="card"
-          onChange={handleTabChange}
-          tabBarGutter={0}
-          tabBarExtraContent={
-            selectedOrg === personInfo.comCode ? (
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Checkbox onChange={handleCheck}>
-                  <span
-                    style={{
-                      fontSize: '14px',
-                      fontFamily: 'PingFangSC-Regular, PingFang SC',
-                      fontWeight: 400,
-                      color: '#666666',
-                      lineHeight: '20px',
-                    }}
-                  >
-                    仅展示”我“所在部门排名
-                  </span>
-                </Checkbox>
-              </div>
-            ) : null
-          }
-        >
-          <Tabs.TabPane tab={<span>年度榜单</span>} key="1">
-            <RankingContent content={yearRank} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<span>上月榜单</span>} key="2">
-            <RankingContent content={lastMonthRank} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab={<span>本月榜单</span>} key="3">
-            <RankingContent content={currentMonthRank} />
-          </Tabs.TabPane>
-        </Tabs>
+        <Spin spinning={loading}>
+          <Tabs
+            defaultActiveKey="1"
+            type="card"
+            onChange={handleTabChange}
+            tabBarGutter={0}
+            tabBarExtraContent={
+              selectedOrg === personInfo.comCode ? (
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <Checkbox onChange={handleCheck}>
+                    <span
+                      style={{
+                        fontSize: '14px',
+                        fontFamily: 'PingFangSC-Regular, PingFang SC',
+                        fontWeight: 400,
+                        color: '#666666',
+                        lineHeight: '20px',
+                      }}
+                    >
+                      仅展示”我“所在部门排名
+                    </span>
+                  </Checkbox>
+                </div>
+              ) : null
+            }
+          >
+            <Tabs.TabPane tab={<span>年度榜单</span>} key="1">
+              <RankingContent content={yearRank} />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<span>上月榜单</span>} key="2">
+              <RankingContent content={lastMonthRank} />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab={<span>本月榜单</span>} key="3">
+              <RankingContent content={currentMonthRank} />
+            </Tabs.TabPane>
+          </Tabs>
+        </Spin>
       </div>
       <div style={{ textAlign: 'center' }}>
         <Pagination
