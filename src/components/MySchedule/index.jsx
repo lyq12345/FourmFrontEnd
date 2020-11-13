@@ -58,12 +58,15 @@ const MySchedule = (props) => {
     })
     setWeekArr(week)
     const date = `${fullYearMonth.fullYear}-${fullYearMonth.month}-${fullYearMonth.myDate}`
+    getCalendarList(date)
+  };
+  const getCalendarList = (date) => {
     GetCalendar({ date: date }).then(response => {
       if (response.success) {
         setDataList(response.data)
       }
     })
-  };
+  }
   const showMoreSchedule = () => {
     setIsShowMore(!isShowMore)
   }
@@ -76,7 +79,10 @@ const MySchedule = (props) => {
         item.isCheck = false
       }
     })
+    let date = `${fullYearMonth.fullYear}-${fullYearMonth.month}-${dateArr[val].day}`
+    getCalendarList(date)
     setWeekArr(dateArr)
+    // setDate(dateArr[val].day)
   }
 
   return (
