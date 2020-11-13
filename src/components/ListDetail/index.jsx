@@ -16,7 +16,7 @@ const ListDetail = (props) => {
   const [praiseStatus, setPraiseStatus] = useState(false)
   const [praiseNum, setPraiseNum] = useState(0)
 
-  const { isName, isLine, isInfoIntro, dataInfo, giveLikeNum, id } = props
+  const { isName, isLine, isInfoIntro, dataInfo, giveLikeNum, id, type } = props
   useEffect(() => {
     return () => player && player.dispose()
   }, [])
@@ -37,19 +37,21 @@ const ListDetail = (props) => {
       poster: dataInfo.href.src,
       height: 447,
       width: 800,
+      type: 'application/x-mpegURL'
     };
     player = HWPlayer(`detail-video`, options, function () {
       //播放器已经准备好了
       player.src(dataInfo.href.video);
+
     });
   }
   // 点赞
   const dotPraise = () => {
     if (!praiseStatus && dataInfo.isLove == 0) {
-      setPraiseStatus(true)
       // setPraiseNum(praiseNum + 1)
-      SetAffairLove({ id: id }).then(response => {
+      SetAffairLove({ id: id, ltype: type }).then(response => {
         if (response.success) {
+          setPraiseStatus(true)
           setPraiseNum(response.data || 0)
         }
       })

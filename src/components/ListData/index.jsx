@@ -37,7 +37,7 @@ const ListData = (props) => {
                 <div className={styles.rightDetailInfo}>
                   <p className={isLine ? styles.contentName : `${styles.contentName} ${styles.contentNameStyle}`}>
                     {
-                      isStickIcon ? <img src={stick} alt="" /> : <></>
+                      isStickIcon && (item.isUp === 1) ? <img src={stick} alt="" /> : <></>
                     }
                     {
                       isLine ? <span>{item.userName}</span> : <span>{item.title}</span>

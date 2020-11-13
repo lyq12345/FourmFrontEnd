@@ -20,7 +20,7 @@ const Detail = (props) => {
 
   return (
     <div>
-      <ListDetail id={query.id} dataInfo={dataInfo} giveLikeNum={giveLikeNum} />
+      <ListDetail type={1} id={query.id} dataInfo={dataInfo} giveLikeNum={giveLikeNum} />
     </div>
   )
 }
