@@ -58,13 +58,14 @@ const Navigation = (props) => {
     route,
   } = props;
   const [attendanceInfo, setAttendanceInfo] = useState(null);
+  const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
   const [headImage, setHeadImage] = useState(loginheadimg);
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
   useEffect(() => {
     getAttenDataList();
-    let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
+    // let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
     setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
   }, []);
   const getAttenDataList = () => {
@@ -157,9 +158,9 @@ const Navigation = (props) => {
               >
                 <img
                   className="headerImg"
+                  onError={(e) => { e.target.onerror = null; e.target.src = { loginheadimg } }}
                   src={
-                    (JSON.parse(localStorage.getItem('userInfoLogin')) &&
-                      JSON.parse(localStorage.getItem('userInfoLogin')).headImage) ||
+                    (loginInUserInfo && loginInUserInfo.headImage) ||
                     loginheadimg
                   }
                   alt=""

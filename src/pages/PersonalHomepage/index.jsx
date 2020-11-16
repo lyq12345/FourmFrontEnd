@@ -41,7 +41,7 @@ const PersonalHomepage = (props) => {
           <div className={styles.classifie}>
             <img src={candyCurrency} alt="" />
             <p className={styles.classifieNum}>{(personInfo && personInfo.coinAll) || 0}</p>
-            <p className={styles.classifieNum}>糖果币</p>
+            <p className={styles.classifieNum}>堂果币</p>
           </div>
           <div className={styles.classifie}>
             <img src={study} alt="" />

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-11-12 10:20:30
+ * @LastEditTime: 2020-11-13 10:18:27
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -17,7 +17,8 @@ export default {
   dev: {
     // 当前应用
     '/yst-iwork-alpha-api': {
-      target: 'http://10.213.3.39:8081',
+      // target: 'http://10.213.3.39:8081',
+      target: 'http://10.3.3.65:8081',
       // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/151',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
