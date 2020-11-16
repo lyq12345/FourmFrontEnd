@@ -129,10 +129,10 @@ const Navigation = (props) => {
               <div className="navgtionInfo">{item.label}</div>
             </Link>
           ) : (
-              <div onClick={() => onMenuClick()} className="navgtionInfo">
-                {item.label}
-              </div>
-            )}
+            <div onClick={() => onMenuClick()} className="navgtionInfo">
+              {item.label}
+            </div>
+          )}
         </div>
       ))}
     </div>
@@ -189,12 +189,12 @@ const Navigation = (props) => {
                             <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
                           </Breadcrumb.Item>
                         ) : (
-                            <Breadcrumb.Item>
-                              <Link to={item} style={{ color: '#D30B24' }}>
-                                {routeMap.get(item)}
-                              </Link>
-                            </Breadcrumb.Item>
-                          )}
+                          <Breadcrumb.Item>
+                            <Link to={item} style={{ color: '#D30B24' }}>
+                              {routeMap.get(item)}
+                            </Link>
+                          </Breadcrumb.Item>
+                        )}
                       </Breadcrumb>
                     );
                   })}
@@ -281,11 +281,11 @@ const Navigation = (props) => {
           </div>
         </Footer>
       </Layout>
-      {location.pathname === '/home' || location.pathname === '/' ? (
+      {/* {location.pathname === '/home' || location.pathname === '/' ? (
         <ModelAdvertising pathname={location.pathname} />
       ) : (
           <></>
-        )}
+        )} */}
     </div>
   );
 };
