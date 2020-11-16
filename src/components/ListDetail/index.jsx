@@ -32,6 +32,7 @@ const ListDetail = (props) => {
     // return () => player && player.dispose()
   }, [dataInfo && dataInfo.href && dataInfo.href.video])
   const initVideo = () => {
+    let userAgent = navigator.userAgent
     var options = {
       //是否显示控制栏，包括进度条，播放暂停按钮，音量调节等组件
       poster: dataInfo.href.src,
@@ -41,7 +42,7 @@ const ListDetail = (props) => {
     };
     player = HWPlayer(`detail-video`, options, function () {
       //播放器已经准备好了
-      player.src(dataInfo.href.video);
+      player.src(userAgent.indexOf("Firefox") > -1 ? dataInfo.href.videoMP4 : dataInfo.href.video);
 
     });
   }
