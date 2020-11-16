@@ -1,8 +1,10 @@
-# 官网后台管理
+# 新版 iwork
 
 ## 技术栈
 
-umi+dva+antd
+1. umi
+2. dva
+3. antd
 
 ## 环境配置
 
