@@ -29,8 +29,8 @@ const RankingContent = (props) => {
         <Col style={{ margin: '10px 0' }} span={6}>
           <ol style={{ padding: 0 }}>
             {otherLeft.map((item, index) => (
-              <li key={index} style={{ margin: '10px 0' }}>
-                <span className={styles.last7Num}>{item.coinOrder}</span>
+              <li key={index} style={{ margin: '10px 0', display: 'flex', alignItems: 'center' }}>
+                <span className={styles.last7Order}>{item.coinOrder}</span>
                 <Avatar icon={<img src={item.avatar} />} />
                 <span className={styles.last7Name}>{item.personName}</span>
                 <span className={styles.last7Num}>{item.coin}</span>
@@ -41,9 +41,9 @@ const RankingContent = (props) => {
         <Col style={{ margin: '10px 0' }} span={6}>
           <ol style={{ padding: 0 }}>
             {otherRight.map((item, index) => (
-              <li key={index} style={{ margin: '10px 0' }}>
-                <span className={styles.last7Num}>{item.coinOrder}</span>
-                <Avatar icon={<img src={item.avatar} />} />
+              <li key={index} style={{ margin: '10px 0', display: 'flex', alignItems: 'center' }}>
+                <span className={styles.last7Order}>{item.coinOrder}</span>
+                <Avatar icon={<img src={item.avatar} size={30} />} />
                 <span className={styles.last7Name}>{item.personName}</span>
                 <span className={styles.last7Num}>{item.coin}</span>
               </li>

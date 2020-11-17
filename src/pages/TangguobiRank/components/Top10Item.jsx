@@ -55,7 +55,9 @@ const Top10Item = (props) => {
       <div>
         <p className={styles.top10Amount}>{props.content.coin}</p>
         <p className={styles.top10Name}>{props.content.personName}</p>
-        <p className={styles.top10Depart}>{props.content.deptName}</p>
+        <p title={props.content.deptName} className={styles.top10Depart}>
+          {props.content.deptName}
+        </p>
       </div>
     </div>
   );

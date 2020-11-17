@@ -47,6 +47,7 @@ export default function Nav() {
           tab={
             <span
               style={{
+                cursor: 'default',
                 fontSize: '18px',
                 color: '#333333',
                 fontFamily: 'PingFangSC-Medium, PingFang SC',

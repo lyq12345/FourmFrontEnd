@@ -66,65 +66,65 @@ const RankingList = () => {
       });
     });
 
-    let p3 = new Promise(function (resolve, reject) {
-      // 上月榜单
-      coinRankPaging({ deptNumber, year, month: lastMonth, page: 1, pageSize: 10 }).then(
-        ({ success, data }) => {
-          if (success) {
-            setLastMonthRank((pre) => {
-              return { ...pre, top10Rank: data.records };
-            });
-            resolve();
-          }
-        },
-      );
-    });
+    // let p3 = new Promise(function (resolve, reject) {
+    //   // 上月榜单
+    //   coinRankPaging({ deptNumber, year, month: lastMonth, page: 1, pageSize: 10 }).then(
+    //     ({ success, data }) => {
+    //       if (success) {
+    //         setLastMonthRank((pre) => {
+    //           return { ...pre, top10Rank: data.records };
+    //         });
+    //         resolve();
+    //       }
+    //     },
+    //   );
+    // });
 
-    let p4 = new Promise(function (resolve, reject) {
-      coinRankPaging({ deptNumber, year, month: lastMonth, page, pageSize, offset: 10 }).then(
-        ({ success, data }) => {
-          if (success) {
-            setLastMonthRank((pre) => {
-              return { ...pre, otherRank: data.records };
-            });
-            setTotal(data.total);
-            setPageIndex(page);
-            resolve();
-          }
-        },
-      );
-    });
+    // let p4 = new Promise(function (resolve, reject) {
+    //   coinRankPaging({ deptNumber, year, month: lastMonth, page, pageSize, offset: 10 }).then(
+    //     ({ success, data }) => {
+    //       if (success) {
+    //         setLastMonthRank((pre) => {
+    //           return { ...pre, otherRank: data.records };
+    //         });
+    //         setTotal(data.total);
+    //         setPageIndex(page);
+    //         resolve();
+    //       }
+    //     },
+    //   );
+    // });
 
-    let p5 = new Promise(function (resolve, reject) {
-      // 本月榜单
-      coinRankPaging({ deptNumber, year, month: curMonth, page: 1, pageSize: 10 }).then(
-        ({ success, data }) => {
-          if (success) {
-            setCurMonthRank((pre) => {
-              return { ...pre, top10Rank: data.records };
-            });
-            resolve();
-          }
-        },
-      );
-    });
+    // let p5 = new Promise(function (resolve, reject) {
+    //   // 本月榜单
+    //   coinRankPaging({ deptNumber, year, month: curMonth, page: 1, pageSize: 10 }).then(
+    //     ({ success, data }) => {
+    //       if (success) {
+    //         setCurMonthRank((pre) => {
+    //           return { ...pre, top10Rank: data.records };
+    //         });
+    //         resolve();
+    //       }
+    //     },
+    //   );
+    // });
 
-    let p6 = new Promise(function (resolve, reject) {
-      coinRankPaging({ deptNumber, year, month: curMonth, page, pageSize, offset: 10 }).then(
-        ({ success, data }) => {
-          if (success) {
-            setCurMonthRank((pre) => {
-              return { ...pre, otherRank: data.records };
-            });
-            setTotal(data.total);
-            setPageIndex(page);
-            resolve();
-          }
-        },
-      );
-    });
+    // let p6 = new Promise(function (resolve, reject) {
+    //   coinRankPaging({ deptNumber, year, month: curMonth, page, pageSize, offset: 10 }).then(
+    //     ({ success, data }) => {
+    //       if (success) {
+    //         setCurMonthRank((pre) => {
+    //           return { ...pre, otherRank: data.records };
+    //         });
+    //         setTotal(data.total);
+    //         setPageIndex(page);
+    //         resolve();
+    //       }
+    //     },
+    //   );
+    // });
 
-    Promise.all([p1, p2, p3, p4, p5, p6]).then(() => {
+    Promise.all([p1, p2]).then(() => {
       setLoading(false);
     });
   };
@@ -140,6 +140,7 @@ const RankingList = () => {
     const year = date.getFullYear();
     const lastMonth = date.getMonth();
     const curMonth = date.getMonth() + 1;
+    setLoading(true);
     switch (key) {
       case '1':
         // 前十
@@ -161,6 +162,7 @@ const RankingList = () => {
               });
               setTotal(data.total);
               setPageIndex(1);
+              setLoading(false);
             }
           },
         );
@@ -193,6 +195,7 @@ const RankingList = () => {
             });
             setTotal(data.total);
             setPageIndex(1);
+            setLoading(false);
           }
         });
         break;
@@ -224,6 +227,7 @@ const RankingList = () => {
             });
             setTotal(data.total);
             setPageIndex(1);
+            setLoading(false);
           }
         });
         break;
