@@ -8,7 +8,7 @@ const PictureDisplay = (props) => {
     console.log(index);
   };
   return (
-    <div style={{ width: '450px', marginLeft: '82px' }}>
+    <div style={{ width: '450px', marginLeft: '62px' }}>
       <List
         grid={{ column: 3 }}
         dataSource={props.picList}

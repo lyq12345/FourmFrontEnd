@@ -46,7 +46,7 @@ const PictureDetail = (props) => {
   };
 
   return (
-    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 26px  10px 82px ' }}>
+    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 26px  10px 62px ' }}>
       <Row style={{ backgroundColor: '#333333' }}>
         <Row
           style={{

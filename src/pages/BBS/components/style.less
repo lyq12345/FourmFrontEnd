@@ -4,3 +4,82 @@
   justify-content: center;
   cursor: pointer;
 }
+
+.article_container {
+  display: inline-block;
+  width: 670px;
+  background-color: #fff;
+  padding: 20px;
+
+  .article_header {
+    display: flex;
+    align-items: center;
+
+    .left_header {
+      margin-left: 12px;
+
+      .header_name {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #000000;
+        line-height: 20px;
+      }
+      .header_time {
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #6d7278;
+        line-height: 17px;
+      }
+    }
+  }
+  .right_header {
+    p {
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #0091ff;
+      line-height: 17px;
+    }
+  }
+  .article_title {
+    font-size: 14px;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #333333;
+    line-height: 20px;
+    margin-bottom: 5px;
+  }
+  .article_content {
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #333333;
+    line-height: 26px;
+    /* 超出范围隐藏 */
+    overflow: hidden;
+    /* 文字超出用省略号 */
+    text-overflow: ellipsis;
+    /* 盒子模型 */
+    display: -webkit-box;
+    /* 显示的文本行数 */
+    -webkit-line-clamp: 2;
+    /* 子元素的垂直排列方式 */
+    -webkit-box-orient: vertical;
+  }
+  .article_bottom {
+    margin: 5px 0 10px 62px;
+
+    span {
+      span {
+        font-size: 13px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #6d7278;
+        line-height: 18px;
+        margin: 0 8px 0 5px;
+      }
+    }
+  }
+}
