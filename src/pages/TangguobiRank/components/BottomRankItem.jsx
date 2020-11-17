@@ -15,7 +15,7 @@ const BottomRankItem = (props) => {
       <span className={styles.bottomOrder}>{props.content.coinOrder}</span>
       <Avatar icon={<img src={props.content.avatar} />} />
       <span className={styles.bottomName}>{props.content.personName}</span>
-      <span className={styles.bottomDept}>{props.content.deptName}</span>
+      <span title={props.content.deptName} className={styles.bottomDept}>{props.content.deptName}</span>
       <span className={styles.bottomAmount}>{props.content.coin}</span>
     </div>
   );
