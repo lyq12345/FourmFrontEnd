@@ -8,6 +8,12 @@ module.exports = {
       component: '../layouts/SecurityLayout',
       routes: [
         {
+          path: '/bbs',
+          name: 'iwork论坛',
+          component: '../layouts/BBSLayout',
+          routes: [],
+        },
+        {
           path: '/',
           component: '../layouts/Navigation',
           // component: '../layouts/BasicLayout',
