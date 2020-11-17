@@ -44,7 +44,9 @@ export default function TopThree(props) {
           </div>
           <div>
             <p className={styles.top3Name}>{top3[0] ? top3[0].personName : ''}</p>
-            <p className={styles.top3Depart}>{top3[0] ? top3[0].deptName : ''}</p>
+            <p title={top3[0] ? top3[0].deptName : ''} className={styles.top3Depart}>
+              {top3[0] ? top3[0].deptName : ''}
+            </p>
             <p className={styles.top3Amount}>{top3[0] ? top3[0].coin : ''}</p>
           </div>
         </Col>
@@ -74,7 +76,9 @@ export default function TopThree(props) {
           </div>
           <div>
             <p className={styles.top3Name}>{top3[1] ? top3[1].personName : ''}</p>
-            <p className={styles.top3Depart}>{top3[1] ? top3[1].deptName : ''}</p>
+            <p title={top3[1] ? top3[1].deptName : ''} className={styles.top3Depart}>
+              {top3[1] ? top3[1].deptName : ''}
+            </p>
             <p className={styles.top3Amount}>{top3[1] ? top3[1].coin : ''}</p>
           </div>
         </Col>
@@ -104,7 +108,9 @@ export default function TopThree(props) {
           </div>
           <div>
             <p className={styles.top3Name}>{top3[2] ? top3[2].personName : ''}</p>
-            <p className={styles.top3Depart}>{top3[2] ? top3[2].deptName : ''}</p>
+            <p title={top3[2] ? top3[2].deptName : ''} className={styles.top3Depart}>
+              {top3[2] ? top3[2].deptName : ''}
+            </p>
             <p className={styles.top3Amount}>{top3[2] ? top3[2].coin : ''}</p>
           </div>
         </Col>
