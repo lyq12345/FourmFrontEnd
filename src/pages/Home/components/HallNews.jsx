@@ -17,18 +17,9 @@ import SwiperCore, { Autoplay } from 'swiper';
 import Slider from "react-slick";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperComponent from '@/components/Swiper/Swiperv'
-// import 'swiper/swiper.scss';
+import Cookies from 'js-cookie';
 
-// let video2 = {}
 SwiperCore.use([Autoplay]);
-// let mySwiper = new Swiper('.swiper-container', {
-//   loop: true, // 循环模式选项
-//   autoplay: true,//等同于以下设置
-// })
-let slickConfig
-let waterSwiper = {}
-// let player
-let player = {}
 
 const HallNews = (props) => {
   const [yearWeek, setYearWeek] = useState(null);
@@ -52,6 +43,7 @@ const HallNews = (props) => {
   const ref = React.useRef();
   const isHovering = useHover(ref);
   const [isPlaying, setIsPlaying] = useState(false);
+  const accessToken = Cookies.get('access_token');
   useEffect(() => {
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
@@ -101,11 +93,11 @@ const HallNews = (props) => {
         if (response.success) {
           setUnreadInfoList(response.data.messages || [])
           setUnreadMessagesNum(response.data.total)
-          if (response.data.total && response.data.total > 0) {
-            setIsUnreadVisible(true)
-          } else {
-            setIsUnreadVisible(false)
-          }
+          // if (response.data.total && response.data.total > 0) {
+          //   setIsUnreadVisible(true)
+          // } else {
+          //   setIsUnreadVisible(false)
+          // }
         }
       })
     }
@@ -218,7 +210,7 @@ const HallNews = (props) => {
             visible={isUnreadVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 1)}
             trigger='hover'>
-            <div className={styles.popoverStyle} onClick={() => { window.open('http://10.213.3.39:8088/AutoLogin.aspx?type=2') }}>
+            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:8088/AutoLogin.aspx?type=2&token=${accessToken}`) }}>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>我的消息</span>
               <Badge
@@ -235,7 +227,7 @@ const HallNews = (props) => {
             visible={isToDoTasksVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 2)}
             trigger="hover">
-            <div className={styles.popoverStyle} onClick={() => { window.open('http://10.213.3.39:8088/AutoLogin.aspx?type=1') }}>
+            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:8088/AutoLogin.aspx?type=1&token=${accessToken}`) }}>
               <img src={toDoTasksImg} alt="" />
               <span className={styles.messageText}>待办任务</span>
               <Badge
@@ -314,7 +306,7 @@ const HallNews = (props) => {
         <div className={styles.rightContent}>
           <img className={styles.hallPeopleBackground} src={HallPeople} alt="" />
           <div className={styles.contentInfo} onClick={() => detailHallPeople(WeeklyChapelInfo)}>
-            <p className={styles.currentWeek}>{yearWeek}</p>
+            <p className={styles.currentWeek}>{WeeklyChapelInfo && WeeklyChapelInfo.weekIndex}</p>
             <p className={styles.contentText} title={WeeklyChapelInfo && WeeklyChapelInfo.content}>
               {WeeklyChapelInfo && WeeklyChapelInfo.content}
             </p>

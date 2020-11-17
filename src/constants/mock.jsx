@@ -1,5 +1,83 @@
 
 
+export const birthdayArrList = [
+  [
+    {
+      title: "2019年8月",
+      content: "利奇马台风"
+    },
+    {
+      title: "2018年8月",
+      content: "山东寿光遭遇严重水灾"
+    },
+    {
+      title: "2017年",
+      content: "农夫山泉与红鼻子基金会合作"
+    },
+    {
+      title: "2016年6-7月",
+      content: "安徽芜湖、江苏盐城、湖北武汉、河南信阳"
+    }
+  ],
+  [
+    {
+      title: "2016年5月",
+      content: "浙江持续出现降雨天气"
+    },
+    {
+      title: "2013年10月",
+      content: "台风“菲特”给浙江余姚市带来极强降水"
+    },
+    {
+      title: "2013年4月",
+      content: "四川雅安发生了7.0级地震"
+    },
+    {
+      title: "2012年7月",
+      content: "北京发生特大暴雨"
+    }
+  ],
+  [
+    {
+      title: "2010年",
+      content: "云南发生全省性特大旱灾"
+    },
+    {
+      title: "2008年5月",
+      content: "四川汶川大地震发生后"
+    },
+    {
+      title: "2008年1月",
+      content: "华南雪灾"
+    },
+    {
+      title: "2007年5月",
+      content: "太湖蓝藻事件"
+    }
+  ],
+  [
+    {
+      title: "2006年9月",
+      content: "浙江温州苍南县遭受台风"
+    },
+    {
+      title: "2006年8月",
+      content: "重庆等地遭遇异常高温大旱"
+    },
+    {
+      title: "2006年",
+      content: "农夫山泉股份有限公司"
+    },
+    {
+      title: "2003年",
+      content: "农夫山泉股份有限公司"
+    },
+    {
+      title: "2002年",
+      content: "农夫山泉发起面向贫困地区"
+    }
+  ]
+]
 export const carouselList = [
   {
     title: '【每周一的堂里人】',

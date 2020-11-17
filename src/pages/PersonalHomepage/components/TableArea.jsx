@@ -173,7 +173,7 @@ const TableArea = (props) => {
         return (
           <div>
             {
-              isFamilyNum ? getSelect(text, record, index, 'FAMSA') : <span>{record.FAMSAStr}</span>
+              isFamilyNum ? getSelect(text, record, index, 'FAMSA') : <span>{record.FAMSAStr ? record.FAMSAStr : '--'}</span>
             }
           </div>
         )
@@ -188,7 +188,7 @@ const TableArea = (props) => {
         return (
           <div>
             {
-              isFamilyNum ? getInput(text, record, index, 'FANAM') : <span>{text}</span>
+              isFamilyNum ? getInput(text, record, index, 'FANAM') : <span>{text ? text : '--'}</span>
             }
           </div>
         )
@@ -203,7 +203,7 @@ const TableArea = (props) => {
         return (
           <div>
             {
-              isFamilyNum ? getInput(text, record, index, 'TELNR') : <span>{text}</span>
+              isFamilyNum ? getInput(text, record, index, 'TELNR') : <span>{text ? text : '--'}</span>
             }
           </div>
         )
@@ -222,7 +222,7 @@ const TableArea = (props) => {
                 onChange={(value, data) => { assignmentChange(data, record, index, 'FGBDT', 'DatePicker') }}
                 defaultValue={text ? moment(text) : null}
                 format="YYYY-MM-DD"
-                style={{ width: 136 }} /> : <span>{text}</span>
+                style={{ width: 136 }} /> : <span>{text ? text : '--'}</span>
             }
           </div>
         )
