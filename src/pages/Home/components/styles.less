@@ -4,16 +4,17 @@ p {
 }
 .birthday {
   width: 816px;
-  height: 166px;
+  height: 252px;
   border-radius: 6px;
   background: url('../../../assets/img/colour-bar.png') no-repeat right bottom;
-  background-size: 179px 146px;
+  background-size: 179px 185px;
   background-color: #fff;
   padding: 20px 20px 0 20px;
+  overflow: hidden;
   .birthdayAnniversary {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     align-items: center;
     span:first-child {
       font-size: 18px;
@@ -23,11 +24,17 @@ p {
     span:last-child {
       font-size: 16px;
       line-height: 16px;
+      color: #666666;
+      cursor: pointer;
     }
   }
   .birthdayNameList {
-    display: inline-block;
+    // display: inline-block;
+    display: flex !important;
+    flex-wrap: wrap;
+    justify-content: space-between;
     margin-right: 40px;
+    width: 100%;
     &:nth-child(2n) {
       margin-right: 0;
     }
@@ -37,10 +44,11 @@ p {
       justify-content: space-between;
       align-items: center;
       padding-right: 40px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       p {
         display: flex;
         align-items: center;
+        cursor: pointer;
       }
       .birthdayContent {
         span:first-child {
@@ -54,6 +62,13 @@ p {
         .name {
         }
       }
+      .sendBlessings {
+          a {
+            color: #0076D0;
+            font-size: 14px;
+            line-height: 20px;
+          }
+        }
     }
   }
 }

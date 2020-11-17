@@ -23,6 +23,7 @@ const FormData = (props) => {
   const [detailInfo, setDetailInfo] = useState({});
   const [personageDetailInfo, setPersonageDetailInfo] = useState({});
   const [exigenceDetailInfo, setExigenceDetailInfo] = useState({});
+  const [address, setAddress] = useState({})
 
   const [pcodeList, setPcodeList] = useState([]);
   const [zzhukotypeList, setZzhukotypeList] = useState([]);
@@ -89,9 +90,9 @@ const FormData = (props) => {
       return false
     }
     values = infoAssemble('personalInfoSubmit', values)
-    values.ZZHUKOL = personageDetailInfo.ZZHUKOL
-    values.HOME_ADD = personageDetailInfo.HOME_ADD
-    values.POST_ADD = personageDetailInfo.POST_ADD
+    values.ZZHUKOL = address.ZZHUKOL
+    values.HOME_ADD = address.HOME_ADD
+    values.POST_ADD = address.POST_ADD
     values.ZZHUKOL = values.ZZHUKOL + values.ZZHUKOL_DETAIL
     values.HOME_ADD = values.HOME_ADD + values.HOME_ADD_DETAIL
     values.POST_ADD = values.POST_ADD + values.POST_ADD_DETAIL
@@ -101,7 +102,7 @@ const FormData = (props) => {
     setLoadings(loadingList)
     updatePernrInfo({ data: JSON.stringify(values) }).then(res => {
       let loadingList = [...loadings]
-      loadingList[1] = true
+      loadingList[1] = false
       setLoadings(loadingList)
       if (res.success) {
         message.success('操作成功')
@@ -201,7 +202,7 @@ const FormData = (props) => {
   // 紧急联系人保存
   const emergencyContactSubmit = (values) => {
     values.PERNR = detailInfo.FID
-    values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
+    values.STRAS = address.STRAS + values.STRAS_DETAIL_ADD
     values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
@@ -291,15 +292,17 @@ const FormData = (props) => {
   const cascaderChange = (value, selectedOptions, variables, val) => {
     let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
     if (variables == 'exigenceDetailInfo') {
-      let exigenceDetail = exigenceDetailInfo
+      let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo))
       exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
-      setExigenceDetailInfo(exigenceDetail)
+      // setExigenceDetailInfo(exigenceDetail)
+      setAddress(exigenceDetail)
     } else {
-      let personageDetail = personageDetailInfo
+      let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo))
       personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
       personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
       personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
-      setPersonageDetailInfo(personageDetail)
+      // setPersonageDetailInfo(personageDetail)
+      setAddress(personageDetail)
     }
   }
 
@@ -325,7 +328,7 @@ const FormData = (props) => {
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={8}>
               <Form.Item label="姓名：" style={{ marginBottom: '17px' }} name="orgId">
-                <span>{detailInfo && detailInfo.FItemName}</span>
+                <span>{detailInfo && detailInfo.FItemName ? detailInfo.FItemName : '--'}</span>
               </Form.Item>
             </Col>
             <Col span={16}>
@@ -335,27 +338,27 @@ const FormData = (props) => {
             </Col>
             <Col span={8}>
               <Form.Item label="工号：" name="operationPersonAccount">
-                <span>{detailInfo && detailInfo.FID} </span>
+                <span>{detailInfo && detailInfo.FID ? detailInfo.FID : '--'} </span>
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label="账号" name="marketPersonAccount">
-                <span>{detailInfo && detailInfo.FItemNumber}</span>
+                <span>{detailInfo && detailInfo.FItemNumber ? detailInfo.FItemNumber : '--'}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="部门岗位：" name="operationPersonAccount">
-                <span>{detailInfo && detailInfo.FPositionName} </span>
+                <span>{detailInfo && detailInfo.FPositionName ? detailInfo.FPositionName : '--'} </span>
               </Form.Item>
             </Col>
             <Col span={16}>
               <Form.Item label="司龄时间" name="marketPersonAccount">
-                <span>{detailInfo && detailInfo.FEnterGroup}</span>
+                <span>{detailInfo && detailInfo.FEnterGroup ? detailInfo.FEnterGroup : '--'}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
               <Form.Item label="职级" name="operationPersonAccount">
-                <span>{detailInfo && detailInfo.FJobLevel}</span>
+                <span>{detailInfo && detailInfo.FJobLevel ? detailInfo.FJobLevel : '--'}</span>
               </Form.Item>
             </Col>
           </Row>
@@ -379,13 +382,13 @@ const FormData = (props) => {
               <Form.Item label="办公电话" name="FTelePhone">
                 {
                   isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
-                    <span>{detailInfo && detailInfo.FTelePhone}</span>
+                    <span>{detailInfo && detailInfo.FTelePhone ? detailInfo.FTelePhone : '--'}</span>
                 }
               </Form.Item>
             </Col>
             <Col span={15}>
               <Form.Item label="隶属公司" name="FCompanName">
-                <span>{detailInfo && detailInfo.FCompanName}</span>
+                <span>{detailInfo && detailInfo.FCompanName ? detailInfo.FCompanName : '--'}</span>
               </Form.Item>
             </Col>
             <Col span={9}>
@@ -394,7 +397,7 @@ const FormData = (props) => {
                 name="FMobiePhone">
                 {
                   isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
-                    <span>{detailInfo && detailInfo.FMobiePhone}</span>
+                    <span>{detailInfo && detailInfo.FMobiePhone ? detailInfo.FMobiePhone : '--'}</span>
                 }
               </Form.Item>
             </Col>
@@ -402,7 +405,7 @@ const FormData = (props) => {
               <Form.Item label="办公地址" name="FAdress">
                 {
                   isContactInfo ? <Input autoComplete="off" placeholder="请输入" /> :
-                    <span>{detailInfo && detailInfo.FAdress}</span>
+                    <span>{detailInfo && detailInfo.FAdress ? detailInfo.FAdress : '--'}</span>
                 }
               </Form.Item>
             </Col>
@@ -443,7 +446,7 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.PCODEStr} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.PCODEStr ? personageDetailInfo.PCODEStr : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -457,7 +460,7 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.FAMSTStr} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.FAMSTStr ? personageDetailInfo.FAMSTStr : '--'} </span>
                 }
 
               </Form.Item>
@@ -466,7 +469,7 @@ const FormData = (props) => {
               <Form.Item label="子女数目：" name="ANZKD">
                 {
                   isPersonageInfo ? <Input autoComplete="off" placeholder="请输入" /> :
-                    <span>{personageDetailInfo && personageDetailInfo.ANZKD} </span>
+                    <span>{personageDetailInfo && personageDetailInfo.ANZKD ? personageDetailInfo.ANZKD : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -480,7 +483,7 @@ const FormData = (props) => {
                           {item.FDateName}
                         </Option>
                       ))}
-                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOTYPEStr} </span>
+                  </Select> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOTYPEStr ? personageDetailInfo.ZZHUKOTYPEStr : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -494,7 +497,7 @@ const FormData = (props) => {
                       autoComplete="off"
                       loadData={loadData}
                       onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'hukouLocation')}
-                    /> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOL} </span>
+                    /> : <span>{personageDetailInfo && personageDetailInfo.ZZHUKOL ? personageDetailInfo.ZZHUKOL : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -515,7 +518,7 @@ const FormData = (props) => {
                       loadData={loadData}
                       autoComplete="off"
                       onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'homeAddress')}
-                    /> : <span>{personageDetailInfo && personageDetailInfo.HOME_ADD} </span>
+                    /> : <span>{personageDetailInfo && personageDetailInfo.HOME_ADD ? personageDetailInfo.HOME_ADD : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -536,7 +539,7 @@ const FormData = (props) => {
                       loadData={loadData}
                       autoComplete="off"
                       onChange={(val, data) => cascaderChange(val, data, 'personageDetailInfo', 'mailAddress')}
-                    /> : <span>{personageDetailInfo && personageDetailInfo.POST_ADD} </span>
+                    /> : <span>{personageDetailInfo && personageDetailInfo.POST_ADD ? personageDetailInfo.POST_ADD : '--'} </span>
                 }
               </Form.Item>
             </Col>
@@ -578,7 +581,7 @@ const FormData = (props) => {
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="紧急联系人：" name="FAMSA">
+              <Form.Item label="紧急联络人：" name="FAMSA">
                 {
                   isEmergencyContact ?
                     <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
@@ -588,7 +591,7 @@ const FormData = (props) => {
                             {item.FDateName}
                           </Option>
                         ))}
-                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr}</span>
+                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr ? exigenceDetailInfo.FAMSAStr : '--'}</span>
                 }
               </Form.Item>
             </Col>
@@ -596,7 +599,7 @@ const FormData = (props) => {
               <Form.Item label="联络人电话：" name="TELNR">
                 {
                   isEmergencyContact ? <Input autoComplete="off" placeholder="请输入" /> :
-                    <span>{exigenceDetailInfo && exigenceDetailInfo.TELNR}</span>
+                    <span>{exigenceDetailInfo && exigenceDetailInfo.TELNR ? exigenceDetailInfo.TELNR : '--'}</span>
                 }
               </Form.Item>
             </Col>
@@ -624,7 +627,7 @@ const FormData = (props) => {
                       onChange={(val, data) => cascaderChange(val, data, 'exigenceDetailInfo', 'STRAS')}
                       loadData={loadData}
                     />
-                    : <span>{exigenceDetailInfo && exigenceDetailInfo.STRAS}</span>
+                    : <span>{exigenceDetailInfo && exigenceDetailInfo.STRAS ? exigenceDetailInfo.STRAS : '--'}</span>
                 }
               </Form.Item>
             </Col>
