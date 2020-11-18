@@ -83,15 +83,16 @@ const AllNav = () => {
               <div style={{ display: 'flex' }}>
                 <Avatar size={26} icon={<img src={item.icon} />} />
                 <a
+                  title={item.title}
                   style={{
                     fontSize: '13px',
                     fontFamily: 'PingFangSC-Regular, PingFang SC',
                     fontWeight: 400,
                     color: '#333',
                     marginLeft: '9px',
-                    maxWidth: '9em',
+                    maxWidth: '7em',
                     overflow: 'hidden',
-                    textOverflow: 'hidden',
+                    textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                   }}
                 >
