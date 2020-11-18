@@ -14,7 +14,7 @@ const data = [
 ];
 export default function NavHome(props) {
   return (
-    <div>
+    <div style={{ marginTop: '10px' }}>
       <List
         dataSource={props.data}
         grid={{ gutter: 16, column: 5 }}

@@ -16,13 +16,13 @@ export default function TopThree(props) {
   }, [arr]);
   return (
     <div style={{ display: 'inline-block' }}>
-      <Row gutter={16}>
+      <Row>
         <Col span={8} style={{ padding: 0 }}>
           <div
             style={{
               display: 'flex',
               background: `url(${Light})`,
-              width: '140px',
+              width: '125px',
               height: '140px',
               justifyContent: 'center',
               alignItems: 'center',
@@ -54,7 +54,7 @@ export default function TopThree(props) {
           <div
             style={{
               display: 'flex',
-              width: '140px',
+              width: '125px',
               height: '140px',
               justifyContent: 'center',
               alignItems: 'center',
@@ -86,7 +86,7 @@ export default function TopThree(props) {
           <div
             style={{
               display: 'flex',
-              width: '140px',
+              width: '125px',
               height: '140px',
               justifyContent: 'center',
               alignItems: 'center',

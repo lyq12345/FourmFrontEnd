@@ -52,6 +52,7 @@ export default function Nav() {
                 color: '#333333',
                 fontFamily: 'PingFangSC-Medium, PingFang SC',
                 fontWeight: 500,
+                lineHeight: 1,
               }}
             >
               我的导航
