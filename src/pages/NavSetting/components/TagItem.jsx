@@ -67,7 +67,21 @@ class TagItem extends React.Component {
           >
             <div style={{ display: 'flex' }}>
               <Avatar size={26} icon={<img src={this.props.icon} />} />
-              <span style={{ marginLeft: '10px' }}>{this.props.title}</span>
+              <span
+                style={{
+                  fontSize: '13px',
+                  fontFamily: 'PingFangSC-Regular, PingFang SC',
+                  fontWeight: 400,
+                  color: '#333',
+                  marginLeft: '9px',
+                  maxWidth: '9em',
+                  overflow: 'hidden',
+                  textOverflow: 'hidden',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {this.props.title}
+              </span>
               <div style={{ flex: 1 }}></div>
               <div>
                 <CloseOutlined onClick={this.props.handleCancel} />

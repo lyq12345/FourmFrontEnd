@@ -82,7 +82,21 @@ const AllNav = () => {
             <Card bordered={false} size="small">
               <div style={{ display: 'flex' }}>
                 <Avatar size={26} icon={<img src={item.icon} />} />
-                <a style={{ color: 'black', marginLeft: '10px' }}>{item.title}</a>
+                <a
+                  style={{
+                    fontSize: '13px',
+                    fontFamily: 'PingFangSC-Regular, PingFang SC',
+                    fontWeight: 400,
+                    color: '#333',
+                    marginLeft: '9px',
+                    maxWidth: '9em',
+                    overflow: 'hidden',
+                    textOverflow: 'hidden',
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {item.title}
+                </a>
                 <div style={{ flex: 1 }}></div>
                 <div>
                   {item.isAdded ? (
