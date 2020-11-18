@@ -100,7 +100,7 @@ const TGBDetail = (props) => {
           }
         },
       );
-      getMyRank({ personCode: props.personCode }).then(({ success, data }) => {
+      getMyRank({ personCode: props.personCode, year }).then(({ success, data }) => {
         if (success) {
           setPersonInfo(data);
         }
