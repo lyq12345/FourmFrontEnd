@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-11-13 10:18:27
+ * @LastEditTime: 2020-11-17 14:38:23
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -48,7 +48,7 @@ export default {
   },
   test: {
     '/yst-iwork-alpha-api': {
-      target: 'http://10.3.3.65:8081',
+      target: 'http://potalapi-test.yst.com.cn',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },

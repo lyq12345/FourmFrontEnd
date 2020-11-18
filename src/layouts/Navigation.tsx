@@ -33,7 +33,7 @@ const noMatch = (
 const navigationInfo = [
   {
     label: '个人主页',
-    router: 'personal-homepage',
+    router: '/personal-homepage',
   },
   // {
   //   label: '账号设置',

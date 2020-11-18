@@ -9,15 +9,21 @@ import FormData from './components/FormData';
 import study from '@/assets/img/study.png';
 import invitation from '@/assets/img/invitation.png';
 import candyCurrency from '@/assets/img/candy-currency.png';
-import { getMyRank } from '@/api/personalHomepage'
+import { getMyRank, GetEmpInfo } from '@/api/personalHomepage'
 
 const PersonalHomepage = (props) => {
   let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const [personInfo, setPersonInfo] = useState({});
+  const [detailInfo, setDetailInfo] = useState({});
   useEffect(() => {
     getMyRank({ userId: userInfo.account }).then(res => {
       if (res.success) {
         setPersonInfo(res.data[0])
+      }
+    })
+    GetEmpInfo({ userId: userInfo.account }).then(res => {
+      if (res.success) {
+        setDetailInfo(res.EmpInfo)
       }
     })
   }, [])
@@ -33,7 +39,7 @@ const PersonalHomepage = (props) => {
           <img className={styles.headImg} src={personInfo && personInfo.avatar} alt="" />
         </p>
         <p className={styles.nameAndSex}>
-          <span>王佳佳</span>
+          <span>{detailInfo && detailInfo.FItemName}</span>
           <img src={woman} alt="" />
         </p>
         <p className={styles.position}>产品分析师</p>

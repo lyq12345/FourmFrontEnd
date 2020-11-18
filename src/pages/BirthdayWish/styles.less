@@ -1,0 +1,61 @@
+.birthdayTabsContainer {
+  // background-color: #fff;
+  border-radius: 10px;
+  .navTabs {
+    // margin: 0 20px;
+    padding-top: 20px;
+    // span {
+    //   font-size: 14px;
+    //   font-family: PingFangSC-Regular, PingFang SC;
+    //   font-weight: 400;
+    //   color: #666666;
+    //   line-height: 20px;
+    // }
+    :global(.ant-tabs-nav) {
+      margin: 0 !important;
+      &::before {
+        // border-bottom: 0;
+      }
+    }
+    :global(.ant-tabs-tab) {
+      // padding: 6px 42px;
+      padding: 0;
+      // margin: 0 20px 0 0;
+      width: 114px;
+      height: 32px;
+      margin: 0 !important;
+      border: none !important;
+      background: none;
+    }
+    :global(.ant-tabs-tab > .ant-tabs-tab-btn span) {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 20px;
+    }
+    :global(.ant-tabs-tab-active) {
+      background: #fff;
+      color: #CE1925;
+      .ant-tabs-tab-btn {
+        color: #CE1925;
+      }
+    }
+    :global(.ant-tabs-tab-active > .ant-tabs-tab-btn span) {
+      color: #CE1925;
+      border-bottom: 2px solid #CE1925;
+      padding-bottom: 4px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      line-height: 20px;
+    }
+    :global(.ant-tabs-tab-btn) {
+      width: 100%;
+      text-align: center;
+    }
+    .tabContent {
+      background-color: #ffffff;
+    }
+  }
+}

@@ -95,8 +95,8 @@ const ListDetail = (props) => {
           {
             isInfoIntro ? <p className={styles.companie}>{dataInfo && dataInfo.company}</p> : <></>
           }
-          <div className={styles.detailInfo}>
-            {dataInfo && dataInfo.content}
+          <div className={styles.detailInfo} dangerouslySetInnerHTML={{ __html: dataInfo && dataInfo.detail }}>
+            {/* {dataInfo && dataInfo.content} */}
           </div>
         </div>
         <div className={praiseStatus || (dataInfo && dataInfo.isLove == 1) ? `${styles.fakeLikes} ${styles.fakeLikesBackground}` : styles.fakeLikes} onClick={() => dotPraise()}>

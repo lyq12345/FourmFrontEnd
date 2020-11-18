@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './styles.less'
-import bannerImg from '@/assets/img/banner@2x.png';
+import bannerImg1 from '@/assets/img/banner1@2x.png';
+import bannerImg2 from '@/assets/img/banner2@2x.png';
 import week from '@/assets/img/week.png';
 import waterHealth from '@/assets/img/waterHealth.png';
 import read from '@/assets/img/read.png';
@@ -14,15 +15,19 @@ const ListData = (props) => {
   return (
     <div className={styles.listComponent}>
       <div className={styles.banner}>
-        <img src={bannerImg} alt="" />
+        <img src={isShowWeek ? bannerImg1 : bannerImg2} alt="" />
       </div>
       <div className={styles.listInfo}>
-        <p>每周堂里人</p>
+
+        <p>{
+          isShowWeek ?
+            '每周堂里人' : '堂里新鲜事'
+        }</p>
         {
           ListDataInfo.affairs && ListDataInfo.affairs.length && ListDataInfo.affairs.map((item, index) => (
             <div className={styles.listConent} key={index} onClick={() => routerLink(item)}>
               <p className={styles.leftImg}>
-                <img className={styles.contentImg} src={waterHealth} alt="" />
+                <img className={styles.contentImg} src={item.href && item.href.src} alt="" />
                 {
                   isShowWeek ?
                     <>

@@ -1,5 +1,7 @@
 const { router: demoRouter } = require('./demo-router');
 const { router: hallPeopleRouter } = require('./hall-people-router');
+const { router: birthdayWishRouter } = require('./birthday-wish-router');
+
 
 module.exports = {
   routes: [
@@ -25,6 +27,7 @@ module.exports = {
             // 示例路由
             ...demoRouter,
             ...hallPeopleRouter,
+            ...birthdayWishRouter,
 
             {
               component: './404',
