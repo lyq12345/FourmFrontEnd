@@ -3,6 +3,7 @@ import { Modal, Button, Table, Avatar } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
 import { coinDetailPaging, getPersonInfo, getMyRank } from '@/api/tangguobi';
+import { LeftOutlined } from '@ant-design/icons';
 
 const columns = [
   {
@@ -81,7 +82,9 @@ const TGBDetail = (props) => {
           if (success) {
             const records = data.records;
             const arr = [];
+            let yearCoin = 0;
             records.forEach((item) => {
+              yearCoin += item.coin;
               const info = {
                 key: item.id,
                 fromPerInfo: {
@@ -96,6 +99,7 @@ const TGBDetail = (props) => {
               };
               arr.push(info);
             });
+            setCoins(yearCoin);
             setGiveData(arr);
           }
         },
@@ -159,7 +163,7 @@ const TGBDetail = (props) => {
               lineHeight: '22px',
             }}
           >
-            {personInfo.coinAll}
+            {coins}
           </p>
           <p
             style={{
