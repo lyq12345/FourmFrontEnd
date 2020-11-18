@@ -17,7 +17,7 @@ export default function TopThree(props) {
   return (
     <div style={{ display: 'inline-block' }}>
       <Row>
-        <Col span={8} style={{ padding: 0 }}>
+        <Col span={8} style={{ padding: 0, marginRight: '-5px' }}>
           <div
             style={{
               display: 'flex',
@@ -50,7 +50,7 @@ export default function TopThree(props) {
             <p className={styles.top3Amount}>{top3[0] ? top3[0].coin : ''}</p>
           </div>
         </Col>
-        <Col span={8} style={{ padding: 0 }}>
+        <Col span={8} style={{ padding: 0, marginRight: '-5px' }}>
           <div
             style={{
               display: 'flex',
@@ -82,7 +82,7 @@ export default function TopThree(props) {
             <p className={styles.top3Amount}>{top3[1] ? top3[1].coin : ''}</p>
           </div>
         </Col>
-        <Col span={8} style={{ padding: 0 }}>
+        <Col span={8} style={{ padding: 0, marginRight: '-5px' }}>
           <div
             style={{
               display: 'flex',

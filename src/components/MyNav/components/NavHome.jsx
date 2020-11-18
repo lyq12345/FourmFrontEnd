@@ -24,11 +24,14 @@ export default function NavHome(props) {
               <Avatar size={26} icon={<img src={item.icon} />} />
               <a
                 style={{
-                  fontSize: '14px',
+                  fontSize: '13px',
                   fontFamily: 'PingFangSC-Regular, PingFang SC',
                   fontWeight: 400,
                   color: '#333',
-                  marginLeft: '12px',
+                  marginLeft: '9px',
+                  overflow: 'hidden',
+                  textOverflow: 'hidden',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {item.title}
