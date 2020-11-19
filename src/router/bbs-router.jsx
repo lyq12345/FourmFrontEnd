@@ -3,7 +3,7 @@ module.exports = {
     {
       path: '/bbs/test',
       name: '测试组件',
-      component: './BBS/components/NormalArticle.jsx',
+      component: './BBS',
     },
   ],
 };

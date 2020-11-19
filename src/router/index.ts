@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-11-17 10:48:31
- * @LastEditTime: 2020-11-17 11:07:58
+ * @LastEditTime: 2020-11-17 13:21:14
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/router/index.ts
@@ -19,7 +19,7 @@ module.exports = {
         {
           path: '/bbs',
           name: 'iwork论坛',
-          component: '../layouts/BBSLayout/index.tsx',
+          // component: '../layouts/BBSLayout',
           routes: [...bbsRouter],
         },
         {
