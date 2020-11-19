@@ -19,7 +19,7 @@ module.exports = {
         {
           path: '/bbs',
           name: 'iwork论坛',
-          component: '../layouts/BBSLayout',
+          component: '../layouts/BBSLayout/index.tsx',
           routes: [...bbsRouter],
         },
         {
