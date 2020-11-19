@@ -20,7 +20,7 @@ export default function NavHome(props) {
         grid={{ gutter: 16, column: 5 }}
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>
-            <a target="_blank" href={item.href}>
+            <a target="_blank" href={item.href} style={{ display: 'flex', alignItems: 'center' }}>
               <Avatar size={26} icon={<img src={item.icon} />} />
               <a
                 style={{
