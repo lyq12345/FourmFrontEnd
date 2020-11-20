@@ -1,6 +1,13 @@
 import React from 'react';
 import styles from './Footer.less';
 
+import iconPhone from '@/assets/bbs/icon/phone.png';
+import iconMobile from '@/assets/bbs/icon/mobile.png';
+import logoNfsq from '@/assets/bbs/logo/logo_nfsq.png';
+import logoWantai from '@/assets/bbs/logo/logo_wantai.png';
+import logoYoseido from '@/assets/bbs/logo/logo_yoseido.png';
+import logoYst from '@/assets/bbs/logo/logo_yst.png';
+
 const Footer: React.FC = React.memo(() => {
   return (
     <div style={{ background: 'white' }} className={styles.footer}>
@@ -17,17 +24,30 @@ const Footer: React.FC = React.memo(() => {
         </div>
         <div className={styles.topRight}>
           <div className={styles.textContainerRight}>
-            <p>IT服务台：</p>
-            <p>IT服务台：</p>
-            <p>IT服务台：</p>
+            <p className={styles.item}>IT服务台：</p>
+            <p className={styles.item}>
+              <img src={iconPhone} alt="phone" />
+              <span className={styles.phone}>0571-87663116</span>
+              <span className={styles.day}>工作日</span>
+            </p>
+            <p className={styles.item}>
+              <img src={iconMobile} alt="phone" />
+              <span className={styles.phone}>18072772789</span>
+              <span className={styles.day}>节假日</span>
+            </p>
           </div>
         </div>
       </div>
-      <div style={{ height: 1, background: '#d8d8d8' }}></div>
+      <div style={{ height: 1, background: '#d8d8d8' }} />
 
       <div className={styles.bg}>
         <div className={styles.bottom}>
-          <div className={styles.bottomLeft}></div>
+          <div className={styles.bottomLeft}>
+            <img src={logoYst} alt="logoYst" />
+            <img src={logoNfsq} alt="logoNfsq" />
+            <img src={logoYoseido} alt="logoYoseido" />
+            <img src={logoWantai} alt="logoWantai" />
+          </div>
           <div className={styles.bottomRight}>All Rights Reserved.浙ICP备10201315号-3</div>
         </div>
       </div>

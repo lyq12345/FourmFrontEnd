@@ -1,0 +1,69 @@
+.rightCard {
+  width: 307px;
+  padding: 20px 0 18px 12px;
+  margin: 12px;
+  background-color: white;
+  border-radius: 4px;
+  position: relative;
+
+  .rect {
+    position: absolute;
+    width: 48px;
+    height: 7px;
+    background: rgba(255, 80, 0, 0.2);
+    border-radius: 4px;
+    left: 17px;
+    top: 31px;
+  }
+
+  .top {
+    display: flex;
+    .title {
+      width: 80px;
+      height: 16px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #333333;
+      line-height: 16px;
+      margin-right: auto;
+    }
+    span {
+      width: 24px;
+      height: 16px;
+      font-size: 12px;
+      color: #666666;
+      line-height: 16px;
+      margin-right: 15px;
+    }
+  }
+
+  .listContainer {
+    line-height: 14px;
+    .listItem {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+
+      .listItemTitle {
+        flex: 0 0 210px;
+        margin-right: auto;
+        color: rgba(0, 0, 0, 0.85);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        &.yello {
+          color: #ff5000;
+        }
+      }
+
+      .count {
+        flex: 0 0 35px;
+        overflow: visible;
+        color: #999999;
+        &.yello {
+          color: #ff5000;
+        }
+      }
+    }
+  }
+}

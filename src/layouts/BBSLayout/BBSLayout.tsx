@@ -34,6 +34,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
           width: 1200,
           margin: '0 auto',
           paddingTop: 40,
+          paddingBottom: 30,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'flex-start' }}>
