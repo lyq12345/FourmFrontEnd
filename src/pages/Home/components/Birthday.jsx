@@ -2,74 +2,22 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.less';
 import { Carousel } from 'antd';
 import SwiperCore, { Autoplay } from 'swiper';
-
+import { GetBirthdayIndex } from '@/api/birthdayWish'
 import Slider from "react-slick";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperComponent from '@/components/Swiper/Swiperv'
+import WishDialog from '@/components/WishDialog'
 
-const birthdayArrList = [
-  [{
-    name: '陈慎建今天入职221111111111周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职2567721周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职2567721周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职2567721周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职22187666周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职22678651周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职22678651周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职22678651周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  ],
-  [{
-    name: '陈慎建今天入职1456周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  }, {
-    name: '陈慎建今天入职168周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },],
-  [{
-    name: '陈慎建今天入职167周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  }, {
-    name: '陈慎建今天入职1222周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },]
-]
-const birthdayArrList1 = [
-  {
-    name: '陈慎建今天入职1222周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  },
-  {
-    name: '陈慎建今天入职1222周年',
-    title: '开发四部信息部浙江彩虹鱼'
-  }
-]
 SwiperCore.use([Autoplay]);
 const Birthday = (props) => {
   const [swiper, setSwiper] = useState(null);
+  const [dataList, setDataList] = useState([]);
   useEffect(() => {
+    GetBirthdayIndex().then(res => {
+      if (res.success) {
+        setDataList(res.data || [])
+      }
+    })
   }, [])
   return (
     <div className={styles.birthday}>
@@ -89,7 +37,7 @@ const Birthday = (props) => {
           loop
         >
           {
-            birthdayArrList && birthdayArrList.map((item, index) => (
+            dataList && dataList.map((item, index) => (
               <SwiperSlide key={index}>
                 <div className={styles.birthdayNameList} key={index}>
                   {
@@ -97,7 +45,7 @@ const Birthday = (props) => {
                       <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                         <p className={styles.birthdayContent}>
                           <span></span>
-                          <span className={styles.name}>{val.name}</span>
+                          <span className={styles.name}>{val.userName} {val.deptName}</span>
                         </p>
                         <p className={styles.sendBlessings}><a href=''>送祝福</a></p>
                       </div>
@@ -109,6 +57,7 @@ const Birthday = (props) => {
           }
         </Swiper>
       </div>
+      <WishDialog />
     </div>
   );
 };

@@ -1,24 +1,25 @@
 
 import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
-import PaginationModule from '@/components/PaginationModule'
 import styles from './styles.less'
 
 
 const TableList = (props) => {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [total, setTotal] = useState(1)
+  // const [dataList, setDataList] = useState([]);
+  // const [pageSize, setPageSize] = useState(10);
+  // const [pageIndex, setPageIndex] = useState(1);
+  let { data, total, loading } = props
   const columns = [
     {
       title: '姓名',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'userName',
+      key: 'userName',
       width: 200,
     },
     {
       title: '部门',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'deptName',
+      key: 'deptName',
     },
     {
       title: '',
@@ -26,50 +27,19 @@ const TableList = (props) => {
       key: 'x',
       // fixed: 'right',
       width: 300,
-      render: () => <div className={styles.operation}>
-        <a>查看ta收到的</a>
+      render: (record) => <div className={styles.operation}>
+        <a onClick={() => window.open(`birthdayWish/BlessingWall?wishType=${2}&userId=${record.userId}`)}>查看ta收到的</a>
         <a>送祝福</a>
       </div>,
     },
   ]
-  const data = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '4',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '5',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '5',
-      name: 'John Brown',
-      age: 32,
-      address: 'New York No. 1 Lake Park',
-    },
-  ]
+
+  useEffect(() => {
+    // if (!date) {
+    //   return
+    // }
+    // getBirthdayListInfo()
+  }, [])
   const onChangePage = () => {
 
   }
@@ -78,10 +48,10 @@ const TableList = (props) => {
       <Table
         columns={columns}
         dataSource={data}
+        loading={loading}
         pagination={false}
         rowClassName={(record, index) => index % 2 !== 0 ? styles.white : styles.gray}
       />
-      <PaginationModule onChange={onChangePage} current={currentPage} size="small" total={total} />
     </div>
   )
 

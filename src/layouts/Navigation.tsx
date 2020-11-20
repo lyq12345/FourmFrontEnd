@@ -63,10 +63,12 @@ const Navigation = (props) => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
+  const imgTest = 'http://wework.qpic.cn/bizmail/wDFn7DzFicGyEF9uTInBoeZkAZsNNLPyVChsHLMGyaJA7OU1Ljsb4Fg/0'
   useEffect(() => {
     getAttenDataList();
     // let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
     setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
+
   }, []);
   const getAttenDataList = () => {
     GetAtten().then((response) => {

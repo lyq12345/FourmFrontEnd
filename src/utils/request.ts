@@ -82,6 +82,9 @@ request.interceptors.request.use((url, options) => {
     case 'home-page':
       URL = `/home-page${url}`;
       break;
+    case 'mock':
+      URL = `/mock/yst-iwork-alpha-api${url}`;
+      break;
     default:
       // eslint-disable-next-line no-undef
       URL = `${REACT_APP_BASIC_API}${url}`;
