@@ -1,37 +1,40 @@
 import React from 'react';
 import styles from './Button.less';
 
-import { useToggle, useClickAway } from '@umijs/hooks';
+import { useHistory, useRouteMatch } from 'umi';
 
 type ButtonType = {
   onClick?: Function;
+  url: string;
   iconDataURL?: string;
   className?: string;
+  count?: number;
 };
 
-const Button: React.FC<ButtonType> = React.memo(({ onClick, children, iconDataURL, className }) => {
-  const { state, toggle } = useToggle(false);
-  const handleClick = React.useCallback((e) => {
-    toggle(true);
+const Button: React.FC<ButtonType> = React.memo(
+  ({ url, onClick, children, iconDataURL, className, count }) => {
+    const match = useRouteMatch({ path: url, exact: true });
 
-    onClick?.(e);
-  }, []);
+    const history = useHistory();
+    const handleClick = React.useCallback((e) => {
+      count = 0;
 
-  const ref = React.useRef<HTMLDivElement>();
-  useClickAway(() => {
-    toggle(false);
-  }, ref.current);
+      url && history.push(url);
+      onClick?.(e);
+    }, []);
 
-  return (
-    <div
-      ref={ref}
-      onClick={handleClick}
-      className={`${className} ${styles.sidebarButton} ${state && styles.selected}`}
-    >
-      {iconDataURL && <img src={iconDataURL} />}
-      <div style={{ fontSize: 16 }}>{children}</div>
-    </div>
-  );
-});
+    return (
+      <div
+        onClick={handleClick}
+        className={`${className} ${styles.sidebarButton} ${match && styles.selected}`}
+      >
+        {iconDataURL && <img src={iconDataURL} />}
+        <div style={{ fontSize: 16 }}>{children}</div>
+        {/* TODO: 超过99 */}
+        {count && <div className={styles['count']}>{count}</div>}
+      </div>
+    );
+  },
+);
 
 export default Button;

@@ -12,6 +12,7 @@ module.exports = {
     {
       path: '/bbs/posts',
       name: '消息',
+      component: '../pages/BBS/Square',
     },
     {
       path: '/bbs/square',

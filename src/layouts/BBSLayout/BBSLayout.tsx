@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import logo from '@/assets/bbs/logo/logo_bbs.png';
 import png1 from '@/assets/bbs/icon/png1.png';
@@ -11,7 +11,8 @@ import styles from './BBSLayout.less';
 import Footer from './components/Footer';
 import Button from './components/Button';
 import RightCard, { typeRightCard } from './components/RightCard';
-import { useHistory } from 'umi';
+import { useHistory, useRouteMatch } from 'umi';
+import { useLocalStorage } from 'react-use';
 
 const rightCard: typeRightCard = {
   title: '我发的帖子',
@@ -41,6 +42,8 @@ const rightCard: typeRightCard = {
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
   const history = useHistory();
+  const [userInfo] = useLocalStorage<{ personName: string }>('userInfo');
+
   return (
     <div className={styles['bg-container']}>
       {/* 顶部导航 */}
@@ -72,32 +75,16 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
       <div className={styles['content-container']}>
         <div className={styles['content']}>
           <div className={styles['sidebar']}>
-            <Button
-              iconDataURL={png1}
-              className={styles['button']}
-              onClick={() => history.push('/bbs')}
-            >
+            <Button iconDataURL={png1} className={styles['button']} url="/bbs">
               首页
             </Button>
-            <Button
-              iconDataURL={png1}
-              className={styles['button']}
-              onClick={() => history.push('/bbs/posts')}
-            >
+            <Button iconDataURL={png1} className={styles['button']} url="/bbs/posts">
               消息
             </Button>
-            <Button
-              iconDataURL={png1}
-              className={styles['button']}
-              onClick={() => history.push('/bbs/square')}
-            >
+            <Button iconDataURL={png1} className={styles['button']} url="/bbs/square">
               广场
             </Button>
-            <Button
-              iconDataURL={png1}
-              className={styles['button']}
-              onClick={() => history.push('/bbs/mine')}
-            >
+            <Button iconDataURL={png1} className={styles['button']} url="/bbs/mine">
               我的
             </Button>
 
@@ -127,7 +114,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
                   }
                   alt="avatar"
                 />
-                <span className={styles['name']}>name</span>
+                <span className={styles['name']}>{userInfo.personName}</span>
                 <div className={styles['wanna-post']}>我要发帖</div>
               </div>
             </div>
