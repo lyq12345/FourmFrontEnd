@@ -6,34 +6,32 @@ import { useToggle, useClickAway } from '@umijs/hooks';
 type ButtonType = {
   onClick?: Function;
   iconDataURL?: string;
-  isSelectedAlways?: boolean;
+  className?: string;
 };
 
-const Button: React.FC<ButtonType> = React.memo(
-  ({ onClick, children, iconDataURL, isSelectedAlways }) => {
-    const { state, toggle } = useToggle(isSelectedAlways);
-    const handleClick = React.useCallback((e) => {
-      toggle(true);
+const Button: React.FC<ButtonType> = React.memo(({ onClick, children, iconDataURL, className }) => {
+  const { state, toggle } = useToggle(false);
+  const handleClick = React.useCallback((e) => {
+    toggle(true);
 
-      onClick?.(e);
-    }, []);
+    onClick?.(e);
+  }, []);
 
-    const ref = React.useRef<HTMLDivElement>();
-    useClickAway(() => {
-      !isSelectedAlways && toggle(false);
-    }, ref.current);
+  const ref = React.useRef<HTMLDivElement>();
+  useClickAway(() => {
+    toggle(false);
+  }, ref.current);
 
-    return (
-      <div
-        ref={ref}
-        onClick={handleClick}
-        className={`${styles.sidebarButton} ${state && styles.selected}`}
-      >
-        {iconDataURL && <img src={iconDataURL} />}
-        <div style={{ fontSize: 16 }}>{children}</div>
-      </div>
-    );
-  },
-);
+  return (
+    <div
+      ref={ref}
+      onClick={handleClick}
+      className={`${className} ${styles.sidebarButton} ${state && styles.selected}`}
+    >
+      {iconDataURL && <img src={iconDataURL} />}
+      <div style={{ fontSize: 16 }}>{children}</div>
+    </div>
+  );
+});
 
 export default Button;

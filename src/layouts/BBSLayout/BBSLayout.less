@@ -1,0 +1,160 @@
+.bg-container {
+  background: #f4f4f4;
+
+  .navbar-bg-container {
+    box-shadow: 0 2px 14px 0px #e8e7e7;
+    background: white;
+    position: relative;
+
+    .line {
+      position: absolute;
+      height: 4px;
+      left: 0;
+      right: 0;
+      background: linear-gradient(139deg, #ff6c29 0%, #ef0000 100%);
+    }
+
+    .navbar {
+      width: 1200px;
+      margin: 0 auto;
+      overflow: visible;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .content-container {
+    padding-top: 40px;
+    padding-bottom: 42px;
+
+    .content {
+      width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: flex-start;
+
+      .sidebar {
+        width: 156px;
+        margin-right: 32px;
+        margin-left: 23px;
+
+        .button {
+          margin-bottom: 14px;
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        .divider {
+          width: 156px;
+          height: 42px;
+          line-height: 42px;
+          font-size: 10px;
+          color: #666;
+          margin: 8px 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          &::before {
+            content: '';
+            display: inline-block;
+            position: relative;
+            right: 6px;
+            width: 44px;
+            background: currentColor;
+            height: 0.5px;
+          }
+
+          &::after {
+            content: '';
+            display: inline-block;
+            position: relative;
+            left: 6px;
+            width: 44px;
+            background: currentColor;
+            height: 0.5px;
+          }
+        }
+
+        .nav-list {
+          .nav-item {
+            font-size: 16px;
+            color: #333;
+            line-height: 42px;
+            padding: 0 24px;
+            margin-bottom: 14px;
+          }
+        }
+      }
+
+      .center {
+        width: 670px;
+      }
+
+      .sidebar-right {
+        width: 307px;
+        margin-left: 12px;
+
+        .profile {
+          width: 307px;
+          height: 223px;
+
+          background: center / contain url('../../assets/bbs/bg_profile.png');
+          border-radius: 4px;
+          position: relative;
+
+          &::before {
+            content: '';
+            display: block;
+            position: absolute;
+            height: 126px;
+            width: 100%;
+            top: 97px;
+            border-radius: 0 0 4px 4px;
+            background-color: hsla(0, 0%, 100%, 94%);
+          }
+
+          .profile-content {
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            z-index: 1;
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+
+            .avatar {
+              margin-top: 65px;
+              width: 72px;
+              height: 72px;
+              border-radius: 9999px;
+            }
+
+            .name {
+              margin-top: 7px;
+              margin-bottom: 9px;
+              line-height: 20px;
+              font-weight: 500;
+              color: rgba(0, 0, 0, 0.85);
+            }
+
+            .wanna-post {
+              width: 92px;
+              height: 32px;
+              line-height: 32px;
+              color: #fff;
+              text-align: center;
+              background: linear-gradient(45deg, #ff6c29, #eb0029);
+              border-radius: 4px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

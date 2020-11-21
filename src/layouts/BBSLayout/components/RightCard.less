@@ -1,10 +1,10 @@
 .rightCard {
   width: 307px;
   padding: 20px 0 18px 12px;
-  margin: 12px;
   background-color: white;
   border-radius: 4px;
   position: relative;
+  margin-top: 12px;
 
   .rect {
     position: absolute;
@@ -26,6 +26,7 @@
       color: #333333;
       line-height: 16px;
       margin-right: auto;
+      z-index: 1;
     }
     span {
       width: 24px;
@@ -43,6 +44,13 @@
       margin-top: 18px;
       display: flex;
       align-items: center;
+      cursor: default;
+
+      &:hover {
+        * {
+          color: #ff5000 !important;
+        }
+      }
 
       .listItemTitle {
         flex: 0 0 210px;
@@ -51,18 +59,16 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        &.yello {
-          color: #ff5000;
-        }
+      }
+
+      svg {
+        margin-right: 7px;
       }
 
       .count {
         flex: 0 0 35px;
         overflow: visible;
         color: #999999;
-        &.yello {
-          color: #ff5000;
-        }
       }
     }
   }

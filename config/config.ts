@@ -12,6 +12,7 @@ import proxy from './proxy';
 import webpackPlugin from './plugin.config';
 import getEnvConfig from './env.config';
 import router from '../src/router/';
+import path from 'path';
 
 const { winPath } = utils;
 // preview.pro.ant.design only do not use in your production ;

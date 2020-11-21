@@ -31,14 +31,13 @@ const Footer: React.FC = React.memo(() => {
               <span className={styles.day}>工作日</span>
             </p>
             <p className={styles.item}>
-              <img src={iconMobile} alt="phone" />
+              <img src={iconMobile} alt="mobile" />
               <span className={styles.phone}>18072772789</span>
               <span className={styles.day}>节假日</span>
             </p>
           </div>
         </div>
       </div>
-      <div style={{ height: 1, background: '#d8d8d8' }} />
 
       <div className={styles.bg}>
         <div className={styles.bottom}>
