@@ -271,7 +271,7 @@ const HallNews = (props) => {
                               muted
                             />
                           ) : (
-                              <img style={{ width: '487px', height: '278px' }} src={v.href.src} alt="pic" />
+                              <img style={{ width: '487px', height: '278px', borderRadius: '3px 0 0 3px' }} src={v.href.src} alt="pic" />
                             )}
                         </div>
                       </SwiperSlide>

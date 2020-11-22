@@ -10,11 +10,15 @@ import study from '@/assets/img/study.png';
 import invitation from '@/assets/img/invitation.png';
 import candyCurrency from '@/assets/img/candy-currency.png';
 import { getMyRank, GetEmpInfo } from '@/api/personalHomepage'
+import loginheadimg from '@/assets/img/login-head-img.png';
+
 
 const PersonalHomepage = (props) => {
   let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   const [personInfo, setPersonInfo] = useState({});
   const [detailInfo, setDetailInfo] = useState({});
+  const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
+  const [headImage, setHeadImage] = useState(loginheadimg);
   useEffect(() => {
     getMyRank({ userId: userInfo.account }).then(res => {
       if (res.success) {
@@ -26,6 +30,7 @@ const PersonalHomepage = (props) => {
         setDetailInfo(res.EmpInfo)
       }
     })
+    setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
   }, [])
   const routerLink = () => {
     props.history.push({
@@ -36,13 +41,18 @@ const PersonalHomepage = (props) => {
     <div className={styles.personalHomepage}>
       <div className={styles.leftPersonalInfo}>
         <p>
-          <img className={styles.headImg} src={personInfo && personInfo.avatar} alt="" />
+          <img className={styles.headImg}
+            onError={(e) => { e.target.onerror = null; e.target.src = loginheadimg }}
+            src={
+              (loginInUserInfo && loginInUserInfo.headImage) ||
+              loginheadimg
+            } alt="" />
         </p>
         <p className={styles.nameAndSex}>
           <span>{detailInfo && detailInfo.FItemName}</span>
           <img src={woman} alt="" />
         </p>
-        <p className={styles.position}>产品分析师</p>
+        <p className={styles.position}>{detailInfo && detailInfo.FPositionName}</p>
         <div className={styles.contentClassifie}>
           <div className={styles.classifie}>
             <img src={candyCurrency} alt="" />

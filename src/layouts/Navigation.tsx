@@ -63,7 +63,6 @@ const Navigation = (props) => {
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
-  const imgTest = 'http://wework.qpic.cn/bizmail/wDFn7DzFicGyEF9uTInBoeZkAZsNNLPyVChsHLMGyaJA7OU1Ljsb4Fg/0'
   useEffect(() => {
     getAttenDataList();
     // let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
@@ -160,7 +159,7 @@ const Navigation = (props) => {
               >
                 <img
                   className="headerImg"
-                  onError={(e) => { e.target.onerror = null; e.target.src = { loginheadimg } }}
+                  onError={(e) => { e.target.onerror = null; e.target.src = loginheadimg }}
                   src={
                     (loginInUserInfo && loginInUserInfo.headImage) ||
                     loginheadimg
@@ -273,9 +272,10 @@ const Navigation = (props) => {
                 <img
                   src={YSTLogo}
                   alt=""
+                  style={{ width: '188px' }}
                   onClick={() => imgDispatch('http://yoseido.yst.com.cn')}
                 />
-                <img src={WTSWLogo} alt="" onClick={() => imgDispatch('https://www.ystwt.com')} />
+                <img style={{ width: '144px' }} src={WTSWLogo} alt="" onClick={() => imgDispatch('https://www.ystwt.com')} />
               </div>
               <div className="right-logo">
                 <p className="remark">All Rights Reserved.浙ICP备10201315号-3</p>
