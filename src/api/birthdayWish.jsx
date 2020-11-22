@@ -27,19 +27,19 @@ export const GetWishIconList = async (data) =>
   request('/IWork/GetWishIconList', {
     method: 'get',
     params: data,
-    prefixType: 'mock'
+    // prefixType: 'mock'
   });
 // 发送祝福
 export const AddWish = async (data) =>
   request('/IWork/AddWish', {
     method: 'get',
     params: data,
-    prefixType: 'mock'
+    // prefixType: 'mock'
   });
 // 回复祝福
 export const ReplyWish = async (data) =>
   request('/IWork/ReplyWish', {
     method: 'get',
     params: data,
-    prefixType: 'mock'
+    // prefixType: 'mock'
   });

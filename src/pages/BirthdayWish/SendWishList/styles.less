@@ -1,6 +1,11 @@
 .sendWishList {
   background-color: #fff;
   padding: 30px;
+  .spinLoading {
+    width: 100%;
+    height: 500px;
+    text-align: center;
+  }
   > p {
     margin-bottom: 35px;
     line-height: 22px;
@@ -40,6 +45,24 @@
     >p {
       font-size: 14px;
       line-height: 24px;
+    }
+  }
+  .birthdayPagination {
+    text-align: center;
+    margin-top: 30px;
+    :global(.ant-pagination-options) {
+      display: none;
+    }
+    .paginationNum {
+      .ant-pagination-disabled {
+        display: none;
+      }
+      .ant-pagination-item-active {
+        background-color: #CE1925;
+        .ant-pagination-item-active a {
+          color: #fff;
+        }
+      }
     }
   }
 }
