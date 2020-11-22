@@ -34,6 +34,7 @@ const TableArea = (props) => {
   const [isFamilyNum, setFamilyNum] = useState(false)
   const [btnLoadding, setBtnLoadding] = useState(false);
   const [addressoptionsList, setAddressoptionsList] = useState([]);
+  const [storgeDataList, setStorgeDataList] = useState([]);
   let { famsaList, tableList, FID } = props
   useEffect(() => {
     console.log(props)
@@ -48,6 +49,8 @@ const TableArea = (props) => {
     getFamilyInfo({ sapId: FID }).then(res => {
       if (res.success) {
         res.familyInfo.map((item, index) => { item.key = index })
+        let dataArr = JSON.parse(JSON.stringify(res.familyInfo))
+        setStorgeDataList(dataArr)
         setDataList([...res.familyInfo])
       }
     })
@@ -261,7 +264,8 @@ const TableArea = (props) => {
 
 
                 </div>
-                : <span>{record.STATE}{record.CITY1}{record.DISTR}{record.STRAS}</span>
+                // <span>{record.STATE}{record.CITY1}{record.DISTR}{record.STRAS}</span>
+                : <span>{record.STRAS}</span>
             }
           </div>
         )
@@ -350,6 +354,9 @@ const TableArea = (props) => {
         // console.log(newArr, newObj)
         setDataList(arrList)
         setFamilyNum(false)
+        // setStorgeDataList(arrList)
+      } else {
+        setDataList([...storgeDataList])
       }
     })
   }
@@ -372,6 +379,11 @@ const TableArea = (props) => {
     })
     setDataList(arr)
   }
+  const cancelRowData = () => {
+    setFamilyNum(false)
+    console.log(storgeDataList)
+    setDataList([...storgeDataList])
+  }
   return (
     <div>
       <div className={styles.infoTitle}>
@@ -393,7 +405,7 @@ const TableArea = (props) => {
         {
           isFamilyNum ?
             <>
-              <Button style={{ marginRight: '26px' }} onClick={() => setFamilyNum(false)}>
+              <Button style={{ marginRight: '26px' }} onClick={() => cancelRowData()}>
                 取消
               </Button>
               <Button style={{ marginRight: '26px' }} onClick={createRow}>

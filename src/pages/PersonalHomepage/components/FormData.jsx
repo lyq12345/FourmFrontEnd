@@ -22,7 +22,9 @@ const FormData = (props) => {
   const [isEmergencyContact, setIsEmergencyContact] = useState(false)
   const [detailInfo, setDetailInfo] = useState({});
   const [personageDetailInfo, setPersonageDetailInfo] = useState({});
+  const [personageStorgeInfo, setPersonageStorgeInfo] = useState({})
   const [exigenceDetailInfo, setExigenceDetailInfo] = useState({});
+  const [exigenceStorgeInfo, setExigenceStorgeInfo] = useState({})
   const [address, setAddress] = useState({})
 
   const [pcodeList, setPcodeList] = useState([]);
@@ -90,9 +92,9 @@ const FormData = (props) => {
       return false
     }
     values = infoAssemble('personalInfoSubmit', values)
-    values.ZZHUKOL = address.ZZHUKOL
-    values.HOME_ADD = address.HOME_ADD
-    values.POST_ADD = address.POST_ADD
+    values.ZZHUKOL = personageDetailInfo.ZZHUKOL
+    values.HOME_ADD = personageDetailInfo.HOME_ADD
+    values.POST_ADD = personageDetailInfo.POST_ADD
     values.ZZHUKOL = values.ZZHUKOL + values.ZZHUKOL_DETAIL
     values.HOME_ADD = values.HOME_ADD + values.HOME_ADD_DETAIL
     values.POST_ADD = values.POST_ADD + values.POST_ADD_DETAIL
@@ -108,7 +110,10 @@ const FormData = (props) => {
         message.success('操作成功')
         // const creatData = saveSucAssignment(values, personageDetailInfo)
         setPersonageDetailInfo(values)
+        setPersonageStorgeInfo(JSON.parse(JSON.stringify(values)))
         setIsPersonageInfo(false)
+      } else {
+        setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
       }
     })
   }
@@ -167,7 +172,8 @@ const FormData = (props) => {
     setTimeout(() => {
       getPernrInfo({ sapId: detailInfo.FID }).then(res => {
         if (res.success) {
-          personageInfoForm.setFieldsValue(res.pernrInfo);
+          setPersonageStorgeInfo(JSON.parse(JSON.stringify(res.pernrInfo)))
+          personageInfoForm.setFieldsValue(res.pernrInfo)
           setPersonageDetailInfo(res.pernrInfo)
           setPcodeList(res.pcodeList)
           setZzhukotypeList(res.zzhukotypeList)
@@ -179,6 +185,7 @@ const FormData = (props) => {
       getFamilyInfo({ sapId: detailInfo.FID }).then(res => {
         if (res.success && res.exigence) {
           let tempData = { ...res.exigence, FGBDT: moment(res.exigence.FGBDT) }
+          setExigenceStorgeInfo(JSON.parse(JSON.stringify(tempData)))
           setExigenceDetailInfo(tempData)
           emergencyContactForm.setFieldsValue(res.exigence)
         }
@@ -202,7 +209,7 @@ const FormData = (props) => {
   // 紧急联系人保存
   const emergencyContactSubmit = (values) => {
     values.PERNR = detailInfo.FID
-    values.STRAS = address.STRAS + values.STRAS_DETAIL_ADD
+    values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
     values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
@@ -219,13 +226,16 @@ const FormData = (props) => {
     setLoadings(loadingList)
     editFamilyInfo({ data: JSON.stringify(data) }).then(res => {
       let loadingList = [...loadings]
-      loadingList[2] = true
+      loadingList[2] = false
       setLoadings(loadingList)
       if (res.success) {
         const creatData = saveSucAssignment(values, exigenceDetailInfo)
         setExigenceDetailInfo(creatData)
+        setExigenceStorgeInfo(JSON.parse(JSON.stringify(creatData)))
         message.success('操作成功')
         setIsEmergencyContact(false)
+      } else {
+        setExigenceDetailInfo(JSON.parse(JSON.stringify(exigenceStorgeInfo)))
       }
     })
   }
@@ -294,15 +304,15 @@ const FormData = (props) => {
     if (variables == 'exigenceDetailInfo') {
       let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo))
       exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
-      // setExigenceDetailInfo(exigenceDetail)
-      setAddress(exigenceDetail)
+      setExigenceDetailInfo(exigenceDetail)
     } else {
       let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo))
       personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
       personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
       personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
-      // setPersonageDetailInfo(personageDetail)
-      setAddress(personageDetail)
+      setPersonageDetailInfo(personageDetail)
+      // console.log(address)
+      // setAddress(personageDetail)
     }
   }
 
@@ -313,6 +323,18 @@ const FormData = (props) => {
     } else {
       birthdayString = exigenceDetailInfo.FGBDT.format('YYYY-MM-DD')
     }
+  }
+  // 个人信息取消
+  const cancelPersonageSaveInfo = () => {
+    setIsPersonageInfo(!isPersonageInfo)
+    personageInfoForm.setFieldsValue(personageStorgeInfo)
+    setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
+  }
+  // 紧急联络人取消
+  const cancelEmergency = () => {
+    setIsEmergencyContact(!isEmergencyContact)
+    emergencyContactForm.setFieldsValue(exigenceStorgeInfo)
+    setExigenceDetailInfo(JSON.parse(JSON.stringify(exigenceStorgeInfo)))
   }
 
   return (
@@ -553,7 +575,7 @@ const FormData = (props) => {
           </Row>
           {
             isPersonageInfo ? <div className={styles.operationBtn}>
-              <Button style={{ marginRight: '26px' }} onClick={() => setIsPersonageInfo(!isPersonageInfo)}>
+              <Button style={{ marginRight: '26px' }} onClick={() => cancelPersonageSaveInfo()}>
                 取消
                   </Button>
               <Button type="primary" loading={loadings[1]} htmlType="submit">
@@ -641,7 +663,7 @@ const FormData = (props) => {
           </Row>
           {
             isEmergencyContact ? <div className={styles.operationBtn}>
-              <Button style={{ marginRight: '26px' }} onClick={() => setIsEmergencyContact(!isEmergencyContact)}>
+              <Button style={{ marginRight: '26px' }} onClick={() => cancelEmergency()}>
                 取消
               </Button>
               <Button type="primary" loading={loadings[2]} htmlType="submit">
