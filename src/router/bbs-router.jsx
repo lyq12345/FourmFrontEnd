@@ -8,6 +8,7 @@ module.exports = {
     {
       path: '/bbs/',
       name: '首页',
+      component: './BBS',
     },
     {
       path: '/bbs/posts',
@@ -21,6 +22,7 @@ module.exports = {
     {
       path: '/bbs/mine',
       name: '我的',
+      component: './BBS/Mine',
     },
   ],
 };

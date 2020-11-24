@@ -83,3 +83,34 @@
     }
   }
 }
+
+.post_container {
+  background-color: #ffffff;
+  padding: 20px 20px 16px 20px;
+  .title {
+    padding-left: 0;
+  }
+  .content {
+    padding-left: 0;
+  }
+
+  .post_bottom {
+    display: flex;
+    :global(.ant-select-selector) {
+      color: #0091ff;
+      :global(.ant-select-selection-placeholder) {
+        opacity: 1;
+      }
+    }
+    :global(.ant-select-arrow) {
+      color: #0091ff;
+    }
+    .dropdown {
+      // border-top: 120px solid transparent;
+      // border-right: 120px solid transparent;
+      // border-bottom: 120px solid blue;
+      // border-left: 120px solid transparent;
+      // background-color: red;
+    }
+  }
+}

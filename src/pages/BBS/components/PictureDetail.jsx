@@ -44,6 +44,9 @@ const PictureDetail = (props) => {
   const onRightUnShow = () => {
     setRightShow(false);
   };
+  const handleBottomClick = (index) => {
+    setCurZoomed(index);
+  };
 
   return (
     <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 26px  10px 62px ' }}>
@@ -102,7 +105,7 @@ const PictureDetail = (props) => {
           </Col>
         </Row>
       </Row>
-      <Row justify="space-around" style={{ margin: '10px 0' }}>
+      <Row gutter={2} justify="start" style={{ margin: '10px 0' }}>
         {props.picList.map((item, index) => (
           <Col>
             <div
@@ -112,10 +115,14 @@ const PictureDetail = (props) => {
               }}
             >
               <img
+                onClick={() => {
+                  handleBottomClick(index);
+                }}
                 src={item.picUrl}
                 style={{
                   width: '58px',
                   height: '58px',
+                  cursor: 'pointer',
                   border: index === curZoomed ? '1px solid #FF5000' : 'none',
                 }}
               />
