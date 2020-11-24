@@ -13,6 +13,7 @@ module.exports = {
     {
       path: '/bbs/home',
       name: '首页',
+      component: './BBS/Home',
     },
     {
       path: '/bbs/message',
