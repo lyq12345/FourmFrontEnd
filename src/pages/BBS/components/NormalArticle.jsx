@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Upload, Button, Avatar, Row, Col } from 'antd';
 import {
   PlusOutlined,
@@ -46,11 +46,21 @@ const picList = [
 const NormalArticle = () => {
   const [viewed, setViewed] = useState(false);
   const [zoomedId, setZoomedId] = useState(-1);
+  const [textHeight, setHeight] = useState(null);
 
   const hanclePicClick = (index) => {
     setZoomedId(index);
   };
 
+  const getHeight = () => {
+    let obj = document.getElementById('content');
+    let height = obj.scrollHeight;
+    setHeight(height);
+  };
+
+  useEffect(() => {
+    getHeight();
+  }, []);
   return (
     <div className={styles.article_container}>
       <div className={styles.article_header}>
@@ -64,11 +74,15 @@ const NormalArticle = () => {
           <p>人事问题</p>
         </div>
       </div>
-      <div style={{ margin: '5px 0 10px 62px' }}>
+      <div className={styles.article_middle} style={{ margin: '5px 0 10px 62px' }}>
         <p className={styles.article_title}>帖子标题{zoomedId}</p>
-        <p className={styles.article_content}>
-          和福建安徽是肯定会付款了哈维空间规划不考虑的哈会计师良好的开发了环境哈克龙社会福利卡技术部的开发商的啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+        <p id="content" className={styles.article_content}>
+          和福建安徽是肯定会付款了哈维空间规划不考啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+          和福建安徽是肯定会付款了哈维空间规划不考啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+          啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊和福建安徽是肯定会付款了哈维空间规划不考啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+          啊啊啊啊啊啊啊啊啊啊啊啊啊啊
         </p>
+        {textHeight > 104 ? <a>查看全文</a> : null}
       </div>
 
       {zoomedId === -1 ? (
