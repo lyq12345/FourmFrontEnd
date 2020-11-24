@@ -35,7 +35,9 @@ const PostArticle = () => {
         <div style={{ flex: 1 }}></div>
         <Select placeholder="请选择板块" bordered={false} dropdownStyle={{}}>
           {blocks.map((item) => (
-            <Option value={item.value}>{item.label}</Option>
+            <Option key={item.value} value={item.value}>
+              {item.label}
+            </Option>
           ))}
         </Select>
 
