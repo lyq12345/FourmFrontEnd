@@ -1,21 +1,21 @@
 module.exports = {
   router: [
     {
-      path: '/birthdayWish',
+      path: '/birthday-wish',
       name: '近期过生日的堂里人',
       routes: [
         {
-          path: '/birthdayWish',
+          path: '/birthday-wish',
           name: '近期过生日的堂里人',
           component: './BirthdayWish',
         },
         {
-          path: '/birthdayWish/BlessingWall',
+          path: '/birthday-wish/BlessingWall',
           name: 'ta收到的祝福',
           component: './birthdayWish/BlessingWall',
         },
         {
-          path: '/birthdayWish/SendWishList',
+          path: '/birthday-wish/SendWishList',
           name: 'ta收到的祝福',
           component: './birthdayWish/SendWishList',
         },

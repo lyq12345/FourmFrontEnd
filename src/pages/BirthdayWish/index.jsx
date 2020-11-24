@@ -4,6 +4,8 @@ import { Tabs, Pagination } from 'antd';
 import TableList from './components/TableList'
 import { GetBirthdayList } from '@/api/birthdayWish'
 import PaginationModule from '@/components/PaginationModule'
+import mySendWish from '@/assets/img/mySendWish.png'
+import myWish from '@/assets/img/myWish.png'
 
 
 import styles from './styles.less'
@@ -82,6 +84,16 @@ const BirthdayWishList = (props) => {
   return (
     <>
       <div className={styles.birthdayTabsContainer}>
+        <div className={styles.birthdayWish}>
+          <p onClick={() => window.open(`birthday-wish/BlessingWall?wishType=${2}&userId=${106517}&type=${2}`)}>
+            <img src={mySendWish} alt="" />
+            <span>我送出的祝福</span>
+          </p>
+          <p onClick={() => window.open(`/birthday-wish/SendWishList?wishType=${1}&userId=${106517}`)}>
+            <img src={myWish} alt="" />
+            <span>我收到的祝福</span>
+          </p>
+        </div>
         <Tabs
           className={styles.navTabs}
           defaultActiveKey="0"

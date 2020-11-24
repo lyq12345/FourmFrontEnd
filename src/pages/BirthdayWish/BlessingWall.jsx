@@ -12,6 +12,7 @@ const BlessingWall = (props) => {
   const [checkedName, setCheckedName] = useState('ta')
   const [checkedInfo, setCheckedInfo] = useState({})
   const [replyContent, setReplyContent] = useState(null)
+  const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
 
   let { query } = props.location
 
@@ -29,6 +30,7 @@ const BlessingWall = (props) => {
     })
   }
   useState(() => {
+    console.log(query)
     getWishListInfo(1)
   }, [])
   const handleClick = (val, index) => {
@@ -60,7 +62,7 @@ const BlessingWall = (props) => {
       <div className={styles.bannerImg}>
         <div>
           <p className={styles.birthdayImg}>
-            <img src="" alt="" />
+            <img src={loginInUserInfo.headImage} alt="" />
           </p>
           <p className={styles.date}>
             2020-10-25
@@ -69,7 +71,7 @@ const BlessingWall = (props) => {
       </div>
       <p className={styles.name}>王佳佳 生日快乐</p>
       {
-        query.type === 2 ? <div className={styles.replyButton}>
+        query.type == 2 ? <div className={styles.replyButton}>
           <Button type="primary" size="large" onClick={() => {
             setCheckedName("ta")
             setIsReplytoBoxVisible(true)
@@ -78,12 +80,6 @@ const BlessingWall = (props) => {
         </div> : <></>
       }
       {/* ta收到的祝福---无数据 */}
-
-      {/* 我送出的祝福--无数据 */}
-      {/* <div className={styles.noContentInfo2}>
-        <p>快去送礼物吧～</p>
-        <Button type="primary" size="large">去送祝福</Button>
-      </div> */}
       {
         dataList.length ? <>
           <div className={styles.cardInfoContentBottm}>
@@ -106,7 +102,7 @@ const BlessingWall = (props) => {
             }
           </div>
           {
-            query.type === 2 ? <div className={styles.sendBlessingbutton}>
+            query.type == 2 ? <div className={styles.sendBlessingbutton}>
               <Button type="primary" size="large">送祝福</Button>
             </div> : <></>
           }

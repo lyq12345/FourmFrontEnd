@@ -32,8 +32,9 @@ export const GetWishIconList = async (data) =>
 // 发送祝福
 export const AddWish = async (data) =>
   request('/IWork/AddWish', {
-    method: 'get',
-    params: data,
+    method: 'POST',
+    // params: data,
+    data,
     // prefixType: 'mock'
   });
 // 回复祝福
