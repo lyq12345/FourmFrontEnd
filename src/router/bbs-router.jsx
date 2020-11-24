@@ -8,16 +8,33 @@ module.exports = {
     {
       path: '/bbs/',
       name: '首页',
-      component: './BBS',
+      redirect: '/bbs/home',
     },
     {
-      path: '/bbs/posts',
+      path: '/bbs/home',
+      name: '首页',
+    },
+    {
+      path: '/bbs/message',
       name: '消息',
-      component: '../pages/BBS/Square',
     },
     {
       path: '/bbs/square',
       name: '广场',
+      routes: [
+        {
+          path: '/bbs/square/',
+          component: '../pages/BBS/Square',
+        },
+        {
+          path: '/bbs/square/:squareId',
+          component: '../pages/BBS/Square/SquareItem',
+        },
+        {
+          path: '/bbs/square/:squareId/:postId',
+          component: '../pages/BBS/Post',
+        },
+      ],
     },
     {
       path: '/bbs/mine',

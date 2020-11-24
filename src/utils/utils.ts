@@ -5,6 +5,7 @@ import pathRegexp from 'path-to-regexp';
 import { Route } from '@/models/connect';
 import Cookies from 'js-cookie';
 import * as Icon from '@ant-design/icons';
+import { createFromIconfontCN } from '@ant-design/icons';
 import { UPLOAD_WARNING } from '@/constants/common';
 
 /* eslint no-useless-escape:0 import/prefer-default-export:0 */
@@ -300,3 +301,7 @@ export const getBase64 = (file) => {
     reader.onerror = (error) => reject(error);
   });
 };
+
+export const IconFont = createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1277277_swezrvxybt.js',
+});
