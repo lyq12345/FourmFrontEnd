@@ -1,2 +1,2 @@
-import Square from './Square';
-export default Square;
+import SquareHome from './SquareHome';
+export default SquareHome;

@@ -1,13 +1,12 @@
 .footer {
   .top {
-    width: 1200px;
-    margin: 0 auto;
     display: flex;
     height: 144px;
-
     .topLeft {
-      flex: 0 0 828px;
-      padding: 15px 0;
+      flex: 0 0 66%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
       border-right: 1px solid #d8d8d8;
 
       .textContainer {
@@ -15,16 +14,18 @@
         flex-flow: column;
         align-items: flex-start;
         justify-content: space-between;
-        height: 100%;
         font-size: 14px;
         line-height: 38px;
         color: #333333;
+        margin-right: 24.24%;
       }
     }
     .topRight {
-      flex: 0 0 372px;
-      width: 492px;
-      padding: 31px 0 30px 40px;
+      width: 34%;
+      flex: 0 0 66%;
+      display: flex;
+      align-items: center;
+      margin-left: 2.78%;
 
       .textContainerRight {
         display: flex;
@@ -56,33 +57,35 @@
       }
     }
   }
-  .bg {
-    background: linear-gradient(139deg, #ff6c29 0%, #ef0000 948px, #ffffff 0);
+  .bottomBg {
+    background: linear-gradient(90deg, #ff6c29, #f50f0f 66%, transparent 0),
+      linear-gradient(#d8d8d8 1px, transparent 0), #fff;
+    height: 60px;
 
     .bottom {
-      width: 1200px;
-      margin: 0 auto;
       display: flex;
-      height: 60px;
 
       .bottomLeft {
-        flex: 0 0 828px;
+        flex: 0 0 66%;
         display: flex;
         align-items: center;
+        justify-content: flex-end;
 
         img {
           height: 38px;
           margin-right: 30px;
+
+          &:last-of-type {
+            margin-right: 21.73%;
+          }
         }
       }
       .bottomRight {
-        flex: 0 0 492px;
-        padding: 21px 0 18px 47px;
-        background: #ffffff;
+        flex: 0 0 34%;
         font-size: 12px;
         color: #999999;
-        line-height: 20px;
-        border-top: 1px solid #d8d8d8;
+        line-height: 60px;
+        margin-left: 2.78%;
       }
     }
   }

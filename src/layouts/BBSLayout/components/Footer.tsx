@@ -39,7 +39,7 @@ const Footer: React.FC = React.memo(() => {
         </div>
       </div>
 
-      <div className={styles.bg}>
+      <div className={styles.bottomBg}>
         <div className={styles.bottom}>
           <div className={styles.bottomLeft}>
             <img src={logoYst} alt="logoYst" />

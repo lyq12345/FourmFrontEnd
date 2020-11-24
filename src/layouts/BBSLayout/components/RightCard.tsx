@@ -1,31 +1,32 @@
 import React from 'react';
 import styles from './RightCard.less';
 
-export type typeRightCard = {
-  title: string;
-  list?: { title?: string; good?: boolean; count?: number }[];
-  onClickMore: (event: any) => {};
-};
+import { IconFont, useBBSGotoSquarePost } from '@/utils/utilsBBS';
+import type { Post } from '../api';
 
-const RightCard: React.FC<typeRightCard> = React.memo(({ title, list, onClickMore }) => {
+const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title, list }) => {
+  const goPost = useBBSGotoSquarePost();
   return (
     <div className={styles.rightCard}>
       <div className={styles.rect} />
 
       <div className={styles.top}>
         <div className={styles.title}>{title}</div>
-        <span onClick={onClickMore}>更多</span>
+        {/* <span onClick={onClickMore}>更多</span> */}
       </div>
 
       <div className={styles.listContainer}>
-        {list?.map(({ title, good, count }) => {
+        {list?.map((v) => {
+          const { title, readCount } = v;
           return (
             <div className={styles.listItem}>
-              <a className={styles.listItemTitle}>{title}</a>
-              <svg className="iconfont" aria-hidden="true">
-                <use xlinkHref="#tuxiangshibie___" />
-              </svg>
-              {count && <span className={styles.count}>{count > 99 ? '99+' : count}</span>}
+              <a className={styles.listItemTitle} onClick={() => goPost(v)}>
+                {title}
+              </a>
+              <IconFont type="iconzan" />
+              {readCount && (
+                <span className={styles.count}>{readCount > 99 ? '99+' : readCount}</span>
+              )}
             </div>
           );
         })}
