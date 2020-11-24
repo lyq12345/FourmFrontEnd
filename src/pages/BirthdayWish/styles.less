@@ -99,13 +99,18 @@
   .bannerImg {
     width: 100%;
     height: 332px;
-    background-color: #ccc;
+    // background: url('../../assets/img/birthdayBanner.png');
+    // background-size: 100% 332px;
     margin-bottom: 6px;
     text-align: center;
     position: relative;
+    >img {
+      width: 100%;
+      height: 332px;
+    }
     >div {
       position: absolute;
-      bottom: 0;
+      top: 211px;
       width: 100%;
       .birthdayImg {
         display: inline-block;
@@ -144,6 +149,10 @@
       font-size: 18px;
       line-height: 25px;
       margin-bottom: 28px;
+      >img {
+        width: 130px;
+        height: 130px;
+      }
     }
   }
   .cardInfoContentBottm {

@@ -22,6 +22,7 @@ const BirthdayWishList = (props) => {
   const [total, setTotal] = useState(1)
   const [loadingList, setLoadingList] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'))
 
 
 
@@ -85,11 +86,11 @@ const BirthdayWishList = (props) => {
     <>
       <div className={styles.birthdayTabsContainer}>
         <div className={styles.birthdayWish}>
-          <p onClick={() => window.open(`birthday-wish/BlessingWall?wishType=${2}&userId=${106517}&type=${2}`)}>
+          <p onClick={() => window.open(`birthday-wish/SendWishList?wishType=${1}&userId=${userInfo && userInfo.account}`)}>
             <img src={mySendWish} alt="" />
             <span>我送出的祝福</span>
           </p>
-          <p onClick={() => window.open(`/birthday-wish/SendWishList?wishType=${1}&userId=${106517}`)}>
+          <p onClick={() => window.open(`birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`)}>
             <img src={myWish} alt="" />
             <span>我收到的祝福</span>
           </p>

@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from 'react'
 import { Table } from 'antd';
 import styles from './styles.less'
+import WishDialog from '@/components/WishDialog'
 
 
 const TableList = (props) => {
   // const [dataList, setDataList] = useState([]);
   // const [pageSize, setPageSize] = useState(10);
   // const [pageIndex, setPageIndex] = useState(1);
+  const [userInfo, setUserInfo] = useState({});
+  const [isDialog, setIsDialog] = useState(false);
   let { data, total, loading } = props
   const columns = [
     {
@@ -28,8 +31,8 @@ const TableList = (props) => {
       // fixed: 'right',
       width: 300,
       render: (record) => <div className={styles.operation}>
-        <a onClick={() => window.open(`birthday-wish/BlessingWall?wishType=${2}&userId=${record.userId}&type=${1}`)}>查看ta收到的</a>
-        <a>送祝福</a>
+        <a onClick={() => window.open(`birthday-wish/BlessingWall?wishType=${2}&userId=${record.userId}&type=${1}&userName=${record.userName}`)}>查看ta收到的</a>
+        <span onClick={() => sendWishClick(record)}>送祝福</span>
       </div>,
     },
   ]
@@ -43,6 +46,13 @@ const TableList = (props) => {
   const onChangePage = () => {
 
   }
+  const sendWishClick = (val) => {
+    setUserInfo(val)
+    setIsDialog(true)
+  }
+  const closeDialog = () => {
+    setIsDialog(false)
+  }
   return (
     <div className={styles.tableList}>
       <Table
@@ -52,6 +62,7 @@ const TableList = (props) => {
         pagination={false}
         rowClassName={(record, index) => index % 2 !== 0 ? styles.white : styles.gray}
       />
+      <WishDialog userInfo={userInfo} isDialog={isDialog} closeDialog={closeDialog} />
     </div>
   )
 

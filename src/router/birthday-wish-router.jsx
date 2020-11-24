@@ -16,8 +16,13 @@ module.exports = {
         },
         {
           path: '/birthday-wish/SendWishList',
-          name: 'ta收到的祝福',
+          name: '我送出的祝福',
           component: './birthdayWish/SendWishList',
+        },
+        {
+          path: '/birthday-wish/myReceiveWish',
+          name: '我收到的祝福',
+          component: './birthdayWish/BlessingWall',
         },
       ]
     }

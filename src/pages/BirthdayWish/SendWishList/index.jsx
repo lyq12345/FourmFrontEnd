@@ -71,7 +71,7 @@ const SendWishList = (props) => {
           </> :
           <div className={styles.noContentInfo2}>
             <p>快去送礼物吧～</p>
-            <Button type="primary" size="large">去送祝福</Button>
+            <Button type="primary" size="large" onClick={() => window.open('birthday-wish')}>去送祝福</Button>
           </div>
       }
 

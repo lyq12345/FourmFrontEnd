@@ -40,7 +40,8 @@ export const AddWish = async (data) =>
 // 回复祝福
 export const ReplyWish = async (data) =>
   request('/IWork/ReplyWish', {
-    method: 'get',
-    params: data,
+    method: 'POST',
+    data
+    // params: data,
     // prefixType: 'mock'
   });

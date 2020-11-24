@@ -3,6 +3,9 @@ import { Button, Input, message } from 'antd';
 
 import styles from './styles.less'
 import { GetWishList, ReplyWish } from '@/api/birthdayWish'
+import WishDialog from '@/components/WishDialog'
+import birthdayBanner from '@/assets/img/birthdayBanner.png'
+import noContent from '@/assets/img/noContent.png'
 
 
 const BlessingWall = (props) => {
@@ -13,6 +16,9 @@ const BlessingWall = (props) => {
   const [checkedInfo, setCheckedInfo] = useState({})
   const [replyContent, setReplyContent] = useState(null)
   const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
+  const [birthdayDate, setBirthdayDate] = useState(null)
+  const [isDialog, setIsDialog] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   let { query } = props.location
 
@@ -26,11 +32,17 @@ const BlessingWall = (props) => {
     GetWishList(params).then(res => {
       if (res.success) {
         setDataList(res.data.wishList || [])
+        setBirthdayDate(res.data.birthday || null)
+        let datas = {
+          userId: query.userId,
+          userName: query.type == 1 ? query.userName : loginInUserInfo && loginInUserInfo.userName,
+          year: res.data.birthday.split('-')[0]
+        }
+        setUserInfo(datas)
       }
     })
   }
   useState(() => {
-    console.log(query)
     getWishListInfo(1)
   }, [])
   const handleClick = (val, index) => {
@@ -45,33 +57,46 @@ const BlessingWall = (props) => {
       wishIdList = dataList.map(item => item.wishId)
     }
     let params = {
-      wishIds: wishIdList.length ? wishIdList : checkedInfo.wishId,
+      wishIds: wishIdList.length ? wishIdList : [checkedInfo.wishId],
       content: replyContent
     }
-    ReplyWish(JSON.stringify(params)).then(res => {
+    ReplyWish(params).then(res => {
       if (res.success) {
         message.success('回复成功')
+        setReplyContent(null)
+        setIsReplytoBoxVisible(false)
       }
     })
   }
   const checkedInput = (val) => {
     setReplyContent(val.target.value)
   }
+  const sendWishClick = (val) => {
+    setIsDialog(true)
+  }
+  const closeDialog = () => {
+    setIsDialog(false)
+    getWishListInfo(1)
+  }
   return (
     <div className={styles.blessingWall}>
+      {/* style={{ background: `url(${birthdayBanner})` }} */}
       <div className={styles.bannerImg}>
+        <img src={birthdayBanner} alt="" />
         <div>
           <p className={styles.birthdayImg}>
             <img src={loginInUserInfo.headImage} alt="" />
           </p>
           <p className={styles.date}>
-            2020-10-25
-        </p>
+            {birthdayDate}
+          </p>
         </div>
       </div>
-      <p className={styles.name}>王佳佳 生日快乐</p>
+      <p className={styles.name}>{
+        query.type == 1 ?
+          query.userName : loginInUserInfo && loginInUserInfo.userName} 生日快乐</p>
       {
-        query.type == 2 ? <div className={styles.replyButton}>
+        query.type == 2 && dataList.length ? <div className={styles.replyButton}>
           <Button type="primary" size="large" onClick={() => {
             setCheckedName("ta")
             setIsReplytoBoxVisible(true)
@@ -87,29 +112,40 @@ const BlessingWall = (props) => {
               dataList.length && dataList.map((item, index) => (
                 <div className={styles.card} key={index}>
                   <div className={styles.cardImg}>
-                    <img src="" alt="" />
+                    <img src={item.iconUrl} alt="" />
                   </div>
                   <div className={styles.cardContent}>
                     <p className={styles.cardToName}>To：{item.userName}</p>
                     <p className={styles.cardInfoContent}>{item.content}</p>
                     <p className={styles.cardFromName}>From：{item.sendUserName}</p>
                   </div>
-                  <div className={styles.replyButton}>
-                    <Button type="primary" size="small" onClick={() => handleClick(item, index)}>回复ta：</Button>
-                  </div>
+                  {
+                    query.type == 2 ? <div className={styles.replyButton}>
+                      <Button type="primary" size="small" onClick={() => handleClick(item, index)}>回复ta：</Button>
+                    </div> : <></>
+                  }
                 </div>
               ))
             }
           </div>
           {
-            query.type == 2 ? <div className={styles.sendBlessingbutton}>
-              <Button type="primary" size="large">送祝福</Button>
+            query.type == 1 ? <div className={styles.sendBlessingbutton}>
+              <Button type="primary" size="large" onClick={() => sendWishClick()}>送祝福</Button>
             </div> : <></>
           }
 
         </> : <div className={styles.noContentInfo}>
-            <p>快来给TA送祝福吧～</p>
-            <Button type="primary" size="large">送祝福</Button>
+            <p>
+              {
+                query.type == 1 ? <span>快来给TA送祝福吧～</span> : <img src={noContent} alt="" />
+              }
+            </p>
+            {
+              query.type == 2 ? <p>暂无数据</p> : <></>
+            }
+            {
+              query.type == 1 ? <Button type="primary" size="large" onClick={() => sendWishClick()}>送祝福</Button> : <></>
+            }
           </div>
       }
       {
@@ -124,7 +160,7 @@ const BlessingWall = (props) => {
           </div>
         </div> : <></>
       }
-
+      <WishDialog userInfo={userInfo} isDialog={isDialog} closeDialog={closeDialog} />
     </div>
   )
 }
