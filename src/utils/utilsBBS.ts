@@ -12,12 +12,23 @@ export const IconFont = createFromIconfontCN({
 });
 
 /**
- * 传入 typeId 和
- */
+ * 传入 squareId(typeId) 和
+ */ t;
 export function useBBSGotoSquarePost() {
   const history = useHistory();
-  return (threadId: number, typeId: number) => {
-    history.push(`/bbs/square/${typeId}/${threadId}`);
+  return (threadId: number, squareId: number) => {
+    history.push(`/bbs/square/${squareId}/${threadId}`);
+    window.scrollTo(0, 0);
+  };
+}
+
+/**
+ * 传入 squareId(typeId) 和
+ */
+export function useBBSGotoMyPost() {
+  const history = useHistory();
+  return (threadId: number) => {
+    history.push(`/bbs/mine/${threadId}`);
     window.scrollTo(0, 0);
   };
 }
