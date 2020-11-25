@@ -1,20 +1,34 @@
+// 列表
+
 .birthdayTabsContainer {
-  // background-color: #fff;
   border-radius: 10px;
+  .birthdayWish {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 27px;
+    p {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      img {
+        width: 22px;
+        height: 22px;
+      }
+      span {
+        line-height: 20px;
+        font-size: 14px;
+        color: #D80024;
+      }
+    }
+    p:first-child{
+      margin-right: 12px;
+    }
+  }
   .navTabs {
-    // margin: 0 20px;
     padding-top: 20px;
-    // span {
-    //   font-size: 14px;
-    //   font-family: PingFangSC-Regular, PingFang SC;
-    //   font-weight: 400;
-    //   color: #666666;
-    //   line-height: 20px;
-    // }
     :global(.ant-tabs-nav) {
       margin: 0 !important;
       &::before {
-        // border-bottom: 0;
       }
     }
     :global(.ant-tabs-tab) {
@@ -56,6 +70,197 @@
     }
     .tabContent {
       background-color: #ffffff;
+    }
+  }
+}
+
+.birthdayPagination {
+  text-align: center;
+  margin-top: 30px;
+  :global(.ant-pagination-options) {
+    display: none;
+  }
+  .paginationNum {
+    .ant-pagination-disabled {
+      display: none;
+    }
+    .ant-pagination-item-active {
+      background-color: #CE1925;
+      .ant-pagination-item-active a {
+        color: #fff;
+      }
+    }
+  }
+}
+// 祝福墙
+.blessingWall {
+  background-color: #fff;
+  padding-bottom: 30px;
+  .bannerImg {
+    width: 100%;
+    height: 332px;
+    // background: url('../../assets/img/birthdayBanner.png');
+    // background-size: 100% 332px;
+    margin-bottom: 6px;
+    text-align: center;
+    position: relative;
+    >img {
+      width: 100%;
+      height: 332px;
+    }
+    >div {
+      position: absolute;
+      top: 211px;
+      width: 100%;
+      .birthdayImg {
+        display: inline-block;
+          width: 86px;
+          height: 84px;
+          border-radius: 50%;
+          background-color: #333;
+        >img {
+          width: 86px;
+          height: 84px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  .name {
+    color: #333;
+    line-height: 28px;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    font-family: PingFangSC-Medium, PingFang SC;
+  }
+  .replyButton {
+    margin-top: 14px;
+    text-align: center;
+  }
+  // 无数据
+  .noContentInfo {
+    text-align: center;
+    // margin-top: 108px;
+    // margin-bottom: 522px;
+    padding: 108px 0 522px 0;
+    >p {
+      color: #999;
+      font-size: 18px;
+      line-height: 25px;
+      margin-bottom: 28px;
+      >img {
+        width: 130px;
+        height: 130px;
+      }
+    }
+  }
+  .cardInfoContentBottm {
+    font-size: 0;
+    overflow: hidden;
+    padding: 0 19px;
+    margin-top: 20px;
+    cursor: pointer;
+    .card {
+      width: 280px;
+      border: 1px solid #CCCCCC;
+      border-radius: 2px;
+      display:inline-block;
+      vertical-align: top;
+      box-sizing: border-box;
+      background-clip: content-box;
+      margin-right: 14px;
+      margin-bottom: 20px;
+      img {
+        width: 16px;
+        height: 16px;
+        margin-left: 4px;
+        margin-top: -2px;
+      }
+      &:nth-child(4n) {
+        margin-right: 0;
+      }
+      &:hover {
+        box-shadow:0px 2px 16px 0px rgba(216,219,223,1);
+      }
+      .cardImg {
+        width: 278px;
+        height: 158px;
+        background-color: #EEEEEE;
+        border-radius: 2px 2px 0px 0px;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .cardContent {
+        height: 121px;
+        padding: 12px;
+        position: relative;
+        p {
+          font-size: 12px;
+          line-height: 12px;
+          color: #666666;
+        }
+        .cardInfoContent {
+          color: #333333;
+          line-height: 18px;
+          font-size: 12px;
+          margin: 12px 0;
+        }
+        .cardFromName {
+          position: absolute;
+          bottom: 12px;
+        }
+      }
+      .cardMoreContent {
+        // height: 121px;
+        padding: 12px;
+        position: relative;
+        p {
+          font-size: 12px;
+          line-height: 12px;
+          color: #666666;
+        }
+        .cardInfoContent {
+          color: #333333;
+          line-height: 18px;
+          font-size: 12px;
+          margin: 12px 0;
+        }
+        .cardFromName {
+          // position: absolute;
+          // bottom: 12px;
+        }
+      }
+      .replyButton {
+        text-align: center;
+        margin-top: 8px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+  .sendBlessingbutton {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .footerInput {
+    width: 1200px;
+    height: 82px;
+    background: #FFFFFF;
+    position: fixed;
+    bottom: 0;
+    padding: 15px;
+    border-top: 1px solid #CCCCCC;
+    z-index: 888;
+    :global {
+      .ant-input-affix-wrapper > input.ant-input {
+        background-color: #F6F6F6;
+      }
+    }
+    >div {
+      display: flex;
+      align-items: center;
     }
   }
 }

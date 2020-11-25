@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-11-18 14:35:34
- * @LastEditors: Please set LastEditors
+ * @LastEditTime: 2020-11-25 16:04:07
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
  */
@@ -23,6 +23,12 @@ export default {
       target: 'http://potalapi-test.yst.com.cn',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
+    },
+    '/mock/yst-iwork-alpha-api': {
+      // target: 'http://potalapi-test.yst.com.cn',
+      target: 'http://http://rap2.idc.yst.com.cn/backend/app/mock/151',
+      changeOrigin: true,
+      pathRewrite: { '^/mock/yst-iwork-alpha-api': '' },
     },
     '/basic-address': {
       target: 'http://basiccommon-test.yst.com.cn',
@@ -50,8 +56,15 @@ export default {
   test: {
     '/yst-iwork-alpha-api': {
       target: 'http://potalapi-test.yst.com.cn',
+      // target: 'http://http://rap2.idc.yst.com.cn/backend/app/mock/151',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
+    },
+    '/mock/yst-iwork-alpha-api': {
+      // target: 'http://potalapi-test.yst.com.cn',
+      target: 'http://http://rap2.idc.yst.com.cn/backend/app/mock/151',
+      changeOrigin: true,
+      pathRewrite: { '^/mock/yst-iwork-alpha-api': '' },
     },
     '/sso-api': {
       target: 'http://sso-test.yst.com.cn/sso/',

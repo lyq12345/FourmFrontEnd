@@ -1,0 +1,177 @@
+.wishDialog {
+  .wishModal {
+  }
+}
+@keyframes go {
+  0% {
+    transform: rotateZ(0);
+    }
+    100% {transform: rotateZ(360deg); }
+}
+.modelInfo {
+  padding: 20px;
+  .wishInfo {
+    display: flex;
+    .leftInfoContent {
+      width: 258px;
+      height: 310px;
+      border-radius: 2px;
+      border: 1px solid #EEEEEE;
+      .cardImg {
+        width: 256px;
+        height: 145px;
+        background-color: #EEEEEE;
+        border-radius: 2px 2px 0px 0px;
+        img {
+          width: 256px;
+          height: 145px;
+        }
+      }
+      .cardContent {
+        width: 256px;
+        height: 164px;
+        padding: 9px 12px;
+        position: relative;
+        .cardToName {
+          font-size: 14px;
+          line-height: 20px;
+        }
+        .cardInfoContent {
+          font-size: 14px;
+          line-height: 19px;
+          color: #666;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 5;
+          overflow: hidden;
+          img {
+            width: 16px;
+            height: 16px;
+          }
+        }
+        .cardFromName {
+          font-size: 12px;
+          line-height: 18px;
+          position: absolute;
+          bottom: 12px;
+        }
+      }
+    }
+    .righttoInfoContent {
+      margin-left: 14px;
+      .contentHerder {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        p:first-child {
+          margin-top: 4px;
+          font-size: 14px;
+          color: #000;
+          line-height: 20px;
+          // margin-bottom: 18px;
+          span:last-child {
+            font-size: 12px;
+            line-height: 17px;
+            color: #666;
+            margin-left: 12px;
+          }
+        }
+        p:last-child {
+          cursor: pointer;
+          img {
+            width: 17px;
+            height: 17px;
+          }
+        }
+      }
+      .blessing {
+        position: relative;
+        background-color: #666;
+        .textAreaSyles {
+        }
+        .textAreaNumber {
+          position: absolute;
+          bottom: 11px;
+          right: 11px;
+        }
+      }
+      .wishImgList {
+        width: 768px;
+        margin-top: 16px;
+        display: flex;
+        >p {
+          width: 118px;
+          height: 118px;
+          background-color: #EEEEEE;
+          margin-right: 12px;
+          cursor: pointer;
+          img {
+            width: 118px;
+            height: 118px;
+          }
+          &:hover {
+            border: 1px solid #CE1925;
+          }
+        }
+        p:last-child {
+          margin-right: 0;
+        }
+        .dayCheck {
+          border: 1px solid #CE1925;
+        }
+      }
+    }
+  }
+  .defaultBlessingContent {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    >div {
+      width: 968px;
+      // height: 112px;
+      margin-right: 0 !important;
+      .defaultBlessing {
+        width: 312px;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        grid-gap: 10px;
+        >p {
+          width: 312px;
+          border: 1px solid #CCCCCC;
+          border-radius: 4px;
+          font-size: 14px;
+          line-height: 14px;
+          padding: 12px 9px;
+          cursor: pointer;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+    .update {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      justify-content: flex-end;
+      >img {
+        width: 25px;
+        height: 25px;
+        margin-right: 4px;
+      }
+      // .refreshImg {
+      //   animation: icon-spin 1s 1 linear;
+      //   // animation-iteration-count:1;
+      // }
+      .refreshImg {
+        animation-name:go;
+        animation-duration:2s;
+        animation-iteration-count: infinite
+      }
+    }
+  }
+  .wishButton {
+    text-align: center;
+    margin: 30px 0;
+  }
+}

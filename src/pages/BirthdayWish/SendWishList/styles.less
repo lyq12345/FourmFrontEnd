@@ -1,0 +1,85 @@
+.sendWishList {
+  background-color: #fff;
+  padding: 30px;
+  .spinLoading {
+    width: 100%;
+    height: 500px;
+    text-align: center;
+  }
+  > p {
+    margin-bottom: 35px;
+    line-height: 22px;
+    font-weight: 500;
+    color: #333;
+    font-size: 16px;
+  }
+  .contentInfo {
+    margin-bottom: 40px;
+    .contentList {
+      display: flex;
+      .leftImg {
+        width: 120px;
+        height: 120px;
+        background: rgba(0, 0, 0, 0.02);
+      }
+      .rightContent {
+        padding: 19px 12px;
+        p {
+          line-height: 14px;
+          font-size: 14px;
+          margin-bottom: 20px;
+        }
+        p:last-child {
+          margin-bottom: 0;
+        }
+      }
+  
+    }
+  }
+  .messageReply {
+    width: 1008px;
+    margin-top: 12px;
+    margin-left: 132px;
+    background-color: #F6F6F6;
+    padding: 12px 9px;
+    >p {
+      font-size: 14px;
+      line-height: 24px;
+    }
+  }
+  .birthdayPagination {
+    text-align: center;
+    margin-top: 30px;
+    :global(.ant-pagination-options) {
+      display: none;
+    }
+    .paginationNum {
+      .ant-pagination-disabled {
+        display: none;
+      }
+      .ant-pagination-item-active {
+        background-color: #CE1925;
+        .ant-pagination-item-active a {
+          color: #fff;
+        }
+      }
+    }
+  }
+  .noContentInfo2 {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    // margin: auto;
+    // margin-top: 108px;
+    // margin-bottom: 522px;
+    padding: 434px 0 522px 0;
+    // margin-top: 434px;
+    background-color: #fff;
+    >p {
+      color: #999;
+      font-size: 18px;
+      line-height: 25px;
+      margin-bottom: 28px;
+    }
+  }
+}

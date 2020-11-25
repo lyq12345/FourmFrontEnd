@@ -216,6 +216,7 @@ const HallNews = (props) => {
               <Badge
                 className={styles.messageTost1}
                 style={{ backgroundColor: '#CE1925' }}
+                size="default"
                 count={unreadMessagesNum}
               />
             </div>
@@ -233,6 +234,7 @@ const HallNews = (props) => {
               <Badge
                 className={styles.messageTost2}
                 style={{ backgroundColor: '#CE1925' }}
+                size="default"
                 count={toDoTasksNum}
               />
             </div>
@@ -271,7 +273,7 @@ const HallNews = (props) => {
                               muted
                             />
                           ) : (
-                              <img style={{ width: '487px', height: '278px' }} src={v.href.src} alt="pic" />
+                              <img style={{ width: '487px', height: '278px', borderRadius: '3px 0 0 3px' }} src={v.href.src} alt="pic" />
                             )}
                         </div>
                       </SwiperSlide>

@@ -4,10 +4,15 @@ import lookmoreBtn from '@/assets/img/lookmore-btn.png';
 import Cookies from 'js-cookie';
 
 const Card = (props) => {
+  let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   let { title, noPadding, bottomLookMore, dataList, titlePaperwork, moreUrl } = props
   const accessToken = Cookies.get('access_token');
   const handleLink = (val) => {
     const w = window.open('about:blank');
+    if (val.classTypeId == '400000099') {
+      w.location.href = `birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`
+      return
+    }
     w.location.href = val.href
   }
   return (

@@ -1,4 +1,5 @@
 @import '~antd/es/style/themes/default.less';
+@primary-color: color(#ffffff)
 
 html,
 body,
@@ -164,7 +165,7 @@ ol {
   }
 }
 .footer-info {
-  border-bottom: 1px solid #D8D8D8;
+  border-bottom: 1px solid #f4f4f4;
   .footer {
     width: 1200px;
     // height: 144px;
@@ -189,12 +190,12 @@ ol {
         color: #333333;
         font-size:14px;
         line-height:28px;
-        padding: 28px 0 31px 0;
+        padding: 24px 0 0 24px;
         .group-name {
           color: #333333;
           font-size: 14px;
-          line-height:33px;
-          margin-bottom: 11px;
+          line-height:38px;
+          // margin-bottom: 11px;
           >a {
             color: black;
           }
@@ -203,6 +204,7 @@ ol {
           }
         }
         .son1-company-name {
+          line-height: 38px;
           cursor: pointer;
           a {
             color: black;
@@ -216,8 +218,9 @@ ol {
           }
         }
         .son2-company-name {
+          line-height: 38px;
           cursor: pointer;
-          margin-top: 14px;
+          // margin-top: 14px;
           a {
             color: black;
           }
@@ -234,19 +237,24 @@ ol {
     }
     .right-content {
       width: 384px;
-      padding: 31px 0 0 41px;
       // text-align: center;
+     
       .IT-service-phone {
+        padding: 24px 0 24px 34px;
         color: #CE1925;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .IT-service {
           font-size: 14px;
-          line-height: 14px;
-          margin-bottom: 14px;
+          line-height: 38px;
+          // margin-bottom: 14px;
         }
         .phone-num {
-          margin-bottom: 10px;
+          // margin-bottom: 10px;
           display: flex;
           align-items: center;
+          line-height: 38px;
           img {
             width: 26px;
             height: 24.8px;
@@ -335,7 +343,7 @@ ol {
         color: #999999;
         font-size:12px;
         line-height:20px;
-        margin-left: 47px;
+        margin-left: 34px;
       }
     }
   }

@@ -183,8 +183,7 @@ const ModelAdvertising = (props) => {
         closable={false}
         footer={null}
         wrapClassName='homeModalStyle'
-        bodyStyle={{ background: 'initial' }}
-        style={{ background: 'initial', top: '0', paddingBottom: '0' }}
+        bodyStyle={{ background: 'initial', padding: '0' }}
         width='100%'
       >
         <div className={styles.cardContent}>
