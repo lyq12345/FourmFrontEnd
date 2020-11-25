@@ -20,7 +20,7 @@ export default {
       // target: 'http://10.213.3.39:8081',
       // target: 'http://10.3.3.65:8081',
       // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/151',
-      target: 'http://potalapi-test.yst.com.cn',
+      target: 'http://rap2.idc.yst.com.cn/backend/app/mock/149', // bbs
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },

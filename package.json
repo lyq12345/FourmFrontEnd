@@ -32,12 +32,6 @@
     "test:component": "umi test ./src/components",
     "tsc": "tsc"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
@@ -59,6 +53,7 @@
     "antd": "^4.0.0",
     "axios": "^0.20.0",
     "classnames": "^2.2.6",
+    "dayjs": "^1.9.6",
     "hash.js": "^1.1.7",
     "history": "^4.10.1",
     "js-cookie": "^2.2.1",

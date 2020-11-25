@@ -1,12 +1,12 @@
 import path from 'path';
 const CompressionPlugin = require('compression-webpack-plugin');
-const WebpackZipPlugin = require('webpack-zip-plugin')
+const WebpackZipPlugin = require('webpack-zip-plugin');
 import * as IWebpackChainConfig from 'webpack-chain';
 let packageJson = require('../package.json');
 
 const isProd = () => {
-  return process.env.NODE_ENV === 'production'
-}
+  return process.env.NODE_ENV === 'production';
+};
 
 function getModulePackageName(module: { context: string }) {
   if (!module.context) return null;
@@ -31,29 +31,29 @@ const webpackPlugin = (config: IWebpackChainConfig) => {
   config.merge({
     output: {
       filename: `static/js/[name]_[${isProd() ? 'chunkhash' : 'hash'}].js`,
-      chunkFilename: `static/js/[name]_[${isProd() ? 'chunkhash' : 'hash'}].js`
-    }
-  })
-  config.plugin('extract-css').tap(args => [{
-    filename: `static/css/[name]_[contenthash].css`,
-    chunkFilename: `static/css/[name]_[contenthash].css`
-  }])
+      chunkFilename: `static/js/[name]_[${isProd() ? 'chunkhash' : 'hash'}].js`,
+    },
+  });
+  // config.plugin('extract-css').tap(args => [{
+  //   filename: `static/css/[name]_[contenthash].css`,
+  //   chunkFilename: `static/css/[name]_[contenthash].css`
+  // }])
 
   config.module
-    .rule("images")
+    .rule('images')
     .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
-    .use("url-loader")
+    .use('url-loader')
     .tap(() => {
       return {
         limit: 10240, // 图片小于10Kb才会base64编码
         fallback: {
           loader: 'file-loader',
           options: {
-            name: `static/img/[name].[hash:5].[ext]`
-          }
-        }
-      }
-    })
+            name: `static/img/[name].[hash:5].[ext]`,
+          },
+        },
+      };
+    });
 
   // optimize chunks
   config.optimization
@@ -100,7 +100,7 @@ const webpackPlugin = (config: IWebpackChainConfig) => {
       {
         initialFile: './dist',
         endPath: './',
-        zipName: `${packageJson.name}.zip`
+        zipName: `${packageJson.name}.zip`,
       },
     ]);
 
