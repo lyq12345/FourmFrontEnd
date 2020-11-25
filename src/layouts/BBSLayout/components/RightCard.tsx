@@ -16,16 +16,15 @@ const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title
       </div>
 
       <div className={styles.listContainer}>
-        {list?.map((v) => {
-          const { title, readCount } = v;
+        {list.map(({ title, loveCount, typeId, threadId }) => {
           return (
             <div className={styles.listItem}>
-              <a className={styles.listItemTitle} onClick={() => goPost(v)}>
+              <a className={styles.listItemTitle} onClick={() => goPost(threadId, typeId)}>
                 {title}
               </a>
               <IconFont type="iconzan" />
-              {readCount && (
-                <span className={styles.count}>{readCount > 99 ? '99+' : readCount}</span>
+              {loveCount && (
+                <span className={styles.count}>{loveCount > 99 ? '99+' : loveCount}</span>
               )}
             </div>
           );

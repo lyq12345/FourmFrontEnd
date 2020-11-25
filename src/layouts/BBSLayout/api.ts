@@ -13,6 +13,7 @@ export type PostType = {
 
 export type Post = {
   typeName: string;
+  typeId: number;
   readCount: number;
   replyCount: number;
   createDate: number;
@@ -35,16 +36,29 @@ export function requestType(): Promise<{ data: PostType[] }> {
 export function requestMyPosts(): Promise<{
   data: { total: number; pageCount: number; threads: Post[] };
 }> {
-  return request.get('/BbsMain/GetThreadsMy', {
+  return request.get('/BbsMain/GetThreadsMyPc', {
     params: {
       pageIndex: 1,
+      pageSize: 5,
     },
   });
 }
-export function requestSharePosts(): Promise<{ data: Post[] }> {
-  return request.get('/BbsMain/GetThreadShare', {
+
+export function requestSharePosts(): Promise<{
+  data: {
+    threads: Post[];
+    total: number;
+    pageCount: number;
+  };
+}> {
+  return request.get('/BbsMain/GetThreadSharePc', {
     params: {
       pageIndex: 1,
+      pageSize: 5,
     },
   });
+}
+
+export function requestCount(): Promise<{ data: number }> {
+  return request.get('/BbsMain/GetMessageCount');
 }

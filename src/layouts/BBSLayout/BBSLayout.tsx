@@ -9,39 +9,15 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import Footer from './components/Footer';
 import Button from './components/Button';
-import RightCard, { typeRightCard } from './components/RightCard';
-import { useHistory, useRouteMatch } from 'umi';
+import RightCard from './components/RightCard';
+import { useHistory } from 'umi';
 import { useLocalStorage } from 'react-use';
 
 import * as api from './api';
-
-const rightCard: typeRightCard = {
-  title: '我发的帖子',
-  list: [
-    {
-      title: '养生堂·农夫山泉2021校招内推',
-      count: +(Math.random() * 200) | 0,
-    },
-    {
-      title: '圣诞，为你下场咖啡雪——炭仌挂多余文本多余文本',
-      count: +(Math.random() * 200) | 0,
-    },
-    {
-      title: '食品新款饼干“重金求子”名字征集中',
-      count: +(Math.random() * 200) | 0,
-    },
-    {
-      title: '在龙坞就可以吃到美味欧包~',
-      count: +(Math.random() * 200) | 0,
-    },
-    {
-      title: '“清嘴女孩”送你最in七夕攻略',
-      count: +(Math.random() * 200) | 0,
-    },
-  ],
-};
+import { useBBSGotoSquare } from '@/utils/utilsBBS';
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
+  const go = useBBSGotoSquare();
   const history = useHistory();
   const [userInfo] = useLocalStorage<{ personName: string }>('userInfo');
 
@@ -57,20 +33,25 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [dataPostMyList, setDataPostMyList] = useState<api.Post[]>([]);
   useEffect(() => {
     api.requestMyPosts().then((res) => {
-      setDataPostMyList(res.data?.threads?.slice(0, 5) ?? []);
+      setDataPostMyList(res.data?.threads ?? []);
     });
   }, []);
 
-  // 我发的帖子
+  // 我关注的帖子
   const [dataPostShareList, setDataPostShareList] = useState<api.Post[]>([]);
   useEffect(() => {
-    api.requestMyPosts().then((res) => {
-      setDataPostShareList(res.data?.threads?.slice(0, 5) ?? []);
+    api.requestSharePosts().then((res) => {
+      setDataPostShareList(res.data?.threads ?? []);
     });
   }, []);
 
   // 消息数量
-  const [count, setCount] = useState((Math.random() * 200) | 0);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    api.requestCount().then((res) => {
+      setCount(res.data);
+    });
+  }, []);
 
   return (
     <div className={styles['bg-container']}>
@@ -128,10 +109,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             <div className={styles['nav-list']}>
               {dataTypeList.map(({ name, id }) => {
                 return (
-                  <div
-                    className={styles['nav-item']}
-                    onClick={() => history.push(`/bbs/square/${id}`)}
-                  >
+                  <div className={styles['nav-item']} onClick={() => go(id, false)}>
                     {name}
                   </div>
                 );

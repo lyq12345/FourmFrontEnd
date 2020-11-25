@@ -1,5 +1,5 @@
 import { createFromIconfontCN } from '@ant-design/icons';
-import { useHistory } from 'umi';
+import { useHistory, useLocation } from 'umi';
 
 /**
  * 使用方法
@@ -12,11 +12,27 @@ export const IconFont = createFromIconfontCN({
 });
 
 /**
- * 传入 消息 对象即可
+ * 传入 typeId 和
  */
 export function useBBSGotoSquarePost() {
   const history = useHistory();
-  return (postItem: any) => {
-    history.push(`/bbs/square/${postItem.typeId}/${postItem.threadId}`);
+  return (threadId: number, typeId: number) => {
+    history.push(`/bbs/square/${typeId}/${threadId}`);
+    window.scrollTo(0, 0);
+  };
+}
+
+/**
+ * 传入 square id
+ */
+export function useBBSGotoSquare() {
+  const history = useHistory();
+  return (squareId: number, needNewTab = true) => {
+    if (needNewTab) {
+      open(`${origin}/yst-iwork-alpha/bbs/square/${squareId}`);
+    } else {
+      history.push(`/bbs/square/${squareId}`);
+      window.scrollTo(0, 0);
+    }
   };
 }

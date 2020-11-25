@@ -1,5 +1,6 @@
+import { useBBSGotoSquare } from '@/utils/utilsBBS';
 import React from 'react';
-import * as api from './api';
+import * as api from '../api';
 
 const SquareHome: React.FC = React.memo(({ children }) => {
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
@@ -8,9 +9,11 @@ const SquareHome: React.FC = React.memo(({ children }) => {
       setDataTypeList(res.data ?? []);
     });
   }, []);
+
+  const go = useBBSGotoSquare();
   return (
     <div>
-      {dataTypeList.map(({ name, id }) => {
+      {dataTypeList.map(({ name, id, icon, description, readCount }) => {
         return (
           <div
             style={{
@@ -22,19 +25,46 @@ const SquareHome: React.FC = React.memo(({ children }) => {
               marginBottom: 12,
               background: '#fff',
               borderRadius: 4,
+              cursor: 'pointer',
             }}
             key={id}
+            onClick={() => {
+              go(id);
+            }}
           >
-            <div
+            <img
               style={{
                 width: 82,
                 height: 82,
-                lineHeight: '82px',
-                textAlign: 'center',
-                backgroundColor: 'red',
+                objectFit: 'contain',
+                marginRight: 9,
+              }}
+              src={icon}
+            />
+            <div
+              style={{
+                height: '100%',
+                width: 543,
+                display: 'flex',
+                flexFlow: 'column',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
               }}
             >
-              {name.slice(0, 2)}
+              <p style={{ fontSize: 16, lineHeight: 1, color: '#333', fontWeight: '500' }}>
+                {name}
+              </p>
+              <p
+                style={{
+                  color: '#333',
+                  lineHeight: '20px',
+                  height: 40,
+                }}
+                className="line-clamp-2"
+              >
+                {description}
+              </p>
+              <p style={{ fontSize: 12, lineHeight: 1, color: '#666' }}>{`${readCount}浏览`}</p>
             </div>
           </div>
         );
