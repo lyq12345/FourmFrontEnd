@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-10-19 14:50:34
- * @LastEditTime: 2020-11-11 19:24:46
- * @LastEditors: your name
+ * @LastEditTime: 2020-11-25 10:07:39
+ * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/config.ts
  */
@@ -52,8 +52,8 @@ export default defineConfig({
   theme: {
     // ...darkTheme,
     'primary-color': defaultSettings.primaryColor,
-    'modal-mask-bg': defaultSettings.modalMaskBg,
-    'animation-duration-base': '0.8s',
+    // 'modal-mask-bg': defaultSettings.modalMaskBg,
+    // 'animation-duration-base': '0.8s',
   },
   define: {
     ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION:

@@ -280,11 +280,13 @@ h3 {
       height: 100%;
     }
     .contentInfo {
-      width: 296px;
+      width: 100%;
+      height: 100%;
       margin: 0 auto;
       position: absolute;
-      top: 16px;
-      left: 16px;
+      top: 0;
+      // left: 16px;
+      padding: 16px;
       cursor: pointer;
       .currentWeek {
         width: 40px;
@@ -308,6 +310,8 @@ h3 {
       }
       .hallPeopleName {
         margin-top: 9px;
+        position: absolute;
+        bottom: 175px;
         span:first-child {
           font-size: 20px;
           line-height: 20px;
@@ -319,8 +323,11 @@ h3 {
         }
       }
       .hallPeopleImg {  
-        margin-left: 27.5px;
-        margin-top: 7px;
+        // margin-left: 27.5px;
+        // margin-top: 7px;
+        position: absolute;
+        bottom: 18px;
+        left: 43px;
         img {
           width: 268px;
           height: 150px;

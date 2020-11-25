@@ -7,6 +7,8 @@ import SwiperCore, { Autoplay } from 'swiper';
 import Slider from "react-slick";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperComponent from '@/components/Swiper/Swiperv'
+import showDown from '@/assets/img/showDown.png'
+import showUp from '@/assets/img/showUp.png'
 
 
 import styles from './styles.less'
@@ -106,7 +108,10 @@ const WishDialog = (props) => {
               </div>
               <div className={styles.cardContent}>
                 <p className={styles.cardToName}>To：亲爱的{userInfo && userInfo.userName}</p>
-                <p className={styles.cardInfoContent}>{replyContent}</p>
+                <p className={styles.cardInfoContent}>{replyContent}
+                  {
+                    replyContent && replyContent.length > 46 ? <img src={showDown} alt="" /> : <></>
+                  }</p>
                 <p className={styles.cardFromName}>From：{loginInUserInfo && loginInUserInfo.userName}</p>
               </div>
             </div>
