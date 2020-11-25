@@ -55,7 +55,7 @@ const Birthday = (props) => {
                         item.map(val => (
                           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <p className={styles.birthdayContent}>
-                              <span></span>
+                              <img src={val.avater} alt="" />
                               <span className={styles.name}>{val.userName} {val.deptName}</span>
                             </p>
                             <p className={styles.sendBlessings} onClick={() => sendWishClick(val)}>送祝福</p>

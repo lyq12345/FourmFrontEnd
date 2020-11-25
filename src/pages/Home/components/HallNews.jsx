@@ -216,6 +216,7 @@ const HallNews = (props) => {
               <Badge
                 className={styles.messageTost1}
                 style={{ backgroundColor: '#CE1925' }}
+                size="default"
                 count={unreadMessagesNum}
               />
             </div>
@@ -233,6 +234,7 @@ const HallNews = (props) => {
               <Badge
                 className={styles.messageTost2}
                 style={{ backgroundColor: '#CE1925' }}
+                size="default"
                 count={toDoTasksNum}
               />
             </div>

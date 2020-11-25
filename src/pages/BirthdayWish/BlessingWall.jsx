@@ -6,6 +6,8 @@ import { GetWishList, ReplyWish } from '@/api/birthdayWish'
 import WishDialog from '@/components/WishDialog'
 import birthdayBanner from '@/assets/img/birthdayBanner.png'
 import noContent from '@/assets/img/noContent.png'
+import showDown from '@/assets/img/showDown.png'
+import showUp from '@/assets/img/showUp.png'
 
 
 const BlessingWall = (props) => {
@@ -19,6 +21,7 @@ const BlessingWall = (props) => {
   const [birthdayDate, setBirthdayDate] = useState(null)
   const [isDialog, setIsDialog] = useState(false);
   const [userInfo, setUserInfo] = useState({});
+  const [showMore, setShowMore] = useState(false)
 
   let { query } = props.location
 
@@ -31,7 +34,17 @@ const BlessingWall = (props) => {
     }
     GetWishList(params).then(res => {
       if (res.success) {
-        setDataList(res.data.wishList || [])
+        let dataArr = [...res.data.wishList || []]
+        dataArr.length && dataArr.forEach((item, index) => {
+          if (item.content.length > 61) {
+            item.contentStr = item.content.slice(0, 61) + '...'
+            item.isMore = true
+            item.isMoreImg = false
+          } else {
+            item.isMoreImg = true
+          }
+        })
+        setDataList(dataArr)
         setBirthdayDate(res.data.birthday || null)
         let datas = {
           userId: query.userId,
@@ -78,6 +91,11 @@ const BlessingWall = (props) => {
     setIsDialog(false)
     getWishListInfo(1)
   }
+  const showMoreClick = (val, index) => {
+    let dataArr = [...dataList]
+    dataArr[index].isMoreImg = !val.isMoreImg
+    setDataList(dataArr)
+  }
   return (
     <div className={styles.blessingWall}>
       {/* style={{ background: `url(${birthdayBanner})` }} */}
@@ -114,9 +132,16 @@ const BlessingWall = (props) => {
                   <div className={styles.cardImg}>
                     <img src={item.iconUrl} alt="" />
                   </div>
-                  <div className={styles.cardContent}>
+                  <div className={item.isMoreImg && item.isMore ? `${styles.cardMoreContent}` : `${styles.cardContent}`}>
                     <p className={styles.cardToName}>To：{item.userName}</p>
-                    <p className={styles.cardInfoContent}>{item.content}</p>
+                    <p className={styles.cardInfoContent}>
+                      <span>
+                        {item.isMoreImg ? item.content : item.contentStr}
+                      </span>
+                      {
+                        item.isMore ? <img src={item.isMoreImg ? showUp : showDown} alt="" onClick={() => showMoreClick(item, index)} /> : <></>
+                      }
+                    </p>
                     <p className={styles.cardFromName}>From：{item.sendUserName}</p>
                   </div>
                   {

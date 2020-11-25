@@ -48,6 +48,7 @@ const WishDialog = (props) => {
     setIsVisible(isDialog)
     GetWishIconList().then(res => {
       if (res.success) {
+        res.data.iconList && res.data.iconList.forEach((item, index) => index == 0 ? item.isCheck = true : item.isCheck = false)
         setIconList(res.data.iconList || [])
         setTemplateList(res.data.templateList || [])
         setSelectShowIcon(res.data.iconList[0] || {})
@@ -108,10 +109,7 @@ const WishDialog = (props) => {
               </div>
               <div className={styles.cardContent}>
                 <p className={styles.cardToName}>To：亲爱的{userInfo && userInfo.userName}</p>
-                <p className={styles.cardInfoContent}>{replyContent}
-                  {
-                    replyContent && replyContent.length > 46 ? <img src={showDown} alt="" /> : <></>
-                  }</p>
+                <p className={styles.cardInfoContent}>{replyContent}</p>
                 <p className={styles.cardFromName}>From：{loginInUserInfo && loginInUserInfo.userName}</p>
               </div>
             </div>
