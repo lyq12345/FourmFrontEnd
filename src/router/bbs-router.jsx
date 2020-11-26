@@ -40,7 +40,16 @@ module.exports = {
     {
       path: '/bbs/mine',
       name: '我的',
-      component: './BBS/Mine',
+      routes: [
+        {
+          path: '/bbs/mine/',
+          component: './BBS/Mine',
+        },
+        {
+          path: '/bbs/mine/:postId',
+          component: '../pages/BBS/Post',
+        },
+      ],
     },
   ],
 };
