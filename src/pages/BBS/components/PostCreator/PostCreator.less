@@ -1,0 +1,70 @@
+@y: #ff5000;
+
+.container {
+  background: #fff;
+  border-radius: 4px;
+  padding: 20px;
+
+  :global {
+    .ant-input {
+      padding: 0;
+    }
+  }
+
+  .hr {
+    color: #d8d8d8;
+    border-top: 1px solid currentColor;
+    margin: 10px 0;
+  }
+
+  .bottom {
+    display: flex;
+    align-items: center;
+
+    .icon-pic {
+      font-size: 22px;
+      margin-right: 3px;
+      color: yellowgreen;
+    }
+
+    .select {
+      :global {
+        .ant-select-selector {
+          color: #0091ff;
+
+          .ant-select-selection-placeholder {
+            opacity: initial;
+          }
+
+          & + span {
+            color: #0091ff;
+          }
+        }
+      }
+    }
+
+    .submit-button {
+      border-color: currentColor;
+      color: @y;
+
+      &.disabled {
+        border-color: currentColor;
+        color: #999;
+      }
+    }
+  }
+}
+
+.select-dropdown {
+  :global {
+    .ant-select-item-option-content {
+      transition: all 0.3s;
+    }
+    .ant-select-item-option-active {
+      color: @y;
+    }
+    .ant-select-item-option-selected {
+      color: @y;
+    }
+  }
+}

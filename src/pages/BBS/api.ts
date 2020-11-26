@@ -9,6 +9,6 @@ export type PostType = {
   icon: string;
 };
 
-export function requestType(): Promise<{ data: PostType[] }> {
-  return request.get('/BbsMain/GetTypeList');
+export function requestType(pageIndex: number): Promise<{ data: PostType[] }> {
+  return request.get('/BbsMain/GetTypeList', { params: { pageIndex } });
 }

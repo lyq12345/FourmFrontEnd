@@ -10,7 +10,7 @@ import logoYst from '@/assets/bbs/logo/logo_yst.png';
 
 const Footer: React.FC = React.memo(() => {
   return (
-    <div style={{ background: 'white' }} className={styles.footer}>
+    <div style={{ background: 'white' }} className={styles.footer} id="bbs-footer">
       <div className={styles.top}>
         <div className={styles.topLeft}>
           <div className={styles.textContainer}>

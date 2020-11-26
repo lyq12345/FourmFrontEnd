@@ -1,14 +1,24 @@
 import { useBBSGotoSquare } from '@/utils/utilsBBS';
+import { useInViewport, useUpdateEffect } from 'ahooks';
 import React from 'react';
 import * as api from '../api';
 
-const SquareHome: React.FC = React.memo(({ children }) => {
+const SquareHome: React.FC = React.memo(() => {
+  const [page, setPage] = React.useState<number>(1);
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
   React.useEffect(() => {
-    api.requestType().then((res) => {
-      setDataTypeList(res.data ?? []);
+    api.requestType(page).then((res) => {
+      setDataTypeList((c) => c.concat(res.data ?? []));
     });
-  }, []);
+  }, [page]);
+
+  // 动态加载
+  const inViewPort = useInViewport(() => document.querySelector('#bbs-footer'));
+  useUpdateEffect(() => {
+    if (inViewPort) {
+      setPage((c) => c + 1);
+    }
+  }, [inViewPort]);
 
   const go = useBBSGotoSquare();
   return (
