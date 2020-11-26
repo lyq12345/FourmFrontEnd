@@ -13,7 +13,7 @@ export const IconFont = createFromIconfontCN({
 
 /**
  * 传入 squareId(typeId) 和
- */ t;
+ */
 export function useBBSGotoSquarePost() {
   const history = useHistory();
   return (threadId: number, squareId: number) => {
