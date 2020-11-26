@@ -12,8 +12,8 @@ export const IconFont = createFromIconfontCN({
 });
 
 /**
- * 传入 squareId(typeId) 和
- */ t;
+ * 传入 squareId/typeId 和 postId/threadId
+ */
 export function useBBSGotoSquarePost() {
   const history = useHistory();
   return (threadId: number, squareId: number) => {
@@ -22,9 +22,6 @@ export function useBBSGotoSquarePost() {
   };
 }
 
-/**
- * 传入 squareId(typeId) 和
- */
 export function useBBSGotoMyPost() {
   const history = useHistory();
   return (threadId: number) => {

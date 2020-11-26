@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './RightCard.less';
 
-import { IconFont, useBBSGotoSquarePost } from '@/utils/utilsBBS';
+import { IconFont, useBBSGotoMyPost } from '@/utils/utilsBBS';
 import type { Post } from '../api';
 
 const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title, list }) => {
-  const goPost = useBBSGotoSquarePost();
+  const goPost = useBBSGotoMyPost();
   return (
     <div className={styles.rightCard}>
       <div className={styles.rect} />
@@ -19,7 +19,7 @@ const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title
         {list.map(({ title, loveCount, typeId, threadId }) => {
           return (
             <div className={styles.listItem}>
-              <a className={styles.listItemTitle} onClick={() => goPost(threadId, typeId)}>
+              <a className={styles.listItemTitle} onClick={() => goPost(threadId)}>
                 {title}
               </a>
               <IconFont type="iconzan" />
