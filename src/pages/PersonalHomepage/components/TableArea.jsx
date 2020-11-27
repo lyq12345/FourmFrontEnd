@@ -394,7 +394,7 @@ const TableArea = (props) => {
       </div>
       <Table
         rowClassName={() => 'editable-row'}
-        className='tableBackgroundStylesd'
+        className={styles.tableBackgroundStylesd}
         // rowKey={(record, index) => index}
         rowKey={(record) => record.key}
         pagination={false}

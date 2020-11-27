@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 import loginheadimg from '@/assets/img/login-head-img.png';
 import anniversaryCelebration from '@/assets/img/anniversary-celebration.png';
 const ModelAdvertising = (props) => {
-  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(true)
+  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(false)
   const [isBirthdayVisible, setIsBirthdayVisible] = useState(false)
   const [isAdvertVisible, setIsAdvertVisible] = useState(false)
   const [isBirthdayModel, setIsBirthdayModel] = useState(false)
@@ -129,7 +129,7 @@ const ModelAdvertising = (props) => {
         visible={isAdvertVisible}
         closable={false}
         footer={null}
-        wrapClassName='homeModalStyle'
+        wrapClassName={styles.homeModalStyle}
         bodyStyle={{ background: 'initial' }}
         style={{ background: 'initial', top: '0', paddingBottom: '0' }}
         width='100%'
@@ -156,7 +156,7 @@ const ModelAdvertising = (props) => {
         visible={isBirthdayVisible}
         closable={false}
         footer={null}
-        wrapClassName='homeModalStyle'
+        wrapClassName={styles.homeModalStyle}
         bodyStyle={{ background: 'initial' }}
         style={{ background: 'initial', top: '0', paddingBottom: '0' }}
         width='100%'
@@ -183,7 +183,7 @@ const ModelAdvertising = (props) => {
         visible={isAnniversaryVisible}
         closable={false}
         footer={null}
-        wrapClassName='homeModalStyle'
+        wrapClassName={styles.homeModalStyle}
         bodyStyle={{ background: 'initial', padding: '0' }}
         width='100%'
       >

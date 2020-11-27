@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Result, Button, Popover, Breadcrumb, Divider } from 'antd';
 import Authorized from '@/utils/Authorized';
-import { getAuthorityFromRouter, fliterRouter } from '@/utils/utils';
+import { getAuthorityFromRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
 import logo from '@/assets/img/logo.png';
 import ystLogoMax from '@/assets/img/yst-logo-max.png';
@@ -13,10 +13,11 @@ import phone from '@/assets/img/phone.png';
 import ModelAdvertising from '@/components/ModelAdvertising';
 import { connect, ConnectState } from 'umi';
 import { GetAtten } from '@/api/common';
+import styles from './styles.less'
 
 import { Link } from 'umi';
 
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 const noMatch = (
   <Result
@@ -58,15 +59,15 @@ const Navigation = (props) => {
     route,
   } = props;
   const [attendanceInfo, setAttendanceInfo] = useState(null);
-  const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
-  const [headImage, setHeadImage] = useState(loginheadimg);
+  const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')))
+  // const [headImage, setHeadImage] = useState(loginheadimg);
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
     authority: undefined,
   };
   useEffect(() => {
     getAttenDataList();
     // let loginInUserInfo = JSON.parse(localStorage.getItem('userInfoLogin'));
-    setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
+    // setHeadImage(loginInUserInfo && loginInUserInfo.headImage);
 
   }, []);
   const getAttenDataList = () => {
@@ -143,22 +144,22 @@ const Navigation = (props) => {
     <div>
       <Layout>
         <Header>
-          <div className="header">
+          <div className={styles.header}>
             <Link to="/">
-              <div className="left-content">
+              <div className={styles.leftContent}>
                 <img src={logo} alt="" />
               </div>
             </Link>
-            <div className="right-content">
+            <div className={styles.rightContent}>
               <span>{attendanceInfo}</span>
               <Popover
-                overlayClassName="noPopoverTriangle"
+                overlayClassName={styles.noPopoverTriangle}
                 placement="bottomRight"
                 content={popoverContent}
                 trigger="hover"
               >
                 <img
-                  className="headerImg"
+                  className={styles.headerImg}
                   onError={(e) => { e.target.onerror = null; e.target.src = loginheadimg }}
                   src={
                     (loginInUserInfo && loginInUserInfo.headImage) ||
@@ -207,33 +208,33 @@ const Navigation = (props) => {
           </Authorized>
         </Content>
         <Footer>
-          <div className="footer-info">
-            <div className="footer">
-              <div className="left-content">
-                <div className="company-name">
-                  <div className="group-name">
+          <div className={styles.footerInfo}>
+            <div className={styles.footer}>
+              <div className={styles.leftContent}>
+                <div className={styles.companyName}>
+                  <div className={styles.groupName}>
                     <a href="http://www.yst.com.cn" target="_Blank">
                       养生堂集团有限公司
                     </a>
                   </div>
-                  <div className="son1-company-name">
+                  <div className={styles.son1CompanyName}>
                     <a href="http://www.yst.com.cn" target="_Blank">
                       养生堂有限公司
                     </a>
-                    <Divider className="link-divider" type="vertical" />
+                    <Divider className={styles.linkDivider} type="vertical" />
                     <a href="https://www.nongfuspring.com" target="_Blank">
                       农夫山泉股份有限公司
                     </a>
-                    <Divider className="link-divider" type="vertical" />
+                    <Divider className={styles.linkDivider} type="vertical" />
                     <a href="http://www.ystco.com.cn" target="_Blank">
                       养生堂浙江食品有限公司
                     </a>
-                    <Divider className="link-divider" type="vertical" />
+                    <Divider className={styles.linkDivider} type="vertical" />
                     <a href="http://yoseido.yst.com.cn" target="_Blank">
                       养生堂化妆品有限公司
                     </a>
                   </div>
-                  <div className="son2-company-name">
+                  <div className={styles.son2CompanyName}>
                     <a href="https://www.ystwt.com" target="_Blank">
                       北京万泰生物药业股份有限公司
                     </a>
@@ -243,15 +244,15 @@ const Navigation = (props) => {
                   <img src="" alt="" />
                 </p> */}
               </div>
-              <div className="right-content">
-                <div className="IT-service-phone">
-                  <p className="IT-service">IT服务台：</p>
-                  <p className="phone-num">
+              <div className={styles.rightContent}>
+                <div className={styles.ITServicePhone}>
+                  <p className={styles.ITService}>IT服务台：</p>
+                  <p className={styles.phoneNum}>
                     <img src={mobile} alt="" />
                     <span>0571-87663116</span>
                     <span>工作日</span>
                   </p>
-                  <p className="phone-num">
+                  <p className={styles.phoneNum}>
                     <img src={phone} alt="" />
                     <span>18072772789</span>
                     <span>节假日</span>
@@ -260,9 +261,9 @@ const Navigation = (props) => {
               </div>
             </div>
           </div>
-          <div className="footer-company-logo">
-            <div className="footer-left-content">
-              <div className="left-logo">
+          <div className={styles.footerCompanyLogo}>
+            <div className={styles.footerLeftContent}>
+              <div className={styles.leftLogo}>
                 <img src={ystLogoMax} alt="" onClick={() => imgDispatch('http://www.yst.com.cn')} />
                 <img
                   src={NFSQlogo}
@@ -277,8 +278,8 @@ const Navigation = (props) => {
                 />
                 <img style={{ width: '144px' }} src={WTSWLogo} alt="" onClick={() => imgDispatch('https://www.ystwt.com')} />
               </div>
-              <div className="right-logo">
-                <p className="remark">All Rights Reserved.浙ICP备10201315号-3</p>
+              <div className={styles.rightLogo}>
+                <p className={styles.remark}>All Rights Reserved.浙ICP备10201315号-3</p>
               </div>
             </div>
           </div>

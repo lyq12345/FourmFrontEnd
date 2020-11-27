@@ -147,3 +147,19 @@ p {
     }
   }
 }
+// 首页弹窗广告修改样式
+.homeModalStyle {
+  :global(.zoom-leave) {
+    animation-duration: 0.7s !important;
+  }
+  :global {
+    .ant-modal-content {
+      position: relative;
+      background-color: initial !important;
+      box-shadow: initial !important;
+    }
+    .ant-modal-body {
+      padding: 0 !important;
+    }
+  }
+}
