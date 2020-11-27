@@ -4,11 +4,7 @@ import downArrows from '@/assets/img/down.png';
 import upArrows from '@/assets/img/up.png';
 import { GetCalendar } from '@/api/common'
 
-// const data = [
-//   {
-//     time: '10:00-12:00',
-//     title: '领取优惠券页面视觉评审',
-//   },
+// const dataList = [
 //   {
 //     time: '10:00-12:00',
 //     title: '领取优惠券页面视觉评审',
@@ -95,7 +91,7 @@ const MySchedule = (props) => {
         {
           weekArr && weekArr.map((item, index) => (
             <div key={index} className={styles.dayText} onClick={() => { checkDate(index) }}>
-              <p>{item.title}</p>
+              <p className={item.isCheck ? `${styles.selectedWeek}` : ''}>{item.title}</p>
               <p className={item.isCheck ? `${styles.day} ${styles.dayCheck}` : styles.day}>{item.day}</p>
             </div>
           ))
@@ -105,24 +101,24 @@ const MySchedule = (props) => {
         <div className={styles.scheduleStatistics}>
           <p className={styles.totalData}>共<span>{dataList.length}</span>个日程</p>
           {
-            dataList && dataList.length ? <p onClick={showMoreSchedule}>
+            dataList && dataList.length && dataList.length > 3 ? <p onClick={showMoreSchedule}>
               <img src={isShowMore ? downArrows : upArrows} alt="" />
             </p> : <></>
           }
         </div>
         {
           dataList && dataList.length ? dataList.map((item, index) => (
-            <div className={styles.infoContent} key={index}>
+            <>
               {
-                (isShowMore ? index < 3 : dataList.length) ?
+                (isShowMore ? index < 3 : dataList.length) ? <div className={styles.infoContent} key={index}>
                   <p key={index}>
                     <span className={styles.dot}></span>
                     <span className={styles.time}>{item.time}</span>
                     <span>{item.title}</span>
-                  </p> : <></>
+                  </p>
+                </div> : <></>
               }
-
-            </div>
+            </>
           )) :
             <div className={styles.noData}>
               今天无日程

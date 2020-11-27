@@ -59,6 +59,7 @@ const TableList = (props) => {
         columns={columns}
         dataSource={data}
         loading={loading}
+        rowKey={(record, index) => record.userId}
         pagination={false}
         rowClassName={(record, index) => index % 2 !== 0 ? styles.white : styles.gray}
       />

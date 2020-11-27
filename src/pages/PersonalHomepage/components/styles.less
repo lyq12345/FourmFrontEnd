@@ -8,6 +8,9 @@
   .ant-select-selector {
     width: 210px;
   }
+  >div {
+    margin-top: 26px;
+  }
   .infoTitle {
     display: flex;
     justify-content: space-between;
@@ -17,6 +20,9 @@
     font-weight: 500;
     line-height: 16px;
     padding-bottom: 20px;
+    // p:first-child {
+    //   font-weight: 600;
+    // }
     .isUpdate {
       color: #0076D0;
       font-size: 14px;
@@ -29,8 +35,6 @@
   }
   .basicInfo {
     width: 100%;
-  }
-  .contactWay {
   }
 }
 .ant-table-thead > tr >th{
@@ -47,4 +51,27 @@
 }
 .isUpdate {
   cursor: pointer;
+}
+.tableBackgroundStylesd {
+  :global {
+    /*个人主页表格样式修改*/
+    .ant-table-thead > tr > th {
+      background-color: initial !important;
+      border: none;
+      padding: 12px 12px 12px 0;
+    }
+    .ant-table-tbody > tr > td {
+      border: none;
+      padding: 0 12px 12px 0;
+      // &:nth-last-child(3) {
+      //   padding: 0 8px 12px 0;
+      // }
+      // &:nth-last-child(2) {
+      //   padding: 0 0 12px 0;
+      // }
+      // &:last-child {
+      //   padding: 0 0 12px 0;
+      // }
+    }
+  }
 }

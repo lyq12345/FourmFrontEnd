@@ -346,6 +346,7 @@ const FormData = (props) => {
         </div>
         <Form
           {...formItemLayout}
+          labelAlign="left"
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={8}>
@@ -398,6 +399,7 @@ const FormData = (props) => {
           form={contactInfoForm}
           {...formItemLayout}
           onFinish={contactWaySubmit}
+          labelAlign={isContactInfo ? 'right' : 'left'}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
@@ -456,6 +458,7 @@ const FormData = (props) => {
           {...formItemLayout}
           form={personageInfoForm}
           onFinish={personalInfoSubmit}
+          labelAlign={isContactInfo ? 'right' : 'left'}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
@@ -600,6 +603,7 @@ const FormData = (props) => {
           initialValues={{
             FGBDT: exigenceDetailInfo.FGBDT
           }}
+          labelAlign={isContactInfo ? 'right' : 'left'}
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>

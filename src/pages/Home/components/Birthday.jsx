@@ -52,8 +52,8 @@ const Birthday = (props) => {
                   <SwiperSlide key={index}>
                     <div className={styles.birthdayNameList} key={index}>
                       {
-                        item.map(val => (
-                          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        item.map((val, _index) => (
+                          <div style={{ display: 'flex', justifyContent: 'space-between' }} key={_index}>
                             <p className={styles.birthdayContent}>
                               <img src={val.avater} alt="" />
                               <span className={styles.name}>{val.userName} {val.deptName}</span>
