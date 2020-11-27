@@ -182,7 +182,7 @@ const Navigation = (props) => {
                   </Breadcrumb.Item>
                   {routeArray.map((item, index) => {
                     return (
-                      <Breadcrumb separator="" style={{ display: 'inline', color: '#D30B24' }}>
+                      <Breadcrumb separator="" style={{ display: 'inline', color: '#D30B24' }} key={index}>
                         <Breadcrumb.Separator>
                           <span style={{ color: '#D30B24' }}>&gt;</span>
                         </Breadcrumb.Separator>

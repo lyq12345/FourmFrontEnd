@@ -61,7 +61,7 @@ const PersonalHomepage = (props) => {
           </div>
           <div className={styles.classifie}>
             <img src={study} alt="" />
-            <p className={styles.classifieNum}>380</p>
+            <p className={styles.classifieNum}>{(detailInfo && detailInfo.FLearnTime) || 0}</p>
             <p className={`${styles.classifieNum}`}>
               <span className={styles.line}></span>
               <span className={styles.invitationText}>学习时长</span>
@@ -70,7 +70,7 @@ const PersonalHomepage = (props) => {
           </div>
           <div className={styles.classifie}>
             <img src={invitation} alt="" />
-            <p className={styles.classifieNum}>1</p>
+            <p className={styles.classifieNum}>{(detailInfo && detailInfo.FPostNum) || 0}</p>
             <p className={styles.classifieNum}>帖子</p>
           </div>
         </div>

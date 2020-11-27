@@ -9,8 +9,9 @@ import activeIcon from '@/assets/img/active-icon.png';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import loginheadimg from '@/assets/img/login-head-img.png';
+import anniversaryCelebration from '@/assets/img/anniversary-celebration.png';
 const ModelAdvertising = (props) => {
-  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(false)
+  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(true)
   const [isBirthdayVisible, setIsBirthdayVisible] = useState(false)
   const [isAdvertVisible, setIsAdvertVisible] = useState(false)
   const [isBirthdayModel, setIsBirthdayModel] = useState(false)
@@ -194,7 +195,7 @@ const ModelAdvertising = (props) => {
                 <img src={greetingCardClose} alt="" />
               </span>
               <div className={styles.modalContent}>
-                <p className={styles.headImg} src={headImg || loginheadimg}></p>
+                <img className={styles.headImg} src={headImg || loginheadimg}></img>
                 <p className={styles.cardInfo}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
                 <p className={styles.cardInfo}>生日快乐</p>
               </div>

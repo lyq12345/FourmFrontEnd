@@ -48,7 +48,7 @@ const SendWishList = (props) => {
             }
             {
               dataList.length && dataList.map((item, index) => (
-                <div className={styles.contentInfo}>
+                <div className={styles.contentInfo} key={index}>
                   <div className={styles.contentList}>
                     <div className={styles.leftImg}>
                       {/* <img src="" alt=""/> */}
