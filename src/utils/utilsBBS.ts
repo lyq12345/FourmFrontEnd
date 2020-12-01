@@ -12,20 +12,12 @@ export const IconFont = createFromIconfontCN({
 });
 
 /**
- * 传入 squareId/typeId 和 postId/threadId
+ * 传入 postId/threadId
  */
-export function useBBSGotoSquarePost() {
-  const history = useHistory();
-  return (threadId: number, squareId: number) => {
-    history.push(`/bbs/square/${squareId}/${threadId}`);
-    window.scrollTo(0, 0);
-  };
-}
-
-export function useBBSGotoMyPost() {
+export function useBBSGotoPost() {
   const history = useHistory();
   return (threadId: number) => {
-    history.push(`/bbs/mine/${threadId}`);
+    history.push(`/bbs/post/${threadId}`);
     window.scrollTo(0, 0);
   };
 }

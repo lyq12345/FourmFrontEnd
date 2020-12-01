@@ -31,25 +31,16 @@ module.exports = {
           path: '/bbs/square/:squareId',
           component: '../pages/BBS/Square/SquareItem',
         },
-        {
-          path: '/bbs/square/:squareId/:postId',
-          component: '../pages/BBS/Post',
-        },
       ],
     },
     {
       path: '/bbs/mine',
       name: '我的',
-      routes: [
-        {
-          path: '/bbs/mine/',
-          component: './BBS/Mine',
-        },
-        {
-          path: '/bbs/mine/:postId',
-          component: '../pages/BBS/Post',
-        },
-      ],
+      component: './BBS/Mine',
+    },
+    {
+      path: '/bbs/post/:postId',
+      component: './BBS/Post',
     },
   ],
 };

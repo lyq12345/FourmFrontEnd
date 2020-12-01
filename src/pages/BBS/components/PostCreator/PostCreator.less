@@ -21,10 +21,16 @@
     display: flex;
     align-items: center;
 
-    .icon-pic {
-      font-size: 22px;
-      margin-right: 3px;
-      color: yellowgreen;
+    .upload {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .icon-pic {
+        font-size: 22px;
+        margin-right: 3px;
+        color: #6dd400;
+      }
     }
 
     .select {
@@ -66,5 +72,29 @@
     .ant-select-item-option-selected {
       color: @y;
     }
+  }
+}
+
+.upload-overlay {
+  :global {
+    .ant-popover-inner-content {
+      padding: 12px 4px 4px 12px;
+    }
+  }
+}
+
+.popover-content {
+  width: 336px;
+  line-height: 1;
+  > span {
+    font-size: 12px;
+    > span {
+      color: #fa6400;
+    }
+  }
+  .popover-close {
+    float: right;
+    margin-right: 8px;
+    cursor: pointer;
   }
 }
