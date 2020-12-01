@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { RecoilRoot } from 'recoil';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import { useHistory } from 'umi';
@@ -18,6 +17,8 @@ import png1 from '@/assets/bbs/icon/png1.png';
 import png2 from '@/assets/bbs/icon/png2.png';
 import styles from './BBSLayout.less';
 import { Modal } from 'antd';
+import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
+import { CloseOutlined } from '@ant-design/icons';
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
   const go = useBBSGotoSquare();
@@ -60,102 +61,116 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [isModalVisible, setIsModalVisible] = useRecoilState(isPostCreatorModalVisible);
 
   return (
-    <RecoilRoot>
+    <div className={styles['bg-container']}>
       {/* 发帖组件 */}
-      <Modal visible={isModalVisible}></Modal>
-
-      <div className={styles['bg-container']}>
-        {/* 顶部导航 */}
-        <div className={styles['navbar-bg-container']}>
-          <div className={styles['line']} />
-          <div className={styles['navbar']}>
-            <img
-              src={logo}
-              style={{ width: 208, height: 65, marginRight: 689, cursor: 'pointer' }}
-              onClick={() => history.push('/bbs')}
+      <Modal
+        visible={isModalVisible}
+        width={670}
+        destroyOnClose
+        style={{ top: 200 }}
+        modalRender={() => (
+          <div style={{ pointerEvents: 'initial' }}>
+            <CloseOutlined
+              style={{ position: 'absolute', left: 679, color: 'white' }}
+              onClick={() => setIsModalVisible(false)}
             />
-            <img src={png1} style={{ width: 20, height: 20, marginRight: 5 }} />
-            <span
-              style={{ color: '#666666', cursor: 'pointer' }}
-              onClick={() => history.push('/home')}
-            >
-              内网首页
-            </span>
-            <div
-              style={{
-                borderLeft: '1px solid #EEEEEE',
-                height: 12,
-                marginLeft: 22,
-                marginRight: 17,
-              }}
-            ></div>
-            <img src={png2} style={{ width: 20, height: 20, marginRight: 5 }} />
-            <span style={{ color: '#666666' }}>
-              {dayjs().locale('zh-cn').format('YYYY年MM月DD日 dddd')}
-            </span>
+            <PostCreator />
           </div>
+        )}
+      ></Modal>
+
+      {/* 顶部导航 */}
+      <div className={styles['navbar-bg-container']}>
+        <div className={styles['line']} />
+        <div className={styles['navbar']}>
+          <img
+            src={logo}
+            style={{ width: 208, height: 65, marginRight: 689, cursor: 'pointer' }}
+            onClick={() => history.push('/bbs')}
+          />
+          <img src={png1} style={{ width: 20, height: 20, marginRight: 5 }} />
+          <span
+            style={{ color: '#666666', cursor: 'pointer' }}
+            onClick={() => history.push('/home')}
+          >
+            内网首页
+          </span>
+          <div
+            style={{
+              borderLeft: '1px solid #EEEEEE',
+              height: 12,
+              marginLeft: 22,
+              marginRight: 17,
+            }}
+          ></div>
+          <img src={png2} style={{ width: 20, height: 20, marginRight: 5 }} />
+          <span style={{ color: '#666666' }}>
+            {dayjs().locale('zh-cn').format('YYYY年MM月DD日 dddd')}
+          </span>
         </div>
+      </div>
 
-        <div className={styles['content-container']}>
-          <div className={styles['content']}>
-            <div className={styles['sidebar']}>
-              <Button iconFontType="iconshouye" className={styles['button']} url="/bbs/home">
-                首页
-              </Button>
-              <Button
-                iconFontType="iconxiaoxi"
-                className={styles['button']}
-                url="/bbs/message"
-                count={count}
-                onClick={() => setCount(0)}
-              >
-                消息
-              </Button>
-              <Button iconFontType="iconguangchang" className={styles['button']} url="/bbs/square">
-                广场
-              </Button>
-              <Button iconFontType="iconwode" className={styles['button']} url="/bbs/mine">
-                我的
-              </Button>
+      <div className={styles['content-container']}>
+        <div className={styles['content']}>
+          <div className={styles['sidebar']}>
+            <Button iconFontType="iconshouye" className={styles['button']} url="/bbs/home">
+              首页
+            </Button>
+            <Button
+              iconFontType="iconxiaoxi"
+              className={styles['button']}
+              url="/bbs/message"
+              count={count}
+              onClick={() => setCount(0)}
+            >
+              消息
+            </Button>
+            <Button iconFontType="iconguangchang" className={styles['button']} url="/bbs/square">
+              广场
+            </Button>
+            <Button iconFontType="iconwode" className={styles['button']} url="/bbs/mine">
+              我的
+            </Button>
 
-              {/* 分割线 */}
+            {/* 分割线 */}
 
-              <span className={styles['divider']}>精选板块</span>
-              <div className={styles['nav-list']}>
-                {dataTypeList.map(({ name, id }) => {
-                  return (
-                    <div className={styles['nav-item']} onClick={() => go(id, false)} key={id}>
-                      {name}
-                    </div>
-                  );
-                })}
-              </div>
+            <span className={styles['divider']}>精选板块</span>
+            <div className={styles['nav-list']}>
+              {dataTypeList.map(({ name, id }) => {
+                return (
+                  <div className={styles['nav-item']} onClick={() => go(id, false)} key={id}>
+                    {name}
+                  </div>
+                );
+              })}
             </div>
-            <div className={styles['center']}>{children}</div>
-            <div className={styles['sidebar-right']}>
-              <div className={styles['profile']}>
-                <div className={styles['profile-content']}>
-                  <img
-                    className={styles['avatar']}
-                    src={
-                      'https://cdn1.oneprofile.page/pages/avatars/323/large/Danielle_Darren-2019-255-500x500.jpg?1593718847'
-                    }
-                    alt="avatar"
-                  />
-                  <span className={styles['name']}>{userInfo.personName}</span>
-                  <div className={styles['wanna-post']}>我要发帖</div>
+          </div>
+          <div className={styles['center']}>{children}</div>
+          <div className={styles['sidebar-right']}>
+            <div className={styles['profile']}>
+              <div className={styles['profile-content']}>
+                <img
+                  className={styles['avatar']}
+                  src={
+                    'https://cdn1.oneprofile.page/pages/avatars/323/large/Danielle_Darren-2019-255-500x500.jpg?1593718847'
+                  }
+                  alt="avatar"
+                />
+                <span className={styles['name']}>{userInfo.personName}</span>
+                <div className={styles['wanna-post']} onClick={() => setIsModalVisible(true)}>
+                  我要发帖
                 </div>
               </div>
-
-              <RightCard list={dataPostMyList} title="我发的帖子" />
-              <RightCard list={dataPostShareList} title="我关注的帖子" />
             </div>
+
+            <RightCard list={dataPostMyList} title="我发的帖子" />
+            <RightCard list={dataPostShareList} title="我关注的帖子" />
           </div>
         </div>
-
-        <Footer />
       </div>
-    </RecoilRoot>
+
+      <Footer />
+    </div>
   );
 });
 

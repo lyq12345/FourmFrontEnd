@@ -50,7 +50,7 @@ function validatePost(values: {
   return { isPassed: true };
 }
 
-export default React.memo<{ oldFormObject: Post }>(({ oldFormObject }) => {
+export default React.memo<{ oldFormObject?: Post }>(({ oldFormObject }) => {
   const [form] = Form.useForm();
 
   const [dataTypeList, setDataTypeList] = useState<SelectProps<SelectValue>['options']>([]);

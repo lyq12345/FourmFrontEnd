@@ -20,9 +20,15 @@ module.exports = {
       routes: [
         {
           path: '/bbs',
-          name: 'iwork论坛',
-          component: '../layouts/BBSLayout',
-          routes: [...bbsRouter],
+          component: '../layouts/RecoilLayout',
+          routes: [
+            {
+              path: '/bbs/',
+              name: 'iwork论坛',
+              component: '../layouts/BBSLayout',
+              routes: [...bbsRouter],
+            },
+          ],
         },
         {
           path: '/',
