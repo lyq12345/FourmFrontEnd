@@ -8,7 +8,7 @@ const PictureDisplay = (props) => {
     console.log(index);
   };
   return (
-    <div style={{ width: '450px', marginLeft: '62px' }}>
+    <div style={{ width: '450px', margin: '12px 0 0 82px' }}>
       <List
         grid={{ column: 3 }}
         dataSource={props.picList}
@@ -18,7 +18,7 @@ const PictureDisplay = (props) => {
               style={{ width: '140px', height: '140px', cursor: 'zoom-in' }}
               src={item.picUrl}
               onClick={() => {
-                props.hanclePicClick(index);
+                props.handlePicClick(index);
               }}
             />
           </div>

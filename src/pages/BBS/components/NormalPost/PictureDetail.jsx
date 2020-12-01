@@ -3,7 +3,6 @@ import { List, Row, Col } from 'antd';
 import TestPic from '@/assets/bbs/test.png';
 import LongPic from '@/assets/bbs/long.png';
 import { RightCircleOutlined, ZoomInOutlined, LeftCircleOutlined } from '@ant-design/icons';
-import styles from './style.less';
 
 const PictureDetail = (props) => {
   const [curZoomed, setCurZoomed] = useState(0);
@@ -15,7 +14,7 @@ const PictureDetail = (props) => {
   }, []);
 
   const handleZoomOut = () => {
-    props.hanclePicClick(-1);
+    props.handlePicClick(-1);
   };
 
   const handleNext = () => {
@@ -49,18 +48,23 @@ const PictureDetail = (props) => {
   };
 
   return (
-    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 26px  10px 62px ' }}>
+    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 20px  12px 82px ' }}>
       <Row style={{ backgroundColor: '#333333' }}>
         <Row
           style={{
             background: `url(${props.picList[curZoomed].picUrl}) no-repeat center center / contain`,
-            width: '562px',
-            height: '562px',
+            width: '568px',
+            height: '568px',
           }}
         >
           <Col
             span={3}
-            className={styles.aside_arrow}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
             onClick={() => {
               handlePrevious();
             }}
@@ -86,7 +90,12 @@ const PictureDetail = (props) => {
           ></Col>
           <Col
             span={3}
-            className={styles.aside_arrow}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              cursor: 'pointer',
+            }}
             onClick={() => {
               handleNext();
             }}

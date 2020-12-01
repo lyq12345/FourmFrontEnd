@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
-import NormalArticle from '../components/NormalArticle';
-// import PostArticle from '../components/PostArticle';
 import styles from './style.less';
 import PostCreator from '../components/PostCreator/PostCreator';
+import NormalPost from '../components/NormalPost/NormalPost';
 
 const Index = () => {
   return (
@@ -12,14 +11,11 @@ const Index = () => {
       <PostCreator />
       <Tabs className={styles.tab} defaultActiveKey="1" centered>
         <TabPane tab={<span>最新</span>} key="1">
-          <NormalArticle />
+          <NormalPost />
+          <NormalPost />
         </TabPane>
-        <TabPane tab={<span>最热</span>} key="2">
-          <NormalArticle />
-        </TabPane>
-        <TabPane tab={<span>我的关注</span>} key="3">
-          <NormalArticle />
-        </TabPane>
+        <TabPane tab={<span>最热</span>} key="2"></TabPane>
+        <TabPane tab={<span>我的关注</span>} key="3"></TabPane>
       </Tabs>
     </div>
   );
