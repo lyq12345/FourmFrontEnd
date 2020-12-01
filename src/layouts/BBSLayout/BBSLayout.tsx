@@ -74,7 +74,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
               style={{ position: 'absolute', left: 679, color: 'white' }}
               onClick={() => setIsModalVisible(false)}
             />
-            <PostCreator />
+            <PostCreator onSuccess={() => setIsModalVisible(false)} />
           </div>
         )}
       ></Modal>
