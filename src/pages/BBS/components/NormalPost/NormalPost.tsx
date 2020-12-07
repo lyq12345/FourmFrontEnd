@@ -1,14 +1,35 @@
 import { IconFont } from '@/utils/utilsBBS';
 import { Avatar } from 'antd';
 import React, { useState } from 'react';
+import { Post } from '../../api';
+import PictureDisplay from './PictureDisplay';
+import PictureDetail from './PictureDetail';
+import { Link } from 'umi';
 
-import { Post } from '../api';
+import dayjs from 'dayjs';
+var relativeTime = require('dayjs/plugin/relativeTime');
+var config = {
+  thresholds: [
+    { l: 's', r: 1 },
+    { l: 'm', r: 1 },
+    { l: 'mm', r: 59, d: 'minute' },
+    { l: 'h', r: 1 },
+    { l: 'hh', r: 23, d: 'hour' },
+    { l: 'd', r: 1 },
+    { l: 'dd', r: 29, d: 'day' },
+    { l: 'M', r: 1 },
+    { l: 'MM', r: 11, d: 'month' },
+    { l: 'y' },
+    { l: 'yy', d: 'year' },
+  ],
+};
+require('dayjs/locale/zh-cn');
+dayjs.extend(relativeTime, config).locale('zh-cn');
 
 import styles from './NormalPost.less';
 import TestPic from '@/assets/bbs/test.png';
 import LongPic from '@/assets/bbs/long.png';
-import PictureDisplay from './PictureDisplay';
-import PictureDetail from './PictureDetail';
+
 const picList = [
   {
     picUrl: TestPic,
@@ -50,25 +71,21 @@ export default React.memo<{ post: Post }>(({ post }) => {
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
-        <Avatar
-          size={50}
-          icon={
-            <img
-              src={
-                'https://cdn1.oneprofile.page/pages/avatars/323/large/Danielle_Darren-2019-255-500x500.jpg?1593718847'
-              }
-              alt="avatar"
-            />
-          }
-          className={styles['avatar']}
-        />
+        <Avatar size={50} src={post.avatarPath} className={styles['avatar']} />
         <div className={styles['center']}>
-          <p className={styles['author']}>李小帅</p>
-          <p className={styles['time']}>5分钟前</p>
+          <p className={styles['author']}>{post.createName}</p>
+          <p className={styles['time']}>{dayjs(post.createDate).fromNow()}</p>
           <div className={styles['hot-area']}>
-            <p className={styles['title']}>给大家送福利啦！昆曲演出门票免费申领~~</p>
+            <p className={styles['title']}>{post.title}</p>
             <p className={styles['content']}>
-              本周三（9月16日）晚上及本周五（9月18日）晚上，在杭州剧院各有一场经典昆曲演出。为了给堂里人谋福利，每场演出各有50张门票免费送！~~
+              {post.content.length > 60 ? (
+                <>
+                  {post.content.slice(60) + '...'}{' '}
+                  <Link to={'/bbs/post/' + post.threadId}>查看全文</Link>
+                </>
+              ) : (
+                post.content
+              )}
             </p>
           </div>
         </div>
@@ -85,10 +102,10 @@ export default React.memo<{ post: Post }>(({ post }) => {
       <div className={styles['action']}>
         <IconFont type="iconzan" className={styles['bottom-icon']} />
         <span className={styles['type']}>赞</span>
-        <span>123123</span>
+        <span>{post.loveCount}</span>
         <IconFont type="iconpinglun" className={styles['bottom-icon']} />
         <span className={styles['type']}>评论</span>
-        <span>4124</span>
+        <span>{post.replyCount}</span>
       </div>
     </div>
   );

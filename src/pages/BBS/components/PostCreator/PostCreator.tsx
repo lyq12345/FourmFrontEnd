@@ -7,7 +7,7 @@ import { SelectProps, SelectValue } from 'antd/lib/select';
 
 const { TextArea } = Input;
 
-import { requestType } from '@/layouts/BBSLayout/api';
+import { requestType } from '../../api';
 import ImageUpload from './ImageUpload';
 import { FormProps } from 'antd/lib/form';
 import { UploadFile } from 'antd/lib/upload/interface';

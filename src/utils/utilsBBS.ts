@@ -16,9 +16,13 @@ export const IconFont = createFromIconfontCN({
  */
 export function useBBSGotoPost() {
   const history = useHistory();
-  return (threadId: number) => {
-    history.push(`/bbs/post/${threadId}`);
-    window.scrollTo(0, 0);
+  return (threadId: number, needNewTab = false) => {
+    if (needNewTab) {
+      open(`${origin}/yst-iwork-alpha/bbs/post/${threadId}`);
+    } else {
+      history.push(`/bbs/post/${threadId}`);
+      window.scrollTo(0, 0);
+    }
   };
 }
 
@@ -27,7 +31,7 @@ export function useBBSGotoPost() {
  */
 export function useBBSGotoSquare() {
   const history = useHistory();
-  return (squareId: number, needNewTab = true) => {
+  return (squareId: number, needNewTab = false) => {
     if (needNewTab) {
       open(`${origin}/yst-iwork-alpha/bbs/square/${squareId}`);
     } else {

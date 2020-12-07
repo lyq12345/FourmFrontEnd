@@ -7,7 +7,7 @@ const SquareHome: React.FC = React.memo(() => {
   const [page, setPage] = React.useState<number>(1);
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
   React.useEffect(() => {
-    api.requestType(page).then((res) => {
+    api.requestTypeList(page).then((res) => {
       setDataTypeList((c) => c.concat(res.data ?? []));
     });
   }, [page]);

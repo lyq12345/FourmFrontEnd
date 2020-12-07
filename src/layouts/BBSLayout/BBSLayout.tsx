@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import Footer from './components/Footer';
 import Button from './components/Button';
 import RightCard from './components/RightCard';
-import * as api from './api';
+import * as api from '@/pages/BBS/api';
 import { useBBSGotoSquare } from '@/utils/utilsBBS';
 import { isPostCreatorModalVisible } from './store';
 
@@ -36,7 +36,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   // 我发的帖子
   const [dataPostMyList, setDataPostMyList] = useState<api.Post[]>([]);
   useEffect(() => {
-    api.requestMyPosts().then((res) => {
+    api.requestMyPosts5().then((res) => {
       setDataPostMyList(res.data?.threads ?? []);
     });
   }, []);
@@ -44,7 +44,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   // 我关注的帖子
   const [dataPostShareList, setDataPostShareList] = useState<api.Post[]>([]);
   useEffect(() => {
-    api.requestSharePosts().then((res) => {
+    api.requestSharePosts5().then((res) => {
       setDataPostShareList(res.data?.threads ?? []);
     });
   }, []);
@@ -66,7 +66,6 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
       <Modal
         visible={isModalVisible}
         width={670}
-        destroyOnClose
         style={{ top: 200 }}
         modalRender={() => (
           <div style={{ pointerEvents: 'initial' }}>
