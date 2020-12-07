@@ -5,13 +5,10 @@ import LongPic from '@/assets/bbs/long.png';
 import { RightCircleOutlined, ZoomInOutlined, LeftCircleOutlined } from '@ant-design/icons';
 
 const PictureDetail = (props) => {
-  const [curZoomed, setCurZoomed] = useState(0);
+  const [curZoomed, setCurZoomed] = useState(props.zoomedId);
   const [leftShow, setLeftShow] = useState(false);
   const [rightShow, setRightShow] = useState(false);
 
-  useEffect(() => {
-    setCurZoomed(props.zoomedId);
-  }, []);
 
   const handleZoomOut = () => {
     props.handlePicClick(-1);

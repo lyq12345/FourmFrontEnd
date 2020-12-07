@@ -1,9 +1,8 @@
 import { IconFont } from '@/utils/utilsBBS';
 import { Avatar } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { Post } from '../../api';
-import PictureDisplay from './PictureDisplay';
-import PictureDetail from './PictureDetail';
+import PicturePart from './PicturePart';
 import { Link } from 'umi';
 
 import dayjs from 'dayjs';
@@ -61,13 +60,6 @@ const picList = [
 ];
 
 export default React.memo<{ post: Post }>(({ post }) => {
-  // 图片展示
-  const [zoomedId, setZoomedId] = useState(-1);
-
-  const handlePicClick = (index) => {
-    setZoomedId(index);
-  };
-
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
@@ -91,13 +83,7 @@ export default React.memo<{ post: Post }>(({ post }) => {
         </div>
       </div>
 
-      {picList.length ? (
-        zoomedId === -1 ? (
-          <PictureDisplay picList={picList} handlePicClick={handlePicClick} />
-        ) : (
-          <PictureDetail picList={picList} zoomedId={zoomedId} handlePicClick={handlePicClick} />
-        )
-      ) : null}
+      {picList.length ? <PicturePart picList={picList} /> : null}
 
       <div className={styles['action']}>
         <IconFont type="iconzan" className={styles['bottom-icon']} />
