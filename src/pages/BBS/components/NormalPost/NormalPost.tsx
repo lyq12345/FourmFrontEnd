@@ -6,25 +6,7 @@ import PictureDisplay from './PictureDisplay';
 import PictureDetail from './PictureDetail';
 import { Link } from 'umi';
 
-import dayjs from 'dayjs';
-var relativeTime = require('dayjs/plugin/relativeTime');
-var config = {
-  thresholds: [
-    { l: 's', r: 1 },
-    { l: 'm', r: 1 },
-    { l: 'mm', r: 59, d: 'minute' },
-    { l: 'h', r: 1 },
-    { l: 'hh', r: 23, d: 'hour' },
-    { l: 'd', r: 1 },
-    { l: 'dd', r: 29, d: 'day' },
-    { l: 'M', r: 1 },
-    { l: 'MM', r: 11, d: 'month' },
-    { l: 'y' },
-    { l: 'yy', d: 'year' },
-  ],
-};
-require('dayjs/locale/zh-cn');
-dayjs.extend(relativeTime, config).locale('zh-cn');
+import { dayjs } from '@/utils/utilsBBS';
 
 import styles from './NormalPost.less';
 import TestPic from '@/assets/bbs/test.png';

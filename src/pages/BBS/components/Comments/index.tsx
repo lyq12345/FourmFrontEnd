@@ -1,14 +1,17 @@
-import { IconFont } from '@/utils/utilsBBS';
-import { useClickAway } from 'ahooks';
-import { Avatar, Button, Input } from 'antd';
-import { InputProps } from 'antd/lib/input';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Comment, requestCommentLove, requestComments } from '../../api';
+import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
+import { Button, Input } from 'antd';
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { Comment, requestLove, requestComments, requestReply } from '../../api';
 import CommentComponent, { CommentProps } from './Comment';
 
 import styles from './style.less';
 
-export default React.memo<{ id: number }>(({ id }) => {
+export default React.memo<{
+  id: number;
+  typeId: number;
+  postIdOfThread: number;
+  style?: CSSProperties;
+}>(({ id, style, typeId, postIdOfThread }) => {
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -21,10 +24,19 @@ export default React.memo<{ id: number }>(({ id }) => {
     });
   }, [page]);
 
+  // 无限加载
+  const loadRef = useRef(null);
+  const inViewPort = useInViewport(loadRef);
+  useUpdateEffect(() => {
+    if (inViewPort) {
+      setPage((c) => c + 1);
+    }
+  }, [inViewPort]);
+
   const handleGoodClick: CommentProps['onGoodClick'] = useCallback(
     (status: 0 | 1, postId: number) => {
       return new Promise<{ status: 0 | 1; loveCount: number }>((resolve, reject) => {
-        requestCommentLove(status, postId)
+        requestLove(postId, status)
           .then((res) => {
             resolve({ status, loveCount: +res.data });
           })
@@ -55,13 +67,16 @@ export default React.memo<{ id: number }>(({ id }) => {
   const handleValueChange = useCallback((v) => {
     setValue(v.target.value);
   }, []);
-  const handleSubmit = useCallback((e) => {
-    console.log('target', targetComment);
-    // TODO:
-  }, []);
+  const handleSubmit = useCallback(
+    (e) => {
+      console.log('回复楼层', targetComment?.floorNumber);
+      requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId);
+    },
+    [targetComment],
+  );
 
   return (
-    <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef}>
+    <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
       <p className={styles['title']}>共{data.length}条评论</p>
       <div className={styles['comment-container']}>
         {data.map((v) => (
@@ -72,15 +87,20 @@ export default React.memo<{ id: number }>(({ id }) => {
             onCommentClick={handleCommentClick}
           />
         ))}
+        <div ref={loadRef} style={{ height: 1 }}></div>
       </div>
       <div className={styles['reply']} onClick={handleReplyBgClick}>
         <Input
           className={styles['input']}
-          placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}楼`}
+          placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}`}
           value={value}
           onChange={handleValueChange}
         />
-        <Button className={styles['submit']} onClick={handleSubmit}>
+        <Button
+          className={`${styles['submit']} ${!value.length && styles['disabled']}`}
+          onClick={handleSubmit}
+          disabled={!value.length}
+        >
           发送
         </Button>
       </div>

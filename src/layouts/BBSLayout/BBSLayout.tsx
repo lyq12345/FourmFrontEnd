@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
-import 'dayjs/locale/zh-cn';
 import { useHistory } from 'umi';
 import { useLocalStorage } from 'react-use';
 import { useRecoilState } from 'recoil';
@@ -10,7 +8,8 @@ import Button from './components/Button';
 import RightCard from './components/RightCard';
 import * as api from '@/pages/BBS/api';
 import { useBBSGotoSquare } from '@/utils/utilsBBS';
-import { isPostCreatorModalVisible } from './store';
+import { globalFormObj, isPostCreatorModalVisible, oldFormObj } from './store';
+import { dayjs } from '@/utils/utilsBBS';
 
 import logo from '@/assets/bbs/logo/logo_bbs.png';
 import png1 from '@/assets/bbs/icon/png1.png';
@@ -59,6 +58,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
 
   // 发帖对话框
   const [isModalVisible, setIsModalVisible] = useRecoilState(isPostCreatorModalVisible);
+  const [oldFormObject, setOldFormObject] = useRecoilState(globalFormObj);
 
   return (
     <div className={styles['bg-container']}>
@@ -71,11 +71,21 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
           <div style={{ pointerEvents: 'initial' }}>
             <CloseOutlined
               style={{ position: 'absolute', left: 679, color: 'white' }}
-              onClick={() => setIsModalVisible(false)}
+              onClick={() => {
+                setIsModalVisible(false);
+                setOldFormObject(undefined);
+              }}
             />
-            <PostCreator onSuccess={() => setIsModalVisible(false)} />
+            <PostCreator
+              onSuccess={() => {
+                setIsModalVisible(false);
+                setOldFormObject(undefined);
+              }}
+              oldFormObject={oldFormObject}
+            />
           </div>
         )}
+        destroyOnClose
       ></Modal>
 
       {/* 顶部导航 */}
@@ -103,9 +113,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             }}
           ></div>
           <img src={png2} style={{ width: 20, height: 20, marginRight: 5 }} />
-          <span style={{ color: '#666666' }}>
-            {dayjs().locale('zh-cn').format('YYYY年MM月DD日 dddd')}
-          </span>
+          <span style={{ color: '#666666' }}>{dayjs().format('YYYY年MM月DD日 dddd')}</span>
         </div>
       </div>
 
