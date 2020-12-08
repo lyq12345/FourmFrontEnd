@@ -67,7 +67,7 @@ const Post: React.FC = React.memo(() => {
       <div className={styles['action']}>
         <span onClick={handleTypeClick}>{data?.typeName}</span>
         <span onClick={handleEditClick}>编辑</span>
-        <img src={editPNG} alt="e" />
+        <img src={editPNG} alt="e" onClick={handleEditClick} />
       </div>
       <p>最后修改时间 {dayjs(data.lastUpdateDate).format('YYYY-MM-DD HH:mm')}</p>
 

@@ -61,6 +61,8 @@ export type Post = {
   title: string;
   content: string;
   threadId: number;
+  postId: number;
+  isLove: 0 | 1;
   attach: [];
   attachBig: [];
 };
@@ -89,6 +91,29 @@ export function requestMyPosts(
     params: {
       pageIndex,
     },
+  });
+}
+export function requestSharePosts(
+  pageIndex: number,
+): Response<{ total: number; pageCount: number; threads: Post[] }> {
+  return request.get('/BbsMain/GetThreadShare', {
+    params: { pageIndex },
+  });
+}
+export function requestTypePosts(
+  pageIndex: number,
+  typeId: number,
+): Response<{
+  total: number;
+  pageCount: number;
+  threads: Post[];
+  forumId: number;
+  forumName: string;
+  description: string;
+  readCount: number;
+}> {
+  return request.get('/BbsMain/GetThreadsType', {
+    params: { pageIndex, typeId },
   });
 }
 
@@ -133,10 +158,7 @@ export type PostDetail = Post & {
   lastReplyId: string;
   lastReplyName: string;
   threadId: number;
-  postId: number;
   isShare: 0 | 1;
-  isLove: 0 | 1;
-
   attachBig: never;
 };
 export function requestPostDetail(id: number): Response<PostDetail> {

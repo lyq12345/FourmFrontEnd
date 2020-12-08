@@ -2,7 +2,7 @@ import styles from './PostCreator.less';
 import React, { useEffect, useState, useCallback } from 'react';
 import { Input, Button, Popover, Select, Form, message } from 'antd';
 import { InputProps, TextAreaProps } from 'antd/lib/input';
-import { IconFont } from '@/utils/utilsBBS';
+import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
 import { SelectProps, SelectValue } from 'antd/lib/select';
 
 const { TextArea } = Input;
@@ -70,7 +70,7 @@ export default React.memo<{
     setIsButtonDisabled(!isPassed);
   };
 
-  const handleFinished: FormProps['onFinish'] = useCallback((values: any) => {
+  const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
     // 校验
     const { isPassed, firstNotPassedMapValue } = validatePost(values);
     if (!isPassed) {
@@ -101,7 +101,7 @@ export default React.memo<{
       .catch(() => {
         message.error('发布出错');
       });
-  }, []);
+  });
 
   // 编辑
   useEffect(() => {

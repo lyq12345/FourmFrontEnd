@@ -10,10 +10,26 @@
   }
   .comment-container {
     padding: 0 20px;
-    height: 597px;
+    height: 556px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 0;
+    }
+    .noComments {
+      display: flex;
+      height: 100%;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column;
+      span {
+        margin-top: 12px;
+        color: #999;
+        line-height: 26px;
+        span {
+          color: #0091ff;
+          cursor: pointer;
+        }
+      }
     }
 
     .comment {

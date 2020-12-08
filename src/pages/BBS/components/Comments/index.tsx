@@ -1,10 +1,15 @@
 import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
-import { Button, Input } from 'antd';
+import { Button, Input, message, Spin } from 'antd';
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { Comment, requestLove, requestComments, requestReply } from '../../api';
 import CommentComponent, { CommentProps } from './Comment';
+import { LoadingOutlined } from '@ant-design/icons';
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24, color: '#ff5000' }} spin />;
 
 import styles from './style.less';
+import noComments from '@/assets/bbs/noComments.png';
+import { useDebounceFn } from '@/utils/utilsBBS';
 
 export default React.memo<{
   id: number;
@@ -14,14 +19,21 @@ export default React.memo<{
 }>(({ id, style, typeId, postIdOfThread }) => {
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    requestComments(id, page).then((res) => {
-      if (page === 1) {
-        setData(res.data.posts);
-      } else {
-        setData((c) => c.concat(res.data.posts));
-      }
-    });
+    setLoading(true);
+    requestComments(id, page)
+      .then((res) => {
+        if (page === 1) {
+          setData(res.data.posts);
+        } else {
+          setData((c) => c.concat(res.data.posts));
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [page]);
 
   // 无限加载
@@ -48,6 +60,7 @@ export default React.memo<{
 
   const handleCommentClick: CommentProps['onCommentClick'] = useCallback((comment) => {
     setTargetComment(comment);
+    InputRef?.current?.focus();
   }, []);
   // 默认回复原帖
   const [targetComment, setTargetComment] = useState<Comment | null>(null);
@@ -67,13 +80,17 @@ export default React.memo<{
   const handleValueChange = useCallback((v) => {
     setValue(v.target.value);
   }, []);
-  const handleSubmit = useCallback(
-    (e) => {
-      console.log('回复楼层', targetComment?.floorNumber);
-      requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId);
-    },
-    [targetComment],
-  );
+  const { run: handleSubmit } = useDebounceFn(() => {
+    console.log('回复楼层', targetComment?.floorNumber);
+    requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId).then((res) => {
+      setValue('');
+      setPage(1);
+      message.success('评论成功');
+    });
+  });
+
+  // Input Ref 获取焦点用
+  const InputRef = useRef(null);
 
   return (
     <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
@@ -87,6 +104,20 @@ export default React.memo<{
             onCommentClick={handleCommentClick}
           />
         ))}
+        {!data.length && (
+          <div className={styles['noComments']}>
+            {loading ? (
+              <Spin spinning={loading} delay={500} indicator={antIcon} />
+            ) : (
+              <>
+                <img src={noComments} alt="noComments" width={130} />
+                <span>
+                  暂无评论，<span onClick={() => InputRef?.current?.focus()}>写留言</span>
+                </span>
+              </>
+            )}
+          </div>
+        )}
         <div ref={loadRef} style={{ height: 1 }}></div>
       </div>
       <div className={styles['reply']} onClick={handleReplyBgClick}>
@@ -95,6 +126,7 @@ export default React.memo<{
           placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}`}
           value={value}
           onChange={handleValueChange}
+          ref={InputRef}
         />
         <Button
           className={`${styles['submit']} ${!value.length && styles['disabled']}`}
