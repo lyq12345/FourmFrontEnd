@@ -74,6 +74,7 @@ const picSize = {
 
 const normalStyle = {
   displayPic: { width: picSize['normalSmall'], height: picSize['normalSmall'] },
+  displayBorder: { width: '450px', margin: '12px 0 0 82px' },
   zoomedUpperPic: { width: picSize['normalBig'], height: picSize['normalBig'] },
   zoomedUpperPaddings: { padding: '20px 20px  12px 82px' },
   zoomedBottomPic: { width: picSize['normalOther'], height: picSize['normalOther'] },
@@ -82,6 +83,7 @@ const normalStyle = {
 
 const detailStyle = {
   displayPic: { width: picSize['detailSmall'], height: picSize['detailSmall'] },
+  displayBorder: { width: '630px', margin: '12px 0 0 0px' },
   zoomedUpperPic: { width: picSize['detailBig'], height: picSize['detailBig'] },
   zoomedUpperPaddings: { padding: '20px 20px  12px 82px' },
   zoomedBottomPic: { width: picSize['detailOther'], height: picSize['detailOther'] },
