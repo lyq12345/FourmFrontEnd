@@ -44,9 +44,7 @@ const PictureDetail = (props) => {
   };
 
   return (
-    <div
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', ...props.detailStyle.zoomedUpperPaddings }}
-    >
+    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', ...props.detailStyle.zoomedBorder }}>
       <Row
         style={{
           background: `url(${props.picList[curZoomed].picUrl}) #333333 no-repeat center center / contain`,
