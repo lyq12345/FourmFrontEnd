@@ -2,6 +2,67 @@ import React, { useState } from 'react';
 import PictureDisplay from './PictureDisplay';
 import PictureDetail from './PictureDetail';
 
+import TestPic from '@/assets/bbs/test.png';
+import LongPic from '@/assets/bbs/long.png';
+const picList1 = [
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+];
+const largePicList1 = [
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+];
+
 const picSize = {
   normalSmall: '140px',
   normalBig: '568px',
@@ -29,11 +90,8 @@ const detailStyle = {
 
 const typedStyles = [normalStyle, detailStyle];
 
-const PicturePart = (props) => {
-  const type = props.type || 0;
+const PicturePart = ({ type = 0, picList = picList1, largePicList = largePicList1 }) => {
   const [zoomedId, setZoomed] = useState(-1);
-  const [picList, setPicList] = useState(props.picList);
-  const [largePicList, setLargeList] = useState(props.largePicList);
 
   const handlePicClick = (index) => {
     setZoomed(index);

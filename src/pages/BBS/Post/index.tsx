@@ -10,6 +10,7 @@ import { PostDetail, requestPostDetail, requestShare, requestLove } from '../api
 import { useDebounceFn } from '@/utils/utilsBBS';
 import { globalFormObj, isPostCreatorModalVisible } from '@/layouts/BBSLayout/store';
 import { useRecoilState } from 'recoil';
+import PicturePart from '../components/NormalPost/PicturePart';
 
 const Post: React.FC = React.memo(() => {
   const { postId } = useParams<{ postId: string }>();
@@ -64,6 +65,7 @@ const Post: React.FC = React.memo(() => {
         ></div>
       </div>
       <p className={styles['content']}>{data?.content}</p>
+      <PicturePart type={1} />
       <div className={styles['action']}>
         <span onClick={handleTypeClick}>{data?.typeName}</span>
         <span onClick={handleEditClick}>编辑</span>
