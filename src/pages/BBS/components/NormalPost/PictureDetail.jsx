@@ -5,13 +5,9 @@ import LongPic from '@/assets/bbs/long.png';
 import { RightCircleOutlined, ZoomInOutlined, LeftCircleOutlined } from '@ant-design/icons';
 
 const PictureDetail = (props) => {
-  const [curZoomed, setCurZoomed] = useState(0);
+  const [curZoomed, setCurZoomed] = useState(props.zoomedId);
   const [leftShow, setLeftShow] = useState(false);
   const [rightShow, setRightShow] = useState(false);
-
-  useEffect(() => {
-    setCurZoomed(props.zoomedId);
-  }, []);
 
   const handleZoomOut = () => {
     props.handlePicClick(-1);
@@ -48,73 +44,76 @@ const PictureDetail = (props) => {
   };
 
   return (
-    <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', padding: '20px 20px  12px 82px ' }}>
-      <Row style={{ backgroundColor: '#333333' }}>
-        <Row
+    <div
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', ...props.detailStyle.zoomedUpperPaddings }}
+    >
+      <Row
+        style={{
+          background: `url(${props.picList[curZoomed].picUrl}) #333333 no-repeat center center / contain`,
+          ...props.detailStyle.zoomedUpperPic,
+        }}
+      >
+        <Col
+          span={3}
           style={{
-            background: `url(${props.picList[curZoomed].picUrl}) no-repeat center center / contain`,
-            width: '568px',
-            height: '568px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
           }}
+          onClick={() => {
+            handlePrevious();
+          }}
+          onMouseOver={onLeftShow}
+          onMouseOut={onLeftUnshow}
         >
-          <Col
-            span={3}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              handlePrevious();
-            }}
-            onMouseOver={onLeftShow}
-            onMouseOut={onLeftUnshow}
-          >
-            {curZoomed === 0 ? null : (
-              <LeftCircleOutlined
-                style={{
-                  display: leftShow ? 'inline-block' : 'none',
-                  fontSize: '42px',
-                  color: '#FFFFFF',
-                }}
-              />
-            )}
-          </Col>
-          <Col
-            span={18}
-            style={{ cursor: 'zoom-out' }}
-            onClick={() => {
-              handleZoomOut();
-            }}
-          ></Col>
-          <Col
-            span={3}
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              cursor: 'pointer',
-            }}
-            onClick={() => {
-              handleNext();
-            }}
-            onMouseOver={onRightShow}
-            onMouseOut={onRightUnShow}
-          >
-            {curZoomed === props.picList.length - 1 ? null : (
-              <RightCircleOutlined
-                style={{
-                  display: rightShow ? 'inline-block' : 'none',
-                  fontSize: '42px',
-                  color: '#FFFFFF',
-                }}
-              />
-            )}
-          </Col>
-        </Row>
+          {curZoomed === 0 ? null : (
+            <LeftCircleOutlined
+              style={{
+                display: leftShow ? 'inline-block' : 'none',
+                fontSize: '42px',
+                color: '#FFFFFF',
+              }}
+            />
+          )}
+        </Col>
+        <Col
+          span={18}
+          style={{ cursor: 'zoom-out' }}
+          onClick={() => {
+            handleZoomOut();
+          }}
+        ></Col>
+        <Col
+          span={3}
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            cursor: 'pointer',
+          }}
+          onClick={() => {
+            handleNext();
+          }}
+          onMouseOver={onRightShow}
+          onMouseOut={onRightUnShow}
+        >
+          {curZoomed === props.picList.length - 1 ? null : (
+            <RightCircleOutlined
+              style={{
+                display: rightShow ? 'inline-block' : 'none',
+                fontSize: '42px',
+                color: '#FFFFFF',
+              }}
+            />
+          )}
+        </Col>
       </Row>
-      <Row gutter={2} justify="start" style={{ margin: '10px 0' }}>
+      <Row
+        gutter={props.detailStyle.zoomedBottomGutter}
+        justify="start"
+        style={{ margin: '10px 0' }}
+      >
         {props.picList.map((item, index) => (
           <Col>
             <div
@@ -129,8 +128,7 @@ const PictureDetail = (props) => {
                 }}
                 src={item.picUrl}
                 style={{
-                  width: '58px',
-                  height: '58px',
+                  ...props.detailStyle.zoomedBottomPic,
                   cursor: 'pointer',
                   border: index === curZoomed ? '1px solid #FF5000' : 'none',
                 }}

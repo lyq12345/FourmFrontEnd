@@ -7,6 +7,7 @@ const PictureDisplay = (props) => {
   const handleClick = (index) => {
     console.log(index);
   };
+
   return (
     <div style={{ width: '450px', margin: '12px 0 0 82px' }}>
       <List
@@ -15,7 +16,7 @@ const PictureDisplay = (props) => {
         renderItem={(item, index) => (
           <div style={{ marginBottom: '10px' }}>
             <img
-              style={{ width: '140px', height: '140px', cursor: 'zoom-in' }}
+              style={{ ...props.detailStyle.displayPic, cursor: 'zoom-in' }}
               src={item.picUrl}
               onClick={() => {
                 props.handlePicClick(index);

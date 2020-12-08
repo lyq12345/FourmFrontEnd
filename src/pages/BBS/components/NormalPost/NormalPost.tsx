@@ -1,9 +1,8 @@
 import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { Post, requestLove, requestReply } from '../../api';
-import PictureDisplay from './PictureDisplay';
-import PictureDetail from './PictureDetail';
+import { Post, requestLove } from '../../api';
+import PicturePart from './PicturePart';
 import { Link } from 'umi';
 
 import { dayjs } from '@/utils/utilsBBS';
@@ -43,7 +42,35 @@ const picList = [
     picUrl: TestPic,
   },
 ];
-
+const largePicList = [
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+];
 export type NormalPostProps = {
   onGoodClick: (status: 0 | 1, postId: number) => Promise<{ status: 0 | 1; loveCount: number }>;
   onCommentClick: (comment: Comment) => void;
@@ -100,12 +127,8 @@ export default React.memo<NormalPostProps>(({ post, onGoodClick, onCommentClick 
         </div>
       </div>
 
-      {picList.length ? (
-        zoomedId === -1 ? (
-          <PictureDisplay picList={picList} handlePicClick={handlePicClick} />
-        ) : (
-          <PictureDetail picList={picList} zoomedId={zoomedId} handlePicClick={handlePicClick} />
-        )
+      {picList.length && largePicList.length ? (
+        <PicturePart picList={picList} largePicList={largePicList} type={0} />
       ) : null}
 
       <div className={styles['action']}>
