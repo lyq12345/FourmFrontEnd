@@ -9,7 +9,7 @@ const PictureDisplay = (props) => {
   };
 
   return (
-    <div style={{ width: '450px', margin: '12px 0 0 82px' }}>
+    <div style={{ ...props.detailStyle.displayBorder }}>
       <List
         grid={{ column: 3 }}
         dataSource={props.picList}
