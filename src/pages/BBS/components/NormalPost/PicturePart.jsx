@@ -76,16 +76,16 @@ const normalStyle = {
   displayPic: { width: picSize['normalSmall'], height: picSize['normalSmall'] },
   displayBorder: { width: '450px', margin: '12px 0 0 82px' },
   zoomedUpperPic: { width: picSize['normalBig'], height: picSize['normalBig'] },
-  zoomedUpperPaddings: { padding: '20px 20px  12px 82px' },
+  zoomedBorder: { padding: '20px 20px  12px 82px', margin: '0 0 10px 0' },
   zoomedBottomPic: { width: picSize['normalOther'], height: picSize['normalOther'] },
   zoomedBottomGutter: 5,
 };
 
 const detailStyle = {
   displayPic: { width: picSize['detailSmall'], height: picSize['detailSmall'] },
-  displayBorder: { width: '630px', margin: '12px 0 0 0px' },
+  displayBorder: { width: '630px', margin: '12px 0 10px 0px' },
   zoomedUpperPic: { width: picSize['detailBig'], height: picSize['detailBig'] },
-  zoomedUpperPaddings: { padding: '20px 20px  12px 82px' },
+  zoomedBorder: { padding: '20px 20px  12px 32px', margin: '0 0 10px 0' },
   zoomedBottomPic: { width: picSize['detailOther'], height: picSize['detailOther'] },
   zoomedBottomGutter: 5,
 };
@@ -99,24 +99,27 @@ const PicturePart = ({ type = 0, picList = picList1, largePicList = largePicList
     setZoomed(index);
   };
 
-  return (
-    <div>
-      {zoomedId === -1 ? (
-        <PictureDisplay
-          picList={picList}
-          handlePicClick={handlePicClick}
-          detailStyle={typedStyles[type]}
-        />
-      ) : (
-        <PictureDetail
-          picList={largePicList}
-          zoomedId={zoomedId}
-          handlePicClick={handlePicClick}
-          detailStyle={typedStyles[type]}
-        />
-      )}
-    </div>
-  );
+  if (!picList || !largePicList) return null;
+  else {
+    return (
+      <div>
+        {zoomedId === -1 ? (
+          <PictureDisplay
+            picList={picList}
+            handlePicClick={handlePicClick}
+            detailStyle={typedStyles[type]}
+          />
+        ) : (
+          <PictureDetail
+            picList={largePicList}
+            zoomedId={zoomedId}
+            handlePicClick={handlePicClick}
+            detailStyle={typedStyles[type]}
+          />
+        )}
+      </div>
+    );
+  }
 };
 
 export default PicturePart;

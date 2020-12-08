@@ -66,6 +66,21 @@ export type Post = {
   attach: [];
   attachBig: [];
 };
+
+export type Message = {
+  postId: string;
+  createDate: number;
+  createId: number;
+  createName: string;
+  content: string;
+  loveCount: number;
+  floorNumber: number;
+  avatarPath: string;
+  isLove: number;
+  contentparent: string;
+  infoType: number;
+}
+
 export function requestLatestPosts(
   pageIndex: number,
 ): Response<{ total: number; pageCount: number; threads: Post[] }> {
@@ -222,4 +237,25 @@ export function requestReply(
       typeId,
     },
   });
+}
+
+// 我的消息
+export function GetMessage(
+  pageIndex:number
+): Response<{postId: string,
+  createDate: number,
+  createId: number,
+  createName: string,
+  content: string,
+  loveCount: number,
+  floorNumber: number,
+  avatarPath: string,
+  isLove: number,
+  contentparent: string,
+  infoType: number,}> {
+  return request.get('/BbsMain/GetMessage', {
+    params: {
+      pageIndex
+    }
+  })
 }
