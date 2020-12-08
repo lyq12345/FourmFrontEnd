@@ -59,6 +59,36 @@ const picList = [
   },
 ];
 
+const largePicList = [
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: LongPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+  {
+    picUrl: TestPic,
+  },
+];
+
 export default React.memo<{ post: Post }>(({ post }) => {
   return (
     <div className={styles['container']}>
@@ -83,7 +113,9 @@ export default React.memo<{ post: Post }>(({ post }) => {
         </div>
       </div>
 
-      {picList.length ? <PicturePart picList={picList} /> : null}
+      {picList.length && largePicList.length ? (
+        <PicturePart picList={picList} largePicList={largePicList} type={0} />
+      ) : null}
 
       <div className={styles['action']}>
         <IconFont type="iconzan" className={styles['bottom-icon']} />
