@@ -1,4 +1,4 @@
-import { dayjs, IconFont } from '@/utils/utilsBBS';
+import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'umi';
@@ -41,6 +41,11 @@ const Post: React.FC = React.memo(() => {
     setIsModalVisible(true);
   }, [data]);
 
+  const go = useBBSGotoSquare();
+  const handleTypeClick = useCallback(() => {
+    go(data.typeId);
+  }, [data]);
+
   return (
     <div className={styles['container']}>
       <p className={styles['title']}>{data.title}</p>
@@ -60,7 +65,7 @@ const Post: React.FC = React.memo(() => {
       </div>
       <p className={styles['content']}>{data?.content}</p>
       <div className={styles['action']}>
-        <span>{data?.typeName}</span>
+        <span onClick={handleTypeClick}>{data?.typeName}</span>
         <span onClick={handleEditClick}>编辑</span>
         <img src={editPNG} alt="e" />
       </div>
