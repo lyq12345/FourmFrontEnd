@@ -10,6 +10,7 @@ const antIcon = <LoadingOutlined style={{ fontSize: 24, color: '#ff5000' }} spin
 import styles from './style.less';
 import noComments from '@/assets/bbs/noComments.png';
 import { useDebounceFn } from '@/utils/utilsBBS';
+import BBSLoading from '../BBSLoading';
 
 export default React.memo<{
   id: number;
@@ -34,7 +35,7 @@ export default React.memo<{
       .finally(() => {
         setLoading(false);
       });
-  }, [page]);
+  }, [page, id]);
 
   // 无限加载
   const loadRef = useRef(null);
@@ -107,7 +108,7 @@ export default React.memo<{
         {!data.length && (
           <div className={styles['noComments']}>
             {loading ? (
-              <Spin spinning={loading} delay={500} indicator={antIcon} />
+              <BBSLoading loading={loading} />
             ) : (
               <>
                 <img src={noComments} alt="noComments" width={130} />

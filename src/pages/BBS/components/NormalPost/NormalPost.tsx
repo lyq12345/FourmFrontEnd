@@ -72,12 +72,10 @@ const largePicList = [
   },
 ];
 export type NormalPostProps = {
-  onGoodClick: (status: 0 | 1, postId: number) => Promise<{ status: 0 | 1; loveCount: number }>;
-  onCommentClick: (comment: Comment) => void;
   post: Post;
 };
 
-export default React.memo<NormalPostProps>(({ post, onGoodClick, onCommentClick }) => {
+export default React.memo<NormalPostProps>(({ post }) => {
   // 图片展示
   const [zoomedId, setZoomedId] = useState(-1);
 
@@ -127,9 +125,7 @@ export default React.memo<NormalPostProps>(({ post, onGoodClick, onCommentClick 
         </div>
       </div>
 
-      {picList.length && largePicList.length ? (
-        <PicturePart picList={picList} largePicList={largePicList} type={0} />
-      ) : null}
+      {picList.length && largePicList.length ? <PicturePart /> : null}
 
       <div className={styles['action']}>
         {isLove ? (

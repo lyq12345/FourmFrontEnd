@@ -1,11 +1,9 @@
 import { useInViewport, useUpdateEffect } from 'ahooks';
-import { Spin } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
 import NormalPost from '../NormalPost/NormalPost';
-import { LoadingOutlined } from '@ant-design/icons';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 24, color: '#ff5000' }} spin />;
+import BBSLoading from '../BBSLoading';
+import { EventContext } from '@/layouts/BBSLayout/BBSLayout';
 
 export type ListProps<T> = {
   requestFn: (page: number) => Promise<{ data: T }>;
@@ -15,6 +13,13 @@ export type ListProps<T> = {
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
 const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
+  const event$ = useContext(EventContext);
+  event$?.useSubscription((val) => {
+    if (val === 'success') {
+      setPage(1);
+    }
+  });
+
   const [data, setData] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -43,7 +48,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
         <NormalPost key={v.threadId} post={v} />
       ))}
       <div style={{ textAlign: 'center' }}>
-        <Spin spinning={loading} delay={500} indicator={antIcon} />
+        <BBSLoading loading={loading} />
       </div>
     </>
   );

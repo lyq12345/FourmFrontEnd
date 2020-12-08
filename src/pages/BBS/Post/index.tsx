@@ -11,15 +11,20 @@ import { useDebounceFn } from '@/utils/utilsBBS';
 import { globalFormObj, isPostCreatorModalVisible } from '@/layouts/BBSLayout/store';
 import { useRecoilState } from 'recoil';
 import PicturePart from '../components/NormalPost/PicturePart';
+import BBSLoading from '../components/BBSLoading';
+import { Skeleton } from 'antd';
 
 const Post: React.FC = React.memo(() => {
   const { postId } = useParams<{ postId: string }>();
 
   const [data, setData] = useState<PostDetail>({} as PostDetail);
   useEffect(() => {
-    requestPostDetail(+postId).then((res) => {
-      setData(res.data);
-    });
+    setLoading(true);
+    requestPostDetail(+postId)
+      .then((res) => {
+        setData(res.data);
+      })
+      .finally(() => setLoading(false));
   }, [postId]);
 
   const { run: handleFocusClick } = useDebounceFn(() => {
@@ -47,48 +52,61 @@ const Post: React.FC = React.memo(() => {
     go(data.typeId);
   }, [data]);
 
+  const [loading, setLoading] = useState(false);
+
   return (
-    <div className={styles['container']}>
-      <p className={styles['title']}>{data.title}</p>
-      <div className={styles['under-title']}>
-        <Avatar size={41.73} src={data?.avatarPath} />
-        <div>
-          <p>{data?.createName}</p>
-          <p>{dayjs(data.createDate).fromNow()}</p>
-        </div>
-        <div className={styles['flex-grow']}></div>
-        <div
-          className={`${styles['focus']} ${
-            data.isShare ? styles['focus-on'] : styles['focus-off']
-          }`}
-          onClick={handleFocusClick}
-        ></div>
-      </div>
-      <p className={styles['content']}>{data?.content}</p>
-      <PicturePart type={1} />
-      <div className={styles['action']}>
-        <span onClick={handleTypeClick}>{data?.typeName}</span>
-        <span onClick={handleEditClick}>编辑</span>
-        <img src={editPNG} alt="e" onClick={handleEditClick} />
-      </div>
-      <p>最后修改时间 {dayjs(data.lastUpdateDate).format('YYYY-MM-DD HH:mm')}</p>
+    <BBSLoading loading={loading}>
+      <div className={styles['container']}>
+        {loading ? (
+          <Skeleton avatar paragraph={{ rows: 4 }} />
+        ) : (
+          <>
+            <p className={styles['title']}>{data.title}</p>
+            <div className={styles['under-title']}>
+              <Avatar size={41.73} src={data?.avatarPath} />
+              <div>
+                <p>{data?.createName}</p>
+                <p>{dayjs(data.createDate).fromNow()}</p>
+              </div>
+              <div className={styles['flex-grow']}></div>
+              <div
+                className={`${styles['focus']} ${
+                  data.isShare ? styles['focus-on'] : styles['focus-off']
+                }`}
+                onClick={handleFocusClick}
+              ></div>
+            </div>
+            <p className={styles['content']}>{data?.content}</p>
 
-      <div
-        className={`${styles['good']} ${data.isLove ? styles['good-on'] : styles['good-off']}`}
-        onClick={handleLoveClick}
-      >
-        <IconFont type="iconzan" />
-        <br />
-        <span>{data.loveCount}</span>
-      </div>
+            <PicturePart type={1} />
+            <div className={styles['action']}>
+              <span onClick={handleTypeClick}>{data?.typeName}</span>
+              <span onClick={handleEditClick}>编辑</span>
+              <img src={editPNG} alt="e" onClick={handleEditClick} />
+            </div>
+            <p>最后修改时间 {dayjs(data.lastUpdateDate).format('YYYY-MM-DD HH:mm')}</p>
 
-      <Comments
-        id={+postId}
-        style={{ transform: 'translateX(-20px)', marginTop: 24 }}
-        postIdOfThread={data.postId}
-        typeId={data.typeId}
-      />
-    </div>
+            <div
+              className={`${styles['good']} ${
+                data.isLove ? styles['good-on'] : styles['good-off']
+              }`}
+              onClick={handleLoveClick}
+            >
+              <IconFont type="iconzan" />
+              <br />
+              <span>{data.loveCount}</span>
+            </div>
+          </>
+        )}
+
+        <Comments
+          id={+postId}
+          style={{ transform: 'translateX(-20px)', marginTop: 24 }}
+          postIdOfThread={data.postId}
+          typeId={data.typeId}
+        />
+      </div>
+    </BBSLoading>
   );
 });
 

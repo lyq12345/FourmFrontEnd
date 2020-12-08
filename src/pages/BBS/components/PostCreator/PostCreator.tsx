@@ -1,5 +1,5 @@
 import styles from './PostCreator.less';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import { Input, Button, Popover, Select, Form, message } from 'antd';
 import { InputProps, TextAreaProps } from 'antd/lib/input';
 import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
@@ -13,6 +13,7 @@ import { FormInstance, FormProps } from 'antd/lib/form';
 import { UploadFile } from 'antd/lib/upload/interface';
 import { Post, CreatePostParams, requestCreatePost } from '../../api';
 import { CloseOutlined } from '@ant-design/icons';
+import { EventContext } from '@/layouts/BBSLayout/BBSLayout';
 
 const InputStyle: InputProps = {
   bordered: false,
@@ -54,6 +55,7 @@ export default React.memo<{
   oldFormObject?: Post;
   onSuccess?: () => void;
 }>(({ oldFormObject, onSuccess }) => {
+  const event$ = useContext(EventContext);
   const [form] = Form.useForm();
 
   const [dataTypeList, setDataTypeList] = useState<SelectProps<SelectValue>['options']>([]);
@@ -97,6 +99,9 @@ export default React.memo<{
         message.success('发布成功');
         onSuccess?.();
         form.resetFields();
+
+        // 发帖成功事件
+        event$?.emit('success');
       })
       .catch(() => {
         message.error('发布出错');

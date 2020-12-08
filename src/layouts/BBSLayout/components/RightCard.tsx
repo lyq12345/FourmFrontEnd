@@ -12,7 +12,6 @@ const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title
 
       <div className={styles.top}>
         <div className={styles.title}>{title}</div>
-        {/* <span onClick={onClickMore}>更多</span> */}
       </div>
 
       <div className={styles.listContainer}>

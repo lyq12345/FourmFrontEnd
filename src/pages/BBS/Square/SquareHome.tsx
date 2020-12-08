@@ -2,14 +2,20 @@ import { useBBSGotoSquare } from '@/utils/utilsBBS';
 import { useInViewport, useUpdateEffect } from 'ahooks';
 import React from 'react';
 import * as api from '../api';
+import BBSLoading from '../components/BBSLoading';
 
 const SquareHome: React.FC = React.memo(() => {
   const [page, setPage] = React.useState<number>(1);
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
+  const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
-    api.requestTypeList(page).then((res) => {
-      setDataTypeList((c) => c.concat(res.data ?? []));
-    });
+    setLoading(true);
+    api
+      .requestTypeList(page)
+      .then((res) => {
+        setDataTypeList((c) => c.concat(res.data ?? []));
+      })
+      .finally(() => setLoading(false));
   }, [page]);
 
   // 动态加载
@@ -79,6 +85,9 @@ const SquareHome: React.FC = React.memo(() => {
           </div>
         );
       })}
+      <div style={{ textAlign: 'center' }}>
+        <BBSLoading loading={loading} />
+      </div>
     </div>
   );
 });
