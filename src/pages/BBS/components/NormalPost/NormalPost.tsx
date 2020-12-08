@@ -1,33 +1,17 @@
-import { IconFont } from '@/utils/utilsBBS';
+import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar } from 'antd';
-import React from 'react';
-import { Post } from '../../api';
+import React, { useCallback, useState } from 'react';
+import { Post, requestLove } from '../../api';
 import PicturePart from './PicturePart';
 import { Link } from 'umi';
 
-import dayjs from 'dayjs';
-var relativeTime = require('dayjs/plugin/relativeTime');
-var config = {
-  thresholds: [
-    { l: 's', r: 1 },
-    { l: 'm', r: 1 },
-    { l: 'mm', r: 59, d: 'minute' },
-    { l: 'h', r: 1 },
-    { l: 'hh', r: 23, d: 'hour' },
-    { l: 'd', r: 1 },
-    { l: 'dd', r: 29, d: 'day' },
-    { l: 'M', r: 1 },
-    { l: 'MM', r: 11, d: 'month' },
-    { l: 'y' },
-    { l: 'yy', d: 'year' },
-  ],
-};
-require('dayjs/locale/zh-cn');
-dayjs.extend(relativeTime, config).locale('zh-cn');
+import { dayjs } from '@/utils/utilsBBS';
 
 import styles from './NormalPost.less';
 import TestPic from '@/assets/bbs/test.png';
 import LongPic from '@/assets/bbs/long.png';
+import { Modal } from 'antd';
+import Comments from '../Comments';
 
 const picList = [
   {
@@ -58,7 +42,6 @@ const picList = [
     picUrl: TestPic,
   },
 ];
-
 const largePicList = [
   {
     picUrl: TestPic,
@@ -88,8 +71,37 @@ const largePicList = [
     picUrl: TestPic,
   },
 ];
+export type NormalPostProps = {
+  onGoodClick: (status: 0 | 1, postId: number) => Promise<{ status: 0 | 1; loveCount: number }>;
+  onCommentClick: (comment: Comment) => void;
+  post: Post;
+};
 
-export default React.memo<{ post: Post }>(({ post }) => {
+export default React.memo<NormalPostProps>(({ post, onGoodClick, onCommentClick }) => {
+  // 图片展示
+  const [zoomedId, setZoomedId] = useState(-1);
+
+  const handlePicClick = (index) => {
+    setZoomedId(index);
+  };
+
+  const [loveCount, setLoveCount] = useState(post.loveCount);
+  const [isLove, setIsLove] = useState(post.isLove);
+
+  const { run: handleGoodClick } = useDebounceFn(() => {
+    requestLove(post.postId, 1 - isLove)
+      .then((res) => {
+        setLoveCount(res.data);
+        setIsLove(1 - isLove);
+      })
+      .catch();
+  });
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handleCommentClick = useCallback(() => {
+    setIsModalVisible(true);
+  }, []);
+
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
@@ -102,8 +114,10 @@ export default React.memo<{ post: Post }>(({ post }) => {
             <p className={styles['content']}>
               {post.content.length > 60 ? (
                 <>
-                  {post.content.slice(60) + '...'}{' '}
-                  <Link to={'/bbs/post/' + post.threadId}>查看全文</Link>
+                  {post.content.slice(0, 150) + '...'}{' '}
+                  <Link to={'/bbs/post/' + post.threadId} onClick={() => window.scrollTo(0, 0)}>
+                    查看全文
+                  </Link>
                 </>
               ) : (
                 post.content
@@ -118,13 +132,44 @@ export default React.memo<{ post: Post }>(({ post }) => {
       ) : null}
 
       <div className={styles['action']}>
-        <IconFont type="iconzan" className={styles['bottom-icon']} />
-        <span className={styles['type']}>赞</span>
-        <span>{post.loveCount}</span>
-        <IconFont type="iconpinglun" className={styles['bottom-icon']} />
-        <span className={styles['type']}>评论</span>
+        {isLove ? (
+          <IconFont
+            type="iconyizan"
+            className={styles['bottom-icon']}
+            onClick={handleGoodClick}
+            style={{ color: '#ff5000' }}
+          />
+        ) : (
+          <IconFont type="iconzan" className={styles['bottom-icon']} onClick={handleGoodClick} />
+        )}
+        <span className={styles['type']} onClick={handleGoodClick}>
+          赞
+        </span>
+        <span>{loveCount}</span>
+        <IconFont
+          type="iconpinglun"
+          className={styles['bottom-icon']}
+          onClick={handleCommentClick}
+        />
+        <span className={styles['type']} onClick={handleCommentClick}>
+          评论
+        </span>
         <span>{post.replyCount}</span>
       </div>
+
+      {/* 评论 */}
+      <Modal
+        visible={isModalVisible}
+        width={670}
+        modalRender={() => (
+          <div style={{ pointerEvents: 'initial' }}>
+            <Comments id={post.threadId} postIdOfThread={post.postId} typeId={post.typeId} />
+          </div>
+        )}
+        maskClosable
+        destroyOnClose
+        onCancel={() => setIsModalVisible(false)}
+      ></Modal>
     </div>
   );
 });

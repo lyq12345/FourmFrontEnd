@@ -61,6 +61,8 @@ export type Post = {
   title: string;
   content: string;
   threadId: number;
+  postId: number;
+  isLove: 0 | 1;
   attach: [];
   attachBig: [];
 };
@@ -89,6 +91,29 @@ export function requestMyPosts(
     params: {
       pageIndex,
     },
+  });
+}
+export function requestSharePosts(
+  pageIndex: number,
+): Response<{ total: number; pageCount: number; threads: Post[] }> {
+  return request.get('/BbsMain/GetThreadShare', {
+    params: { pageIndex },
+  });
+}
+export function requestTypePosts(
+  pageIndex: number,
+  typeId: number,
+): Response<{
+  total: number;
+  pageCount: number;
+  threads: Post[];
+  forumId: number;
+  forumName: string;
+  description: string;
+  readCount: number;
+}> {
+  return request.get('/BbsMain/GetThreadsType', {
+    params: { pageIndex, typeId },
   });
 }
 
@@ -133,12 +158,32 @@ export type PostDetail = Post & {
   lastReplyId: string;
   lastReplyName: string;
   threadId: number;
-  postId: number;
   isShare: 0 | 1;
-  isLove: 0 | 1;
-
   attachBig: never;
 };
+export function requestPostDetail(id: number): Response<PostDetail> {
+  return request.get('/BbsMain/GetThread', {
+    params: {
+      id,
+    },
+  });
+}
+export function requestShare(threadId: number, status: number): Response<string> {
+  return request.get('/BbsMain/SetThreadShare', {
+    params: {
+      threadId,
+      status,
+    },
+  });
+}
+export function requestLove(postId: number, status: number): Response<number> {
+  return request.get('/BbsMain/SetPostLove', {
+    params: {
+      postId,
+      status,
+    },
+  });
+}
 
 export type Comment = {
   postId: string;
@@ -163,17 +208,18 @@ export function requestComments(
     },
   });
 }
-
-/**
- *
- * @param status 0取消 1添加
- * @param postId CommentId
- */
-export function requestCommentLove(status: 0 | 1, postId: number): Response<string> {
-  return request.get('/BbsMain/SetPostLove', {
-    params: {
-      status,
+export function requestReply(
+  content: string,
+  threadId: number,
+  postId: number,
+  typeId: number,
+): Response<string> {
+  return request.post('/BbsMain/Repaly', {
+    data: {
+      content,
+      threadId,
       postId,
+      typeId,
     },
   });
 }

@@ -1,6 +1,5 @@
 .container {
   width: 670px;
-  height: 1662px;
   background: rgba(255, 255, 255, 1);
   border-radius: 4px;
   padding: 34px 20px 0;
@@ -43,6 +42,8 @@
       width: 73px;
       height: 28px;
       border-radius: 4px;
+      user-select: none;
+      cursor: pointer;
 
       &.focus-on {
         border: 1px solid #fa6400;
@@ -85,6 +86,10 @@
       height: 14px;
       float: right;
       margin-right: 3px;
+      cursor: pointer;
+    }
+    span {
+      cursor: pointer;
     }
     span:last-of-type {
       float: right;
@@ -105,13 +110,15 @@
     text-align: center;
     margin: 45px auto 0;
     line-height: 1;
+    border: 2px solid #ff5000;
+    user-select: none;
+    cursor: pointer;
     &.good-on {
       color: #fff;
       background: #ff5000;
     }
     &.good-off {
       color: #ff5000;
-      border: 2px solid #ff5000;
     }
 
     span:first-of-type {

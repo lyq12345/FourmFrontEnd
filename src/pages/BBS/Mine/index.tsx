@@ -1,6 +1,7 @@
 import React from 'react';
-import Comments from '../components/Comments';
+import { requestMyPosts } from '../api';
+import NormalPostList from '../components/NormalPostList';
 
 export default React.memo(() => {
-  return <Comments id={1} />;
+  return <NormalPostList requestFn={requestMyPosts} />;
 });
