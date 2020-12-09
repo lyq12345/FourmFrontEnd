@@ -1,6 +1,6 @@
 import { Tabs } from 'antd';
 import React from 'react';
-import { requestLatestPosts } from '../api';
+import { requestHottestPosts, requestLatestPosts, requestSharePosts } from '../api';
 import NormalPostList from '../components/NormalPostList';
 import PostCreator from '../components/PostCreator/PostCreator';
 import styles from './style.less';
@@ -15,10 +15,10 @@ const Index = () => {
           <NormalPostList requestFn={requestLatestPosts} />
         </TabPane>
         <TabPane tab={<span>最热</span>} key="2">
-          <NormalPostList requestFn={requestLatestPosts} />
+          <NormalPostList requestFn={requestHottestPosts} />
         </TabPane>
         <TabPane tab={<span>我的关注</span>} key="3">
-          <NormalPostList requestFn={requestLatestPosts} />
+          <NormalPostList requestFn={requestSharePosts} />
         </TabPane>
       </Tabs>
     </div>
