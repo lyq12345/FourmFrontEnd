@@ -1,12 +1,11 @@
-import React from 'react';
-import styles from './Footer.less';
-
-import iconPhone from '@/assets/bbs/icon/phone.png';
 import iconMobile from '@/assets/bbs/icon/mobile.png';
+import iconPhone from '@/assets/bbs/icon/phone.png';
 import logoNfsq from '@/assets/bbs/logo/logo_nfsq.png';
 import logoWantai from '@/assets/bbs/logo/logo_wantai.png';
 import logoYoseido from '@/assets/bbs/logo/logo_yoseido.png';
 import logoYst from '@/assets/bbs/logo/logo_yst.png';
+import React from 'react';
+import styles from './Footer.less';
 
 const Footer: React.FC = React.memo(() => {
   return (

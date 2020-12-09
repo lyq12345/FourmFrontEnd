@@ -1,11 +1,6 @@
 module.exports = {
   router: [
     {
-      path: '/bbs/test',
-      name: '测试组件',
-      component: './BBS',
-    },
-    {
       path: '/bbs/',
       name: '首页',
       redirect: '/bbs/home',

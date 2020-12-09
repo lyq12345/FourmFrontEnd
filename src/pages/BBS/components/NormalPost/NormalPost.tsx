@@ -1,88 +1,17 @@
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
-import { Avatar } from 'antd';
+import { dayjs, IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { Avatar, Modal } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { Post, requestLove } from '../../api';
-import PicturePart from './PicturePart';
 import { Link } from 'umi';
-
-import { dayjs } from '@/utils/utilsBBS';
-
-import styles from './NormalPost.less';
-import TestPic from '@/assets/bbs/test.png';
-import LongPic from '@/assets/bbs/long.png';
-import { Modal } from 'antd';
+import { Post, requestLove } from '../../api';
 import Comments from '../Comments';
+import styles from './NormalPost.less';
+import PicturePart from './PicturePart';
 
-const picList = [
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-];
-const largePicList = [
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-];
 export type NormalPostProps = {
   post: Post;
 };
 
 export default React.memo<NormalPostProps>(({ post }) => {
-  // 图片展示
-  const [zoomedId, setZoomedId] = useState(-1);
-
-  const handlePicClick = (index) => {
-    setZoomedId(index);
-  };
-
   const [loveCount, setLoveCount] = useState(post.loveCount);
   const [isLove, setIsLove] = useState(post.isLove);
 
@@ -125,7 +54,7 @@ export default React.memo<NormalPostProps>(({ post }) => {
         </div>
       </div>
 
-      {picList.length && largePicList.length ? <PicturePart /> : null}
+      <PicturePart />
 
       <div className={styles['action']}>
         {isLove ? (

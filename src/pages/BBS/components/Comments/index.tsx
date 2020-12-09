@@ -1,16 +1,12 @@
-import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
-import { Button, Input, message, Spin } from 'antd';
-import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
-import { Comment, requestLove, requestComments, requestReply } from '../../api';
-import CommentComponent, { CommentProps } from './Comment';
-import { LoadingOutlined } from '@ant-design/icons';
-
-const antIcon = <LoadingOutlined style={{ fontSize: 24, color: '#ff5000' }} spin />;
-
-import styles from './style.less';
 import noComments from '@/assets/bbs/noComments.png';
 import { useDebounceFn } from '@/utils/utilsBBS';
+import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
+import { Button, Input, message } from 'antd';
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { Comment, requestComments, requestLove, requestReply } from '../../api';
 import BBSLoading from '../BBSLoading';
+import CommentComponent, { CommentProps } from './Comment';
+import styles from './style.less';
 
 export default React.memo<{
   id: number;
@@ -20,6 +16,7 @@ export default React.memo<{
 }>(({ id, style, typeId, postIdOfThread }) => {
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -28,7 +25,9 @@ export default React.memo<{
       .then((res) => {
         if (page === 1) {
           setData(res.data.posts);
+          setTotal(res.data.total);
         } else {
+          setTotal(res.data.total);
           setData((c) => c.concat(res.data.posts));
         }
       })
@@ -95,7 +94,7 @@ export default React.memo<{
 
   return (
     <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
-      <p className={styles['title']}>共{data.length}条评论</p>
+      <p className={styles['title']}>共{total}条评论</p>
       <div className={styles['comment-container']}>
         {data.map((v) => (
           <CommentComponent
@@ -120,6 +119,9 @@ export default React.memo<{
           </div>
         )}
         <div ref={loadRef} style={{ height: 1 }}></div>
+        <div style={{ textAlign: 'center' }}>
+          <BBSLoading loading={loading} />
+        </div>
       </div>
       <div className={styles['reply']} onClick={handleReplyBgClick}>
         <Input

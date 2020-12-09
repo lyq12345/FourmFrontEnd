@@ -1,11 +1,6 @@
-import { atom } from 'recoil';
+import { EventEmitter } from 'ahooks/lib/useEventEmitter';
+import { createContext } from 'react';
 
-export const isPostCreatorModalVisible = atom({
-  key: 'isPostCreatorModalVisible',
-  default: false,
-});
-
-export const globalFormObj = atom({
-  key: 'globalFormObj',
-  default: undefined,
-});
+export const PostEventContext = createContext<EventEmitter<string | [string, ...any[]]> | null>(
+  null,
+);

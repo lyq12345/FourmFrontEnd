@@ -1,9 +1,9 @@
+import { PostEventContext } from '@/layouts/BBSLayout/store';
 import { useInViewport, useUpdateEffect } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
-import NormalPost from '../NormalPost/NormalPost';
 import BBSLoading from '../BBSLoading';
-import { EventContext } from '@/layouts/BBSLayout/BBSLayout';
+import NormalPost from '../NormalPost/NormalPost';
 
 export type ListProps<T> = {
   requestFn: (page: number) => Promise<{ data: T }>;
@@ -13,8 +13,8 @@ export type ListProps<T> = {
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
 const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
-  const event$ = useContext(EventContext);
-  event$?.useSubscription((val) => {
+  const postEvent$ = useContext(PostEventContext);
+  postEvent$?.useSubscription((val) => {
     if (val === 'success') {
       setPage(1);
     }

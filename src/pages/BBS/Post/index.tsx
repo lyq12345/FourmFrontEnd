@@ -1,18 +1,15 @@
-import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
-import Avatar from 'antd/lib/avatar/avatar';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'umi';
-
-import styles from './style.less';
 import editPNG from '@/assets/bbs/icon/edit.png';
-import Comments from '../components/Comments';
-import { PostDetail, requestPostDetail, requestShare, requestLove } from '../api';
-import { useDebounceFn } from '@/utils/utilsBBS';
-import { globalFormObj, isPostCreatorModalVisible } from '@/layouts/BBSLayout/store';
-import { useRecoilState } from 'recoil';
-import PicturePart from '../components/NormalPost/PicturePart';
-import BBSLoading from '../components/BBSLoading';
+import { PostEventContext } from '@/layouts/BBSLayout/store';
+import { dayjs, IconFont, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
 import { Skeleton } from 'antd';
+import Avatar from 'antd/lib/avatar/avatar';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useParams } from 'umi';
+import { PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
+import BBSLoading from '../components/BBSLoading';
+import Comments from '../components/Comments';
+import PicturePart from '../components/NormalPost/PicturePart';
+import styles from './style.less';
 
 const Post: React.FC = React.memo(() => {
   const { postId } = useParams<{ postId: string }>();
@@ -40,11 +37,9 @@ const Post: React.FC = React.memo(() => {
   });
 
   // 发帖对话框
-  const [isModalVisible, setIsModalVisible] = useRecoilState(isPostCreatorModalVisible);
-  const [oldFormObject, setOldFormObject] = useRecoilState(globalFormObj);
+  const postEvent$ = useContext(PostEventContext);
   const handleEditClick = useCallback(() => {
-    setOldFormObject(data);
-    setIsModalVisible(true);
+    postEvent$?.emit(['redoing', data]);
   }, [data]);
 
   const go = useBBSGotoSquare();
@@ -58,7 +53,7 @@ const Post: React.FC = React.memo(() => {
     <BBSLoading loading={loading}>
       <div className={styles['container']}>
         {loading ? (
-          <Skeleton avatar paragraph={{ rows: 4 }} />
+          <Skeleton avatar paragraph={{ rows: 6 }} />
         ) : (
           <>
             <p className={styles['title']}>{data.title}</p>

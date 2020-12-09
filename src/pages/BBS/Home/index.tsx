@@ -1,10 +1,10 @@
-import React from 'react';
 import { Tabs } from 'antd';
-const { TabPane } = Tabs;
-import styles from './style.less';
-import PostCreator from '../components/PostCreator/PostCreator';
+import React from 'react';
 import { requestLatestPosts } from '../api';
 import NormalPostList from '../components/NormalPostList';
+import PostCreator from '../components/PostCreator/PostCreator';
+import styles from './style.less';
+const { TabPane } = Tabs;
 
 const Index = () => {
   return (

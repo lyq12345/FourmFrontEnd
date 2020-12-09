@@ -1,7 +1,5 @@
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
-import { Avatar } from 'antd';
-import React, { useCallback, useState } from 'react';
-import { Post, requestLove } from '../../api';
+import React from 'react';
+import { Post } from '../../api';
 
 export type MessagePostProps = {
   post: Post;
