@@ -1,7 +1,6 @@
-import { dayjs, IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { dayjs, IconFont, useBBSGotoPost, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar, Modal } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { Link } from 'umi';
 import { Post, requestLove } from '../../api';
 import Comments from '../Comments';
 import styles from './NormalPost.less';
@@ -29,6 +28,8 @@ export default React.memo<NormalPostProps>(({ post }) => {
     setIsModalVisible(true);
   }, []);
 
+  const go = useBBSGotoPost();
+
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
@@ -37,14 +38,14 @@ export default React.memo<NormalPostProps>(({ post }) => {
           <p className={styles['author']}>{post.createName}</p>
           <p className={styles['time']}>{dayjs(post.createDate).fromNow()}</p>
           <div className={styles['hot-area']}>
-            <p className={styles['title']}>{post.title}</p>
+            <p className={styles['title']} onClick={() => go(post.threadId)}>
+              {post.title}
+            </p>
             <p className={styles['content']}>
               {post.content.length > 60 ? (
                 <>
-                  {post.content.slice(0, 150) + '...'}{' '}
-                  <Link to={'/bbs/post/' + post.threadId} onClick={() => window.scrollTo(0, 0)}>
-                    查看全文
-                  </Link>
+                  {post.content.slice(0, 150) + '...'}
+                  <a onClick={() => go(post.threadId)}>查看全文</a>
                 </>
               ) : (
                 post.content

@@ -20,6 +20,7 @@ const Button: React.FC<ButtonType> = React.memo(
     const handleClick = React.useCallback(
       (e) => {
         url && history.push(url);
+        window.scrollTo(0, 0);
         onClick?.(e);
       },
       [url, history, onClick],

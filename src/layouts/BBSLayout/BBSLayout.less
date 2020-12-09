@@ -5,7 +5,10 @@
   .navbar-bg-container {
     box-shadow: 0 2px 14px 0px #e8e7e7;
     background: white;
-    position: relative;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
+    z-index: 20;
 
     .line {
       position: absolute;
@@ -28,6 +31,7 @@
   .content-container {
     padding-top: 40px;
     padding-bottom: 42px;
+    min-height: 100vh;
 
     .content {
       width: 1200px;
@@ -40,6 +44,15 @@
         width: 156px;
         margin-right: 32px;
         margin-left: 23px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 105px;
+        z-index: 10;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+        max-height: calc(100vh - 105px);
 
         .button {
           margin-bottom: 14px;
@@ -106,6 +119,15 @@
       .sidebar-right {
         width: 307px;
         margin-left: 12px;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 105px;
+        z-index: 10;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+        max-height: calc(100vh - 105px);
 
         .profile {
           width: 307px;

@@ -197,7 +197,6 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             </div>
           </div>
         </div>
-
         <Footer />
       </div>
     </PostEventContext.Provider>
