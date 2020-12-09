@@ -15,6 +15,8 @@ import { withRouter } from 'umi';
 import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
 import HallNews from './components/HallNews';
+import LearningCenter from '@/components/LearningCenter';
+
 import { GetIndexNotice, GetIndexNews, GetIndexInstitution, GetIndexCompetition, GetIndexPublicity } from '@/api/common'
 
 const Home = (props) => {
@@ -67,6 +69,7 @@ const Home = (props) => {
       <div className={styles.otherContent}>
         <div className={styles.leftContent}>
           <MyNav />
+          <LearningCenter />
           <TangGuoBi />
           <Birthday />
         </div>
