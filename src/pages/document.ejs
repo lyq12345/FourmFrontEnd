@@ -31,6 +31,7 @@
       domain: null, //【选填】如果有域名就绑定域名，支持二级域名‘例如： .test.nfsq.com.cn‘
       redirect_uri: window.location.href, //【必填】登陆后回调地址
       banner: false, //【选填】是否推送登陆用户横幅
+      state: '<%= context.config.define.REACT_APP_SSO_STATE %>',
       client_id: '<%= context.config.define.REACT_APP_SSO_CLIENT_ID %>', //【必填】应用id，由sso后台来分配
     }, () => {
       console.warn(document.referrer)

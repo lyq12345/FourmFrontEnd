@@ -85,6 +85,9 @@ request.interceptors.request.use((url, options) => {
     case 'mock':
       URL = `/mock/yst-iwork-alpha-api${url}`;
       break;
+    case 'studyCore':
+      URL = `/studyCore${url}`;
+      break;
     default:
       // eslint-disable-next-line no-undef
       URL = `${REACT_APP_BASIC_API}${url}`;
@@ -99,6 +102,7 @@ request.interceptors.request.use((url, options) => {
     headers = {
       Authorization,
       Accept: 'application/json',
+      'content-type': 'application/json'
     };
   }
   return {

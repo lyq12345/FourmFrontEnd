@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-10-19 13:52:33
+ * @LastEditTime: 2020-11-30 13:28:49
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/env.config.ts
@@ -20,6 +20,7 @@ function getConfig(name: String) {
   envConfig.REACT_APP_SSO_SDK_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_sdk.js`;
   envConfig.REACT_APP_SSO_CLIENT_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_client.js`;
   envConfig.REACT_APP_SSO_CLIENT_ID = 'newiwork';
+  envConfig.REACT_APP_SSO_STATE = 'iwork'
 
   envConfig.USE_LOCAL_PREMISSION = true;
 
