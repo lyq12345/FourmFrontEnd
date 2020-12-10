@@ -3,7 +3,7 @@ import { useDebounceFn } from '@/utils/utilsBBS';
 import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
 import { Button, Input, message } from 'antd';
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
-import { Comment, requestComments, requestLove, requestReply } from '../../api';
+import { Comment, requestComment, requestComments, requestLove, requestReply } from '../../api';
 import BBSLoading from '../BBSLoading';
 import CommentComponent, { CommentProps } from './Comment';
 import styles from './style.less';
@@ -87,6 +87,11 @@ export default React.memo<{
       setValue('');
       setPage(1);
       message.success('评论成功');
+
+      // 更新： 刷新数据到第一条
+      requestComment(+res.data).then((res) => {
+        setData((d) => [res.data, ...d]);
+      });
     });
   });
 

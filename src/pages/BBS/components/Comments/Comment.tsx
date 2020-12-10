@@ -47,7 +47,6 @@ export default React.memo<CommentProps>(({ comment, onCommentClick, onGoodClick 
           )}
           <IconFont
             type="iconpinglun"
-            style={{ marginLeft: 25 }}
             onClick={(e) => {
               onCommentClick(comment);
               e.stopPropagation();

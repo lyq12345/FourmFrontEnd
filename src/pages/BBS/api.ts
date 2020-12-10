@@ -271,3 +271,11 @@ export type BbsUserInfo = {
 export function requestUserInfo(): Response<BbsUserInfo> {
   return request.get('/BbsMain/GetUserInfo');
 }
+
+export function requestComment(postId: number): Response<Comment> {
+  return request.get('/BbsMain/GetPostView', {
+    params: {
+      postId,
+    },
+  });
+}

@@ -27,14 +27,14 @@ const TextAreaStyle: TextAreaProps = {
 const SelectStyle: SelectProps<SelectValue> = {
   style: { marginLeft: 'auto' },
   bordered: false,
-  placeholder: '请选择板块',
+  placeholder: '选择发布广场',
 };
 
 // 校验
 const map = {
   title: '请输入标题',
   content: '请输入正文',
-  typeId: '请选择要发送的板块',
+  typeId: '请选择发布广场',
 };
 function validatePost(values: {
   title: string;

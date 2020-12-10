@@ -112,7 +112,7 @@ const Post: React.FC = React.memo(() => {
       <Comments
         id={+postId}
         style={{ height: 'auto' }}
-        wrapperReplyStyle={{ position: 'fixed', bottom: 0 }}
+        wrapperReplyStyle={{ position: 'fixed', bottom: 0, borderRadius: 0 }}
         postIdOfThread={data.postId}
         typeId={data.typeId}
       />
