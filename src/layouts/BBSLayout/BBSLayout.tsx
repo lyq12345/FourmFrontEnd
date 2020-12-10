@@ -4,7 +4,7 @@ import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
 import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
 import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
-import { Avatar, Modal } from 'antd';
+import { Avatar, Modal, Popconfirm } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 import styles from './BBSLayout.less';
@@ -108,10 +108,14 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
           style={{ top: '20vh' }}
           modalRender={() => (
             <div style={{ pointerEvents: 'initial' }}>
-              <CloseOutlined
-                style={{ position: 'absolute', left: 679, color: 'white' }}
-                onClick={handleModalClose}
-              />
+              <Popconfirm
+                title="将取消本次发帖"
+                onConfirm={handleModalClose}
+                okText="是"
+                cancelText="否"
+              >
+                <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
+              </Popconfirm>
               <PostCreator oldFormObject={oldFormObject} />
             </div>
           )}
