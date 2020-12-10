@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-12-08 19:01:27
+ * @LastEditTime: 2020-12-10 15:59:14
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -52,7 +52,7 @@ export default {
       pathRewrite: { '^/home-page': '' },
     },
     '/studyCore': {
-      target: 'http://10.194.84.35:9100',
+      target: 'http://10.213.6.184​:9200',
       changeOrigin: true,
       pathRewrite: { '^/studyCore': '' },
     },
@@ -86,7 +86,7 @@ export default {
       pathRewrite: { '^/homePage': '' },
     },
     '/studyCore': {
-      target: 'http://10.194.84.35:9100',
+      target: 'http://10.213.6.184​:9200',
       changeOrigin: true,
       pathRewrite: { '^/studyCore': '' },
     },
