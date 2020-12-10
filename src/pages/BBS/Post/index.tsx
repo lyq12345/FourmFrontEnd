@@ -93,14 +93,14 @@ const Post: React.FC = React.memo(() => {
             </div>
           </>
         )}
-
-        <Comments
-          id={+postId}
-          style={{ transform: 'translateX(-20px)', marginTop: 24 }}
-          postIdOfThread={data.postId}
-          typeId={data.typeId}
-        />
       </div>
+      <Comments
+        id={+postId}
+        style={{ height: 'auto' }}
+        wrapperReplyStyle={{ position: 'fixed', bottom: 0 }}
+        postIdOfThread={data.postId}
+        typeId={data.typeId}
+      />
     </BBSLoading>
   );
 });

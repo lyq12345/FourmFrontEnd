@@ -44,7 +44,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
 
   return (
     <>
-      {data.map((v) => (
+      {data?.map((v) => (
         <NormalPost key={v.threadId} post={v} />
       ))}
       <div style={{ textAlign: 'center' }}>

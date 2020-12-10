@@ -13,7 +13,8 @@ export default React.memo<{
   typeId: number;
   postIdOfThread: number;
   style?: CSSProperties;
-}>(({ id, style, typeId, postIdOfThread }) => {
+  wrapperReplyStyle?: CSSProperties;
+}>(({ id, style, typeId, postIdOfThread, wrapperReplyStyle }) => {
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -96,7 +97,7 @@ export default React.memo<{
     <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
       <p className={styles['title']}>共{total}条评论</p>
       <div className={styles['comment-container']}>
-        {data.map((v) => (
+        {data?.map((v) => (
           <CommentComponent
             key={v.postId}
             comment={v}
@@ -104,7 +105,7 @@ export default React.memo<{
             onCommentClick={handleCommentClick}
           />
         ))}
-        {!data.length && (
+        {!data?.length && (
           <div className={styles['noComments']}>
             {loading ? (
               <BBSLoading loading={loading} />
@@ -119,11 +120,8 @@ export default React.memo<{
           </div>
         )}
         <div ref={loadRef} style={{ height: 1 }}></div>
-        <div style={{ textAlign: 'center' }}>
-          <BBSLoading loading={loading} />
-        </div>
       </div>
-      <div className={styles['reply']} onClick={handleReplyBgClick}>
+      <div className={styles['reply']} onClick={handleReplyBgClick} style={wrapperReplyStyle}>
         <Input
           className={styles['input']}
           placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}`}

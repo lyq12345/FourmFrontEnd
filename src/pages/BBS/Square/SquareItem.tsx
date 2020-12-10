@@ -1,31 +1,36 @@
 import React, { useState } from 'react';
 import { useParams } from 'umi';
 import { requestTypePosts } from '../api';
+import BBSLoading from '../components/BBSLoading';
 import NormalPostList from '../components/NormalPostList';
 import styles from './SquareItem.less';
 
 const SquareItem: React.FC = React.memo(() => {
   const { squareId } = useParams();
   const [data, setData] = useState({});
+  const [loading, setLoading] = useState(false);
 
   return (
-    <div>
+    <BBSLoading loading={loading}>
       <div className={styles['square-title']}>
         <span>{data.forumName}</span>
-        <span>
-          {data.total}篇内容 · {data.readCount}次浏览
-        </span>
+        <span>{`${data.total}篇内容 · ${data.readCount}次浏览`}</span>
         <span>{data.description}</span>
       </div>
       <NormalPostList
-        requestFn={(page) =>
-          requestTypePosts(page, squareId).then((res) => {
-            setData(res.data);
-            return res;
-          })
-        }
+        requestFn={(page) => {
+          setLoading(true);
+          return requestTypePosts(page, squareId)
+            .then((res) => {
+              setData(res.data);
+              return res;
+            })
+            .finally(() => {
+              setLoading(false);
+            });
+        }}
       />
-    </div>
+    </BBSLoading>
   );
 });
 
