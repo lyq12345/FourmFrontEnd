@@ -85,8 +85,8 @@ request.interceptors.request.use((url, options) => {
     case 'mock':
       URL = `/mock/yst-iwork-alpha-api${url}`;
       break;
-    case 'studyCore':
-      URL = `/studyCore${url}`;
+    case 'study-core':
+      URL = `/study-core${url}`;
       break;
     default:
       // eslint-disable-next-line no-undef

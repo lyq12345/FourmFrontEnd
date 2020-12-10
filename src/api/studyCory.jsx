@@ -5,5 +5,5 @@ export const courseFront = async (data) =>
     method: 'POST',
     // params: data,
     data,
-    prefixType: 'studyCore',
+    prefixType: 'study-core',
   });
