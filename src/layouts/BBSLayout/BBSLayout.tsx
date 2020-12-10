@@ -6,11 +6,9 @@ import { CloseOutlined } from '@ant-design/icons';
 import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
 import { Avatar, Modal } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLocalStorage } from 'react-use';
 import { useHistory } from 'umi';
 import styles from './BBSLayout.less';
 import Button from './components/Button';
-import Footer from './components/Footer';
 import RightCard from './components/RightCard';
 import { PostEventContext } from './store';
 
