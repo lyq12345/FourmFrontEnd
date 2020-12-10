@@ -12,14 +12,17 @@ const LearningCenter = (props) => {
 
   const [myData, setMydata] = useState([]);
   const [currentKey, setKey] = useState('1');
+  const [listLoading, setListLoading] = useState(false)
   useEffect(() => {
-    queryCategories()
+    queryCategories('b6fb7d3d-d700-4fa4-8435-a32e2b6f3e77')
   }, [])
   const queryCategories = (key) => {
     let param = {
-      categoryId: '206a863d-953a-4fc7-bf52-95a134caf80a'
+      categoryId: key
     }
+    setListLoading(true)
     courseFront(param).then(res => {
+      setListLoading(false)
       if (res.success) {
         setMydata(res.data || [])
       }
@@ -29,8 +32,8 @@ const LearningCenter = (props) => {
     <div className={styles.learningCenter}>
       <Tabs
         className={styles.studyTabs}
-        defaultActiveKey="1"
-        tabBarExtraContent={currentKey === '1' ? <a href="./nav-setting">设置</a> : null}
+        defaultActiveKey="b6fb7d3d-d700-4fa4-8435-a32e2b6f3e77"
+        tabBarExtraContent={<a href="https://hr-elearning.yst.com.cn/#/home">更多</a>}
         onChange={(anctiveKey) => {
           setKey(anctiveKey);
           queryCategories(anctiveKey);
@@ -52,20 +55,17 @@ const LearningCenter = (props) => {
           }
           key="0"
         ></TabPane>
-        <TabPane tab={<span>管理</span>} key="1">
-          <StudyHome data={myData} />
+        <TabPane tab={<span>制度文化</span>} key="b6fb7d3d-d700-4fa4-8435-a32e2b6f3e77">
+          <StudyHome data={myData} listLoading={listLoading} />
         </TabPane>
-        <TabPane tab={<span>销售</span>} key="4">
-          <StudyHome data={myData} />
+        <TabPane tab={<span>通用技能</span>} key="4002ec94-ae7f-484d-b7e1-10ce56ad55d5">
+          <StudyHome data={myData} listLoading={listLoading} />
         </TabPane>
-        <TabPane tab={<span>生产</span>} key="5">
-          <StudyHome data={myData} />
+        <TabPane tab={<span>管理</span>} key="158301c8-b327-4cff-a894-7484abd9963f">
+          <StudyHome data={myData} listLoading={listLoading} />
         </TabPane>
-        <TabPane tab={<span>IT</span>} key="6">
-          <StudyHome data={myData} />
-        </TabPane>
-        <TabPane tab={<span>设计</span>} key="7">
-          <StudyHome data={myData} />
+        <TabPane tab={<span>专业</span>} key="79cbe1e1-eec6-4d6d-9470-2923ec68727e">
+          <StudyHome data={myData} listLoading={listLoading} />
         </TabPane>
       </Tabs>
     </div>
