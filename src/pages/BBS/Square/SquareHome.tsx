@@ -29,7 +29,7 @@ const SquareHome: React.FC = React.memo(() => {
   const go = useBBSGotoSquare();
   return (
     <div>
-      {dataTypeList.map(({ name, id, icon, description, readCount }) => {
+      {dataTypeList.map(({ name, id, description, readCount, shortName, color }) => {
         return (
           <div
             style={{
@@ -48,15 +48,22 @@ const SquareHome: React.FC = React.memo(() => {
               go(id);
             }}
           >
-            <img
+            <div
               style={{
                 width: 82,
                 height: 82,
                 objectFit: 'contain',
                 marginRight: 9,
+                background: color,
+                fontSize: `${58 / shortName.length}px`,
+                fontWeight: 600,
+                color: 'white',
+                lineHeight: '82px',
+                textAlign: 'center',
               }}
-              src={icon}
-            />
+            >
+              {shortName}
+            </div>
             <div
               style={{
                 height: '100%',
@@ -80,7 +87,9 @@ const SquareHome: React.FC = React.memo(() => {
               >
                 {description}
               </p>
-              <p style={{ fontSize: 12, lineHeight: 1, color: '#666' }}>{`${readCount}浏览`}</p>
+              <p
+                style={{ fontSize: 12, lineHeight: 1, color: '#666' }}
+              >{`${readCount}浏览 帖子数TODO`}</p>
             </div>
           </div>
         );

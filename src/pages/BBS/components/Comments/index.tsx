@@ -110,19 +110,19 @@ export default React.memo<{
             onCommentClick={handleCommentClick}
           />
         ))}
-        {!data?.length && (
-          <div className={styles['noComments']}>
-            {loading ? (
-              <BBSLoading loading={loading} />
-            ) : (
-              <>
-                <img src={noComments} alt="noComments" width={130} />
-                <span>
-                  暂无评论，<span onClick={() => InputRef?.current?.focus()}>写留言</span>
-                </span>
-              </>
-            )}
+        {loading ? (
+          <div style={{ textAlign: 'center' }}>
+            <BBSLoading loading={loading} />
           </div>
+        ) : (
+          !data?.length && (
+            <div className={styles['noComments']}>
+              <img src={noComments} alt="noComments" width={130} />
+              <span>
+                暂无评论，<span onClick={() => InputRef?.current?.focus()}>写留言</span>
+              </span>
+            </div>
+          )
         )}
         <div ref={loadRef} style={{ height: 1 }}></div>
       </div>

@@ -115,22 +115,6 @@ export function requestSharePosts(
     params: { pageIndex },
   });
 }
-export function requestTypePosts(
-  pageIndex: number,
-  typeId: number,
-): Response<{
-  total: number;
-  pageCount: number;
-  threads: Post[];
-  forumId: number;
-  forumName: string;
-  description: string;
-  readCount: number;
-}> {
-  return request.get('/BbsMain/GetThreadsType', {
-    params: { pageIndex, typeId },
-  });
-}
 
 /**
  * 广场列表类型
@@ -142,12 +126,27 @@ export type PostType = {
   description: string;
   readCount: string;
   icon: string;
+  shortName: string;
+  color: string;
 };
 export function requestTypeList(pageIndex: number): Response<PostType[]> {
   return request.get('/BbsMain/GetTypeList', { params: { pageIndex } });
 }
 export function requestType(): Promise<Res<PostType[]>> {
   return request.get('/BbsMain/GetType');
+}
+
+export type PostTypeDetail = PostType & {
+  total: number;
+  pageCount: number;
+  threads: Post[];
+  forumId: number;
+  forumName: string;
+};
+export function requestTypePosts(pageIndex: number, typeId: number): Response<PostTypeDetail> {
+  return request.get('/BbsMain/GetThreadsType', {
+    params: { pageIndex, typeId },
+  });
 }
 
 /**
