@@ -37,7 +37,9 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
 
   const inViewport = useInViewport(() => document.querySelector(targetSelector));
   useUpdateEffect(() => {
-    setPage((c) => c + 1);
+    if (inViewport) {
+      setPage((c) => c + 1);
+    }
   }, [inViewport]);
 
   const [loading, setLoading] = useState(false);
