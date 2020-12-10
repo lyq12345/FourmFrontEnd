@@ -79,7 +79,7 @@ export type Message = {
   isLove: number;
   contentparent: string;
   infoType: number;
-}
+};
 
 export function requestLatestPosts(
   pageIndex: number,
@@ -241,21 +241,33 @@ export function requestReply(
 
 // 我的消息
 export function GetMessage(
-  pageIndex:number
-): Response<{postId: string,
-  createDate: number,
-  createId: number,
-  createName: string,
-  content: string,
-  loveCount: number,
-  floorNumber: number,
-  avatarPath: string,
-  isLove: number,
-  contentparent: string,
-  infoType: number,}> {
+  pageIndex: number,
+): Response<{
+  postId: string;
+  createDate: number;
+  createId: number;
+  createName: string;
+  content: string;
+  loveCount: number;
+  floorNumber: number;
+  avatarPath: string;
+  isLove: number;
+  contentparent: string;
+  infoType: number;
+}> {
   return request.get('/BbsMain/GetMessage', {
     params: {
-      pageIndex
-    }
-  })
+      pageIndex,
+    },
+  });
+}
+
+export type BbsUserInfo = {
+  id: number;
+  name: string;
+  avatar: string;
+  threadCount: string;
+};
+export function requestUserInfo(): Response<BbsUserInfo> {
+  return request.get('/BbsMain/GetUserInfo');
 }

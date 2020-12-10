@@ -3,7 +3,7 @@ import * as api from '@/pages/BBS/api';
 import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
 import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
-import { useEventEmitter, useToggle } from 'ahooks';
+import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
 import { Avatar, Modal } from 'antd';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useLocalStorage } from 'react-use';
@@ -53,8 +53,13 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
 
   const go = useBBSGotoSquare();
   const history = useHistory();
-  const [userInfo] = useLocalStorage<{ personName: string }>('userInfo');
-  const [userInfoLogin] = useLocalStorage<{ avatar: string }>('userInfoLogin');
+
+  const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<api.BbsUserInfo>('bbsUserInfo');
+  useEffect(() => {
+    api.requestUserInfo().then((res) => {
+      setBbsUserInfo(res.data);
+    });
+  }, []);
 
   // 精选板块
   const [dataTypeList, setDataTypeList] = useState<api.PostType[]>([]);
@@ -182,8 +187,8 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             <div className={styles['sidebar-right']}>
               <div className={styles['profile']}>
                 <div className={styles['profile-content']}>
-                  <Avatar size={72} src={userInfoLogin.avatar} className={styles['avatar']} />
-                  <span className={styles['name']}>{userInfo.personName}</span>
+                  <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
+                  <span className={styles['name']}>{bbsUserInfo?.name}</span>
                   <div className={styles['wanna-post']} onClick={() => postEvent$.emit('doing')}>
                     我要发帖
                   </div>

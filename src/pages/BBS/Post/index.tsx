@@ -1,11 +1,12 @@
 import editPNG from '@/assets/bbs/icon/edit.png';
 import { PostEventContext } from '@/layouts/BBSLayout/store';
 import { dayjs, IconFont, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
+import { useLocalStorageState } from 'ahooks';
 import { Skeleton } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'umi';
-import { PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
+import { BbsUserInfo, PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
 import BBSLoading from '../components/BBSLoading';
 import Comments from '../components/Comments';
 import PicturePart from '../components/NormalPost/PicturePart';
@@ -23,6 +24,14 @@ const Post: React.FC = React.memo(() => {
       })
       .finally(() => setLoading(false));
   }, [postId]);
+
+  // 判断是不是自己的帖子
+  const [isMinePost, setIsMinePost] = useState(false);
+  const [bbsUserInfo] = useLocalStorageState<BbsUserInfo>('bbsUserInfo');
+  useEffect(() => {
+    setIsMinePost(bbsUserInfo?.id === data.createId);
+    // setIsMinePost(true);
+  }, [data]);
 
   const { run: handleFocusClick } = useDebounceFn(() => {
     requestShare(+postId, +!data.isShare).then((_) => {
@@ -63,21 +72,27 @@ const Post: React.FC = React.memo(() => {
                 <p>{data?.createName}</p>
                 <p>{dayjs(data.createDate).fromNow()}</p>
               </div>
-              <div className={styles['flex-grow']}></div>
-              <div
-                className={`${styles['focus']} ${
-                  data.isShare ? styles['focus-on'] : styles['focus-off']
-                }`}
-                onClick={handleFocusClick}
-              ></div>
+              <div className={styles['flex-grow']} />
+              {!isMinePost && (
+                <div
+                  className={`${styles['focus']} ${
+                    data.isShare ? styles['focus-on'] : styles['focus-off']
+                  }`}
+                  onClick={handleFocusClick}
+                ></div>
+              )}
             </div>
             <p className={styles['content']}>{data?.content}</p>
 
             <PicturePart type={1} />
             <div className={styles['action']}>
               <span onClick={handleTypeClick}>{data?.typeName}</span>
-              <span onClick={handleEditClick}>编辑</span>
-              <img src={editPNG} alt="e" onClick={handleEditClick} />
+              {isMinePost && (
+                <>
+                  <span onClick={handleEditClick}>编辑</span>
+                  <img src={editPNG} alt="e" onClick={handleEditClick} />
+                </>
+              )}
             </div>
             <p>最后修改时间 {dayjs(data.lastUpdateDate).format('YYYY-MM-DD HH:mm')}</p>
 
