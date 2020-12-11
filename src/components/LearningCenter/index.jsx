@@ -47,7 +47,8 @@ const LearningCenter = (props) => {
                 fontSize: '18px',
                 color: '#333333',
                 fontFamily: 'PingFangSC-Medium, PingFang SC',
-                fontWeight: 500,
+                fontWeight: 600,
+                lineHeight: '18px'
               }}
             >
               学习中心

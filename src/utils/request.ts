@@ -102,7 +102,7 @@ request.interceptors.request.use((url, options) => {
     headers = {
       Authorization,
       Accept: 'application/json',
-      'content-type': 'application/json'
+      // 'content-type': 'application/json'
     };
   }
   return {
