@@ -85,7 +85,6 @@ export default React.memo<{
     console.log('回复楼层', targetComment?.floorNumber);
     requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId).then((res) => {
       setValue('');
-      setPage(1);
       message.success('评论成功');
 
       // 更新： 刷新数据到第一条

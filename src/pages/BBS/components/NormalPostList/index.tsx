@@ -1,11 +1,14 @@
 import { PostEventContext } from '@/layouts/BBSLayout/store';
-import { useInViewport, useUpdateEffect } from 'ahooks';
+import { useInViewport, useToggle, useUpdateEffect } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
 import BBSLoading from '../BBSLoading';
 import NormalPost from '../NormalPost/NormalPost';
 
 export type ListProps<T> = {
+  /**
+   * 如果 requestFn 变更，则组件会刷新，分页从1开始
+   */
   requestFn: (page: number) => Promise<{ data: T }>;
   targetSelector?: string;
 };
@@ -13,6 +16,12 @@ export type ListProps<T> = {
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
 const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
+  const [trigger, { toggle: refresh }] = useToggle(); // 用来触发刷新
+  useEffect(() => {
+    setPage(1);
+    refresh();
+  }, [requestFn]);
+
   const postEvent$ = useContext(PostEventContext);
   postEvent$?.useSubscription((val) => {
     if (val === 'success') {
@@ -33,7 +42,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
         }
       })
       .finally(() => setLoading(false));
-  }, [page]);
+  }, [page, trigger]); // useToggle
 
   const inViewport = useInViewport(() => document.querySelector(targetSelector));
   useUpdateEffect(() => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useParams } from 'umi';
 import { PostTypeDetail, requestTypePosts } from '../api';
 import BBSLoading from '../components/BBSLoading';
@@ -10,6 +10,21 @@ const SquareItem: React.FC = React.memo(() => {
   const [data, setData] = useState<PostTypeDetail>({} as PostTypeDetail);
   const [loading, setLoading] = useState(false);
 
+  const requestFn = useCallback(
+    (page) => {
+      setLoading(true);
+      return requestTypePosts(page, squareId)
+        .then((res) => {
+          setData(res.data);
+          return res;
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    [squareId],
+  );
+
   return (
     <BBSLoading loading={loading}>
       <div className={styles['square-title']} style={{ background: data.color }}>
@@ -17,19 +32,7 @@ const SquareItem: React.FC = React.memo(() => {
         <span>{`${data.total}篇内容 · ${data.readCount}次浏览`}</span>
         <span>{data.description}</span>
       </div>
-      <NormalPostList
-        requestFn={(page) => {
-          setLoading(true);
-          return requestTypePosts(page, squareId)
-            .then((res) => {
-              setData(res.data);
-              return res;
-            })
-            .finally(() => {
-              setLoading(false);
-            });
-        }}
-      />
+      <NormalPostList requestFn={requestFn} />
     </BBSLoading>
   );
 });
