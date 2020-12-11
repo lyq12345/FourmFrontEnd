@@ -1,7 +1,13 @@
-import React,{useState, useEffect} from 'react'
-import {Spin} from 'antd';
-import { useInViewport, useUpdateEffect } from 'ahooks';
-import {Post} from '../../api';
+import React from 'react';
+import { getMessage } from '../api';
+import MessagePostList from '../components/MessagePostList';
 
+const Index = () => {
+  return (
+    <div>
+      <MessagePostList requestFn={getMessage} />
+    </div>
+  );
+};
 
-const Index = 
+export default Index;
