@@ -1,0 +1,131 @@
+.container {
+  background: #ffffff;
+  margin-bottom: 13px;
+  border-radius: 4px;
+
+  .top {
+    padding: 20px 20px 0;
+    .avatar {
+      vertical-align: top;
+      margin-right: 12px;
+    }
+    .center {
+      display: inline-block;
+      width: 564px;
+
+      .name {
+        margin-top: 4px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #000000;
+      }
+
+      .time {
+        line-height: 1;
+        margin-top: 4px;
+        font-size: 12px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #6d7278;
+        margin-bottom: 13px;
+      }
+
+      .main {
+        .reply-content {
+          font-size: 14px;
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 500;
+          color: #333333;
+        }
+        .origin-container {
+          background: #f6f6f6;
+          margin-top: 12px;
+          padding: 6px 6px 6px 9px;
+          margin-bottom: 12px;
+
+          .origin-content {
+            font-size: 14px;
+            font-family: PingFangSC-Regular, PingFang SC;
+            font-weight: 400;
+            color: #333333;
+          }
+        }
+      }
+    }
+  }
+
+  .bottom {
+    margin-bottom: 12px;
+    .huifuta {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #0091ff;
+      margin-bottom: 10px;
+      cursor: pointer;
+    }
+    .reply {
+      display: flex;
+      align-items: center;
+      .input-container {
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+        height: 51px;
+        width: 524px;
+        background: #f6f6f6;
+        border: 1px solid #e6e6e6;
+        // &:hover {
+        //   border-color: #ff5000;
+        // }
+        // &:focus {
+        //   border-color: #ff5000;
+        // }
+
+        .input {
+          height: 49px;
+          width: 522px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          background: #f6f6f6;
+        }
+        :global(.ant-input.antd-pro-pages-b-b-s-components-message-post-message-post-input) {
+          // border: 0;
+          &hover {
+            border-color: none;
+          }
+        }
+      }
+      .input-container::before {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        border: transparent 10px solid;
+        border-bottom-color: #e6e6e6;
+        top: -20px;
+        left: 5px;
+      }
+      .input-container::after {
+        position: absolute;
+        content: '';
+        width: 0;
+        height: 0;
+        border: transparent 9px solid;
+        border-bottom-color: #f6f6f6;
+        top: -17px;
+        left: 6px;
+      }
+      .send {
+        margin-left: 12px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #ff5000;
+        cursor: pointer;
+      }
+    }
+  }
+}

@@ -9,6 +9,32 @@ type Res<TData> = {
 type Response<TData> = Promise<Res<TData>>;
 
 /**
+ * 通用接口
+ */
+
+// export function getUserInfo(
+//   pageIndex: number,
+// ): Response<{
+//   postId: string;
+//   createDate: number;
+//   createId: number;
+//   createName: string;
+//   content: string;
+//   loveCount: number;
+//   floorNumber: number;
+//   avatarPath: string;
+//   isLove: number;
+//   contentparent: string;
+//   infoType: number;
+// }> {
+//   return request.get('/BbsMain/GetUserInfo', {
+//     params: {
+//       pageIndex,
+//     },
+//   });
+// }
+
+/**
  * 我的发帖 5个
  */
 export function requestMyPosts5(): Promise<{
@@ -65,20 +91,6 @@ export type Post = {
   isLove: 0 | 1;
   attach: [];
   attachBig: [];
-};
-
-export type Message = {
-  postId: string;
-  createDate: number;
-  createId: number;
-  createName: string;
-  content: string;
-  loveCount: number;
-  floorNumber: number;
-  avatarPath: string;
-  isLove: number;
-  contentparent: string;
-  infoType: number;
 };
 
 export function requestLatestPosts(
@@ -238,11 +250,10 @@ export function requestReply(
   });
 }
 
-// 我的消息
-export function GetMessage(
-  pageIndex: number,
-): Response<{
-  postId: string;
+export type Message = {
+  postId: number;
+  threadId: number;
+  typeId: number;
   createDate: number;
   createId: number;
   createName: string;
@@ -253,6 +264,16 @@ export function GetMessage(
   isLove: number;
   contentparent: string;
   infoType: number;
+};
+/**
+ * 我的消息
+ **/
+export function getMessage(
+  pageIndex: number,
+): Response<{
+  total: number;
+  pageCount: number;
+  posts: Message[];
 }> {
   return request.get('/BbsMain/GetMessage', {
     params: {
