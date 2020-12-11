@@ -1,6 +1,10 @@
 .bg-container {
-  background: #f4f4f4;
   min-width: 1200px;
+
+  // bug: 使用简写属性时，compile之后 65px 变成了 0.65px，所以拆开
+  // background: url('../../assets/bbs/bg/bg.png') repeat-y 0 65px / 100%, #f4f4f4;
+  background: url('../../assets/bbs/bg/bg.png') repeat-y, #f4f4f4;
+  background-position: top 65px center;
 
   .navbar-bg-container {
     box-shadow: 0 2px 14px 0px #e8e7e7;
