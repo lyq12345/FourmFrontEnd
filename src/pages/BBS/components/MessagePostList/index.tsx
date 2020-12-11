@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Spin } from 'antd';
 import { useInViewport, useUpdateEffect } from 'ahooks';
+import React, { useEffect, useState } from 'react';
 import { Message } from '../../api';
+import BBSLoading from '../BBSLoading';
 import MessagePost from '../MessagePost/MessagePost';
 import { ListProps } from '../NormalPostList';
-import { EventContext } from '@/layouts/BBSLayout/BBSLayout';
-import BBSLoading from '../BBSLoading';
 
 type MessageList<T = { posts: Message[] }> = React.FC<ListProps<T>>;
 
@@ -13,13 +11,6 @@ const List2: MessageList = ({ requestFn, targetSelector = '#bbs-footer' }) => {
   const [msgList, setMsgList] = useState<Message[]>([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-
-  const event$ = useContext(EventContext);
-  event$?.useSubscription((val) => {
-    if (val === 'success') {
-      setPage(1);
-    }
-  });
 
   useEffect(() => {
     setLoading(true);
@@ -36,7 +27,9 @@ const List2: MessageList = ({ requestFn, targetSelector = '#bbs-footer' }) => {
 
   const inViewport = useInViewport(() => document.querySelector(targetSelector));
   useUpdateEffect(() => {
-    setPage((c) => c + 1);
+    if (inViewport) {
+      setPage((c) => c + 1);
+    }
   }, [inViewport]);
 
   return (
