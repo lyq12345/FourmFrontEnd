@@ -1,88 +1,16 @@
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
-import { Avatar } from 'antd';
+import { dayjs, IconFont, useBBSGotoPost, useDebounceFn } from '@/utils/utilsBBS';
+import { Avatar, Modal } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { Post, requestLove } from '../../api';
-import PicturePart from './PicturePart';
-import { Link } from 'umi';
-
-import { dayjs } from '@/utils/utilsBBS';
-
-import styles from './NormalPost.less';
-import TestPic from '@/assets/bbs/test.png';
-import LongPic from '@/assets/bbs/long.png';
-import { Modal } from 'antd';
 import Comments from '../Comments';
+import styles from './NormalPost.less';
+import PicturePart from './PicturePart';
 
-const picList = [
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-];
-const largePicList = [
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: LongPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-  {
-    picUrl: TestPic,
-  },
-];
 export type NormalPostProps = {
   post: Post;
 };
 
 export default React.memo<NormalPostProps>(({ post }) => {
-  // 图片展示
-  const [zoomedId, setZoomedId] = useState(-1);
-
-  const handlePicClick = (index) => {
-    setZoomedId(index);
-  };
-
   const [loveCount, setLoveCount] = useState(post.loveCount);
   const [isLove, setIsLove] = useState(post.isLove);
 
@@ -100,6 +28,8 @@ export default React.memo<NormalPostProps>(({ post }) => {
     setIsModalVisible(true);
   }, []);
 
+  const go = useBBSGotoPost();
+
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
@@ -108,14 +38,14 @@ export default React.memo<NormalPostProps>(({ post }) => {
           <p className={styles['author']}>{post.createName}</p>
           <p className={styles['time']}>{dayjs(post.createDate).fromNow()}</p>
           <div className={styles['hot-area']}>
-            <p className={styles['title']}>{post.title}</p>
+            <p className={styles['title']} onClick={() => go(post.threadId)}>
+              {post.title}
+            </p>
             <p className={styles['content']}>
               {post.content.length > 60 ? (
                 <>
-                  {post.content.slice(0, 150) + '...'}{' '}
-                  <Link to={'/bbs/post/' + post.threadId} onClick={() => window.scrollTo(0, 0)}>
-                    查看全文
-                  </Link>
+                  {post.content.slice(0, 150) + '...'}
+                  <a onClick={() => go(post.threadId)}>查看全文</a>
                 </>
               ) : (
                 post.content
@@ -125,7 +55,7 @@ export default React.memo<NormalPostProps>(({ post }) => {
         </div>
       </div>
 
-      {picList.length && largePicList.length ? <PicturePart /> : null}
+      <PicturePart />
 
       <div className={styles['action']}>
         {isLove ? (

@@ -1,19 +1,17 @@
-import styles from './PostCreator.less';
-import React, { useEffect, useState, useCallback, useContext } from 'react';
-import { Input, Button, Popover, Select, Form, message } from 'antd';
-import { InputProps, TextAreaProps } from 'antd/lib/input';
+import { PostEventContext } from '@/layouts/BBSLayout/store';
 import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { CloseOutlined } from '@ant-design/icons';
+import { Button, Form, Input, message, Popover, Select } from 'antd';
+import { FormProps } from 'antd/lib/form';
+import { InputProps, TextAreaProps } from 'antd/lib/input';
 import { SelectProps, SelectValue } from 'antd/lib/select';
+import { UploadFile } from 'antd/lib/upload/interface';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { CreatePostParams, Post, requestCreatePost, requestType } from '../../api';
+import ImageUpload from './ImageUpload';
+import styles from './PostCreator.less';
 
 const { TextArea } = Input;
-
-import { requestType } from '../../api';
-import ImageUpload from './ImageUpload';
-import { FormInstance, FormProps } from 'antd/lib/form';
-import { UploadFile } from 'antd/lib/upload/interface';
-import { Post, CreatePostParams, requestCreatePost } from '../../api';
-import { CloseOutlined } from '@ant-design/icons';
-import { EventContext } from '@/layouts/BBSLayout/BBSLayout';
 
 const InputStyle: InputProps = {
   bordered: false,
@@ -29,14 +27,14 @@ const TextAreaStyle: TextAreaProps = {
 const SelectStyle: SelectProps<SelectValue> = {
   style: { marginLeft: 'auto' },
   bordered: false,
-  placeholder: '请选择板块',
+  placeholder: '选择发布广场',
 };
 
 // 校验
 const map = {
   title: '请输入标题',
   content: '请输入正文',
-  typeId: '请选择要发送的板块',
+  typeId: '请选择发布广场',
 };
 function validatePost(values: {
   title: string;
@@ -55,7 +53,7 @@ export default React.memo<{
   oldFormObject?: Post;
   onSuccess?: () => void;
 }>(({ oldFormObject, onSuccess }) => {
-  const event$ = useContext(EventContext);
+  const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
   const [dataTypeList, setDataTypeList] = useState<SelectProps<SelectValue>['options']>([]);
@@ -101,7 +99,7 @@ export default React.memo<{
         form.resetFields();
 
         // 发帖成功事件
-        event$?.emit('success');
+        postEvent$?.emit('success');
       })
       .catch(() => {
         message.error('发布出错');

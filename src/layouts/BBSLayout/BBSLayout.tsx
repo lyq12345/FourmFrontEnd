@@ -1,45 +1,63 @@
-import React, { useState, useEffect, createContext } from 'react';
+import logo from '@/assets/bbs/logo/logo_bbs.png';
+import * as api from '@/pages/BBS/api';
+import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
+import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
+import { CloseOutlined } from '@ant-design/icons';
+import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
+import { Avatar, Modal, Popconfirm } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'umi';
-import { useLocalStorage } from 'react-use';
-import { useRecoilState } from 'recoil';
-
-import Footer from './components/Footer';
+import styles from './BBSLayout.less';
 import Button from './components/Button';
 import RightCard from './components/RightCard';
-import * as api from '@/pages/BBS/api';
-import { useBBSGotoSquare } from '@/utils/utilsBBS';
-import { globalFormObj, isPostCreatorModalVisible, oldFormObj } from './store';
-import { dayjs } from '@/utils/utilsBBS';
-
-import logo from '@/assets/bbs/logo/logo_bbs.png';
-import png1 from '@/assets/bbs/icon/png1.png';
-import png2 from '@/assets/bbs/icon/png2.png';
-import styles from './BBSLayout.less';
-import { Modal } from 'antd';
-import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
-import { CloseOutlined } from '@ant-design/icons';
-import { useEventEmitter, useToggle } from 'ahooks';
-import { EventEmitter } from 'ahooks/lib/useEventEmitter';
-
-// 发帖事件使用
-export const EventContext = createContext<EventEmitter<string> | null>(null);
+import { PostEventContext } from './store';
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
-  // 发帖完成事件
-  const event$ = useEventEmitter<string>();
-  const [trigger, { toggle }] = useToggle();
-  event$?.useSubscription((val) => {
-    if (val === 'success') {
-      toggle();
+  // 发帖事件
+  const postEvent$ = useEventEmitter<string | [string, ...any[]]>();
 
-      setIsModalVisible(false);
-      setOldFormObject(undefined);
+  const [trigger, { toggle: refreshRightCardData }] = useToggle();
+
+  postEvent$?.useSubscription((strOrArray) => {
+    let val, args;
+    if (strOrArray instanceof Array) {
+      val = strOrArray[0];
+      args = strOrArray.slice(1);
+    } else {
+      val = strOrArray;
+      args = [];
+    }
+
+    switch (val) {
+      case 'success':
+        refreshRightCardData();
+        setIsModalVisible(false);
+        setOldFormObject(undefined);
+        break;
+      case 'cancel':
+        setIsModalVisible(false);
+        setOldFormObject(undefined);
+        break;
+      case 'doing':
+        setIsModalVisible(true);
+      case 'redoing':
+        setOldFormObject(args[0] || null);
+        setIsModalVisible(true);
+        break;
+      default:
+        break;
     }
   });
 
   const go = useBBSGotoSquare();
   const history = useHistory();
-  const [userInfo] = useLocalStorage<{ personName: string }>('userInfo');
+
+  const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<api.BbsUserInfo>('bbsUserInfo');
+  useEffect(() => {
+    api.requestUserInfo().then((res) => {
+      setBbsUserInfo(res.data);
+    });
+  }, []);
 
   // 精选板块
   const [dataTypeList, setDataTypeList] = useState<api.PostType[]>([]);
@@ -74,26 +92,30 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   }, []);
 
   // 发帖对话框
-  const [isModalVisible, setIsModalVisible] = useRecoilState(isPostCreatorModalVisible);
-  const [oldFormObject, setOldFormObject] = useRecoilState(globalFormObj);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [oldFormObject, setOldFormObject] = useState<api.Post | undefined>(undefined);
+  const handleModalClose = useCallback(() => {
+    postEvent$?.emit('cancel');
+  }, []);
 
   return (
-    <EventContext.Provider value={event$}>
+    <PostEventContext.Provider value={postEvent$}>
       <div className={styles['bg-container']}>
         {/* 发帖组件 */}
         <Modal
           visible={isModalVisible}
           width={670}
-          style={{ top: 200 }}
+          style={{ top: '20vh' }}
           modalRender={() => (
             <div style={{ pointerEvents: 'initial' }}>
-              <CloseOutlined
-                style={{ position: 'absolute', left: 679, color: 'white' }}
-                onClick={() => {
-                  setIsModalVisible(false);
-                  setOldFormObject(undefined);
-                }}
-              />
+              <Popconfirm
+                title="将取消本次发帖"
+                onConfirm={handleModalClose}
+                okText="是"
+                cancelText="否"
+              >
+                <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
+              </Popconfirm>
               <PostCreator oldFormObject={oldFormObject} />
             </div>
           )}
@@ -109,7 +131,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
               style={{ width: 208, height: 65, marginRight: 689, cursor: 'pointer' }}
               onClick={() => history.push('/bbs')}
             />
-            <img src={png1} style={{ width: 20, height: 20, marginRight: 5 }} />
+            <IconFont type="iconneiwangshouye" style={{ fontSize: 20, marginRight: 5 }} />
             <span
               style={{ color: '#666666', cursor: 'pointer' }}
               onClick={() => history.push('/home')}
@@ -124,7 +146,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
                 marginRight: 17,
               }}
             ></div>
-            <img src={png2} style={{ width: 20, height: 20, marginRight: 5 }} />
+            <IconFont type="iconshijian" style={{ fontSize: 20, marginRight: 5 }} />
             <span style={{ color: '#666666' }}>{dayjs().format('YYYY年MM月DD日 dddd')}</span>
           </div>
         </div>
@@ -151,9 +173,8 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
                 我的
               </Button>
 
-              {/* 分割线 */}
-
               <span className={styles['divider']}>精选板块</span>
+
               <div className={styles['nav-list']}>
                 {dataTypeList.map(({ name, id }) => {
                   return (
@@ -168,15 +189,9 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             <div className={styles['sidebar-right']}>
               <div className={styles['profile']}>
                 <div className={styles['profile-content']}>
-                  <img
-                    className={styles['avatar']}
-                    src={
-                      'https://cdn1.oneprofile.page/pages/avatars/323/large/Danielle_Darren-2019-255-500x500.jpg?1593718847'
-                    }
-                    alt="avatar"
-                  />
-                  <span className={styles['name']}>{userInfo.personName}</span>
-                  <div className={styles['wanna-post']} onClick={() => setIsModalVisible(true)}>
+                  <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
+                  <span className={styles['name']}>{bbsUserInfo?.name}</span>
+                  <div className={styles['wanna-post']} onClick={() => postEvent$.emit('doing')}>
                     我要发帖
                   </div>
                 </div>
@@ -189,10 +204,10 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             </div>
           </div>
         </div>
-
-        <Footer />
+        {/* <Footer /> */}
+        <div id="bbs-footer" />
       </div>
-    </EventContext.Provider>
+    </PostEventContext.Provider>
   );
 });
 

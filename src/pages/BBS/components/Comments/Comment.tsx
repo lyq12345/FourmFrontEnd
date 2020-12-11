@@ -1,9 +1,8 @@
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { dayjs, IconFont, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Comment, requestComments } from '../../api';
+import React, { useState } from 'react';
+import { Comment } from '../../api';
 import styles from './Comment.less';
-import { dayjs } from '@/utils/utilsBBS';
 
 export type CommentProps = {
   onGoodClick: (status: 0 | 1, postId: number) => Promise<{ status: 0 | 1; loveCount: number }>;
@@ -48,7 +47,6 @@ export default React.memo<CommentProps>(({ comment, onCommentClick, onGoodClick 
           )}
           <IconFont
             type="iconpinglun"
-            style={{ marginLeft: 25 }}
             onClick={(e) => {
               onCommentClick(comment);
               e.stopPropagation();

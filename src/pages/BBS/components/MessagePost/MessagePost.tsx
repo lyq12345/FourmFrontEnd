@@ -1,12 +1,10 @@
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
-import { Avatar, Input, Button, Popover, message } from 'antd';
-import React, { useState } from 'react';
-import { Message, requestReply } from '../../api';
-import { getMessage } from '../../api';
-import styles from './MessagePost.less';
-import { Link } from 'umi';
-
 import { dayjs } from '@/utils/utilsBBS';
+import { Avatar, Input, message } from 'antd';
+import React, { useState } from 'react';
+import { Link } from 'umi';
+import { Message, requestReply } from '../../api';
+import styles from './MessagePost.less';
+
 
 export type MessagePostProps = {
   message1: Message;

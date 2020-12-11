@@ -16,7 +16,7 @@ export const IconFont = createFromIconfontCN({
  */
 export function useBBSGotoPost() {
   const history = useHistory();
-  return (threadId: number, needNewTab = false) => {
+  return (threadId: number, needNewTab = true) => {
     if (needNewTab) {
       open(`${origin}/yst-iwork-alpha/bbs/post/${threadId}`);
     } else {
@@ -31,7 +31,7 @@ export function useBBSGotoPost() {
  */
 export function useBBSGotoSquare() {
   const history = useHistory();
-  return (squareId: number, needNewTab = false) => {
+  return (squareId: number, needNewTab = true) => {
     if (needNewTab) {
       open(`${origin}/yst-iwork-alpha/bbs/square/${squareId}`);
     } else {

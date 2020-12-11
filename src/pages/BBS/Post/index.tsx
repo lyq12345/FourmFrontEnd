@@ -1,18 +1,16 @@
-import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
-import Avatar from 'antd/lib/avatar/avatar';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'umi';
-
-import styles from './style.less';
 import editPNG from '@/assets/bbs/icon/edit.png';
-import Comments from '../components/Comments';
-import { PostDetail, requestPostDetail, requestShare, requestLove } from '../api';
-import { useDebounceFn } from '@/utils/utilsBBS';
-import { globalFormObj, isPostCreatorModalVisible } from '@/layouts/BBSLayout/store';
-import { useRecoilState } from 'recoil';
-import PicturePart from '../components/NormalPost/PicturePart';
-import BBSLoading from '../components/BBSLoading';
+import { PostEventContext } from '@/layouts/BBSLayout/store';
+import { dayjs, IconFont, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
+import { useLocalStorageState } from 'ahooks';
 import { Skeleton } from 'antd';
+import Avatar from 'antd/lib/avatar/avatar';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useParams } from 'umi';
+import { BbsUserInfo, PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
+import BBSLoading from '../components/BBSLoading';
+import Comments from '../components/Comments';
+import PicturePart from '../components/NormalPost/PicturePart';
+import styles from './style.less';
 
 const Post: React.FC = React.memo(() => {
   const { postId } = useParams<{ postId: string }>();
@@ -27,6 +25,14 @@ const Post: React.FC = React.memo(() => {
       .finally(() => setLoading(false));
   }, [postId]);
 
+  // 判断是不是自己的帖子
+  const [isMinePost, setIsMinePost] = useState(false);
+  const [bbsUserInfo] = useLocalStorageState<BbsUserInfo>('bbsUserInfo');
+  useEffect(() => {
+    setIsMinePost(bbsUserInfo?.id === data.createId);
+    // setIsMinePost(true);
+  }, [data]);
+
   const { run: handleFocusClick } = useDebounceFn(() => {
     requestShare(+postId, +!data.isShare).then((_) => {
       setData((d) => ({ ...d, isShare: +!d.isShare as 0 | 1 }));
@@ -40,11 +46,9 @@ const Post: React.FC = React.memo(() => {
   });
 
   // 发帖对话框
-  const [isModalVisible, setIsModalVisible] = useRecoilState(isPostCreatorModalVisible);
-  const [oldFormObject, setOldFormObject] = useRecoilState(globalFormObj);
+  const postEvent$ = useContext(PostEventContext);
   const handleEditClick = useCallback(() => {
-    setOldFormObject(data);
-    setIsModalVisible(true);
+    postEvent$?.emit(['redoing', data]);
   }, [data]);
 
   const go = useBBSGotoSquare();
@@ -58,7 +62,7 @@ const Post: React.FC = React.memo(() => {
     <BBSLoading loading={loading}>
       <div className={styles['container']}>
         {loading ? (
-          <Skeleton avatar paragraph={{ rows: 4 }} />
+          <Skeleton avatar paragraph={{ rows: 6 }} />
         ) : (
           <>
             <p className={styles['title']}>{data.title}</p>
@@ -68,21 +72,27 @@ const Post: React.FC = React.memo(() => {
                 <p>{data?.createName}</p>
                 <p>{dayjs(data.createDate).fromNow()}</p>
               </div>
-              <div className={styles['flex-grow']}></div>
-              <div
-                className={`${styles['focus']} ${
-                  data.isShare ? styles['focus-on'] : styles['focus-off']
-                }`}
-                onClick={handleFocusClick}
-              ></div>
+              <div className={styles['flex-grow']} />
+              {!isMinePost && (
+                <div
+                  className={`${styles['focus']} ${
+                    data.isShare ? styles['focus-on'] : styles['focus-off']
+                  }`}
+                  onClick={handleFocusClick}
+                ></div>
+              )}
             </div>
             <p className={styles['content']}>{data?.content}</p>
 
             <PicturePart type={1} />
             <div className={styles['action']}>
               <span onClick={handleTypeClick}>{data?.typeName}</span>
-              <span onClick={handleEditClick}>编辑</span>
-              <img src={editPNG} alt="e" onClick={handleEditClick} />
+              {isMinePost && (
+                <>
+                  <span onClick={handleEditClick}>编辑</span>
+                  <img src={editPNG} alt="e" onClick={handleEditClick} />
+                </>
+              )}
             </div>
             <p>最后修改时间 {dayjs(data.lastUpdateDate).format('YYYY-MM-DD HH:mm')}</p>
 
@@ -98,14 +108,14 @@ const Post: React.FC = React.memo(() => {
             </div>
           </>
         )}
-
-        <Comments
-          id={+postId}
-          style={{ transform: 'translateX(-20px)', marginTop: 24 }}
-          postIdOfThread={data.postId}
-          typeId={data.typeId}
-        />
       </div>
+      <Comments
+        id={+postId}
+        style={{ height: 'auto', paddingBottom: 59 }}
+        wrapperReplyStyle={{ position: 'fixed', bottom: 0, borderRadius: 0 }}
+        postIdOfThread={data.postId}
+        typeId={data.typeId}
+      />
     </BBSLoading>
   );
 });

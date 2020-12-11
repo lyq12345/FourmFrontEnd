@@ -52,7 +52,7 @@
         cache: 'default'
       }).then(res => res.json())
         .then((data) => {
-          localStorage.setItem(`userInfoLogin`, JSON.stringify(data.data || {}));
+          localStorage.setItem('userInfoLogin', JSON.stringify(data.data || {}));
         })
     });
   </script>

@@ -1,8 +1,7 @@
-import React from 'react';
-import styles from './RightCard.less';
-
 import { IconFont, useBBSGotoPost } from '@/utils/utilsBBS';
+import React from 'react';
 import type { Post } from '../api';
+import styles from './RightCard.less';
 
 const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title, list }) => {
   const goPost = useBBSGotoPost();
@@ -15,7 +14,7 @@ const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title
       </div>
 
       <div className={styles.listContainer}>
-        {list.map(({ title, loveCount, typeId, threadId }) => {
+        {list.map(({ title, loveCount, threadId }) => {
           return (
             <div className={styles.listItem} key={threadId}>
               <a className={styles.listItemTitle} onClick={() => goPost(threadId)}>

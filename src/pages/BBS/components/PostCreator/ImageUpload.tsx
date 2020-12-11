@@ -1,14 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { Upload } from 'antd';
-import { PlusOutlined } from '@ant-design/icons';
-import { UploadProps } from 'antd/es/upload/interface';
-
-import styles from './ImageUpload.less';
 import request from '@/utils/request';
+import { PlusOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
+import { UploadProps } from 'antd/es/upload/interface';
+import React from 'react';
+import styles from './ImageUpload.less';
 
-/**
- * TODO: value，默认值，编辑
- */
 export default React.memo<{ value: any; onChange: (fileList: any[]) => void }>(
   ({ value, onChange }) => {
     const handleChange: UploadProps['onChange'] = ({ fileList }) => {

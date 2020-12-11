@@ -1,11 +1,6 @@
 module.exports = {
   router: [
     {
-      path: '/bbs/test',
-      name: '测试组件',
-      component: './BBS',
-    },
-    {
       path: '/bbs/',
       name: '首页',
       redirect: '/bbs/home',
@@ -26,10 +21,12 @@ module.exports = {
       routes: [
         {
           path: '/bbs/square/',
+          name: '广场',
           component: '../pages/BBS/Square',
         },
         {
           path: '/bbs/square/:squareId',
+          name: '广场详情',
           component: '../pages/BBS/Square/SquareItem',
         },
       ],
@@ -41,6 +38,7 @@ module.exports = {
     },
     {
       path: '/bbs/post/:postId',
+      name: '帖子详情',
       component: './BBS/Post',
     },
   ],
