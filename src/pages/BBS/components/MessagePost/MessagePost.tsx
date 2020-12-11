@@ -1,10 +1,9 @@
-import { dayjs } from '@/utils/utilsBBS';
+import { dayjs, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { Link } from 'umi';
 import { Message, requestReply } from '../../api';
 import styles from './MessagePost.less';
-
 
 export type MessagePostProps = {
   message1: Message;
@@ -14,18 +13,27 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
   const [replyVisible, setReplyVisible] = useState(false);
   const [inputContent, setContent] = useState('');
 
-  const handleReply = () => {
+  const { run: handleReply } = useDebounceFn(() => {
     //回复
     setReplyVisible((visible) => {
       return !visible;
     });
-  };
+  });
   const handleSend = () => {
-    requestReply(inputContent, message1.threadId, message1.postId, message1.typeId).then((res) => {
-      setContent('');
-      message.success('回复成功');
-      setReplyVisible(false);
-    });
+    if (inputContent === '') {
+      message.warning('请输入评论内容');
+      return;
+    } else {
+      requestReply(inputContent, message1.threadId, message1.postId, message1.typeId).then(
+        (res) => {
+          if (res.success === 1) {
+            setContent('');
+            message.success('回复成功');
+            setReplyVisible(false);
+          }
+        },
+      );
+    }
   };
 
   return (
