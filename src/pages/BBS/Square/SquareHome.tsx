@@ -29,7 +29,7 @@ const SquareHome: React.FC = React.memo(() => {
   const go = useBBSGotoSquare();
   return (
     <div>
-      {dataTypeList.map(({ name, id, description, readCount, shortName, color }) => {
+      {dataTypeList.map(({ name, id, description, readCount, shortName, color, total }) => {
         return (
           <div
             style={{
@@ -89,7 +89,7 @@ const SquareHome: React.FC = React.memo(() => {
               </p>
               <p
                 style={{ fontSize: 12, lineHeight: 1, color: '#666' }}
-              >{`${readCount}浏览 帖子数TODO`}</p>
+              >{`${readCount}浏览 帖子数${total}`}</p>
             </div>
           </div>
         );

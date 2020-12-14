@@ -140,6 +140,7 @@ export type PostType = {
   icon: string;
   shortName: string;
   color: string;
+  total: number;
 };
 export function requestTypeList(pageIndex: number): Response<PostType[]> {
   return request.get('/BbsMain/GetTypeList', { params: { pageIndex } });

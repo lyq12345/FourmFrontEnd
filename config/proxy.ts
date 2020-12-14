@@ -16,11 +16,16 @@
 export default {
   dev: {
     // 当前应用
+    '/yst-iwork-alpha-api/BbsMain': {
+      target: 'http://rap2.idc.yst.com.cn/backend/app/mock/149',
+      changeOrigin: true,
+      pathRewrite: { '^/yst-iwork-alpha-api': '' },
+    },
     '/yst-iwork-alpha-api': {
-      // target: 'http://10.213.3.39:8081',
+      target: 'http://10.213.3.39:8081',
       // target: 'http://10.3.3.65:8081',
       // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/151',
-      target: 'http://rap2.idc.yst.com.cn/backend/app/mock/149', // bbs
+      // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/149', // bbs
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },
@@ -54,6 +59,11 @@ export default {
     },
   },
   test: {
+    '/yst-iwork-alpha-api/BbsMain': {
+      target: 'http://bbsmain-uat.yst.com.cn',
+      changeOrigin: true,
+      pathRewrite: { '^/yst-iwork-alpha-api': '' },
+    },
     '/yst-iwork-alpha-api': {
       target: 'http://potalapi-test.yst.com.cn',
       // target: 'http://http://rap2.idc.yst.com.cn/backend/app/mock/151',
