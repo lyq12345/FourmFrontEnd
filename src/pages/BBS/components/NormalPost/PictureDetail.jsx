@@ -57,7 +57,7 @@ const PictureDetail = (props) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            cursor: 'pointer',
+            cursor: curZoomed === 0 ? 'auto' : 'pointer',
           }}
           onClick={() => {
             handlePrevious();
@@ -88,7 +88,7 @@ const PictureDetail = (props) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            cursor: 'pointer',
+            cursor: curZoomed === props.picList.length - 1 ? 'auto' : 'pointer',
           }}
           onClick={() => {
             handleNext();
