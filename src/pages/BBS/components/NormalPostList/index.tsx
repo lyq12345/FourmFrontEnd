@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
 import BBSLoading from '../BBSLoading';
 import NormalPost from '../NormalPost/NormalPost';
+import noComments from '@/assets/bbs/noComments.png';
 
 export type ListProps<T> = {
   /**
@@ -61,6 +62,21 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
       <div style={{ textAlign: 'center' }}>
         <BBSLoading loading={loading} />
       </div>
+      {!loading && (!data || data?.length === 0) && (
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '180px 0',
+            fontSize: 18,
+            color: '#666',
+            lineHeight: '25px',
+          }}
+        >
+          <img src={noComments} alt="noContent" width={130} style={{ marginBottom: 18 }} />
+          <br />
+          暂无内容
+        </div>
+      )}
     </>
   );
 };
