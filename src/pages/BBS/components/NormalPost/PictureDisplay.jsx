@@ -14,7 +14,7 @@ const PictureDisplay = (props) => {
         grid={{ column: 3 }}
         dataSource={props.picList}
         renderItem={(item, index) => (
-          <div style={{ marginBottom: '10px' }}>
+          <div style={{ marginBottom: '10px' }} key={index}>
             <img
               style={{ ...props.detailStyle.displayPic, cursor: 'zoom-in' }}
               src={item.picUrl}

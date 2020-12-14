@@ -113,7 +113,7 @@ const PictureDetail = (props) => {
         style={{ margin: '10px 0' }}
       >
         {props.picList.map((item, index) => (
-          <Col>
+          <Col key={index}>
             <div
               style={{
                 backgroundColor: '#FFFFFF',
