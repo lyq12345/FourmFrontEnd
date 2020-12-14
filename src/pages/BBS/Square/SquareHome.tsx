@@ -1,30 +1,20 @@
 import { useBBSGotoSquare } from '@/utils/utilsBBS';
-import { useInViewport, useUpdateEffect } from 'ahooks';
 import React from 'react';
 import * as api from '../api';
 import BBSLoading from '../components/BBSLoading';
 
 const SquareHome: React.FC = React.memo(() => {
-  const [page, setPage] = React.useState<number>(1);
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
   const [loading, setLoading] = React.useState(false);
   React.useEffect(() => {
     setLoading(true);
     api
-      .requestTypeList(page)
+      .requestTypeList()
       .then((res) => {
         setDataTypeList((c) => c.concat(res.data ?? []));
       })
       .finally(() => setLoading(false));
-  }, [page]);
-
-  // 动态加载
-  const inViewPort = useInViewport(() => document.querySelector('#bbs-footer'));
-  useUpdateEffect(() => {
-    if (inViewPort) {
-      setPage((c) => c + 1);
-    }
-  }, [inViewPort]);
+  }, []);
 
   const go = useBBSGotoSquare();
   return (

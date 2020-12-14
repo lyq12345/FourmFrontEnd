@@ -142,8 +142,8 @@ export type PostType = {
   color: string;
   total: number;
 };
-export function requestTypeList(pageIndex: number): Response<PostType[]> {
-  return request.get('/BbsMain/GetTypeList', { params: { pageIndex } });
+export function requestTypeList(): Response<PostType[]> {
+  return request.get('/BbsMain/GetTypeList');
 }
 export function requestType(): Promise<Res<PostType[]>> {
   return request.get('/BbsMain/GetType');
