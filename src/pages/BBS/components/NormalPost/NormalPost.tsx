@@ -55,7 +55,7 @@ export default React.memo<NormalPostProps>(({ post }) => {
         </div>
       </div>
 
-      <PicturePart />
+      <PicturePart picList={post.attach} largePicList={post.attachBig} />
 
       <div className={styles['action']}>
         {isLove ? (
