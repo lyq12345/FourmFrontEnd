@@ -16,10 +16,12 @@ const List2: MessageList = ({ requestFn, targetSelector = '#bbs-footer' }) => {
     setLoading(true);
     requestFn(page)
       .then((res) => {
-        if (page === 1) {
-          setMsgList(res.data.posts);
-        } else {
-          setMsgList((data) => data.concat(res.data.posts));
+        if (res.success) {
+          if (page === 1) {
+            setMsgList(res.data.posts);
+          } else {
+            setMsgList((data) => data.concat(res.data.posts));
+          }
         }
       })
       .finally(() => setLoading(false));

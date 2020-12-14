@@ -59,7 +59,9 @@ export default React.memo<{
   const [dataTypeList, setDataTypeList] = useState<SelectProps<SelectValue>['options']>([]);
   useEffect(() => {
     requestType().then((res) => {
-      setDataTypeList(res.data.map(({ name, id }) => ({ label: name, value: id })));
+      if (res.success) {
+        setDataTypeList(res.data.map(({ name, id }) => ({ label: name, value: id })));
+      }
     });
   }, []);
 
@@ -92,18 +94,18 @@ export default React.memo<{
     };
     console.table(data);
 
-    requestCreatePost(data)
-      .then(() => {
+    requestCreatePost(data).then((res) => {
+      if (res.success) {
         message.success('发布成功');
         onSuccess?.();
         form.resetFields();
 
         // 发帖成功事件
         postEvent$?.emit('success');
-      })
-      .catch(() => {
+      } else {
         message.error('发布出错');
-      });
+      }
+    });
   });
 
   // 编辑

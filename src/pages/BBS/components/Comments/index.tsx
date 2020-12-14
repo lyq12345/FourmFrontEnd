@@ -24,12 +24,14 @@ export default React.memo<{
     setLoading(true);
     requestComments(id, page)
       .then((res) => {
-        if (page === 1) {
-          setData(res.data.posts);
-          setTotal(res.data.total);
-        } else {
-          setTotal(res.data.total);
-          setData((c) => c.concat(res.data.posts));
+        if (res.success) {
+          if (page === 1) {
+            setData(res.data.posts);
+            setTotal(res.data.total);
+          } else {
+            setTotal(res.data.total);
+            setData((c) => c.concat(res.data.posts));
+          }
         }
       })
       .finally(() => {
@@ -51,7 +53,9 @@ export default React.memo<{
       return new Promise<{ status: 0 | 1; loveCount: number }>((resolve, reject) => {
         requestLove(postId, status)
           .then((res) => {
-            resolve({ status, loveCount: +res.data });
+            if (res.success) {
+              resolve({ status, loveCount: +res.data });
+            }
           })
           .catch((e) => reject(e));
       });
@@ -84,13 +88,17 @@ export default React.memo<{
   const { run: handleSubmit } = useDebounceFn(() => {
     console.log('回复楼层', targetComment?.floorNumber);
     requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId).then((res) => {
-      setValue('');
-      message.success('评论成功');
+      if (res.success) {
+        setValue('');
+        message.success('评论成功');
 
-      // 更新： 刷新数据到第一条
-      requestComment(+res.data).then((res) => {
-        setData((d) => [res.data, ...d]);
-      });
+        // 更新： 刷新数据到第一条
+        requestComment(+res.data).then((res) => {
+          if (res.success) {
+            setData((d) => [res.data, ...d]);
+          }
+        });
+      }
     });
   });
 

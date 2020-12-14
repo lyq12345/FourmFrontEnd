@@ -37,9 +37,7 @@ type Response<TData> = Promise<Res<TData>>;
 /**
  * 我的发帖 5个
  */
-export function requestMyPosts5(): Promise<{
-  data: { total: number; pageCount: number; threads: Post[] };
-}> {
+export function requestMyPosts5(): Response<{ total: number; pageCount: number; threads: Post[] }> {
   return request.get('/BbsMain/GetThreadsMyPc', {
     params: {
       pageIndex: 1,
@@ -50,9 +48,11 @@ export function requestMyPosts5(): Promise<{
 /**
  * 我的关注 5个
  */
-export function requestSharePosts5(): Promise<
-  Res<{ threads: Post[]; total: number; pageCount: number }>
-> {
+export function requestSharePosts5(): Response<{
+  threads: Post[];
+  total: number;
+  pageCount: number;
+}> {
   return request.get('/BbsMain/GetThreadSharePc', {
     params: {
       pageIndex: 1,
@@ -64,7 +64,7 @@ export function requestSharePosts5(): Promise<
 /**
  * 消息数量
  */
-export function requestCount(): Promise<Res<number>> {
+export function requestCount(): Response<number> {
   return request.get('/BbsMain/GetMessageCount');
 }
 
@@ -145,7 +145,7 @@ export type PostType = {
 export function requestTypeList(): Response<PostType[]> {
   return request.get('/BbsMain/GetTypeList');
 }
-export function requestType(): Promise<Res<PostType[]>> {
+export function requestType(): Response<PostType[]> {
   return request.get('/BbsMain/GetType');
 }
 
@@ -172,7 +172,7 @@ export type CreatePostParams = {
   threadId: number; // 新建传0
   attach?: string[];
 };
-export function requestCreatePost(params: CreatePostParams): Promise<Res<String>> {
+export function requestCreatePost(params: CreatePostParams): Response<String> {
   return request.post('/BbsMain/CreateThread', {
     data: params,
   });

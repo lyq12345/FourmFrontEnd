@@ -36,10 +36,12 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
     setLoading(true);
     requestFn(page)
       .then((res) => {
-        if (page === 1) {
-          setData(res.data.threads);
-        } else {
-          setData((data) => data.concat(res.data.threads));
+        if (res.success) {
+          if (page === 1) {
+            setData(res.data.threads);
+          } else {
+            setData((data) => data.concat(res.data.threads));
+          }
         }
       })
       .finally(() => setLoading(false));

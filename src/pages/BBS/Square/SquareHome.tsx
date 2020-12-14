@@ -11,7 +11,9 @@ const SquareHome: React.FC = React.memo(() => {
     api
       .requestTypeList()
       .then((res) => {
-        setDataTypeList((c) => c.concat(res.data ?? []));
+        if (res.success) {
+          setDataTypeList((c) => c.concat(res.data ?? []));
+        }
       })
       .finally(() => setLoading(false));
   }, []);
