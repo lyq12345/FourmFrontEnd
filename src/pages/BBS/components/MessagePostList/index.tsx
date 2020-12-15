@@ -4,6 +4,7 @@ import { Message } from '../../api';
 import BBSLoading from '../BBSLoading';
 import MessagePost from '../MessagePost/MessagePost';
 import { ListProps } from '../NormalPostList';
+import noComments from '@/assets/bbs/noComments.png';
 
 type MessageList<T = { posts: Message[] }> = React.FC<ListProps<T>>;
 
@@ -40,6 +41,21 @@ const List2: MessageList = ({ requestFn, targetSelector = '#bbs-footer' }) => {
       <div style={{ textAlign: 'center' }}>
         <BBSLoading loading={loading} />
       </div>
+      {!loading && (!msgList || msgList?.length === 0) && (
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '180px 0',
+            fontSize: 18,
+            color: '#666',
+            lineHeight: '25px',
+          }}
+        >
+          <img src={noComments} alt="noContent" width={130} style={{ marginBottom: 18 }} />
+          <br />
+          暂无消息
+        </div>
+      )}
     </div>
   );
 };
