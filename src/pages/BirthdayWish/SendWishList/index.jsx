@@ -55,8 +55,8 @@ const SendWishList = (props) => {
                     </div>
                     <div className={styles.rightContent}>
                       <p>{item.userName} 收到 你的礼物</p>
-                      <p>{item.content}</p>
-                      <p>{item.time}</p>
+                      <p>赠言：{item.content}</p>
+                      <p>时间：{item.time}</p>
                     </div>
                   </div>
                   <div className={styles.messageReply}>
