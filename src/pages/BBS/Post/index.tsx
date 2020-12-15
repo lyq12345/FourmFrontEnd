@@ -6,7 +6,7 @@ import { Skeleton } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useParams } from 'umi';
-import { BbsUserInfo, PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
+import { PostDetail, requestLove, requestPostDetail, requestShare } from '../api';
 import BBSLoading from '../components/BBSLoading';
 import Comments from '../components/Comments';
 import PicturePart from '../components/NormalPost/PicturePart';
@@ -29,7 +29,7 @@ const Post: React.FC = React.memo(() => {
 
   // 判断是不是自己的帖子
   const [isMinePost, setIsMinePost] = useState(false);
-  const [bbsUserInfo] = useLocalStorageState<BbsUserInfo>('bbsUserInfo');
+  const [bbsUserInfo] = useLocalStorageState<{ id: number }>('userInfoLogin');
   useEffect(() => {
     setIsMinePost(bbsUserInfo?.id === data.createId);
     // setIsMinePost(true);

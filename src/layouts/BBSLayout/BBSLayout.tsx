@@ -52,11 +52,17 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const go = useBBSGotoSquare();
   const history = useHistory();
 
-  const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<api.BbsUserInfo>('bbsUserInfo');
+  const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<{
+    headImage?: string;
+    userName?: string;
+    id?: number;
+  }>('userInfoLogin');
   useEffect(() => {
     api.requestUserInfo().then((res) => {
       if (res.success) {
-        setBbsUserInfo(res.data);
+        setBbsUserInfo((d) => {
+          return { ...d, id: res.data.id };
+        });
       }
     });
   }, []);
@@ -197,8 +203,8 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
             <div className={styles['sidebar-right']}>
               <div className={styles['profile']}>
                 <div className={styles['profile-content']}>
-                  <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
-                  <span className={styles['name']}>{bbsUserInfo?.name}</span>
+                  <Avatar size={72} src={bbsUserInfo?.headImage} className={styles['avatar']} />
+                  <span className={styles['name']}>{bbsUserInfo?.userName}</span>
                   <div className={styles['wanna-post']} onClick={() => postEvent$.emit('doing')}>
                     我要发帖
                   </div>
