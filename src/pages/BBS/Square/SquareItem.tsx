@@ -8,7 +8,7 @@ import styles from './SquareItem.less';
 const SquareItem: React.FC = React.memo(() => {
   const { squareId } = useParams();
   const [data, setData] = useState<PostTypeDetail>({} as PostTypeDetail);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const requestFn = useCallback(
     (page) => {

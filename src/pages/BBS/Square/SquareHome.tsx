@@ -5,7 +5,7 @@ import BBSLoading from '../components/BBSLoading';
 
 const SquareHome: React.FC = React.memo(() => {
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     setLoading(true);
     api

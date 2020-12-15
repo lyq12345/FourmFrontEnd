@@ -4,10 +4,6 @@ import TestPic from '@/assets/bbs/test.png';
 import LongPic from '@/assets/bbs/long.png';
 
 const PictureDisplay = (props) => {
-  const handleClick = (index) => {
-    console.log(index);
-  };
-
   return (
     <div style={{ ...props.detailStyle.displayBorder }}>
       <List
@@ -17,7 +13,7 @@ const PictureDisplay = (props) => {
           <div style={{ marginBottom: '10px' }} key={index}>
             <img
               style={{ ...props.detailStyle.displayPic, cursor: 'zoom-in' }}
-              src={item.picUrl}
+              src={item}
               onClick={() => {
                 props.handlePicClick(index);
               }}

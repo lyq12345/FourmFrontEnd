@@ -23,6 +23,11 @@ export default React.memo<NormalPostProps>(({ post }) => {
     });
   });
 
+  const [replyCount, setReplyCount] = useState(post.replyCount);
+  const handleTotalChange = useCallback((total) => {
+    setReplyCount(total);
+  }, []);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleCommentClick = useCallback(() => {
     setIsModalVisible(true);
@@ -80,7 +85,7 @@ export default React.memo<NormalPostProps>(({ post }) => {
         <span className={styles['type']} onClick={handleCommentClick}>
           评论
         </span>
-        <span>{post.replyCount}</span>
+        <span>{replyCount}</span>
       </div>
 
       {/* 评论 */}
@@ -89,7 +94,12 @@ export default React.memo<NormalPostProps>(({ post }) => {
         width={670}
         modalRender={() => (
           <div style={{ pointerEvents: 'initial' }}>
-            <Comments id={post.threadId} postIdOfThread={post.postId} typeId={post.typeId} />
+            <Comments
+              id={post.threadId}
+              postIdOfThread={post.postId}
+              typeId={post.typeId}
+              onTotalChange={handleTotalChange}
+            />
           </div>
         )}
         maskClosable

@@ -47,7 +47,7 @@ const PictureDetail = (props) => {
     <div style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', ...props.detailStyle.zoomedBorder }}>
       <Row
         style={{
-          background: `url(${props.picList[curZoomed].picUrl}) #333333 no-repeat center center / contain`,
+          background: `url(${props.picList[curZoomed]}) #333333 no-repeat center center / contain`,
           ...props.detailStyle.zoomedUpperPic,
         }}
       >
@@ -125,7 +125,7 @@ const PictureDetail = (props) => {
                 onClick={() => {
                   handleBottomClick(index);
                 }}
-                src={item.picUrl}
+                src={item}
                 style={{
                   ...props.detailStyle.zoomedBottomPic,
                   cursor: 'pointer',

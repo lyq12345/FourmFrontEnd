@@ -62,7 +62,7 @@ const Post: React.FC = React.memo(() => {
     go(data.typeId);
   }, [data]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   return (
     <BBSLoading loading={loading}>
@@ -118,7 +118,7 @@ const Post: React.FC = React.memo(() => {
       </div>
       <Comments
         id={+postId}
-        style={{ height: 'auto', paddingBottom: 59 }}
+        style={{ height: 'auto', paddingBottom: 30, borderRadius: 0 }}
         wrapperReplyStyle={{ position: 'fixed', bottom: 0, borderRadius: 0 }}
         postIdOfThread={data.postId}
         typeId={data.typeId}

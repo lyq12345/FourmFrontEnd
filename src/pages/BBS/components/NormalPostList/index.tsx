@@ -54,7 +54,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
         })
         .finally(() => setLoading(false));
     }
-  }, [page, trigger]); // useToggle
+  }, [page, trigger, isStopLoadMore]); // useToggle
 
   const inViewport = useInViewport(() => document.querySelector(targetSelector));
   useUpdateEffect(() => {
@@ -63,7 +63,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
     }
   }, [inViewport]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   return (
     <>

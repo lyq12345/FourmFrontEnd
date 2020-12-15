@@ -3,7 +3,7 @@ import { useDebounceFn } from '@/utils/utilsBBS';
 import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
 import { Button, Input, message } from 'antd';
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
-import { Comment, requestComment, requestComments, requestLove, requestReply } from '../../api';
+import { Comment, requestComments, requestLove, requestReply } from '../../api';
 import BBSLoading from '../BBSLoading';
 import CommentComponent, { CommentProps } from './Comment';
 import styles from './style.less';
@@ -14,30 +14,42 @@ export default React.memo<{
   postIdOfThread: number;
   style?: CSSProperties;
   wrapperReplyStyle?: CSSProperties;
-}>(({ id, style, typeId, postIdOfThread, wrapperReplyStyle }) => {
+  onTotalChange?: (value: number) => void;
+}>(({ id, style, typeId, postIdOfThread, wrapperReplyStyle, onTotalChange }) => {
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    onTotalChange?.(total);
+  }, [total]);
+  const [loading, setLoading] = useState(true);
+  const [isStopLoadMore, setIsStopLoadMore] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
-    requestComments(id, page)
-      .then((res) => {
-        if (res.success) {
-          if (page === 1) {
-            setData(res.data.posts);
-            setTotal(res.data.total);
-          } else {
-            setTotal(res.data.total);
-            setData((c) => c.concat(res.data.posts));
+    if (!isStopLoadMore) {
+      setLoading(true);
+      requestComments(id, page)
+        .then((res) => {
+          if (res.success) {
+            // 设置无限加载的停止条件
+            if (!res.data.posts?.length) {
+              setIsStopLoadMore(true);
+            }
+
+            if (page === 1) {
+              setData(res.data.posts);
+              setTotal(res.data.total);
+            } else {
+              setTotal(res.data.total);
+              setData((c) => c.concat(res.data.posts));
+            }
           }
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [page, id]);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
+  }, [page, id, isStopLoadMore]);
 
   // 无限加载
   const loadRef = useRef(null);
@@ -94,6 +106,7 @@ export default React.memo<{
 
         // 更新： 刷新数据到第一条
         setData((d) => [res.data, ...d]);
+        setTotal((t) => t + 1);
       }
     });
   });
@@ -105,12 +118,13 @@ export default React.memo<{
     <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
       <p className={styles['title']}>共{total}条评论</p>
       <div className={styles['comment-container']}>
-        {data?.map((v) => (
+        {data?.map((v, i) => (
           <CommentComponent
             key={v.postId}
             comment={v}
             onGoodClick={handleGoodClick}
             onCommentClick={handleCommentClick}
+            hasDivider={i !== data.length - 1}
           />
         ))}
         {loading ? (

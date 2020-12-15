@@ -11,7 +11,7 @@ type MessageList<T = { posts: Message[] }> = React.FC<ListProps<T>>;
 const List2: MessageList = ({ requestFn, targetSelector = '#bbs-footer' }) => {
   const [msgList, setMsgList] = useState<Message[]>([]);
   const [page, setPage] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
