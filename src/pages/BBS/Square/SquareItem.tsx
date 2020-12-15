@@ -17,8 +17,8 @@ const SquareItem: React.FC = React.memo(() => {
         .then((res) => {
           if (res.success) {
             setData(res.data);
-            return res;
           }
+          return res;
         })
         .finally(() => {
           setLoading(false);

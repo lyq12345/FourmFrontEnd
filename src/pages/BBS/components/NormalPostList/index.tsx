@@ -21,6 +21,7 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
   useEffect(() => {
     setPage(1);
     refresh();
+    setIsStopLoadMore(false);
   }, [requestFn]);
 
   const postEvent$ = useContext(PostEventContext);
@@ -32,19 +33,27 @@ const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
 
   const [data, setData] = useState<Post[]>([]);
   const [page, setPage] = useState(1);
+  const [isStopLoadMore, setIsStopLoadMore] = useState(false);
   useEffect(() => {
-    setLoading(true);
-    requestFn(page)
-      .then((res) => {
-        if (res.success) {
-          if (page === 1) {
-            setData(res.data.threads);
-          } else {
-            setData((data) => data.concat(res.data.threads));
+    if (!isStopLoadMore) {
+      setLoading(true);
+      requestFn(page)
+        .then((res) => {
+          if (res.success) {
+            // 设置无限加载的停止条件
+            if (!res.data.threads?.length) {
+              setIsStopLoadMore(true);
+            }
+
+            if (page === 1) {
+              setData(res.data.threads);
+            } else {
+              setData((data) => data.concat(res.data.threads));
+            }
           }
-        }
-      })
-      .finally(() => setLoading(false));
+        })
+        .finally(() => setLoading(false));
+    }
   }, [page, trigger]); // useToggle
 
   const inViewport = useInViewport(() => document.querySelector(targetSelector));
