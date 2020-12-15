@@ -55,7 +55,9 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<api.BbsUserInfo>('bbsUserInfo');
   useEffect(() => {
     api.requestUserInfo().then((res) => {
-      setBbsUserInfo(res.data);
+      if (res.success) {
+        setBbsUserInfo(res.data);
+      }
     });
   }, []);
 
@@ -63,7 +65,9 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [dataTypeList, setDataTypeList] = useState<api.PostType[]>([]);
   useEffect(() => {
     api.requestType().then((res) => {
-      setDataTypeList(res.data ?? []);
+      if (res.success) {
+        setDataTypeList(res.data ?? []);
+      }
     });
   }, []);
 
@@ -71,7 +75,9 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [dataPostMyList, setDataPostMyList] = useState<api.Post[]>([]);
   useEffect(() => {
     api.requestMyPosts5().then((res) => {
-      setDataPostMyList(res.data?.threads ?? []);
+      if (res.success) {
+        setDataPostMyList(res.data?.threads ?? []);
+      }
     });
   }, [trigger]);
 
@@ -79,7 +85,9 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const [dataPostShareList, setDataPostShareList] = useState<api.Post[]>([]);
   useEffect(() => {
     api.requestSharePosts5().then((res) => {
-      setDataPostShareList(res.data?.threads ?? []);
+      if (res.success) {
+        setDataPostShareList(res.data?.threads ?? []);
+      }
     });
   }, [trigger]);
 

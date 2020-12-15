@@ -15,8 +15,10 @@ const SquareItem: React.FC = React.memo(() => {
       setLoading(true);
       return requestTypePosts(page, squareId)
         .then((res) => {
-          setData(res.data);
-          return res;
+          if (res.success) {
+            setData(res.data);
+            return res;
+          }
         })
         .finally(() => {
           setLoading(false);

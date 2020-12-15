@@ -20,7 +20,9 @@ const Post: React.FC = React.memo(() => {
     setLoading(true);
     requestPostDetail(+postId)
       .then((res) => {
-        setData(res.data);
+        if (res.success) {
+          setData(res.data);
+        }
       })
       .finally(() => setLoading(false));
   }, [postId]);
@@ -34,14 +36,18 @@ const Post: React.FC = React.memo(() => {
   }, [data]);
 
   const { run: handleFocusClick } = useDebounceFn(() => {
-    requestShare(+postId, +!data.isShare).then((_) => {
-      setData((d) => ({ ...d, isShare: +!d.isShare as 0 | 1 }));
+    requestShare(+postId, +!data.isShare).then((res) => {
+      if (res.success) {
+        setData((d) => ({ ...d, isShare: +!d.isShare as 0 | 1 }));
+      }
     });
   });
 
   const { run: handleLoveClick } = useDebounceFn(() => {
     requestLove(+data.postId, +!data.isLove).then((res) => {
-      setData((d) => ({ ...d, isLove: +!d.isLove as 0 | 1, loveCount: res.data }));
+      if (res.success) {
+        setData((d) => ({ ...d, isLove: +!d.isLove as 0 | 1, loveCount: res.data }));
+      }
     });
   });
 

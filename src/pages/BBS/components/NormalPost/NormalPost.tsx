@@ -15,12 +15,12 @@ export default React.memo<NormalPostProps>(({ post }) => {
   const [isLove, setIsLove] = useState(post.isLove);
 
   const { run: handleGoodClick } = useDebounceFn(() => {
-    requestLove(post.postId, 1 - isLove)
-      .then((res) => {
+    requestLove(post.postId, 1 - isLove).then((res) => {
+      if (res.success) {
         setLoveCount(res.data);
         setIsLove(1 - isLove);
-      })
-      .catch();
+      }
+    });
   });
 
   const [isModalVisible, setIsModalVisible] = useState(false);
