@@ -75,6 +75,10 @@ const WishDialog = (props) => {
     setReplyContent(val)
   }
   const handleClick = () => {
+    if (!replyContent) {
+      message.error('内容不能为空！')
+      return
+    }
     let param = {
       userId: userInfo.userId,
       year: userInfo.year,

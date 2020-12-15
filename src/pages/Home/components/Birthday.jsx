@@ -31,7 +31,7 @@ const Birthday = (props) => {
   return (
     <div className={styles.birthday}>
       <div className={styles.birthdayAnniversary}>
-        <span>生日周年庆</span>
+        <span>生日祝福</span>
         <span onClick={() => window.open('birthday-wish')}>更多</span>
       </div>
       <div>

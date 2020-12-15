@@ -51,7 +51,7 @@ const SendWishList = (props) => {
                 <div className={styles.contentInfo} key={index}>
                   <div className={styles.contentList}>
                     <div className={styles.leftImg}>
-                      {/* <img src="" alt=""/> */}
+                      <img src={item.iconUrl} alt="" />
                     </div>
                     <div className={styles.rightContent}>
                       <p>{item.userName} 收到 你的礼物</p>
@@ -59,9 +59,11 @@ const SendWishList = (props) => {
                       <p>时间：{item.time}</p>
                     </div>
                   </div>
-                  <div className={styles.messageReply}>
-                    <p>回复：{item.replyContent}</p>
-                  </div>
+                  {
+                    item.replyContent ? <div className={styles.messageReply}>
+                      <p>回复：{item.replyContent}</p>
+                    </div> : <></>
+                  }
                 </div>
               ))
             }
