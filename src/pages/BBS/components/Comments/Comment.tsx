@@ -25,7 +25,7 @@ export default React.memo<CommentProps>(({ comment, onCommentClick, onGoodClick 
 
   return (
     <div className={styles['comment']}>
-      <span>{comment.floorNumber}</span>
+      <span>{comment.floorNumber}楼</span>
       <Avatar size={24} src={comment.avatarPath} style={{ verticalAlign: 'top' }} />
       <div className={styles['right']}>
         <p>{comment.createName}</p>

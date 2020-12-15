@@ -93,11 +93,7 @@ export default React.memo<{
         message.success('评论成功');
 
         // 更新： 刷新数据到第一条
-        requestComment(+res.data).then((res) => {
-          if (res.success) {
-            setData((d) => [res.data, ...d]);
-          }
-        });
+        setData((d) => [res.data, ...d]);
       }
     });
   });
@@ -136,7 +132,7 @@ export default React.memo<{
       <div className={styles['reply']} onClick={handleReplyBgClick} style={wrapperReplyStyle}>
         <Input
           className={styles['input']}
-          placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}`}
+          placeholder={!targetComment ? '回复帖子' : `回复${targetComment.floorNumber}楼`}
           value={value}
           onChange={handleValueChange}
           ref={InputRef}

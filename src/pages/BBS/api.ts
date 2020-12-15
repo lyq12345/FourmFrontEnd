@@ -240,7 +240,7 @@ export function requestReply(
   threadId: number,
   postId: number,
   typeId: number,
-): Response<string> {
+): Response<Comment> {
   return request.post('/BbsMain/Repaly', {
     data: {
       content,
