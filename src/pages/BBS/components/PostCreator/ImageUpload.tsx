@@ -11,7 +11,7 @@ export default React.memo<{ value: any; onChange: (fileList: any[]) => void }>(
       // resolve url
       fileList.forEach((upLoadFile) => {
         if (upLoadFile.response && !upLoadFile.url) {
-          upLoadFile.url = upLoadFile.response.data;
+          upLoadFile.url = upLoadFile.response.data?.[0];
         }
       });
 
