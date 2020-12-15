@@ -1,8 +1,8 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-11-25 16:04:07
- * @LastEditors: xnwang02
+ * @LastEditTime: 2020-12-15 09:48:41
+ * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
  */
@@ -61,6 +61,7 @@ export default {
   test: {
     '/yst-iwork-alpha-api/BbsMain': {
       target: 'http://bbsmain-uat.yst.com.cn',
+      // target: 'http://rap2.idc.yst.com.cn/backend/app/mock/149',
       changeOrigin: true,
       pathRewrite: { '^/yst-iwork-alpha-api': '' },
     },

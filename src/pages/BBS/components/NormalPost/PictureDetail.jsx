@@ -118,6 +118,7 @@ const PictureDetail = (props) => {
               style={{
                 backgroundColor: '#FFFFFF',
                 opacity: index === curZoomed ? '100%' : '51%',
+                userSelect: 'none',
               }}
             >
               <img
