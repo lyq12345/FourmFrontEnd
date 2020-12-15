@@ -1,6 +1,6 @@
 import noComments from '@/assets/bbs/noComments.png';
 import { useDebounceFn } from '@/utils/utilsBBS';
-import { useClickAway, useInViewport, useUpdateEffect } from 'ahooks';
+import { useClickAway, useInViewport, useKeyPress, useUpdateEffect } from 'ahooks';
 import { Button, Input, message } from 'antd';
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { Comment, requestComments, requestLove, requestReply } from '../../api';
@@ -150,6 +150,7 @@ export default React.memo<{
           value={value}
           onChange={handleValueChange}
           ref={InputRef}
+          onPressEnter={handleSubmit}
         />
         <Button
           className={`${styles['submit']} ${!value.length && styles['disabled']}`}
