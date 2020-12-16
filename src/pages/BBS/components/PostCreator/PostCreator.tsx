@@ -123,7 +123,7 @@ export default React.memo<{
         typeId: oldFormObject.typeId,
 
         // attach 要特殊加工，满足 RcFile 的类型才能正常回显
-        attachUnresolved: oldFormObject.attach?.map<UploadFile>((v, i) => {
+        attachUnresolved: oldFormObject.attachsBig?.map<UploadFile>((v, i) => {
           return {
             uid: '' + -i,
             type: '',

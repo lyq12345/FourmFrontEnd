@@ -1,7 +1,7 @@
 import editPNG from '@/assets/bbs/icon/edit.png';
 import { PostEventContext } from '@/layouts/BBSLayout/store';
 import { dayjs, IconFont, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
-import { useLocalStorageState } from 'ahooks';
+import { useLocalStorageState, useToggle } from 'ahooks';
 import { Skeleton } from 'antd';
 import Avatar from 'antd/lib/avatar/avatar';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
@@ -16,6 +16,7 @@ const Post: React.FC = React.memo(() => {
   const { postId } = useParams<{ postId: string }>();
 
   const [data, setData] = useState<PostDetail>({} as PostDetail);
+  const [trigger, { toggle: refresh }] = useToggle();
   useEffect(() => {
     setLoading(true);
     requestPostDetail(+postId)
@@ -25,7 +26,7 @@ const Post: React.FC = React.memo(() => {
         }
       })
       .finally(() => setLoading(false));
-  }, [postId]);
+  }, [postId, trigger]);
 
   // 判断是不是自己的帖子
   const [isMinePost, setIsMinePost] = useState(false);
@@ -53,6 +54,24 @@ const Post: React.FC = React.memo(() => {
 
   // 发帖对话框
   const postEvent$ = useContext(PostEventContext);
+  postEvent$?.useSubscription((strOrArray) => {
+    let val, args;
+    if (strOrArray instanceof Array) {
+      val = strOrArray[0];
+      args = strOrArray.slice(1);
+    } else {
+      val = strOrArray;
+      args = [];
+    }
+
+    switch (val) {
+      case 'success':
+        refresh();
+        break;
+      default:
+        break;
+    }
+  });
   const handleEditClick = useCallback(() => {
     postEvent$?.emit(['redoing', data]);
   }, [data]);
