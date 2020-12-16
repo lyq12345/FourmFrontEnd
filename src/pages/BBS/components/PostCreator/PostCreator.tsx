@@ -52,7 +52,12 @@ function validatePost(values: {
 export default React.memo<{
   oldFormObject?: Post;
   onSuccess?: () => void;
-}>(({ oldFormObject, onSuccess }) => {
+
+  /**
+   * 因为select的dropdown是渲染在外节点的，不能使用一般的css变量，采用传入自定义className的形式
+   */
+  dropdownClassName?: string;
+}>(({ oldFormObject, onSuccess, dropdownClassName }) => {
   const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
@@ -192,7 +197,9 @@ export default React.memo<{
               {...SelectStyle}
               options={dataTypeList}
               className={styles['select']}
-              dropdownClassName={styles['select-dropdown']}
+              dropdownClassName={`${
+                dropdownClassName ? dropdownClassName : styles['select-dropdown']
+              }`}
             />
           </Form.Item>
           <Button

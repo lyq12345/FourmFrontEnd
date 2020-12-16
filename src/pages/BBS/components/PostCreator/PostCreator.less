@@ -1,5 +1,3 @@
-@y: #ff5000;
-
 .container {
   background: #fff;
   border-radius: 4px;
@@ -51,7 +49,7 @@
 
     .submit-button {
       border-color: currentColor;
-      color: @y;
+      color: var(--bbs-primary-color);
 
       &.disabled {
         border-color: currentColor;
@@ -60,17 +58,16 @@
     }
   }
 }
-
 .select-dropdown {
   :global {
     .ant-select-item-option-content {
       transition: all 0.3s;
     }
     .ant-select-item-option-active {
-      color: @y;
+      color: #ff5000;
     }
     .ant-select-item-option-selected {
-      color: @y;
+      color: #ff5000;
     }
   }
 }

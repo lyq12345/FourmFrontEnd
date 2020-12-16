@@ -1,0 +1,30 @@
+.container {
+  margin: 10px 0;
+  padding: 20px 0;
+  background: #fff;
+  border-radius: 6px;
+  max-height: 100vh;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+.select-dropdown {
+  :global {
+    .ant-select-item-option-content {
+      transition: all 0.3s;
+    }
+    .ant-select-item-option-active {
+      color: var(--bbs-primary-color);
+    }
+    .ant-select-item-option-selected {
+      color: var(--bbs-primary-color);
+    }
+  }
+}
+
+:root {
+  --bbs-primary-color: red;
+}

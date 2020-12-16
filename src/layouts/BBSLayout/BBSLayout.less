@@ -1,4 +1,5 @@
 .bg-container {
+  --bbs-primary-color: #ff5000;
   min-width: 1200px;
 
   // bug: 使用简写属性时，compile之后 65px 变成了 0.65px，所以拆开
@@ -191,21 +192,18 @@
       }
     }
   }
-}
-
-*::selection {
-  background: #fa6400;
-}
-
-a {
-  color: #ff5000;
-
-  &:hover {
-    color: #eb0029;
+  *::selection {
+    background: #fa6400;
   }
-}
+  a {
+    color: var(--bbs-primary-color);
 
-img[src=''],
-img:not([src]) {
-  opacity: 0;
+    &:hover {
+      color: #eb0029;
+    }
+  }
+  img[src=''],
+  img:not([src]) {
+    opacity: 0;
+  }
 }

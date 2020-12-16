@@ -68,7 +68,7 @@ export default React.memo<NormalPostProps>(({ post }) => {
             type="iconyizan"
             className={styles['bottom-icon']}
             onClick={handleGoodClick}
-            style={{ color: '#ff5000' }}
+            style={{ color: 'var(--bbs-primary-color)' }}
           />
         ) : (
           <IconFont type="iconzan" className={styles['bottom-icon']} onClick={handleGoodClick} />
