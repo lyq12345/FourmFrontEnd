@@ -25,7 +25,7 @@ const TextAreaStyle: TextAreaProps = {
   autoSize: { minRows: 4, maxRows: 13 },
 };
 const SelectStyle: SelectProps<SelectValue> = {
-  style: { marginLeft: 'auto' },
+  style: { marginLeft: 'auto', width: 132 },
   bordered: false,
   placeholder: '选择发布广场',
 };
