@@ -24,6 +24,7 @@ const WishDialog = (props) => {
   const [templateList, setTemplateList] = useState([])
   const [selectShowIcon, setSelectShowIcon] = useState({})
   const [swiper, setSwiper] = useState(null);
+  const [isSelected, setIsSelected] = useState(0)
 
   const { userInfo, isDialog, closeDialog = () => { } } = props
   const handleChange = (val) => {
@@ -71,7 +72,8 @@ const WishDialog = (props) => {
       iconNo: val.iconNo
     })
   }
-  const templateClick = (val, index) => {
+  const templateClick = (val, _index) => {
+    setIsSelected(_index)
     setReplyContent(val)
   }
   const handleClick = () => {
@@ -164,7 +166,7 @@ const WishDialog = (props) => {
                           <div key={index} className={styles.defaultBlessing}>
                             {
                               item.map((val, _index) => (
-                                <p key={_index} title={val} onClick={() => templateClick(val, _index)}>{val}</p>
+                                <p key={_index} className={isSelected === _index ? `${styles.dayCheck}` : ""} title={val} onClick={() => templateClick(val, _index)}>{val}</p>
                               ))
                             }
                           </div>

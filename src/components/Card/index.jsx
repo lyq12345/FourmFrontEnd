@@ -15,10 +15,10 @@ const Card = (props) => {
       return
     }
     // ta的祝福墙
-    // if (val.classTypeId == '400000099') {
-    //   w.location.href = `birthday-wish/BlessingWall?wishType=${2}&userId=${userInfo && userInfo.account}&type=${1}`
-    //   return
-    // }
+    if (val.classTypeId == '400000100') {
+      w.location.href = `birthday-wish/BlessingWall?wishType=${2}&userId=${userInfo && userInfo.account}&type=${1}&avater=${val.avater}`
+      return
+    }
     w.location.href = val.href
   }
   return (

@@ -103,7 +103,7 @@ const BlessingWall = (props) => {
         <img src={birthdayBanner} alt="" />
         <div>
           <p className={styles.birthdayImg}>
-            <img src={loginInUserInfo.headImage} alt="" />
+            <img src={query.type == 2 ? loginInUserInfo.headImage : query.avater} alt="" />
           </p>
           <p className={styles.date}>
             {birthdayDate}
