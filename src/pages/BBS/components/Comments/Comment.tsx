@@ -9,10 +9,11 @@ export type CommentProps = {
   onCommentClick: (comment: Comment) => void;
   comment: Comment;
   hasDivider?: boolean;
+  id?: string;
 };
 
 export default React.memo<CommentProps>(
-  ({ comment, onCommentClick, onGoodClick, hasDivider = true }) => {
+  ({ comment, onCommentClick, onGoodClick, hasDivider = true, id }) => {
     const [loveCount, setLoveCount] = useState(comment.loveCount);
     const [isLove, setIsLove] = useState(comment.isLove);
 
@@ -26,7 +27,7 @@ export default React.memo<CommentProps>(
     });
 
     return (
-      <div className={styles['comment']}>
+      <div className={styles['comment']} id={id}>
         <span>{comment.floorNumber}楼</span>
         <Avatar size={24} src={comment.avatarPath} style={{ verticalAlign: 'top' }} />
         <div className={styles['right']}>

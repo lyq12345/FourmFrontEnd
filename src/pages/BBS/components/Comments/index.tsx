@@ -52,8 +52,7 @@ export default React.memo<{
   }, [page, id, isStopLoadMore]);
 
   // 无限加载
-  const loadRef = useRef(null);
-  const inViewPort = useInViewport(loadRef);
+  const inViewPort = useInViewport(() => document.querySelector('#bbs-last-one-comment'));
   useUpdateEffect(() => {
     if (inViewPort) {
       setPage((c) => c + 1);
@@ -125,6 +124,7 @@ export default React.memo<{
             onGoodClick={handleGoodClick}
             onCommentClick={handleCommentClick}
             hasDivider={i !== data.length - 1}
+            id={data.length - 1 === i ? 'bbs-last-one-comment' : ''}
           />
         ))}
         {loading ? (
@@ -141,7 +141,6 @@ export default React.memo<{
             </div>
           )
         )}
-        <div ref={loadRef} style={{ height: 1 }}></div>
       </div>
       <div className={styles['reply']} onClick={handleReplyBgClick} style={wrapperReplyStyle}>
         <Input

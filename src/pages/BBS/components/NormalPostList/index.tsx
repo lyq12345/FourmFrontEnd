@@ -1,5 +1,5 @@
 import { PostEventContext } from '@/layouts/BBSLayout/store';
-import { useInViewport, useToggle, useUpdateEffect } from 'ahooks';
+import { useInViewport, useToggle, useUpdateEffect, useWhyDidYouUpdate } from 'ahooks';
 import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
 import BBSLoading from '../BBSLoading';
@@ -18,7 +18,7 @@ type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
 const List: List = ({ requestFn, targetSelector = '#bbs-footer' }) => {
   const [trigger, { toggle: refresh }] = useToggle(); // 用来触发刷新
-  useEffect(() => {
+  useUpdateEffect(() => {
     setPage(1);
     refresh();
     setIsStopLoadMore(false);
