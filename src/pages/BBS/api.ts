@@ -90,7 +90,7 @@ export type Post = {
   postId: number;
   isLove: 0 | 1;
   attach: [];
-  attachBig: [];
+  attachsBig: [];
 };
 
 export function requestLatestPosts(

@@ -90,7 +90,7 @@ const Post: React.FC = React.memo(() => {
             </div>
             <p className={styles['content']}>{data?.content}</p>
 
-            <PicturePart type={1} picList={data.attach} largePicList={data.attachBig} />
+            <PicturePart type={1} picList={data.attach} largePicList={data.attachsBig} />
 
             <div className={styles['action']}>
               <span onClick={handleTypeClick}>{data?.typeName}</span>
