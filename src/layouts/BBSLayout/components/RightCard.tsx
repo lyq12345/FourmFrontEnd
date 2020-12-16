@@ -21,9 +21,7 @@ const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title
                 {title}
               </a>
               <IconFont type="iconzan" />
-              {loveCount && (
-                <span className={styles.count}>{loveCount > 99 ? '99+' : loveCount}</span>
-              )}
+              <span className={styles.count}>{loveCount > 99 ? '99+' : loveCount}</span>
             </div>
           );
         })}
