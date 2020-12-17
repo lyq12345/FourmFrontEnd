@@ -41,8 +41,7 @@ const errorHandler = (error: ERROR) => {
     const { status, url } = response;
 
     if (status === 401) {
-      // TODO: 记得打开
-      // logout();
+      logout();
     } else {
       notification.error({
         message: `请求错误 ${status}: ${url}`,

@@ -44,7 +44,10 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
           <p className={styles['name']}>{message1.createName}</p>
           <p className={styles['time']}>{dayjs(message1.createDate).fromNow()}</p>
           <div className={styles['main']}>
-            <p className={styles['reply-content']}>{message1.content}</p>
+            <p
+              className={styles['reply-content']}
+              dangerouslySetInnerHTML={{ __html: message1.content }}
+            ></p>
             <div className={styles['origin-container']}>
               <p className={styles['origin-content']}>
                 {(() => {

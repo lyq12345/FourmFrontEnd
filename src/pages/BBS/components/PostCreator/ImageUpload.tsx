@@ -36,6 +36,7 @@ export default React.memo<{ value: any; onChange: (fileList: any[]) => void }>(
 
     return (
       <Upload
+        accept="image/*"
         listType="picture-card"
         fileList={value}
         onChange={handleChange}
