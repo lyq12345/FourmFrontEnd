@@ -72,7 +72,6 @@ export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = tr
         </div>
       </div>
 
-      <PicturePart picList={post.attach} largePicList={post.attachsBig} />
       {isGoPostVisible ? (
         <p style={{ textAlign: 'right' }}>
           <a onClick={() => go(post.threadId)} className={styles['go-post']}>
@@ -80,6 +79,7 @@ export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = tr
           </a>
         </p>
       ) : null}
+      <PicturePart picList={post.attach} largePicList={post.attachsBig} />
 
       <div className={styles['action']}>
         {isLove ? (
