@@ -11,17 +11,12 @@ export type ListProps<T> = {
    * 如果 requestFn 变更，则组件会刷新，分页从1开始
    */
   requestFn: (page: number) => Promise<{ data: T }>;
-  targetSelector?: string;
   isInnerPrimaryColorUsed?: boolean;
 };
 
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
-const List: List = ({
-  requestFn,
-  targetSelector = '#bbs-footer',
-  isInnerPrimaryColorUsed = true,
-}) => {
+const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
   const [trigger, { toggle: refresh }] = useToggle(); // 用来触发刷新
   useUpdateEffect(() => {
     setPage(1);
@@ -61,7 +56,7 @@ const List: List = ({
     }
   }, [page, trigger, isStopLoadMore]); // useToggle
 
-  const inViewport = useInViewport(() => document.querySelector(targetSelector));
+  const inViewport = useInViewport(() => document.querySelector('#bbs-last-one-post'));
   useUpdateEffect(() => {
     if (inViewport) {
       setPage((c) => c + 1);
@@ -72,8 +67,13 @@ const List: List = ({
 
   return (
     <>
-      {data?.map((v) => (
-        <NormalPost key={v.threadId} post={v} isInnerPrimaryColorUsed={isInnerPrimaryColorUsed} />
+      {data?.map((v, i) => (
+        <NormalPost
+          key={v.threadId}
+          post={v}
+          isInnerPrimaryColorUsed={isInnerPrimaryColorUsed}
+          id={i === data.length - 1 ? 'bbs-last-one-post' : undefined}
+        />
       ))}
       <div style={{ textAlign: 'center' }}>
         <BBSLoading loading={loading} />

@@ -9,9 +9,10 @@ import PicturePart from './PicturePart';
 export type NormalPostProps = {
   post: Post;
   isInnerPrimaryColorUsed?: boolean;
+  id?: string;
 };
 
-export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = true }) => {
+export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = true, id }) => {
   const [loveCount, setLoveCount] = useState(post.loveCount);
   const [isLove, setIsLove] = useState(post.isLove);
 
@@ -37,7 +38,7 @@ export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = tr
   const go = useBBSGotoPost();
 
   return (
-    <div className={styles['container']}>
+    <div className={styles['container']} id={id}>
       <div className={styles['top']}>
         <Avatar size={50} src={post.avatarPath} className={styles['avatar']} />
         <div className={styles['center']}>
