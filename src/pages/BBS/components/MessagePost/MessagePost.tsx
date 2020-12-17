@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Link } from 'umi';
 import { Message, requestReply } from '../../api';
 import styles from './MessagePost.less';
+import Thumb from '@/assets/bbs/icon/thumb.png';
 
 export type MessagePostProps = {
   message1: Message;
@@ -44,7 +45,10 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
           <p className={styles['name']}>{message1.createName}</p>
           <p className={styles['time']}>{dayjs(message1.createDate).fromNow()}</p>
           <div className={styles['main']}>
-            <p className={styles['reply-content']}>{message1.content}</p>
+            <p className={styles['reply-content']}>
+              {message1.content}
+              {message1.infoType === 103 ? <img className={styles['thumb']} src={Thumb}></img> : null}
+            </p>
             <div className={styles['origin-container']}>
               <p className={styles['origin-content']}>
                 {(() => {
