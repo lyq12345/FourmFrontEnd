@@ -105,6 +105,7 @@ export default React.memo<{
 
         // 更新： 刷新数据到第一条
         setData((d) => [res.data, ...d]);
+        window.scrollTo(0, 0);
         setTotal((t) => t + 1);
       }
     });
