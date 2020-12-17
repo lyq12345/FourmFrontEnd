@@ -16,7 +16,7 @@ const Card = (props) => {
     }
     // ta的祝福墙
     if (val.classTypeId == '400000100') {
-      w.location.href = `birthday-wish/BlessingWall?wishType=${2}&userId=${val.sendUserId}&type=${1}&avater=${val.avater}`
+      w.location.href = `birthday-wish/BlessingWall?wishType=${2}&userId=${val.senderId}&type=${1}&userName=${val.senderName}&avater=${val.avater}`
       return
     }
     w.location.href = val.href
