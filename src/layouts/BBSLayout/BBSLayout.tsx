@@ -115,7 +115,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
           width={670}
           style={{ top: '20vh' }}
           modalRender={() => (
-            <div style={{ pointerEvents: 'initial' }}>
+            <div style={{ pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }}>
               <Popconfirm
                 title="将取消本次发帖"
                 onConfirm={handleModalClose}

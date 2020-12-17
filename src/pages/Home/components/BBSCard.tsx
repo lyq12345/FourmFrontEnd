@@ -18,7 +18,7 @@ export default React.memo(() => {
           更多
         </p>
       </div>
-      <PostCreator isInnerPrimaryColorUsed={false} />
+      <PostCreator isInnerPrimaryColorUsed={false} style={{ margin: 20, background: '#f6f6f6' }} />
       <NormalPostList requestFn={requestLatestPosts} isInnerPrimaryColorUsed={false} />
     </div>
   );

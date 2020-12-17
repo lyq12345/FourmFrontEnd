@@ -6,7 +6,7 @@ import { FormProps } from 'antd/lib/form';
 import { InputProps, TextAreaProps } from 'antd/lib/input';
 import { SelectProps, SelectValue } from 'antd/lib/select';
 import { UploadFile } from 'antd/lib/upload/interface';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useContext, useEffect, useState } from 'react';
 import { CreatePostParams, Post, requestCreatePost, requestType } from '../../api';
 import ImageUpload from './ImageUpload';
 import styles from './PostCreator.less';
@@ -53,7 +53,8 @@ export default React.memo<{
   oldFormObject?: Post;
   onSuccess?: () => void;
   isInnerPrimaryColorUsed?: boolean;
-}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true }) => {
+  style?: CSSProperties;
+}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style }) => {
   const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
@@ -144,7 +145,7 @@ export default React.memo<{
   const [visiblePopover, setVisiblePopover] = useState(false);
 
   return (
-    <div className={styles['container']}>
+    <div className={styles['container']} style={style}>
       <Form
         onFinish={handleFinished}
         form={form}
@@ -162,7 +163,10 @@ export default React.memo<{
         <div className={styles['bottom']}>
           <Popover
             content={
-              <div className={styles['popover-content']}>
+              <div
+                className={styles['popover-content']}
+                style={isInnerPrimaryColorUsed ? { '--bbs-primary-color': '#ff5000' } : null}
+              >
                 本地上传{' '}
                 <span>
                   <span>{fileListLength}</span>/9
