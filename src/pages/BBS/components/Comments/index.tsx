@@ -105,7 +105,7 @@ export default React.memo<{
 
         // 更新： 刷新数据到第一条
         setData((d) => [res.data, ...d]);
-        window.scrollTo(0, 0);
+        commentContainerRef?.current?.scrollTo(0, 0);
         setTotal((t) => t + 1);
       }
     });
@@ -113,11 +113,12 @@ export default React.memo<{
 
   // Input Ref 获取焦点用
   const InputRef = useRef(null);
+  const commentContainerRef = useRef(null);
 
   return (
     <div className={styles['comments']} onClick={handleBgClick} ref={commentsRef} style={style}>
       <p className={styles['title']}>共{total}条评论</p>
-      <div className={styles['comment-container']}>
+      <div className={styles['comment-container']} ref={commentContainerRef}>
         {data?.map((v, i) => (
           <CommentComponent
             key={v.postId}
