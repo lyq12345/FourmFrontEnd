@@ -18,8 +18,8 @@ export default React.memo(() => {
           更多
         </p>
       </div>
-      <PostCreator dropdownClassName={styles['select-dropdown']} />
-      <NormalPostList requestFn={requestLatestPosts} />
+      <PostCreator isInnerPrimaryColorUsed={false} />
+      <NormalPostList requestFn={requestLatestPosts} isInnerPrimaryColorUsed={false} />
     </div>
   );
 });

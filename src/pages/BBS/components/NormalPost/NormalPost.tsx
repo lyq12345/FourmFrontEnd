@@ -8,9 +8,10 @@ import PicturePart from './PicturePart';
 
 export type NormalPostProps = {
   post: Post;
+  isInnerPrimaryColorUsed?: boolean;
 };
 
-export default React.memo<NormalPostProps>(({ post }) => {
+export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = true }) => {
   const [loveCount, setLoveCount] = useState(post.loveCount);
   const [isLove, setIsLove] = useState(post.isLove);
 
@@ -93,7 +94,13 @@ export default React.memo<NormalPostProps>(({ post }) => {
         visible={isModalVisible}
         width={670}
         modalRender={() => (
-          <div style={{ pointerEvents: 'initial' }}>
+          <div
+            style={
+              isInnerPrimaryColorUsed
+                ? { pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }
+                : { pointerEvents: 'initial' }
+            }
+          >
             <Comments
               id={post.threadId}
               postIdOfThread={post.postId}
