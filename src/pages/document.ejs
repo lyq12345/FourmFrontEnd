@@ -47,6 +47,20 @@
         .then((data) => {
           localStorage.setItem('userInfoLogin', JSON.stringify(data.data || {}));
         })
+
+      // bbs 用户信息
+      fetch('<%= context.config.define.REACT_APP_BASIC_API %>/BbsMain/GetUserInfo',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8'
+        },
+        mode: 'cors',
+      }).then(res => res.json())
+        .then((res) => {
+          if(res.data) {
+            localStorage.setItem('bbsUserInfo', JSON.stringify(res.data));
+          }
+        })
     });
   </script>
 

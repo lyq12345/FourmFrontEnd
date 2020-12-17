@@ -53,13 +53,6 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   const history = useHistory();
 
   const [bbsUserInfo, setBbsUserInfo] = useLocalStorageState<api.BbsUserInfo>('bbsUserInfo');
-  useEffect(() => {
-    api.requestUserInfo().then((res) => {
-      if (res.success) {
-        setBbsUserInfo(res.data);
-      }
-    });
-  }, []);
 
   // 精选板块
   const [dataTypeList, setDataTypeList] = useState<api.PostType[]>([]);
