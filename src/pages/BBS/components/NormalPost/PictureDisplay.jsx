@@ -4,21 +4,18 @@ import TestPic from '@/assets/bbs/test.png';
 import LongPic from '@/assets/bbs/long.png';
 
 const PictureDisplay = (props) => {
-  const handleClick = (index) => {
-    console.log(index);
-  };
   return (
-    <div style={{ width: '450px', marginLeft: '62px' }}>
+    <div style={{ ...props.detailStyle.displayBorder }}>
       <List
         grid={{ column: 3 }}
         dataSource={props.picList}
         renderItem={(item, index) => (
-          <div style={{ marginBottom: '10px' }}>
+          <div style={{ marginBottom: '10px' }} key={index}>
             <img
-              style={{ width: '140px', height: '140px', cursor: 'zoom-in' }}
-              src={item.picUrl}
+              style={{ ...props.detailStyle.displayPic, cursor: 'zoom-in' }}
+              src={item}
               onClick={() => {
-                props.hanclePicClick(index);
+                props.handlePicClick(index);
               }}
             />
           </div>

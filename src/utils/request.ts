@@ -28,10 +28,10 @@ const codeMessage = {
  */
 interface ERROR {
   response: {
-    statusText: any,
-    status: any,
-    url: String,
-  }
+    statusText: any;
+    status: any;
+    url: String;
+  };
 }
 const errorHandler = (error: ERROR) => {
   const { response } = error;
@@ -40,9 +40,9 @@ const errorHandler = (error: ERROR) => {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
 
-
     if (status === 401) {
-      logout();
+      // TODO: 记得打开
+      // logout();
     } else {
       notification.error({
         message: `请求错误 ${status}: ${url}`,
@@ -170,4 +170,3 @@ request.interceptors.response.use(async (response) => {
 // });
 
 export default request;
-

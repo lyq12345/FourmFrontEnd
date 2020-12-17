@@ -1,19 +1,27 @@
 import { useBBSGotoSquare } from '@/utils/utilsBBS';
 import React from 'react';
 import * as api from '../api';
+import BBSLoading from '../components/BBSLoading';
 
-const SquareHome: React.FC = React.memo(({ children }) => {
+const SquareHome: React.FC = React.memo(() => {
   const [dataTypeList, setDataTypeList] = React.useState<api.PostType[]>([]);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
-    api.requestType().then((res) => {
-      setDataTypeList(res.data ?? []);
-    });
+    setLoading(true);
+    api
+      .requestTypeList()
+      .then((res) => {
+        if (res.success) {
+          setDataTypeList((c) => c.concat(res.data ?? []));
+        }
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   const go = useBBSGotoSquare();
   return (
     <div>
-      {dataTypeList.map(({ name, id, icon, description, readCount }) => {
+      {dataTypeList.map(({ name, id, description, readCount, shortName, color, total }) => {
         return (
           <div
             style={{
@@ -32,15 +40,22 @@ const SquareHome: React.FC = React.memo(({ children }) => {
               go(id);
             }}
           >
-            <img
+            <div
               style={{
                 width: 82,
                 height: 82,
                 objectFit: 'contain',
                 marginRight: 9,
+                background: color,
+                fontSize: `${58 / shortName.length}px`,
+                fontWeight: 600,
+                color: 'white',
+                lineHeight: '82px',
+                textAlign: 'center',
               }}
-              src={icon}
-            />
+            >
+              {shortName}
+            </div>
             <div
               style={{
                 height: '100%',
@@ -64,11 +79,16 @@ const SquareHome: React.FC = React.memo(({ children }) => {
               >
                 {description}
               </p>
-              <p style={{ fontSize: 12, lineHeight: 1, color: '#666' }}>{`${readCount}浏览`}</p>
+              <p
+                style={{ fontSize: 12, lineHeight: 1, color: '#666' }}
+              >{`${readCount}浏览 帖子数${total}`}</p>
             </div>
           </div>
         );
       })}
+      <div style={{ textAlign: 'center' }}>
+        <BBSLoading loading={loading} />
+      </div>
     </div>
   );
 });

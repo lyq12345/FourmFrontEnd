@@ -16,52 +16,57 @@ import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
 import HallNews from './components/HallNews';
 import LearningCenter from '@/components/LearningCenter';
-
-import { GetIndexNotice, GetIndexNews, GetIndexInstitution, GetIndexCompetition, GetIndexPublicity } from '@/api/common'
+import {
+  GetIndexNotice,
+  GetIndexNews,
+  GetIndexInstitution,
+  GetIndexCompetition,
+  GetIndexPublicity,
+} from '@/api/common';
+import BBSCard from './components/BBSCard';
 
 const Home = (props) => {
-  const [noticeList, setNoticeList] = useState([])
-  const [newsList, setNewsList] = useState([])
-  const [institutionList, setInstitutionList] = useState([])
-  const [competitionList, setCompetitionList] = useState([])
-  const [publicityList, setPublicityList] = useState([])
-
+  const [noticeList, setNoticeList] = useState([]);
+  const [newsList, setNewsList] = useState([]);
+  const [institutionList, setInstitutionList] = useState([]);
+  const [competitionList, setCompetitionList] = useState([]);
+  const [publicityList, setPublicityList] = useState([]);
 
   useEffect(() => {
-    infoList()
+    infoList();
   }, []);
   const infoList = () => {
     // 公告通知
-    GetIndexNotice().then(response => {
+    GetIndexNotice().then((response) => {
       if (response.success) {
-        setNoticeList(response.data || [])
+        setNoticeList(response.data || []);
       }
-    })
+    });
     // 获取新闻
-    GetIndexNews().then(response => {
+    GetIndexNews().then((response) => {
       if (response.success) {
-        setNewsList(response.data || [])
+        setNewsList(response.data || []);
       }
-    })
+    });
     // 获取制度流程
-    GetIndexInstitution().then(response => {
+    GetIndexInstitution().then((response) => {
       if (response.success) {
-        setInstitutionList(response.data || [])
+        setInstitutionList(response.data || []);
       }
-    })
+    });
     // 获取内部招聘
-    GetIndexCompetition().then(response => {
+    GetIndexCompetition().then((response) => {
       if (response.success) {
-        setCompetitionList(response.data || [])
+        setCompetitionList(response.data || []);
       }
-    })
+    });
     // 获取信息公示
-    GetIndexPublicity().then(response => {
+    GetIndexPublicity().then((response) => {
       if (response.success) {
-        setPublicityList(response.data || [])
+        setPublicityList(response.data || []);
       }
-    })
-  }
+    });
+  };
 
   return (
     <div>
@@ -72,18 +77,39 @@ const Home = (props) => {
           <LearningCenter />
           <TangGuoBi />
           <Birthday />
+          <BBSCard />
         </div>
         <div className={styles.rightContent}>
           <MySchedule />
-          <CardComponent dataList={noticeList} titlePaperwork='公告通知' moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=3" />
-          <CardComponent dataList={newsList} titlePaperwork='新闻动态' moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=4" />
-          <CardComponent dataList={institutionList} titlePaperwork='制度流程' moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=5" />
-          <CardComponent dataList={competitionList} titlePaperwork='内部招聘' moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=7" />
-          <CardComponent dataList={publicityList} titlePaperwork='信息公示' moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=6" />
+          <CardComponent
+            dataList={noticeList}
+            titlePaperwork="公告通知"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=3"
+          />
+          <CardComponent
+            dataList={newsList}
+            titlePaperwork="新闻动态"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=4"
+          />
+          <CardComponent
+            dataList={institutionList}
+            titlePaperwork="制度流程"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=5"
+          />
+          <CardComponent
+            dataList={competitionList}
+            titlePaperwork="内部招聘"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=7"
+          />
+          <CardComponent
+            dataList={publicityList}
+            titlePaperwork="信息公示"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=6"
+          />
         </div>
       </div>
       {/* <ModelAdvertising /> */}
-    </div >
+    </div>
   );
 };
 export default withRouter(Home);

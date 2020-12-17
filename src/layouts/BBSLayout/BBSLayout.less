@@ -1,11 +1,20 @@
 .bg-container {
-  background: #f4f4f4;
+  --bbs-primary-color: #ff5000;
   min-width: 1200px;
+
+  // bug: 使用简写属性时，compile之后 65px 变成了 0.65px，所以拆开
+  // background: url('../../assets/bbs/bg/bg.png') repeat-y 0 65px / 100%, #f4f4f4;
+  background: url('../../assets/bbs/bg/bg.png') repeat-y, #f4f4f4;
+  background-position: top 65px center;
+
+  font-family: PingFang SC;
 
   .navbar-bg-container {
     box-shadow: 0 2px 14px 0px #e8e7e7;
     background: white;
-    position: relative;
+    position: sticky;
+    top: 0;
+    z-index: 20;
 
     .line {
       position: absolute;
@@ -28,6 +37,7 @@
   .content-container {
     padding-top: 40px;
     padding-bottom: 42px;
+    min-height: 100vh;
 
     .content {
       width: 1200px;
@@ -40,6 +50,14 @@
         width: 156px;
         margin-right: 32px;
         margin-left: 23px;
+        position: fixed;
+        top: 105px;
+        z-index: 10;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+        max-height: calc(100vh - 105px);
 
         .button {
           margin-bottom: 14px;
@@ -101,11 +119,21 @@
 
       .center {
         width: 670px;
+        position: relative;
+        left: 208px;
       }
 
       .sidebar-right {
         width: 307px;
-        margin-left: 12px;
+        margin-left: 893px;
+        position: fixed;
+        top: 105px;
+        z-index: 10;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+          width: 0;
+        }
+        max-height: calc(100vh - 105px);
 
         .profile {
           width: 307px;
@@ -139,9 +167,6 @@
 
             .avatar {
               margin-top: 65px;
-              width: 72px;
-              height: 72px;
-              border-radius: 9999px;
             }
 
             .name {
@@ -166,5 +191,19 @@
         }
       }
     }
+  }
+  *::selection {
+    background: #fa6400;
+  }
+  a {
+    color: var(--bbs-primary-color);
+
+    &:hover {
+      color: #eb0029;
+    }
+  }
+  img[src=''],
+  img:not([src]) {
+    opacity: 0;
   }
 }

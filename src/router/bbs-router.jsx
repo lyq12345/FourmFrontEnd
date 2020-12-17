@@ -1,11 +1,6 @@
 module.exports = {
   router: [
     {
-      path: '/bbs/test',
-      name: '测试组件',
-      component: './BBS',
-    },
-    {
       path: '/bbs/',
       name: '首页',
       redirect: '/bbs/home',
@@ -18,6 +13,7 @@ module.exports = {
     {
       path: '/bbs/message',
       name: '消息',
+      component: './BBS/Message',
     },
     {
       path: '/bbs/square',
@@ -25,31 +21,25 @@ module.exports = {
       routes: [
         {
           path: '/bbs/square/',
+          name: '广场',
           component: '../pages/BBS/Square',
         },
         {
           path: '/bbs/square/:squareId',
+          name: '广场详情',
           component: '../pages/BBS/Square/SquareItem',
-        },
-        {
-          path: '/bbs/square/:squareId/:postId',
-          component: '../pages/BBS/Post',
         },
       ],
     },
     {
       path: '/bbs/mine',
       name: '我的',
-      routes: [
-        {
-          path: '/bbs/mine/',
-          component: './BBS/Mine',
-        },
-        {
-          path: '/bbs/mine/:postId',
-          component: '../pages/BBS/Post',
-        },
-      ],
+      component: './BBS/Mine',
+    },
+    {
+      path: '/bbs/post/:postId',
+      name: '帖子详情',
+      component: './BBS/Post',
     },
   ],
 };
