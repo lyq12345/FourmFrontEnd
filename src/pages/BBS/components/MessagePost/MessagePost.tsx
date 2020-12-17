@@ -64,7 +64,7 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                         <>
                           {message1.contentparent.slice(0, 70) + '...' + ' '}
                           <Link
-                            to={'/bbs/post/' + message1.postId}
+                            to={'/bbs/post/' + message1.threadId}
                             onClick={() => window.scrollTo(0, 0)}
                           >
                             查看原帖
@@ -76,7 +76,7 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                         <>
                           {message1.contentparent}
                           <Link
-                            to={'/bbs/post/' + message1.postId}
+                            to={'/bbs/post/' + message1.threadId}
                             onClick={() => window.scrollTo(0, 0)}
                           >
                             查看原帖
