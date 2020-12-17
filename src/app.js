@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/es/storage/session';
-import { LoginIn } from '@/api/public'
+import { LoginIn } from '@/api/public';
 
 const persistConfig = {
   key: 'yst-iwork-alpha',
@@ -33,8 +33,8 @@ export async function render(oldRender) {
   let routeData = [];
 
   /**
- * TODO: 不使用权限是 本地菜单自定义
- */
+   * TODO: 不使用权限是 本地菜单自定义
+   */
   routeData = [
     {
       url: '/welcome',
@@ -60,4 +60,10 @@ export async function render(oldRender) {
     localStorage.setItem(`${tenant_code}_menus_local`, JSON.stringify(routeData));
   }
   oldRender();
+}
+
+export function onRouteChange({ matchedRoutes }) {
+  if (matchedRoutes.length) {
+    document.title = matchedRoutes[matchedRoutes.length - 1].route.name || '';
+  }
 }

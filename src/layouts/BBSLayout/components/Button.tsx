@@ -1,8 +1,7 @@
-import React from 'react';
-import styles from './Button.less';
-
-import { useHistory, useRouteMatch } from 'umi';
 import { IconFont } from '@/utils/utilsBBS';
+import React from 'react';
+import { useHistory, useRouteMatch } from 'umi';
+import styles from './Button.less';
 
 type ButtonType = {
   onClick?: Function;
@@ -18,10 +17,14 @@ const Button: React.FC<ButtonType> = React.memo(
     const match = useRouteMatch({ path: url, exact });
 
     const history = useHistory();
-    const handleClick = React.useCallback((e) => {
-      url && history.push(url);
-      onClick?.(e);
-    }, []);
+    const handleClick = React.useCallback(
+      (e) => {
+        url && history.push(url);
+        window.scrollTo(0, 0);
+        onClick?.(e);
+      },
+      [url, history, onClick],
+    );
 
     const countElement = React.useMemo(() => {
       if (count && !match) {
@@ -33,7 +36,7 @@ const Button: React.FC<ButtonType> = React.memo(
       } else {
         return null;
       }
-    }, [count]);
+    }, [count, match]);
 
     return (
       <div
