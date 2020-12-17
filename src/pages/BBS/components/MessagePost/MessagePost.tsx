@@ -1,9 +1,9 @@
-import { dayjs, useDebounceFn } from '@/utils/utilsBBS';
+import { dayjs, useDebounceFn, useBBSGotoPost } from '@/utils/utilsBBS';
 import { Avatar, Input, message } from 'antd';
 import React, { useState } from 'react';
-import { Link } from 'umi';
 import { Message, requestReply } from '../../api';
 import styles from './MessagePost.less';
+import Thumb from '@/assets/bbs/icon/thumb.png';
 
 export type MessagePostProps = {
   message1: Message;
@@ -36,6 +36,8 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
     }
   };
 
+  const go = useBBSGotoPost();
+
   return (
     <div className={styles['container']}>
       <div className={styles['top']}>
@@ -44,9 +46,14 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
           <p className={styles['name']}>{message1.createName}</p>
           <p className={styles['time']}>{dayjs(message1.createDate).fromNow()}</p>
           <div className={styles['main']}>
-            <p className={styles['reply-content']}>{message1.content}</p>
+            <p className={styles['reply-content']}>
+              {message1.content}
+              {message1.infoType === 103 ? (
+                <img className={styles['thumb']} src={Thumb}></img>
+              ) : null}
+            </p>
             <div className={styles['origin-container']}>
-              <p className={styles['origin-content']}>
+              <p className={styles['origin-content']} onClick={() => go(message1.threadId)}>
                 {(() => {
                   if (message1.infoType === 103) {
                     // 点赞
@@ -60,27 +67,17 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                     // 回复
 
                     if (message1.contentparent.length > 70) {
-                      return (
-                        <>
-                          {message1.contentparent.slice(0, 70) + '...' + ' '}
-                          <Link
-                            to={'/bbs/post/' + message1.threadId}
-                            onClick={() => window.scrollTo(0, 0)}
-                          >
-                            查看原帖
-                          </Link>
-                        </>
-                      );
+                      return <>{message1.contentparent.slice(0, 70) + '...' + ' '}</>;
                     } else {
                       return (
                         <>
                           {message1.contentparent}
-                          <Link
+                          {/* <Link
                             to={'/bbs/post/' + message1.threadId}
                             onClick={() => window.scrollTo(0, 0)}
                           >
                             查看原帖
-                          </Link>
+                          </Link> */}
                         </>
                       );
                     }

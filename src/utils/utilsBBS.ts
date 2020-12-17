@@ -67,5 +67,5 @@ export { dayjs };
 
 // 500 ms 的防抖
 export function useDebounceFn<T = any>(fn: T, options?: DebounceOptions) {
-  return oldUseDebounceFn<T>(fn, { wait: 500, ...options });
+  return oldUseDebounceFn<T>(fn, { wait: 200, ...options });
 }
