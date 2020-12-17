@@ -14,7 +14,7 @@ const BlessingWall = (props) => {
   const [dataList, setDataList] = useState([])
   const [currentPage, setCurrentPage] = useState(1)
   const [isReplytoBoxVisible, setIsReplytoBoxVisible] = useState(false)
-  const [checkedName, setCheckedName] = useState('ta')
+  const [checkedName, setCheckedName] = useState('全部')
   const [checkedInfo, setCheckedInfo] = useState({})
   const [replyContent, setReplyContent] = useState(null)
   const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
@@ -116,7 +116,7 @@ const BlessingWall = (props) => {
       {
         query.type == 2 && dataList.length ? <div className={styles.replyButton}>
           <Button type="primary" size="large" onClick={() => {
-            setCheckedName("ta")
+            setCheckedName("全部")
             setIsReplytoBoxVisible(true)
             setReplyContent(null)
           }}>回复全部</Button>
@@ -146,7 +146,7 @@ const BlessingWall = (props) => {
                   </div>
                   {
                     query.type == 2 ? <div className={styles.replyButton}>
-                      <Button type="primary" size="small" onClick={() => handleClick(item, index)}>回复ta：</Button>
+                      <Button type="primary" size="small" onClick={() => handleClick(item, index)}>回复TA</Button>
                     </div> : <></>
                   }
                 </div>

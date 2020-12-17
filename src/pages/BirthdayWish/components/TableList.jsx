@@ -17,7 +17,7 @@ const TableList = (props) => {
       title: '姓名',
       dataIndex: 'userName',
       key: 'userName',
-      width: 200,
+      width: 250,
     },
     {
       title: '部门',

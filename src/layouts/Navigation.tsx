@@ -132,10 +132,10 @@ const Navigation = (props) => {
               <div className="navgtionInfo">{item.label}</div>
             </Link>
           ) : (
-            <div onClick={() => onMenuClick()} className="navgtionInfo">
-              {item.label}
-            </div>
-          )}
+              <div onClick={() => onMenuClick()} className="navgtionInfo">
+                {item.label}
+              </div>
+            )}
         </div>
       ))}
     </div>
@@ -174,7 +174,7 @@ const Navigation = (props) => {
         <Content>
           <Authorized authority={authorized!.authority} noMatch={noMatch}>
             {routeMap.has(noSlashPath) && noSlashPath !== '/home' ? (
-              <div style={{ margin: '10px 0' }}>
+              <div style={{ margin: '20px 0' }}>
                 <Breadcrumb separator="" style={{ color: '#D30B24' }}>
                   <Breadcrumb.Item>
                     <Link to="/home" style={{ color: '#D30B24' }}>
@@ -192,12 +192,12 @@ const Navigation = (props) => {
                             <span style={{ color: '#D30B24' }}>{routeMap.get(item)}</span>
                           </Breadcrumb.Item>
                         ) : (
-                          <Breadcrumb.Item>
-                            <Link to={item} style={{ color: '#D30B24' }}>
-                              {routeMap.get(item)}
-                            </Link>
-                          </Breadcrumb.Item>
-                        )}
+                            <Breadcrumb.Item>
+                              <Link to={item} style={{ color: '#D30B24' }}>
+                                {routeMap.get(item)}
+                              </Link>
+                            </Breadcrumb.Item>
+                          )}
                       </Breadcrumb>
                     );
                   })}

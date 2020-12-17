@@ -79,14 +79,26 @@
         p:last-child {
           cursor: pointer;
           img {
-            width: 17px;
-            height: 17px;
+            width: 14px;
+            height: 14px;
           }
         }
       }
       .blessing {
         position: relative;
         background-color: #666;
+        border-radius: 2px;
+        :global {
+          .ant-input{
+            border: none;
+            &:hover{
+              border: none;
+            }
+            &:focus {
+              // border: 1px solid #CE1925;
+            }
+          }
+        }
         .textAreaSyles {
         }
         .textAreaNumber {
@@ -118,6 +130,7 @@
         }
         .dayCheck {
           border: 1px solid #CE1925;
+          border-radius: 2px;
         }
       }
     }
@@ -137,7 +150,7 @@
         grid-gap: 10px;
         >p {
           width: 312px;
-          border: 1px solid #CCCCCC;
+          border: 1px solid #EEEEEE;
           border-radius: 4px;
           font-size: 14px;
           line-height: 14px;

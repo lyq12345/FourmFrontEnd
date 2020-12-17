@@ -129,7 +129,7 @@ const WishDialog = (props) => {
               </div>
               <div className={styles.blessing}>
                 <TextArea
-                  style={{ width: '768px', height: '134px', backgroundColor: '#F9F9F9', resize: 'none' }}
+                  style={{ width: '768px', height: '134px', backgroundColor: '#F9F9F9', resize: 'none', borderRadius: '2px' }}
                   className={styles.textAreaSyles}
                   value={replyContent}
                   onChange={(e) => handleChange(e)}
