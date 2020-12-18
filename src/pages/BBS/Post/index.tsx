@@ -90,7 +90,8 @@ const Post: React.FC = React.memo(() => {
           <Skeleton avatar paragraph={{ rows: 6 }} />
         ) : (
           <>
-            <p className={styles['title']} dangerouslySetInnerHTML={{ __html: data.title }}></p>
+            {/* <p className={styles['title']} dangerouslySetInnerHTML={{ __html: data.title }}></p> */}
+            <p className={styles['title']}>{data.title}</p>
             <div className={styles['under-title']}>
               <Avatar size={41.73} src={data?.avatarPath} />
               <div>
@@ -107,7 +108,8 @@ const Post: React.FC = React.memo(() => {
                 ></div>
               )}
             </div>
-            <p className={styles['content']} dangerouslySetInnerHTML={{ __html: data.content }}></p>
+            {/* <p className={styles['content']} dangerouslySetInnerHTML={{ __html: data.content }}></p> */}
+            <p className={styles['content']}>{data.content}</p>
 
             <PicturePart type={1} picList={data.attach} largePicList={data.attachsBig} />
 

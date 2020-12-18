@@ -12,11 +12,16 @@ export type ListProps<T> = {
    */
   requestFn: (page: number) => Promise<{ data: T }>;
   isInnerPrimaryColorUsed?: boolean;
+  isSquareLinkDisabled?: boolean;
 };
 
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
-const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
+const List: List = ({
+  requestFn,
+  isInnerPrimaryColorUsed = true,
+  isSquareLinkDisabled = false,
+}) => {
   const [trigger, { toggle: refresh }] = useToggle(); // 用来触发刷新
   useUpdateEffect(() => {
     setPage(1);
@@ -72,6 +77,7 @@ const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
           key={v.threadId}
           post={v}
           isInnerPrimaryColorUsed={isInnerPrimaryColorUsed}
+          isSquareLinkDisabled={isSquareLinkDisabled}
           id={i === data.length - 1 ? 'bbs-last-one-post' : undefined}
         />
       ))}

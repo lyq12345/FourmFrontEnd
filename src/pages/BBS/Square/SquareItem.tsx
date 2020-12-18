@@ -34,7 +34,7 @@ const SquareItem: React.FC = React.memo(() => {
         <span>{`${data.total}篇内容 · ${data.readCount}次浏览`}</span>
         <span>{data.description}</span>
       </div>
-      <NormalPostList requestFn={requestFn} />
+      <NormalPostList requestFn={requestFn} isSquareLinkDisabled />
     </BBSLoading>
   );
 });
