@@ -76,6 +76,8 @@
 }
 
 .mainTabRankContainer {
+  .pane-label {
+  }
   :global(.ant-tabs-nav) {
     &::before {
       border-bottom: 0;
@@ -88,6 +90,13 @@
     }
     :global(.ant-tabs-tab.ant-tabs-tab-active) {
       background-color: #fafafa;
+      span {
+        padding-bottom: 9px;
+        border-bottom: 2px solid;
+      }
+    }
+    :global(.ant-tabs-ink-bar.ant-tabs-ink-bar-animated) {
+      display: none;
     }
   }
 }
