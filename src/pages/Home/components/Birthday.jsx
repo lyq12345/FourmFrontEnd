@@ -44,8 +44,9 @@ const Birthday = (props) => {
               slidesPerView={1}
               direction='vertical'
               onSwiper={(swiper) => setSwiper(swiper)}
-              autoplay={{ delay: 5000 }}
+              autoplay={{ delay: 3000 }}
               loop
+              speed={500}
             >
               {
                 dataList && dataList.map((item, index) => (
