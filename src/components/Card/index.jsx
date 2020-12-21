@@ -11,12 +11,12 @@ const Card = (props) => {
     const w = window.open('about:blank');
     // 我的祝福墙
     if (val.classTypeId == '400000099') {
-      w.location.href = `birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`
+      w.location.href = `/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`
       return
     }
     // ta的祝福墙
     if (val.classTypeId == '400000100') {
-      w.location.href = `birthday-wish/BlessingWall?wishType=${2}&userId=${val.senderId}&type=${1}&userName=${val.senderName}&avater=${val.avater}`
+      w.location.href = `/yst-iwork-alpha/birthday-wish/BlessingWall?wishType=${2}&userId=${val.senderId}&type=${1}&userName=${val.senderName}&avater=${val.avater}`
       return
     }
     w.location.href = val.href

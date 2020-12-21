@@ -134,16 +134,16 @@ const HallNews = (props) => {
   );
 
   const lookMoreHallPeople = (val) => {
-    window.open('hall-people')
+    window.open('/yst-iwork-alpha/hall-people')
   };
   const lookMoreHallSomething = (val) => {
-    window.open('hall-something')
+    window.open('/yst-iwork-alpha/hall-something')
   };
   const detailRouter = (val) => {
-    window.open(`hall-something/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-something/detail?id=${val.id}`)
   };
   const detailHallPeople = (val) => {
-    window.open(`hall-people/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-people/detail?id=${val.id}`)
   };
   const handleVisibleChange = (event, val) => {
     if (val === 1 && unreadMessagesNum) {

@@ -31,7 +31,7 @@ const TableList = (props) => {
       // fixed: 'right',
       width: 300,
       render: (record) => <div className={styles.operation}>
-        <a onClick={() => window.open(`birthday-wish/BlessingWall?wishType=${2}&userId=${record.userId}&type=${1}&userName=${record.userName}&avater=${record.avater}`)}>查看ta收到的</a>
+        <a onClick={() => window.open(`/yst-iwork-alpha/birthday-wish/BlessingWall?wishType=${2}&userId=${record.userId}&type=${1}&userName=${record.userName}&avater=${record.avater}`)}>查看ta收到的</a>
         <span onClick={() => sendWishClick(record)}>送祝福</span>
       </div>,
     },

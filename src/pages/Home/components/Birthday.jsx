@@ -32,7 +32,7 @@ const Birthday = (props) => {
     <div className={styles.birthday}>
       <div className={styles.birthdayAnniversary}>
         <span>生日祝福</span>
-        <span onClick={() => window.open('birthday-wish')}>更多</span>
+        <span onClick={() => window.open('/yst-iwork-alpha/birthday-wish')}>更多</span>
       </div>
       <div>
         {/* autoplay */}
