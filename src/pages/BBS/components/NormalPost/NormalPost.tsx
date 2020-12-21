@@ -67,13 +67,17 @@ export default React.memo<NormalPostProps>(
               <p
                 className={styles['title']}
                 onClick={() => go(post.threadId)}
-                // dangerouslySetInnerHTML={{ __html: post.title }}
+                dangerouslySetInnerHTML={{ __html: post.title }}
               >
-                {post.title}
+                {/* {post.title} */}
               </p>
-              {/* <p className={`${styles['content']} line-clamp-5`} ref={contentRef} dangerouslySetInnerHTML={{ __html: post.content }}> */}
-              <p className={`${styles['content']} line-clamp-5`} ref={contentRef}>
-                {post.content}
+              <p
+                className={`${styles['content']} line-clamp-5`}
+                ref={contentRef}
+                dangerouslySetInnerHTML={{ __html: post.content }}
+              >
+                {/* <p className={`${styles['content']} line-clamp-5`} ref={contentRef}>
+                {post.content} */}
               </p>
             </div>
           </div>

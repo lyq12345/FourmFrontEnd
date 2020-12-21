@@ -33,11 +33,11 @@ export default React.memo<CommentProps>(
         <div className={styles['right']}>
           <p>{comment.createName}</p>
           <p>{dayjs(comment.createDate).format('MM月DD日')}</p>
-          {/* <p dangerouslySetInnerHTML={{ __html: comment.content }}></p> */}
-          <p>{comment.content}</p>
+          <p dangerouslySetInnerHTML={{ __html: comment.content }}></p>
+          {/* <p>{comment.content}</p> */}
           {comment.contentparent && (
-            // <p dangerouslySetInnerHTML={{ __html: comment.contentparent }}></p>
-            <p>{comment.contentparent}</p>
+            <p dangerouslySetInnerHTML={{ __html: comment.contentparent }}></p>
+            // <p>{comment.contentparent}</p>
           )}
 
           <div className={styles['action']}>
