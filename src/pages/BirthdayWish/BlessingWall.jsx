@@ -133,7 +133,7 @@ const BlessingWall = (props) => {
                     <img src={item.iconUrl} alt="" />
                   </div>
                   <div className={item.isMoreImg && item.isMore ? `${styles.cardMoreContent}` : `${styles.cardContent}`}>
-                    <p className={styles.cardToName}>To：{item.userName}</p>
+                    <p className={styles.cardToName}>To：亲爱的{item.userName}</p>
                     <p className={styles.cardInfoContent}>
                       <span>
                         {item.isMoreImg ? item.content : item.contentStr}
