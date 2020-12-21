@@ -1,6 +1,6 @@
-import { dayjs, IconFont, useBBSGotoPost, useDebounceFn } from '@/utils/utilsBBS';
+import { dayjs, IconFont, useBBSGotoPost, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar, Modal } from 'antd';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Post, requestLove } from '../../api';
 import Comments from '../Comments';
 import styles from './NormalPost.less';
@@ -36,6 +36,16 @@ export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = tr
   }, []);
 
   const go = useBBSGotoPost();
+  const goSquare = useBBSGotoSquare();
+
+  // 高度控制是否显示按钮
+  const contentRef = useRef<HTMLParagraphElement>(null);
+  const [isGoPostVisible, setIsGoPostVisible] = useState(false);
+  useEffect(() => {
+    if (contentRef?.current?.offsetHeight >= 130) {
+      setIsGoPostVisible(true);
+    }
+  }, [contentRef]);
 
   return (
     <div className={styles['container']} id={id}>
@@ -43,25 +53,32 @@ export default React.memo<NormalPostProps>(({ post, isInnerPrimaryColorUsed = tr
         <Avatar size={50} src={post.avatarPath} className={styles['avatar']} />
         <div className={styles['center']}>
           <p className={styles['author']}>{post.createName}</p>
+          <p className={styles['type']} onClick={() => goSquare(post.typeId)}>
+            {post.typeName}
+          </p>
           <p className={styles['time']}>{dayjs(post.createDate).fromNow()}</p>
           <div className={styles['hot-area']}>
-            <p className={styles['title']} onClick={() => go(post.threadId)}>
-              {post.title}
-            </p>
-            <p className={styles['content']}>
-              {post.content.length > 60 ? (
-                <>
-                  {post.content.slice(0, 150) + '...'}
-                  <a onClick={() => go(post.threadId)}>查看全文</a>
-                </>
-              ) : (
-                post.content
-              )}
-            </p>
+            <p
+              className={styles['title']}
+              onClick={() => go(post.threadId)}
+              dangerouslySetInnerHTML={{ __html: post.title }}
+            ></p>
+            <p
+              className={`${styles['content']} line-clamp-5`}
+              dangerouslySetInnerHTML={{ __html: post.content }}
+              ref={contentRef}
+            ></p>
           </div>
         </div>
       </div>
 
+      {isGoPostVisible ? (
+        <p style={{ textAlign: 'right' }}>
+          <a onClick={() => go(post.threadId)} className={styles['go-post']}>
+            查看全文
+          </a>
+        </p>
+      ) : null}
       <PicturePart picList={post.attach} largePicList={post.attachsBig} />
 
       <div className={styles['action']}>

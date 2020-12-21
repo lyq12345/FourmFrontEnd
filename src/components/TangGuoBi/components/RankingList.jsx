@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-11-12 17:33:58
+ * @LastEditTime: 2020-12-18 09:54:38
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
@@ -115,13 +115,13 @@ export default function RankingList() {
             handleChange(anctiveKey);
           }}
         >
-          <TabPane tab="年度榜单" key="1">
+          <TabPane tab={<span className={styles['pane-label']}>年度榜单</span>} key="1">
             <RankingContent content={yearRank} />
           </TabPane>
-          <TabPane tab="上月榜单" key="2">
+          <TabPane tab={<span className={styles['pane-label']}>上月榜单</span>} key="2">
             <RankingContent content={lastMonthRank} />
           </TabPane>
-          <TabPane tab="本月榜单" key="3">
+          <TabPane tab={<span className={styles['pane-label']}>本月榜单</span>} key="3">
             <RankingContent content={curMonthRank} />
           </TabPane>
         </Tabs>
