@@ -30,9 +30,23 @@ const List: List = ({
   }, [requestFn]);
 
   const postEvent$ = useContext(PostEventContext);
-  postEvent$?.useSubscription((val) => {
-    if (val === 'success') {
-      setPage(1);
+  postEvent$?.useSubscription((strOrArray) => {
+    let val, args;
+    if (strOrArray instanceof Array) {
+      val = strOrArray[0];
+      args = strOrArray.slice(1);
+    } else {
+      val = strOrArray;
+      args = [];
+    }
+    switch (val) {
+      case 'success':
+        setPage(1);
+        refresh();
+        setIsStopLoadMore(false);
+        break;
+      default:
+        break;
     }
   });
 
