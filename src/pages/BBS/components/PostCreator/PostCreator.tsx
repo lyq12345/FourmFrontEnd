@@ -49,6 +49,11 @@ function validatePost(values: {
   return { isPassed: true };
 }
 
+// 格式处理
+function formatTextArea(str: string) {
+  return str.replace(/&nbsp;/g, ' ').replace(/<br \/>/g, '\n');
+}
+
 export default React.memo<{
   oldFormObject?: Post;
   onSuccess?: () => void;
@@ -115,8 +120,8 @@ export default React.memo<{
     if (oldFormObject) {
       setVisiblePopover(true);
       form.setFieldsValue({
-        title: oldFormObject.title,
-        content: oldFormObject.content,
+        title: formatTextArea(oldFormObject.title),
+        content: formatTextArea(oldFormObject.content),
         typeId: oldFormObject.typeId,
 
         // attach 要特殊加工，满足 RcFile 的类型才能正常回显

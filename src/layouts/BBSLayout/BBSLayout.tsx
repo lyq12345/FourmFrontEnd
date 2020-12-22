@@ -3,9 +3,9 @@ import * as api from '@/pages/BBS/api';
 import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
 import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
-import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
+import { useLocalStorageState, useToggle } from 'ahooks';
 import { Avatar, Modal, Popconfirm } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 import styles from './BBSLayout.less';
 import Button from './components/Button';
@@ -13,11 +13,9 @@ import RightCard from './components/RightCard';
 import { PostEventContext } from './store';
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
-  // 发帖事件
-  const postEvent$ = useEventEmitter<string | [string, ...any[]]>();
-
   const [trigger, { toggle: refreshRightCardData }] = useToggle();
 
+  const postEvent$ = useContext(PostEventContext);
   postEvent$?.useSubscription((strOrArray) => {
     let val, args;
     if (strOrArray instanceof Array) {
@@ -100,115 +98,113 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
   }, []);
 
   return (
-    <PostEventContext.Provider value={postEvent$}>
-      <div className={styles['bg-container']}>
-        {/* 发帖组件 */}
-        <Modal
-          visible={isModalVisible}
-          width={670}
-          style={{ top: '20vh' }}
-          modalRender={() => (
-            <div style={{ pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }}>
-              <Popconfirm
-                title="将取消本次发帖"
-                onConfirm={handleModalClose}
-                okText="是"
-                cancelText="否"
-              >
-                <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
-              </Popconfirm>
-              <PostCreator oldFormObject={oldFormObject} />
-            </div>
-          )}
-          destroyOnClose
-        ></Modal>
-
-        {/* 顶部导航 */}
-        <div className={styles['navbar-bg-container']}>
-          <div className={styles['line']} />
-          <div className={styles['navbar']}>
-            <img
-              src={logo}
-              style={{ width: 208, height: 65, marginRight: 689, cursor: 'pointer' }}
-              onClick={() => history.push('/bbs')}
-            />
-            <IconFont type="iconneiwangshouye" style={{ fontSize: 20, marginRight: 5 }} />
-            <span
-              style={{ color: '#666666', cursor: 'pointer' }}
-              onClick={() => history.push('/home')}
+    <div className={styles['bg-container']}>
+      {/* 发帖组件 */}
+      <Modal
+        visible={isModalVisible}
+        width={670}
+        style={{ top: '20vh' }}
+        modalRender={() => (
+          <div style={{ pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }}>
+            <Popconfirm
+              title="将取消本次发帖"
+              onConfirm={handleModalClose}
+              okText="是"
+              cancelText="否"
             >
-              内网首页
-            </span>
-            <div
-              style={{
-                borderLeft: '1px solid #EEEEEE',
-                height: 12,
-                marginLeft: 22,
-                marginRight: 17,
-              }}
-            ></div>
-            <IconFont type="iconshijian" style={{ fontSize: 20, marginRight: 5 }} />
-            <span style={{ color: '#666666' }}>{dayjs().format('YYYY年MM月DD日 dddd')}</span>
+              <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
+            </Popconfirm>
+            <PostCreator oldFormObject={oldFormObject} />
           </div>
+        )}
+        destroyOnClose
+      ></Modal>
+
+      {/* 顶部导航 */}
+      <div className={styles['navbar-bg-container']}>
+        <div className={styles['line']} />
+        <div className={styles['navbar']}>
+          <img
+            src={logo}
+            style={{ width: 208, height: 65, marginRight: 689, cursor: 'pointer' }}
+            onClick={() => history.push('/bbs')}
+          />
+          <IconFont type="iconneiwangshouye" style={{ fontSize: 20, marginRight: 5 }} />
+          <span
+            style={{ color: '#666666', cursor: 'pointer' }}
+            onClick={() => history.push('/home')}
+          >
+            内网首页
+          </span>
+          <div
+            style={{
+              borderLeft: '1px solid #EEEEEE',
+              height: 12,
+              marginLeft: 22,
+              marginRight: 17,
+            }}
+          ></div>
+          <IconFont type="iconshijian" style={{ fontSize: 20, marginRight: 5 }} />
+          <span style={{ color: '#666666' }}>{dayjs().format('YYYY年MM月DD日 dddd')}</span>
         </div>
+      </div>
 
-        <div className={styles['content-container']}>
-          <div className={styles['content']}>
-            <div className={styles['sidebar']}>
-              <Button iconFontType="iconshouye" className={styles['button']} url="/bbs/home">
-                首页
-              </Button>
-              <Button
-                iconFontType="iconxiaoxi"
-                className={styles['button']}
-                url="/bbs/message"
-                count={count}
-                onClick={() => setCount(0)}
-              >
-                消息
-              </Button>
-              <Button iconFontType="iconguangchang" className={styles['button']} url="/bbs/square">
-                广场
-              </Button>
-              <Button iconFontType="iconwode" className={styles['button']} url="/bbs/mine">
-                我的
-              </Button>
+      <div className={styles['content-container']}>
+        <div className={styles['content']}>
+          <div className={styles['sidebar']}>
+            <Button iconFontType="iconshouye" className={styles['button']} url="/bbs/home">
+              首页
+            </Button>
+            <Button
+              iconFontType="iconxiaoxi"
+              className={styles['button']}
+              url="/bbs/message"
+              count={count}
+              onClick={() => setCount(0)}
+            >
+              消息
+            </Button>
+            <Button iconFontType="iconguangchang" className={styles['button']} url="/bbs/square">
+              广场
+            </Button>
+            <Button iconFontType="iconwode" className={styles['button']} url="/bbs/mine">
+              我的
+            </Button>
 
-              <span className={styles['divider']}>精选板块</span>
+            <span className={styles['divider']}>精选板块</span>
 
-              <div className={styles['nav-list']}>
-                {dataTypeList.map(({ name, id }) => {
-                  return (
-                    <div className={styles['nav-item']} onClick={() => go(id, false)} key={id}>
-                      {name}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-            <div className={styles['center']}>{children}</div>
-            <div className={styles['sidebar-right']}>
-              <div className={styles['profile']}>
-                <div className={styles['profile-content']}>
-                  <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
-                  <span className={styles['name']}>{bbsUserInfo?.name}</span>
-                  <div className={styles['wanna-post']} onClick={() => postEvent$.emit('doing')}>
-                    我要发帖
+            <div className={styles['nav-list']}>
+              {dataTypeList.map(({ name, id }) => {
+                return (
+                  <div className={styles['nav-item']} onClick={() => go(id, false)} key={id}>
+                    {name}
                   </div>
+                );
+              })}
+            </div>
+          </div>
+          <div className={styles['center']}>{children}</div>
+          <div className={styles['sidebar-right']}>
+            <div className={styles['profile']}>
+              <div className={styles['profile-content']}>
+                <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
+                <span className={styles['name']}>{bbsUserInfo?.name}</span>
+                <div className={styles['wanna-post']} onClick={() => postEvent$?.emit('doing')}>
+                  我要发帖
                 </div>
               </div>
-
-              {!!dataPostMyList.length && <RightCard list={dataPostMyList} title="我发的帖子" />}
-              {!!dataPostShareList.length && (
-                <RightCard list={dataPostShareList} title="我关注的帖子" />
-              )}
             </div>
+
+            {!!dataPostMyList.length && <RightCard list={dataPostMyList} title="我发的帖子" />}
+            {!!dataPostShareList.length && (
+              <RightCard list={dataPostShareList} title="我关注的帖子" />
+            )}
           </div>
         </div>
-        {/* <Footer /> */}
-        <div id="bbs-footer" />
       </div>
-    </PostEventContext.Provider>
+      {/* <Footer /> */}
+      <div id="bbs-footer" />
+    </div>
   );
 });
 

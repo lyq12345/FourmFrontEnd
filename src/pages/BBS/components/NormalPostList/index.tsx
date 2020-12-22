@@ -12,11 +12,16 @@ export type ListProps<T> = {
    */
   requestFn: (page: number) => Promise<{ data: T }>;
   isInnerPrimaryColorUsed?: boolean;
+  isSquareLinkDisabled?: boolean;
 };
 
 type List<T = { threads: Post[] }> = React.FC<ListProps<T>>;
 
-const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
+const List: List = ({
+  requestFn,
+  isInnerPrimaryColorUsed = true,
+  isSquareLinkDisabled = false,
+}) => {
   const [trigger, { toggle: refresh }] = useToggle(); // 用来触发刷新
   useUpdateEffect(() => {
     setPage(1);
@@ -25,9 +30,23 @@ const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
   }, [requestFn]);
 
   const postEvent$ = useContext(PostEventContext);
-  postEvent$?.useSubscription((val) => {
-    if (val === 'success') {
-      setPage(1);
+  postEvent$?.useSubscription((strOrArray) => {
+    let val, args;
+    if (strOrArray instanceof Array) {
+      val = strOrArray[0];
+      args = strOrArray.slice(1);
+    } else {
+      val = strOrArray;
+      args = [];
+    }
+    switch (val) {
+      case 'success':
+        setPage(1);
+        refresh();
+        setIsStopLoadMore(false);
+        break;
+      default:
+        break;
     }
   });
 
@@ -72,6 +91,7 @@ const List: List = ({ requestFn, isInnerPrimaryColorUsed = true }) => {
           key={v.threadId}
           post={v}
           isInnerPrimaryColorUsed={isInnerPrimaryColorUsed}
+          isSquareLinkDisabled={isSquareLinkDisabled}
           id={i === data.length - 1 ? 'bbs-last-one-post' : undefined}
         />
       ))}

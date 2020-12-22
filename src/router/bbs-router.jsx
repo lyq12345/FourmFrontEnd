@@ -2,12 +2,12 @@ module.exports = {
   router: [
     {
       path: '/bbs/',
-      name: '首页',
+      name: '堂里论坛',
       redirect: '/bbs/home',
     },
     {
       path: '/bbs/home',
-      name: '首页',
+      name: '堂里论坛',
       component: './BBS/Home',
     },
     {
