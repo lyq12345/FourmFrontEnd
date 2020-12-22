@@ -10,15 +10,19 @@ const PictureDisplay = (props) => {
         grid={{ column: 3 }}
         dataSource={props.picList}
         renderItem={(item, index) => (
-          <div style={{ marginBottom: '10px' }} key={index}>
-            <img
-              style={{ ...props.detailStyle.displayPic, cursor: 'zoom-in' }}
-              src={item}
-              onClick={() => {
-                props.handlePicClick(index);
-              }}
-            />
-          </div>
+          <div
+            style={{
+              marginBottom: '10px',
+              ...props.detailStyle.displayPic,
+              overflow: 'hidden',
+              background: `url(${item}) #333333 no-repeat center center / cover`,
+              cursor: 'zoom-in',
+            }}
+            key={index}
+            onClick={() => {
+              props.handlePicClick(index);
+            }}
+          ></div>
         )}
       ></List>
     </div>
