@@ -69,3 +69,8 @@ export { dayjs };
 export function useDebounceFn<T = any>(fn: T, options?: DebounceOptions) {
   return oldUseDebounceFn<T>(fn, { wait: 200, ...options });
 }
+
+// 格式处理
+export function formatTextArea(str: string) {
+  return str.replace(/&nbsp;/g, ' ').replace(/<br \/>/g, '\n');
+}

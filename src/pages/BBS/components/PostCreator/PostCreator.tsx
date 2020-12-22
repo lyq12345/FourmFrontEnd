@@ -1,5 +1,5 @@
 import { PostEventContext } from '@/layouts/BBSLayout/store';
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { IconFont, useDebounceFn, formatTextArea } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Popover, Select } from 'antd';
 import { FormProps } from 'antd/lib/form';
@@ -47,11 +47,6 @@ function validatePost(values: {
     }
   }
   return { isPassed: true };
-}
-
-// 格式处理
-function formatTextArea(str: string) {
-  return str.replace(/&nbsp;/g, ' ').replace(/<br \/>/g, '\n');
 }
 
 export default React.memo<{
