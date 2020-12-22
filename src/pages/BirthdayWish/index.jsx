@@ -86,11 +86,11 @@ const BirthdayWishList = (props) => {
     <>
       <div className={styles.birthdayTabsContainer}>
         <div className={styles.birthdayWish}>
-          <p onClick={() => window.open(`/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&userId=${null}&type=${2}`)}>
+          <p onClick={() => window.open(`/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&type=${2}`)}>
             <img src={mySendWish} alt="" />
             <span>我收到的祝福</span>
           </p>
-          <p onClick={() => window.open(`/yst-iwork-alpha/birthday-wish/SendWishList?wishType=${1}&userId=${null}`)}>
+          <p onClick={() => window.open(`/yst-iwork-alpha/birthday-wish/SendWishList?wishType=${1}`)}>
             <img src={myWish} alt="" />
             <span>我送出的祝福</span>
           </p>
