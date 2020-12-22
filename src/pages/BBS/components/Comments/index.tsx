@@ -19,7 +19,7 @@ export default React.memo<{
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  useEffect(() => {
+  useUpdateEffect(() => {
     onTotalChange?.(total);
   }, [total]);
   const [loading, setLoading] = useState(true);
