@@ -17,6 +17,7 @@ module.exports = {
     {
       path: '/',
       component: '../layouts/SecurityLayout',
+      wrappers: ['@/wrappers/postEventWrapper'],
       routes: [
         {
           path: '/bbs',

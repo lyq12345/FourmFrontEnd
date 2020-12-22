@@ -1,5 +1,9 @@
 import { createFromIconfontCN } from '@ant-design/icons';
-import { useHistory, useLocation } from 'umi';
+import { useDebounceFn as oldUseDebounceFn } from 'ahooks';
+import { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
+// dayjs
+import dayjs from 'dayjs';
+import { useHistory } from 'umi';
 
 /**
  * 使用方法
@@ -41,10 +45,6 @@ export function useBBSGotoSquare() {
   };
 }
 
-// dayjs
-import dayjs from 'dayjs';
-import { useDebounceFn as oldUseDebounceFn } from 'ahooks';
-import { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
 var relativeTime = require('dayjs/plugin/relativeTime');
 var config = {
   thresholds: [
