@@ -1,5 +1,9 @@
 import { createFromIconfontCN } from '@ant-design/icons';
-import { useHistory, useLocation } from 'umi';
+import { useDebounceFn as oldUseDebounceFn } from 'ahooks';
+import { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
+// dayjs
+import dayjs from 'dayjs';
+import { useHistory } from 'umi';
 
 /**
  * 使用方法
@@ -41,10 +45,6 @@ export function useBBSGotoSquare() {
   };
 }
 
-// dayjs
-import dayjs from 'dayjs';
-import { useDebounceFn as oldUseDebounceFn } from 'ahooks';
-import { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
 var relativeTime = require('dayjs/plugin/relativeTime');
 var config = {
   thresholds: [
@@ -68,4 +68,9 @@ export { dayjs };
 // 500 ms 的防抖
 export function useDebounceFn<T = any>(fn: T, options?: DebounceOptions) {
   return oldUseDebounceFn<T>(fn, { wait: 200, ...options });
+}
+
+// 格式处理
+export function formatTextArea(str: string) {
+  return str.replace(/&nbsp;/g, ' ').replace(/<br \/>/g, '\n');
 }

@@ -16,7 +16,6 @@ import MyNav from '@/components/MyNav';
 import TangGuoBi from '@/components/TangGuoBi';
 import HallNews from './components/HallNews';
 import LearningCenter from '@/components/LearningCenter';
-import { useEventEmitter } from 'ahooks';
 import {
   GetIndexNotice,
   GetIndexNews,
@@ -25,7 +24,6 @@ import {
   GetIndexPublicity,
 } from '@/api/common';
 import BBSCard from './components/BBSCard';
-import { PostEventContext } from '../../layouts/BBSLayout/store';
 
 const Home = (props) => {
   const [noticeList, setNoticeList] = useState([]);
@@ -70,53 +68,48 @@ const Home = (props) => {
     });
   };
 
-  // 发帖事件
-  const postEvent$ = useEventEmitter();
-
   return (
-    <PostEventContext.Provider value={postEvent$}>
-      <div>
-        <HallNews />
-        <div className={styles.otherContent}>
-          <div className={styles.leftContent}>
-            <MyNav />
-            <LearningCenter />
-            <TangGuoBi />
-            <Birthday />
-            <BBSCard />
-          </div>
-          <div className={styles.rightContent}>
-            <MySchedule />
-            <CardComponent
-              dataList={noticeList}
-              titlePaperwork="公告通知"
-              moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=3"
-            />
-            <CardComponent
-              dataList={newsList}
-              titlePaperwork="新闻动态"
-              moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=4"
-            />
-            <CardComponent
-              dataList={institutionList}
-              titlePaperwork="制度流程"
-              moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=5"
-            />
-            <CardComponent
-              dataList={competitionList}
-              titlePaperwork="内部招聘"
-              moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=7"
-            />
-            <CardComponent
-              dataList={publicityList}
-              titlePaperwork="信息公示"
-              moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=6"
-            />
-          </div>
+    <div>
+      <HallNews />
+      <div className={styles.otherContent}>
+        <div className={styles.leftContent}>
+          <MyNav />
+          <LearningCenter />
+          <TangGuoBi />
+          <Birthday />
+          <BBSCard />
         </div>
-        {/* <ModelAdvertising /> */}
+        <div className={styles.rightContent}>
+          <MySchedule />
+          <CardComponent
+            dataList={noticeList}
+            titlePaperwork="公告通知"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=3"
+          />
+          <CardComponent
+            dataList={newsList}
+            titlePaperwork="新闻动态"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=4"
+          />
+          <CardComponent
+            dataList={institutionList}
+            titlePaperwork="制度流程"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=5"
+          />
+          <CardComponent
+            dataList={competitionList}
+            titlePaperwork="内部招聘"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=7"
+          />
+          <CardComponent
+            dataList={publicityList}
+            titlePaperwork="信息公示"
+            moreUrl="http://10.213.3.39:8088/AutoLogin.aspx?type=6"
+          />
+        </div>
       </div>
-    </PostEventContext.Provider>
+      {/* <ModelAdvertising /> */}
+    </div>
   );
 };
 export default withRouter(Home);

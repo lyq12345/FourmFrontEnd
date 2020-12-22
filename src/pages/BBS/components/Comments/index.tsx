@@ -19,7 +19,7 @@ export default React.memo<{
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  useEffect(() => {
+  useUpdateEffect(() => {
     onTotalChange?.(total);
   }, [total]);
   const [loading, setLoading] = useState(true);
@@ -98,6 +98,10 @@ export default React.memo<{
   }, []);
   const { run: handleSubmit } = useDebounceFn(() => {
     console.log('回复楼层', targetComment?.floorNumber);
+    if (value.length > 300) {
+      message.info('评论上限300个字符');
+      return;
+    }
     requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId).then((res) => {
       if (res.success) {
         setValue('');

@@ -44,7 +44,8 @@ export default React.memo<NormalPostProps>(
     const contentRef = useRef<HTMLParagraphElement>(null);
     const [isGoPostVisible, setIsGoPostVisible] = useState(false);
     useEffect(() => {
-      if (contentRef?.current?.offsetHeight >= 130) {
+      // 一行 26px
+      if (contentRef?.current?.offsetHeight >= 104) {
         setIsGoPostVisible(true);
       }
     }, [contentRef]);
@@ -72,7 +73,7 @@ export default React.memo<NormalPostProps>(
                 {/* {post.title} */}
               </p>
               <p
-                className={`${styles['content']} line-clamp-5`}
+                className={`${styles['content']} line-clamp-4`}
                 ref={contentRef}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               >
