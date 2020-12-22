@@ -41,7 +41,7 @@ function validatePost(values: {
     return { isPassed: false, msg: '请输入标题' };
   }
   if (values.title.length > 40) {
-    return { isPassed: false, msg: '标题不得超过40个字符' };
+    return { isPassed: false, msg: '标题上限40个字符' };
   }
   if (!values.content && !values.attachUnresolved?.length) {
     return { isPassed: false, msg: '请输入正文或上传图片' };
