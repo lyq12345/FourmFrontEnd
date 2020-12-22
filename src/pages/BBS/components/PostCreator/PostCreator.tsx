@@ -31,20 +31,23 @@ const SelectStyle: SelectProps<SelectValue> = {
 };
 
 // 校验
-const map = {
-  title: '请输入标题',
-  content: '请输入正文',
-  typeId: '请选择发布广场',
-};
 function validatePost(values: {
   title: string;
   content: string;
   typeId: number;
-}): { isPassed: boolean; firstNotPassedKey?: string; firstNotPassedMapValue?: any } {
-  for (const [key, value] of Object.entries(map)) {
-    if (!values[key]) {
-      return { isPassed: false, firstNotPassedKey: key, firstNotPassedMapValue: value };
-    }
+  attachUnresolved: [];
+}): { isPassed: boolean; msg?: string } {
+  if (!values.title) {
+    return { isPassed: false, msg: '请输入标题' };
+  }
+  if (values.title.length > 40) {
+    return { isPassed: false, msg: '标题不得超过40个字符' };
+  }
+  if (!values.content && !values.attachUnresolved?.length) {
+    return { isPassed: false, msg: '请输入正文或上传图片' };
+  }
+  if (!values.typeId) {
+    return { isPassed: false, msg: '请选择发布广场' };
   }
   return { isPassed: true };
 }
@@ -71,15 +74,16 @@ export default React.memo<{
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const handleFormValuesChange: FormProps['onValuesChange'] = (_, values) => {
     const { isPassed } = validatePost(values);
+    console.log('isPassed', isPassed);
     setIsButtonDisabled(!isPassed);
   };
 
   const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
     // 校验
-    const { isPassed, firstNotPassedMapValue } = validatePost(values);
+    const { isPassed, msg } = validatePost(values);
     if (!isPassed) {
       message.warning({
-        content: firstNotPassedMapValue,
+        content: msg,
         style: { marginTop: '20vh' },
       });
       return;
