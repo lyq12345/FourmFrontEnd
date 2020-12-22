@@ -1,6 +1,6 @@
 import { dayjs, IconFont, useBBSGotoPost, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
 import { Avatar, Modal } from 'antd';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Post, requestLove } from '../../api';
 import Comments from '../Comments';
 import styles from './NormalPost.less';
@@ -43,7 +43,7 @@ export default React.memo<NormalPostProps>(
     // 高度控制是否显示按钮
     const contentRef = useRef<HTMLParagraphElement>(null);
     const [isGoPostVisible, setIsGoPostVisible] = useState(false);
-    useEffect(() => {
+    useLayoutEffect(() => {
       // 一行 26px
       if (contentRef?.current?.offsetHeight >= 104) {
         setIsGoPostVisible(true);
