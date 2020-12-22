@@ -45,7 +45,7 @@ export default React.memo<NormalPostProps>(
     const [isGoPostVisible, setIsGoPostVisible] = useState(false);
     useLayoutEffect(() => {
       // 一行 26px
-      if (contentRef?.current?.offsetHeight >= 104) {
+      if (contentRef?.current?.offsetHeight > 26 * 3) {
         setIsGoPostVisible(true);
       }
     }, [contentRef]);
