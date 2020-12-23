@@ -53,37 +53,13 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
               ) : null}
             </p>
             <div className={styles['origin-container']}>
-              <p className={styles['origin-content']} onClick={() => go(message1.threadId)}>
-                {(() => {
-                  if (message1.infoType === 103) {
-                    // 点赞
-
-                    if (message1.contentparent.length > 70) {
-                      return <>{message1.contentparent.slice(0, 70) + '...'}</>;
-                    } else {
-                      return <>{message1.contentparent}</>;
-                    }
-                  } else {
-                    // 回复
-
-                    if (message1.contentparent.length > 70) {
-                      return <>{message1.contentparent.slice(0, 70) + '...' + ' '}</>;
-                    } else {
-                      return (
-                        <>
-                          {message1.contentparent}
-                          {/* <Link
-                            to={'/bbs/post/' + message1.threadId}
-                            onClick={() => window.scrollTo(0, 0)}
-                          >
-                            查看原帖
-                          </Link> */}
-                        </>
-                      );
-                    }
-                  }
-                })()}
-              </p>
+              <p
+                className={`${styles['origin-content']} line-clamp-2`}
+                onClick={() => go(message1.threadId)}
+                dangerouslySetInnerHTML={{
+                  __html: message1.contentparent.replaceAll('<br />', ' '),
+                }}
+              ></p>
             </div>
           </div>
           {message1.infoType === 103 ? null : (
