@@ -72,6 +72,7 @@ export default React.memo<{
 
   // 发送按钮的样式
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const handleFormValuesChange: FormProps['onValuesChange'] = (_, values) => {
     const { isPassed } = validatePost(values);
     console.log('isPassed', isPassed);
@@ -79,6 +80,9 @@ export default React.memo<{
   };
 
   const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
+    if (isButtonLoading) {
+      return false;
+    }
     // 校验
     const { isPassed, msg } = validatePost(values);
     if (!isPassed) {
@@ -100,18 +104,23 @@ export default React.memo<{
     };
     console.table(data);
 
-    requestCreatePost(data).then((res) => {
-      if (res.success) {
-        message.success('发布成功');
-        onSuccess?.();
-        form.resetFields();
+    setIsButtonLoading(true);
+    requestCreatePost(data)
+      .then((res) => {
+        if (res.success) {
+          message.success('发布成功');
+          onSuccess?.();
+          form.resetFields();
 
-        // 发帖成功事件
-        postEvent$?.emit('success');
-      } else {
-        message.error('发布出错');
-      }
-    });
+          // 发帖成功事件
+          postEvent$?.emit('success');
+        } else {
+          message.error('发布出错');
+        }
+      })
+      .finally(() => {
+        setIsButtonLoading(false);
+      });
   });
 
   // 编辑
@@ -208,6 +217,7 @@ export default React.memo<{
           <Button
             htmlType="submit"
             className={`${styles['submit-button']} ${isButtonDisabled ? styles['disabled'] : ''}`}
+            loading={isButtonLoading}
           >
             发送
           </Button>
