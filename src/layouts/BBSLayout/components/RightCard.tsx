@@ -1,6 +1,6 @@
 import { IconFont, useBBSGotoPost } from '@/utils/utilsBBS';
 import React from 'react';
-import type { Post } from '../api';
+import type { Post } from '@/pages/BBS/api';
 import styles from './RightCard.less';
 
 const RightCard: React.FC<{ title: string; list: Post[] }> = React.memo(({ title, list }) => {
