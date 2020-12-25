@@ -31,10 +31,12 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
         refreshRightCardData();
         setIsModalVisible(false);
         setOldFormObject(undefined);
+        setCanModalDirectClose(true);
         break;
       case 'cancel':
         setIsModalVisible(false);
         setOldFormObject(undefined);
+        setCanModalDirectClose(true);
         break;
       case 'doing':
         setIsModalVisible(true);
@@ -97,6 +99,13 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
     postEvent$?.emit('cancel');
   }, []);
 
+  const [canModalDirectClose, setCanModalDirectClose] = useState(true);
+  const handlePostCreatorChange = useCallback((values) => {
+    const hasSomething = Object.values(values).some((v) => +v);
+    console.log('hasSomething', hasSomething);
+    setCanModalDirectClose(!hasSomething);
+  }, []);
+
   return (
     <div className={styles['bg-container']}>
       {/* 发帖组件 */}
@@ -106,15 +115,22 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
         style={{ top: '20vh' }}
         modalRender={() => (
           <div style={{ pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }}>
-            <Popconfirm
-              title="将清空已编辑内容"
-              onConfirm={handleModalClose}
-              okText="是"
-              cancelText="否"
-            >
-              <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
-            </Popconfirm>
-            <PostCreator oldFormObject={oldFormObject} />
+            {canModalDirectClose ? (
+              <CloseOutlined
+                style={{ position: 'absolute', left: 679, color: 'white' }}
+                onClick={handleModalClose}
+              />
+            ) : (
+              <Popconfirm
+                title="将清空已编辑内容"
+                onConfirm={handleModalClose}
+                okText="是"
+                cancelText="否"
+              >
+                <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
+              </Popconfirm>
+            )}
+            <PostCreator oldFormObject={oldFormObject} onValuesChange={handlePostCreatorChange} />
           </div>
         )}
         destroyOnClose

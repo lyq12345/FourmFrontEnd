@@ -57,7 +57,8 @@ export default React.memo<{
   onSuccess?: () => void;
   isInnerPrimaryColorUsed?: boolean;
   style?: CSSProperties;
-}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style }) => {
+  onValuesChange?: (values: any) => void;
+}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style, onValuesChange }) => {
   const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
@@ -77,6 +78,7 @@ export default React.memo<{
     const { isPassed } = validatePost(values);
     console.log('isPassed', isPassed);
     setIsButtonDisabled(!isPassed);
+    onValuesChange?.(values);
   };
 
   const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
@@ -200,7 +202,12 @@ export default React.memo<{
             trigger="click"
             onVisibleChange={setVisiblePopover}
           >
-            <div className={styles['upload']} onClick={() => setVisiblePopover(true)}>
+            <div
+              className={styles['upload']}
+              onClick={() => {
+                setVisiblePopover(true);
+              }}
+            >
               <IconFont type="icontupian" className={styles['icon-pic']} />
               <span>图片</span>
             </div>
