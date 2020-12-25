@@ -40,11 +40,17 @@ function validatePost(values: {
   if (!values.title) {
     return { isPassed: false, msg: '请输入标题' };
   }
+  if ('' === values.title.trim()) {
+    return { isPassed: false, msg: '标题不能全为空哦' };
+  }
   if (values.title.length > 40) {
     return { isPassed: false, msg: '标题上限40个字符' };
   }
   if (!values.content && !values.attachUnresolved?.length) {
     return { isPassed: false, msg: '请输入正文或上传图片' };
+  }
+  if (!values.attachUnresolved?.length && '' === values.content.trim()) {
+    return { isPassed: false, msg: '正文不能全为空哦' };
   }
   if (!values.typeId) {
     return { isPassed: false, msg: '请选择发布广场' };
@@ -57,7 +63,8 @@ export default React.memo<{
   onSuccess?: () => void;
   isInnerPrimaryColorUsed?: boolean;
   style?: CSSProperties;
-}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style }) => {
+  onValuesChange?: (values: any) => void;
+}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style, onValuesChange }) => {
   const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
@@ -72,13 +79,18 @@ export default React.memo<{
 
   // 发送按钮的样式
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const handleFormValuesChange: FormProps['onValuesChange'] = (_, values) => {
-    const { isPassed } = validatePost(values);
-    console.log('isPassed', isPassed);
+    const { isPassed, msg } = validatePost(values);
+    console.log('msg', msg);
     setIsButtonDisabled(!isPassed);
+    onValuesChange?.(values);
   };
 
   const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
+    if (isButtonLoading) {
+      return false;
+    }
     // 校验
     const { isPassed, msg } = validatePost(values);
     if (!isPassed) {
@@ -100,18 +112,24 @@ export default React.memo<{
     };
     console.table(data);
 
-    requestCreatePost(data).then((res) => {
-      if (res.success) {
-        message.success('发布成功');
-        onSuccess?.();
-        form.resetFields();
+    setIsButtonLoading(true);
+    requestCreatePost(data)
+      .then((res) => {
+        if (res.success) {
+          message.success('发布成功');
+          onSuccess?.();
+          form.resetFields();
+          setIsButtonDisabled(true);
 
-        // 发帖成功事件
-        postEvent$?.emit('success');
-      } else {
-        message.error('发布出错');
-      }
-    });
+          // 发帖成功事件
+          postEvent$?.emit('success');
+        } else {
+          message.error('发布出错');
+        }
+      })
+      .finally(() => {
+        setIsButtonLoading(false);
+      });
   });
 
   // 编辑
@@ -190,7 +208,12 @@ export default React.memo<{
             trigger="click"
             onVisibleChange={setVisiblePopover}
           >
-            <div className={styles['upload']} onClick={() => setVisiblePopover(true)}>
+            <div
+              className={styles['upload']}
+              onClick={() => {
+                setVisiblePopover(true);
+              }}
+            >
               <IconFont type="icontupian" className={styles['icon-pic']} />
               <span>图片</span>
             </div>
@@ -208,6 +231,7 @@ export default React.memo<{
           <Button
             htmlType="submit"
             className={`${styles['submit-button']} ${isButtonDisabled ? styles['disabled'] : ''}`}
+            loading={isButtonLoading}
           >
             发送
           </Button>
