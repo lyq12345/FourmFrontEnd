@@ -40,11 +40,17 @@ function validatePost(values: {
   if (!values.title) {
     return { isPassed: false, msg: '请输入标题' };
   }
+  if ('' === values.title.trim()) {
+    return { isPassed: false, msg: '标题不能全为空哦' };
+  }
   if (values.title.length > 40) {
     return { isPassed: false, msg: '标题上限40个字符' };
   }
   if (!values.content && !values.attachUnresolved?.length) {
     return { isPassed: false, msg: '请输入正文或上传图片' };
+  }
+  if (!values.attachUnresolved?.length && '' === values.content.trim()) {
+    return { isPassed: false, msg: '正文不能全为空哦' };
   }
   if (!values.typeId) {
     return { isPassed: false, msg: '请选择发布广场' };
@@ -75,8 +81,8 @@ export default React.memo<{
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const handleFormValuesChange: FormProps['onValuesChange'] = (_, values) => {
-    const { isPassed } = validatePost(values);
-    console.log('isPassed', isPassed);
+    const { isPassed, msg } = validatePost(values);
+    console.log('msg', msg);
     setIsButtonDisabled(!isPassed);
     onValuesChange?.(values);
   };
