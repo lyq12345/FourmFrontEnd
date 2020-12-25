@@ -111,6 +111,7 @@ export default React.memo<{
           message.success('发布成功');
           onSuccess?.();
           form.resetFields();
+          setIsButtonDisabled(true);
 
           // 发帖成功事件
           postEvent$?.emit('success');
