@@ -13,7 +13,7 @@ import loginheadimg from '@/assets/img/login-head-img.png';
 import anniversaryCelebration from '@/assets/img/anniversary-celebration.png';
 import html2canvas from 'html2canvas';
 const ModelAdvertising = (props) => {
-  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(true)
+  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(false)
   const [isBirthdayVisible, setIsBirthdayVisible] = useState(false)
   const [isAdvertVisible, setIsAdvertVisible] = useState(false)
   const [isBirthdayModel, setIsBirthdayModel] = useState(false)
