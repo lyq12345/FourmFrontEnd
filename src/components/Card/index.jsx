@@ -1,21 +1,31 @@
 import React from 'react';
 import styles from './styles.less';
 import lookmoreBtn from '@/assets/img/lookmore-btn.png';
+import { SetReadMessage } from '@/api/common'
 import Cookies from 'js-cookie';
 
 const Card = (props) => {
   let userInfo = JSON.parse(localStorage.getItem('userInfo'))
   let { title, noPadding, bottomLookMore, dataList, titlePaperwork, moreUrl } = props
   const accessToken = Cookies.get('access_token');
+  const readMessage = (val) => {
+    SetReadMessage({ messageId: val }).then(res => {
+      if (res) {
+        console.log(res)
+      }
+    })
+  }
   const handleLink = (val) => {
     const w = window.open('about:blank');
     // 我的祝福墙
     if (val.classTypeId == '400000099') {
+      readMessage(val.id)
       w.location.href = `/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`
       return
     }
     // 回复我的出祝福墙
     if (val.classTypeId == '400000100') {
+      readMessage(val.id)
       // w.location.href = `/yst-iwork-alpha/birthday-wish/BlessingWall?wishType=${2}&userId=${val.senderId}&type=${1}&userName=${val.senderName}&avater=${val.avater}`
       w.location.href = `/yst-iwork-alpha/birthday-wish/SendWishList?wishType=${1}`
       return

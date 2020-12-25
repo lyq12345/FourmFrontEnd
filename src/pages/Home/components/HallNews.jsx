@@ -69,11 +69,11 @@ const HallNews = (props) => {
         if (response.success) {
           setToDoTasksNumList(response.data.tasks || [])
           setToDoTasksNum(response.data.Total)
-          if (response.data.total && response.data.total > 0) {
-            setIsToDoTasksVisible(true)
-          } else {
-            setIsToDoTasksVisible(false)
-          }
+          // if (response.data.total && response.data.total > 0) {
+          //   setIsToDoTasksVisible(true)
+          // } else {
+          //   setIsToDoTasksVisible(false)
+          // }
         }
       })
       // 获取堂里新鲜事
