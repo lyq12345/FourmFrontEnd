@@ -4,6 +4,7 @@ import { DebounceOptions } from 'ahooks/lib/useDebounce/debounceOptions';
 // dayjs
 import dayjs from 'dayjs';
 import { useHistory } from 'umi';
+import he from 'he';
 
 /**
  * 使用方法
@@ -93,5 +94,5 @@ export function useDebounceFn<T = any>(fn: T, options?: DebounceOptions) {
 
 // 格式处理
 export function formatTextArea(str: string) {
-  return str.replace(/&nbsp;/g, ' ').replace(/<br \/>/g, '\n');
+  return he.decode(str).replace(/<br \/>/g, '\n');
 }
