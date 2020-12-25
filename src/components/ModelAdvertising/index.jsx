@@ -13,7 +13,7 @@ import loginheadimg from '@/assets/img/login-head-img.png';
 import anniversaryCelebration from '@/assets/img/anniversary-celebration.png';
 import html2canvas from 'html2canvas';
 const ModelAdvertising = (props) => {
-  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(false)
+  const [isAnniversaryVisible, setIsAnniversaryVisible] = useState(true)
   const [isBirthdayVisible, setIsBirthdayVisible] = useState(false)
   const [isAdvertVisible, setIsAdvertVisible] = useState(false)
   const [isBirthdayModel, setIsBirthdayModel] = useState(false)
@@ -190,8 +190,9 @@ const ModelAdvertising = (props) => {
               <div id="my-card" className={styles.cardInfoContent}>
                 <img className={styles.cardBackgroundImg} src={birthdayCard} alt="" />
                 <div className={styles.modalContent}>
-                  <img className={styles.headImg} src={headImg || loginheadimg}></img>
-                  <p className={styles.cardInfo}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
+                  {/* <img className={styles.headImg} src={headImg || loginheadimg}></img> */}
+                  <p className={`${styles.cardInfo} ${styles.birthdayText}`}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
+                  <p className={`${styles.cardInfo} ${styles.birthdayText}`}>生日快乐</p>
                 </div>
               </div>
             </div>
@@ -224,7 +225,7 @@ const ModelAdvertising = (props) => {
                     <p className={styles.cardInfo}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
                     <p className={styles.cardInfo}>{loginUserInfo && loginUserInfo.isAnniversary}周年快乐</p>
                     <p className={`${styles.cardInfoEn} ${styles.enText}`}>HAPPY {loginUserInfo && loginUserInfo.isAnniversary}th</p>
-                    <p className={styles.cardInfoEn}>ANNIVERSARY</p>
+                    <p className={styles.cardInfoEn}>ANNIVERSARY！</p>
                   </div>
                 </div>
               </Spin>
