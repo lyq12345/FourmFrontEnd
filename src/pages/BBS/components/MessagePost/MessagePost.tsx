@@ -1,4 +1,4 @@
-import { dayjs, useDebounceFn, useBBSGotoPost } from '@/utils/utilsBBS';
+import { dayjs, useDebounceFn, useBBSGotoPost, formatTextArea } from '@/utils/utilsBBS';
 import { Avatar, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { Message, requestReply } from '../../api';
@@ -47,7 +47,14 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
           <p className={styles['time']}>{dayjs(message1.createDate).fromNow()}</p>
           <div className={styles['main']}>
             <p className={styles['reply-content']}>
-              {message1.content}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formatTextArea(message1.content),
+                }}
+              ></span>
+              {/* {message1.infoType === 103 ? (
+                <img className={styles['thumb']} src={Thumb}></img>
+              ) : null} */}
               {message1.infoType === 103 ? (
                 <img className={styles['thumb']} src={Thumb}></img>
               ) : null}
@@ -57,7 +64,7 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                 className={`${styles['origin-content']} line-clamp-2`}
                 onClick={() => go(message1.threadId)}
                 dangerouslySetInnerHTML={{
-                  __html: message1.contentparent.replaceAll('<br />', ' '),
+                  __html: formatTextArea(message1.contentparent),
                 }}
               ></p>
             </div>
