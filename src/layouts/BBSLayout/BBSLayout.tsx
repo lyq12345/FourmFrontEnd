@@ -108,7 +108,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
 
   const [canModalDirectClose, setCanModalDirectClose] = useState(true);
   const handlePostCreatorChange = useCallback((values) => {
-    const hasSomething = Object.values(values).some((v) => +v);
+    const hasSomething = Object.values(values).some((v) => !!v);
     console.log('hasSomething', hasSomething);
     setCanModalDirectClose(!hasSomething);
   }, []);
