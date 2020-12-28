@@ -9,14 +9,20 @@ const headUrl = 'https://zerosoul.github.io/rc-bullets/assets/img/heads/girl.jpg
 const backColors = ['#FFEDED', '#FFF4E5', '#EEFBF9', '#F8F2FF', '#F0F5FF'];
 const fontColors = ['#FF441E', '#FFA200', '#00D390', '#C293FF', '#729CFF'];
 
+let curScreen = null;
 // 弹幕组件
 export default function Bullets(props) {
-  // 弹幕屏幕
-  const [screen, setScreen] = useState(null);
   // 弹幕内容
   const [bullets, setBullets] = useState([]);
   const [sequence, setSequence] = useState(0);
+  const [pushDelay, setDelay] = useState(0);
+  const track = props.type ? ['5%', '50%'] : ['5%', '50%', '70%']; //1:首页 0：详情页
   let timer = 0;
+  function rd(n, m) {
+    // 小：5 50 大：
+    let c = m - n + 1;
+    return String(Math.floor(Math.random() * c + n)) + '%';
+  }
   function fn() {
     setSequence((seq) => {
       const size = bullets.length;
@@ -26,7 +32,8 @@ export default function Bullets(props) {
       const msg = item.personNameTo + ' 获得' + item.coin + '堂果币';
       const valuesType = item.valuesType + ' | ';
       const reason = item.reason;
-      screen.push(
+
+      curScreen.push(
         <StyledBullet
           head={item.avatar}
           msg={msg}
@@ -36,6 +43,7 @@ export default function Bullets(props) {
           color={fontColors[styleIndex]}
           size="7px"
         />,
+        { duration: 13, top: track[seq % (props.type ? 2 : 3)] },
       );
       return seq + 1;
     });
@@ -44,8 +52,7 @@ export default function Bullets(props) {
     timer = setInterval(fn, newTime);
   }
   useEffect(() => {
-    let s = new BulletScreen('.screen', { duration: 13 });
-    setScreen(s);
+    curScreen = new BulletScreen('.screen');
     coinDetailRandom().then(({ success, data }) => {
       if (success) {
         setBullets(data);
@@ -55,7 +62,7 @@ export default function Bullets(props) {
 
   useEffect(() => {
     if (bullets.length !== 0) {
-      timer = setInterval(fn, 1000);
+      timer = setInterval(fn, 1500);
     }
     return () => {
       clearInterval(timer);

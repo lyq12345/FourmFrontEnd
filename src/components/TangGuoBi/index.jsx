@@ -22,7 +22,7 @@ const Index = () => {
           更多
         </a>
       </div>
-      <Bullets bulSetting={{ overflow: 'hidden' }} />
+      <Bullets bulSetting={{ overflow: 'hidden' }} type={1} />
       <RankingList />
     </div>
   );

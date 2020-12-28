@@ -39,7 +39,7 @@ const TangguobiRank = (porps) => {
       <div style={{ backgroundColor: '#fff', padding: '20px', borderRadius: '6px' }}>
         {/*弹幕 */}
         <div>
-          <Bullets bgSetting={bkgSetting} bulSetting={bulSetting} />
+          <Bullets bgSetting={bkgSetting} bulSetting={bulSetting} type={0} />
         </div>
 
         {/*公司列表 */}
