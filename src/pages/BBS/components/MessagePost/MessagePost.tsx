@@ -12,6 +12,7 @@ export type MessagePostProps = {
 export default React.memo<MessagePostProps>(({ message1 }) => {
   const [replyVisible, setReplyVisible] = useState(false);
   const [inputContent, setContent] = useState('');
+  const [isDisabled, setDisable] = useState(true);
 
   const { run: handleReply } = useDebounceFn(() => {
     //回复
@@ -19,9 +20,16 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
       return !visible;
     });
   });
+  const handleInputChange = (e) => {
+    setContent(e.target.value);
+    setDisable(false);
+    if ('' === e.target.value.trim()) {
+      setDisable(true);
+    }
+  };
   const handleSend = () => {
-    if (inputContent === '') {
-      message.warning('请输入评论内容');
+    if (inputContent.trim() === '') {
+      message.warning('评论不能（全）为空哦');
       return;
     } else {
       requestReply(inputContent, message1.threadId, message1.postId, message1.typeId).then(
@@ -83,11 +91,14 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                       bordered={false}
                       value={inputContent}
                       onChange={(e) => {
-                        setContent(e.target.value);
+                        handleInputChange(e);
                       }}
                     />
                   </div>
-                  <span className={styles['send']} onClick={handleSend}>
+                  <span
+                    className={`${styles['send']} ${isDisabled ? styles['disabled'] : ''}`}
+                    onClick={handleSend}
+                  >
                     发送
                   </span>
                 </div>
