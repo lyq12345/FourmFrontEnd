@@ -69,11 +69,11 @@ const HallNews = (props) => {
         if (response.success) {
           setToDoTasksNumList(response.data.tasks || [])
           setToDoTasksNum(response.data.Total)
-          if (response.data.total && response.data.total > 0) {
-            setIsToDoTasksVisible(true)
-          } else {
-            setIsToDoTasksVisible(false)
-          }
+          // if (response.data.total && response.data.total > 0) {
+          //   setIsToDoTasksVisible(true)
+          // } else {
+          //   setIsToDoTasksVisible(false)
+          // }
         }
       })
       // 获取堂里新鲜事
@@ -134,16 +134,16 @@ const HallNews = (props) => {
   );
 
   const lookMoreHallPeople = (val) => {
-    window.open('hall-people')
+    window.open('/yst-iwork-alpha/hall-people')
   };
   const lookMoreHallSomething = (val) => {
-    window.open('hall-something')
+    window.open('/yst-iwork-alpha/hall-something')
   };
   const detailRouter = (val) => {
-    window.open(`hall-something/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-something/detail?id=${val.id}`)
   };
   const detailHallPeople = (val) => {
-    window.open(`hall-people/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-people/detail?id=${val.id}`)
   };
   const handleVisibleChange = (event, val) => {
     if (val === 1 && unreadMessagesNum) {
@@ -273,7 +273,7 @@ const HallNews = (props) => {
                               muted
                             />
                           ) : (
-                              <img style={{ width: '487px', height: '278px', borderRadius: '3px 0 0 3px' }} src={v.href.src} alt="pic" />
+                              <img onClick={() => detailRouter(v)} style={{ width: '487px', height: '278px', borderRadius: '3px 0 0 3px' }} src={v.href.src} alt="pic" />
                             )}
                         </div>
                       </SwiperSlide>

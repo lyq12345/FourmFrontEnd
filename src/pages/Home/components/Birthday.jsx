@@ -32,7 +32,7 @@ const Birthday = (props) => {
     <div className={styles.birthday}>
       <div className={styles.birthdayAnniversary}>
         <span>生日祝福</span>
-        <span onClick={() => window.open('birthday-wish')}>更多</span>
+        <span onClick={() => window.open('/yst-iwork-alpha/birthday-wish')}>更多</span>
       </div>
       <div>
         {/* autoplay */}
@@ -44,8 +44,9 @@ const Birthday = (props) => {
               slidesPerView={1}
               direction='vertical'
               onSwiper={(swiper) => setSwiper(swiper)}
-              autoplay={{ delay: 5000 }}
+              autoplay={{ delay: 3000 }}
               loop
+              speed={500}
             >
               {
                 dataList && dataList.map((item, index) => (

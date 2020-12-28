@@ -19,6 +19,7 @@ const BlessingWall = (props) => {
   const [replyContent, setReplyContent] = useState(null)
   const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
   const [birthdayDate, setBirthdayDate] = useState(null)
+  const [avatarImg, setAvatarImg] = useState(null)
   const [isDialog, setIsDialog] = useState(false);
   const [userInfo, setUserInfo] = useState({});
   const [showMore, setShowMore] = useState(false)
@@ -46,6 +47,7 @@ const BlessingWall = (props) => {
         })
         setDataList(dataArr)
         setBirthdayDate(res.data.birthday || null)
+        setAvatarImg(res.data.avatar || null)
         let datas = {
           userId: query.userId,
           userName: query.type == 1 ? query.userName : loginInUserInfo && loginInUserInfo.userName,
@@ -103,7 +105,7 @@ const BlessingWall = (props) => {
         <img src={birthdayBanner} alt="" />
         <div>
           <p className={styles.birthdayImg}>
-            <img src={query.type == 2 ? loginInUserInfo.headImage : query.avater} alt="" />
+            <img src={query.type == 2 ? loginInUserInfo.headImage : avatarImg} alt="" />
           </p>
           <p className={styles.date}>
             {birthdayDate}
@@ -133,7 +135,7 @@ const BlessingWall = (props) => {
                     <img src={item.iconUrl} alt="" />
                   </div>
                   <div className={item.isMoreImg && item.isMore ? `${styles.cardMoreContent}` : `${styles.cardContent}`}>
-                    <p className={styles.cardToName}>To：{item.userName}</p>
+                    <p className={styles.cardToName}>To：亲爱的{item.userName}</p>
                     <p className={styles.cardInfoContent}>
                       <span>
                         {item.isMoreImg ? item.content : item.contentStr}

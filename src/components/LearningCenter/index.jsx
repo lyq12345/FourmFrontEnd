@@ -33,7 +33,7 @@ const LearningCenter = (props) => {
       <Tabs
         className={styles.studyTabs}
         defaultActiveKey="b6fb7d3d-d700-4fa4-8435-a32e2b6f3e77"
-        tabBarExtraContent={<a href="https://hr-elearning.yst.com.cn/#/home">更多</a>}
+        tabBarExtraContent={<a href="https://hr-elearning.yst.com.cn/#/home" target="view_window">更多</a>}
         onChange={(anctiveKey) => {
           setKey(anctiveKey);
           queryCategories(anctiveKey);

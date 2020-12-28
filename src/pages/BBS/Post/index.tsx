@@ -1,5 +1,5 @@
 import editPNG from '@/assets/bbs/icon/edit.png';
-import { PostEventContext } from '@/layouts/BBSLayout/store';
+import { PostEventContext, ShareEventContext } from '@/layouts/BBSLayout/store';
 import { dayjs, IconFont, useBBSGotoSquare, useDebounceFn } from '@/utils/utilsBBS';
 import { useLocalStorageState, useToggle } from 'ahooks';
 import { Skeleton } from 'antd';
@@ -36,10 +36,13 @@ const Post: React.FC = React.memo(() => {
     // setIsMinePost(true);
   }, [data]);
 
+  const shareEvent$ = useContext(ShareEventContext);
   const { run: handleFocusClick } = useDebounceFn(() => {
     requestShare(+postId, +!data.isShare).then((res) => {
       if (res.success) {
         setData((d) => ({ ...d, isShare: +!d.isShare as 0 | 1 }));
+        console.log('emitting shareEvent');
+        shareEvent$?.emit(null);
       }
     });
   });
@@ -91,6 +94,7 @@ const Post: React.FC = React.memo(() => {
         ) : (
           <>
             <p className={styles['title']} dangerouslySetInnerHTML={{ __html: data.title }}></p>
+            {/* <p className={styles['title']}>{data.title}</p> */}
             <div className={styles['under-title']}>
               <Avatar size={41.73} src={data?.avatarPath} />
               <div>
@@ -101,13 +105,14 @@ const Post: React.FC = React.memo(() => {
               {!isMinePost && (
                 <div
                   className={`${styles['focus']} ${
-                    data.isShare ? styles['focus-on'] : styles['focus-off']
+                    data.isShare ? styles['focus-off'] : styles['focus-on']
                   }`}
                   onClick={handleFocusClick}
                 ></div>
               )}
             </div>
             <p className={styles['content']} dangerouslySetInnerHTML={{ __html: data.content }}></p>
+            {/* <p className={styles['content']}>{data.content}</p> */}
 
             <PicturePart type={1} picList={data.attach} largePicList={data.attachsBig} />
 

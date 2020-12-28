@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { List, message, Avatar, Spin, Pagination, Button } from 'antd';
 import styles from './styles.less'
 import { GetWishList } from '@/api/birthdayWish'
+import noContent from '@/assets/img/noContent.png'
 
 const SendWishList = (props) => {
   const [dataList, setDataList] = useState([])
@@ -72,8 +73,9 @@ const SendWishList = (props) => {
             </div>
           </> :
           <div className={styles.noContentInfo2}>
+            <img src={noContent} alt="" />
             <p>快去送礼物吧～</p>
-            <Button type="primary" size="large" onClick={() => window.open('birthday-wish')}>去送祝福</Button>
+            <Button type="primary" size="large" onClick={() => window.open('/yst-iwork-alpha/birthday-wish')}>去送祝福</Button>
           </div>
       }
 

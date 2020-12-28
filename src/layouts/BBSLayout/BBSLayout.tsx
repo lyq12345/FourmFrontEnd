@@ -3,21 +3,21 @@ import * as api from '@/pages/BBS/api';
 import PostCreator from '@/pages/BBS/components/PostCreator/PostCreator';
 import { dayjs, IconFont, useBBSGotoSquare } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
-import { useEventEmitter, useLocalStorageState, useToggle } from 'ahooks';
+import { useEventEmitter } from '@umijs/hooks';
+import { useLocalStorageState, useToggle } from 'ahooks';
 import { Avatar, Modal, Popconfirm } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 import styles from './BBSLayout.less';
 import Button from './components/Button';
 import RightCard from './components/RightCard';
-import { PostEventContext } from './store';
+import { PostEventContext, ShareEventContext } from './store';
 
 const BBSLayout: React.FC = React.memo(({ children }) => {
-  // 发帖事件
-  const postEvent$ = useEventEmitter<string | [string, ...any[]]>();
+  const [trigger1, { toggle: refreshRightCardData1 }] = useToggle();
+  const [trigger2, { toggle: refreshRightCardData2 }] = useToggle();
 
-  const [trigger, { toggle: refreshRightCardData }] = useToggle();
-
+  const postEvent$ = useContext(PostEventContext);
   postEvent$?.useSubscription((strOrArray) => {
     let val, args;
     if (strOrArray instanceof Array) {
@@ -30,13 +30,15 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
 
     switch (val) {
       case 'success':
-        refreshRightCardData();
+        refreshRightCardData1();
         setIsModalVisible(false);
         setOldFormObject(undefined);
+        setCanModalDirectClose(true);
         break;
       case 'cancel':
         setIsModalVisible(false);
         setOldFormObject(undefined);
+        setCanModalDirectClose(true);
         break;
       case 'doing':
         setIsModalVisible(true);
@@ -47,6 +49,11 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
       default:
         break;
     }
+  });
+
+  const shareEvent$ = useEventEmitter();
+  shareEvent$?.useSubscription(() => {
+    refreshRightCardData2();
   });
 
   const go = useBBSGotoSquare();
@@ -72,7 +79,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
         setDataPostMyList(res.data?.threads ?? []);
       }
     });
-  }, [trigger]);
+  }, [trigger1]);
 
   // 我关注的帖子
   const [dataPostShareList, setDataPostShareList] = useState<api.Post[]>([]);
@@ -82,7 +89,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
         setDataPostShareList(res.data?.threads ?? []);
       }
     });
-  }, [trigger]);
+  }, [trigger2]);
 
   // 消息数量
   const [count, setCount] = useState(0);
@@ -99,8 +106,15 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
     postEvent$?.emit('cancel');
   }, []);
 
+  const [canModalDirectClose, setCanModalDirectClose] = useState(true);
+  const handlePostCreatorChange = useCallback((values) => {
+    const hasSomething = Object.values(values).some((v) => !!v);
+    console.log('hasSomething', hasSomething);
+    setCanModalDirectClose(!hasSomething);
+  }, []);
+
   return (
-    <PostEventContext.Provider value={postEvent$}>
+    <ShareEventContext.Provider value={shareEvent$}>
       <div className={styles['bg-container']}>
         {/* 发帖组件 */}
         <Modal
@@ -109,15 +123,22 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
           style={{ top: '20vh' }}
           modalRender={() => (
             <div style={{ pointerEvents: 'initial', '--bbs-primary-color': '#ff5000' }}>
-              <Popconfirm
-                title="将取消本次发帖"
-                onConfirm={handleModalClose}
-                okText="是"
-                cancelText="否"
-              >
-                <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
-              </Popconfirm>
-              <PostCreator oldFormObject={oldFormObject} />
+              {canModalDirectClose ? (
+                <CloseOutlined
+                  style={{ position: 'absolute', left: 679, color: 'white' }}
+                  onClick={handleModalClose}
+                />
+              ) : (
+                <Popconfirm
+                  title="将清空已编辑内容"
+                  onConfirm={handleModalClose}
+                  okText="是"
+                  cancelText="否"
+                >
+                  <CloseOutlined style={{ position: 'absolute', left: 679, color: 'white' }} />
+                </Popconfirm>
+              )}
+              <PostCreator oldFormObject={oldFormObject} onValuesChange={handlePostCreatorChange} />
             </div>
           )}
           destroyOnClose
@@ -192,7 +213,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
                 <div className={styles['profile-content']}>
                   <Avatar size={72} src={bbsUserInfo?.avatar} className={styles['avatar']} />
                   <span className={styles['name']}>{bbsUserInfo?.name}</span>
-                  <div className={styles['wanna-post']} onClick={() => postEvent$.emit('doing')}>
+                  <div className={styles['wanna-post']} onClick={() => postEvent$?.emit('doing')}>
                     我要发帖
                   </div>
                 </div>
@@ -208,7 +229,7 @@ const BBSLayout: React.FC = React.memo(({ children }) => {
         {/* <Footer /> */}
         <div id="bbs-footer" />
       </div>
-    </PostEventContext.Provider>
+    </ShareEventContext.Provider>
   );
 });
 

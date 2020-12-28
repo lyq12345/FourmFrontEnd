@@ -108,3 +108,9 @@ export const GetCalendar = async (data) =>
     method: 'get',
     params: data,
   });
+// 设置我的消息为已读
+export const SetReadMessage = async (data) =>
+  request('IWork/SetReadMessage', {
+    method: 'POST',
+    data,
+  });

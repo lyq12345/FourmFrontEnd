@@ -27,6 +27,12 @@
         right: 20px;
         color: #0091ff;
         cursor: pointer;
+
+        &.type-disabled {
+          cursor: default;
+          pointer-events: none;
+          color: #6d7278;
+        }
       }
       .time {
         margin-top: 10px;
@@ -41,8 +47,11 @@
         .title {
           margin-top: 8px;
           line-height: 22px;
-          font-weight: 500;
+          font-weight: 600;
           cursor: pointer;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
           &:hover {
             color: var(--bbs-primary-color);
             transition: color 0.3s;

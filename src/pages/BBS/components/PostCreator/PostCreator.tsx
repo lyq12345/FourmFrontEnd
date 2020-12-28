@@ -1,5 +1,5 @@
 import { PostEventContext } from '@/layouts/BBSLayout/store';
-import { IconFont, useDebounceFn } from '@/utils/utilsBBS';
+import { IconFont, useDebounceFn, formatTextArea } from '@/utils/utilsBBS';
 import { CloseOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Popover, Select } from 'antd';
 import { FormProps } from 'antd/lib/form';
@@ -31,20 +31,29 @@ const SelectStyle: SelectProps<SelectValue> = {
 };
 
 // 校验
-const map = {
-  title: '请输入标题',
-  content: '请输入正文',
-  typeId: '请选择发布广场',
-};
 function validatePost(values: {
   title: string;
   content: string;
   typeId: number;
-}): { isPassed: boolean; firstNotPassedKey?: string; firstNotPassedMapValue?: any } {
-  for (const [key, value] of Object.entries(map)) {
-    if (!values[key]) {
-      return { isPassed: false, firstNotPassedKey: key, firstNotPassedMapValue: value };
-    }
+  attachUnresolved: [];
+}): { isPassed: boolean; msg?: string } {
+  if (!values.title) {
+    return { isPassed: false, msg: '请输入标题' };
+  }
+  if ('' === values.title.trim()) {
+    return { isPassed: false, msg: '标题不能全为空哦' };
+  }
+  if (values.title.length > 40) {
+    return { isPassed: false, msg: '标题上限40个字符' };
+  }
+  if (!values.content && !values.attachUnresolved?.length) {
+    return { isPassed: false, msg: '请输入正文或上传图片' };
+  }
+  if (!values.attachUnresolved?.length && '' === values.content.trim()) {
+    return { isPassed: false, msg: '正文不能全为空哦' };
+  }
+  if (!values.typeId) {
+    return { isPassed: false, msg: '请选择发布广场' };
   }
   return { isPassed: true };
 }
@@ -54,7 +63,8 @@ export default React.memo<{
   onSuccess?: () => void;
   isInnerPrimaryColorUsed?: boolean;
   style?: CSSProperties;
-}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style }) => {
+  onValuesChange?: (values: any) => void;
+}>(({ oldFormObject, onSuccess, isInnerPrimaryColorUsed = true, style, onValuesChange }) => {
   const postEvent$ = useContext(PostEventContext);
   const [form] = Form.useForm();
 
@@ -69,17 +79,23 @@ export default React.memo<{
 
   // 发送按钮的样式
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const handleFormValuesChange: FormProps['onValuesChange'] = (_, values) => {
-    const { isPassed } = validatePost(values);
+    const { isPassed, msg } = validatePost(values);
+    console.log('msg', msg);
     setIsButtonDisabled(!isPassed);
+    onValuesChange?.(values);
   };
 
   const { run: handleFinished }: FormProps['onFinish'] = useDebounceFn((values: any) => {
+    if (isButtonLoading) {
+      return false;
+    }
     // 校验
-    const { isPassed, firstNotPassedMapValue } = validatePost(values);
+    const { isPassed, msg } = validatePost(values);
     if (!isPassed) {
       message.warning({
-        content: firstNotPassedMapValue,
+        content: msg,
         style: { marginTop: '20vh' },
       });
       return;
@@ -96,18 +112,24 @@ export default React.memo<{
     };
     console.table(data);
 
-    requestCreatePost(data).then((res) => {
-      if (res.success) {
-        message.success('发布成功');
-        onSuccess?.();
-        form.resetFields();
+    setIsButtonLoading(true);
+    requestCreatePost(data)
+      .then((res) => {
+        if (res.success) {
+          message.success('发布成功');
+          onSuccess?.();
+          form.resetFields();
+          setIsButtonDisabled(true);
 
-        // 发帖成功事件
-        postEvent$?.emit('success');
-      } else {
-        message.error('发布出错');
-      }
-    });
+          // 发帖成功事件
+          postEvent$?.emit('success');
+        } else {
+          message.error('发布出错');
+        }
+      })
+      .finally(() => {
+        setIsButtonLoading(false);
+      });
   });
 
   // 编辑
@@ -115,8 +137,8 @@ export default React.memo<{
     if (oldFormObject) {
       setVisiblePopover(true);
       form.setFieldsValue({
-        title: oldFormObject.title,
-        content: oldFormObject.content,
+        title: formatTextArea(oldFormObject.title),
+        content: formatTextArea(oldFormObject.content),
         typeId: oldFormObject.typeId,
 
         // attach 要特殊加工，满足 RcFile 的类型才能正常回显
@@ -186,7 +208,12 @@ export default React.memo<{
             trigger="click"
             onVisibleChange={setVisiblePopover}
           >
-            <div className={styles['upload']} onClick={() => setVisiblePopover(true)}>
+            <div
+              className={styles['upload']}
+              onClick={() => {
+                setVisiblePopover(true);
+              }}
+            >
               <IconFont type="icontupian" className={styles['icon-pic']} />
               <span>图片</span>
             </div>
@@ -204,6 +231,7 @@ export default React.memo<{
           <Button
             htmlType="submit"
             className={`${styles['submit-button']} ${isButtonDisabled ? styles['disabled'] : ''}`}
+            loading={isButtonLoading}
           >
             发送
           </Button>

@@ -285,11 +285,11 @@ const Navigation = (props) => {
           </div>
         </Footer>
       </Layout>
-      {/* {location.pathname === '/home' || location.pathname === '/' ? (
+      {location.pathname === '/home' || location.pathname === '/' ? (
         <ModelAdvertising pathname={location.pathname} />
       ) : (
           <></>
-        )} */}
+        )}
     </div>
   );
 };

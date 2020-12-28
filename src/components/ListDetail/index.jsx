@@ -79,6 +79,7 @@ const ListDetail = (props) => {
                 id='detail-video'
                 width="800"
                 muted
+                style={{ width: '800px', height: '447px' }}
                 height="447"
                 className="video-js vjs-default-skin vjs-big-play-centered"
               ></video>

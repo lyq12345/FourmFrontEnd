@@ -34,8 +34,16 @@ export default React.memo<CommentProps>(
           <p>{comment.createName}</p>
           <p>{dayjs(comment.createDate).format('MM月DD日')}</p>
           <p dangerouslySetInnerHTML={{ __html: comment.content }}></p>
+          {/* <p>{comment.content}</p> */}
           {comment.contentparent && (
-            <p dangerouslySetInnerHTML={{ __html: comment.contentparent }}></p>
+            <div style={{ padding: 12, paddingRight: 8, background: '#f6f6f6' }}>
+              <p
+                className={'line-clamp-2'}
+                style={{ marginTop: 0, lineHeight: 'initial' }}
+                dangerouslySetInnerHTML={{ __html: comment.contentparent.replace('<br />', ' ') }}
+              ></p>
+            </div>
+            // <p>{comment.contentparent}</p>
           )}
 
           <div className={styles['action']}>

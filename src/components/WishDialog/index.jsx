@@ -25,6 +25,7 @@ const WishDialog = (props) => {
   const [selectShowIcon, setSelectShowIcon] = useState({})
   const [swiper, setSwiper] = useState(null);
   const [isSelected, setIsSelected] = useState(0)
+  const [saveLoadingBtn, setSaveLoadingBtn] = useState(false)
 
   const { userInfo, isDialog, closeDialog = () => { } } = props
   const handleChange = (val) => {
@@ -87,7 +88,9 @@ const WishDialog = (props) => {
       content: replyContent,
       icon: selectShowIcon.iconNo
     }
+    setSaveLoadingBtn(true)
     AddWish(param).then(res => {
+      setSaveLoadingBtn(false)
       if (res.success) {
         message.success('祝福发送成功')
         closeDialog()
@@ -183,7 +186,7 @@ const WishDialog = (props) => {
             </div>
           </div>
           <div className={styles.wishButton}>
-            <Button type="primary" onClick={() => handleClick()}>送祝福</Button>
+            <Button loading={saveLoadingBtn} type="primary" onClick={() => handleClick()}>送祝福</Button>
           </div>
         </div>
       </Modal>

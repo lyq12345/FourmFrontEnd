@@ -8,6 +8,10 @@ import BBSLoading from '../BBSLoading';
 import CommentComponent, { CommentProps } from './Comment';
 import styles from './style.less';
 
+const validateComment = (value: string) => {
+  return !!value.length && value.trim() !== '';
+};
+
 export default React.memo<{
   id: number;
   typeId: number;
@@ -19,7 +23,7 @@ export default React.memo<{
   const [data, setData] = useState<Comment[]>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  useEffect(() => {
+  useUpdateEffect(() => {
     onTotalChange?.(total);
   }, [total]);
   const [loading, setLoading] = useState(true);
@@ -97,7 +101,14 @@ export default React.memo<{
     setValue(v.target.value);
   }, []);
   const { run: handleSubmit } = useDebounceFn(() => {
+    if (!validateComment(value)) {
+      return;
+    }
     console.log('回复楼层', targetComment?.floorNumber);
+    if (value.length > 300) {
+      message.info('评论上限300个字符');
+      return;
+    }
     requestReply(value, id, Number(targetComment?.postId ?? postIdOfThread), typeId).then((res) => {
       if (res.success) {
         setValue('');
@@ -154,9 +165,9 @@ export default React.memo<{
           onPressEnter={handleSubmit}
         />
         <Button
-          className={`${styles['submit']} ${!value.length && styles['disabled']}`}
+          className={`${styles['submit']} ${!validateComment(value) && styles['disabled']}`}
           onClick={handleSubmit}
-          disabled={!value.length}
+          disabled={!validateComment(value)}
         >
           发送
         </Button>

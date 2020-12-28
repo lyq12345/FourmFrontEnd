@@ -26,7 +26,7 @@ const HallSomething = (props) => {
     })
   }
   const routerLink = (val) => {
-    window.open(`hall-something/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-something/detail?id=${val.id}`)
   }
   return (
     <div className={styles.hallPeople}>
