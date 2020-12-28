@@ -4,12 +4,23 @@ import StyledBullet from './StyledBullet';
 import Banner from '@/assets/img/banner.png';
 import No1 from '@/assets/img/no1.png';
 import { coinDetailRandom } from '@/api/tangguobi';
+import { message } from 'antd';
 const headUrl = 'https://zerosoul.github.io/rc-bullets/assets/img/heads/girl.jpg';
 
 const backColors = ['#FFEDED', '#FFF4E5', '#EEFBF9', '#F8F2FF', '#F0F5FF'];
 const fontColors = ['#FF441E', '#FFA200', '#00D390', '#C293FF', '#729CFF'];
 
 let curScreen = null;
+let timer = 0;
+document.addEventListener('visibilitychange', function () {
+  if (document.visibilityState == 'hidden') {
+    curScreen.clear();
+    curScreen.pause();
+    // clearInterval(timer);
+  } else {
+    curScreen.resume();
+  }
+});
 // 弹幕组件
 export default function Bullets(props) {
   // 弹幕内容
@@ -17,7 +28,7 @@ export default function Bullets(props) {
   const [sequence, setSequence] = useState(0);
   const [pushDelay, setDelay] = useState(0);
   const track = props.type ? ['5%', '50%'] : ['5%', '50%', '70%']; //1:首页 0：详情页
-  let timer = 0;
+
   function rd(n, m) {
     // 小：5 50 大：
     let c = m - n + 1;
@@ -52,7 +63,7 @@ export default function Bullets(props) {
     timer = setInterval(fn, newTime);
   }
   useEffect(() => {
-    curScreen = new BulletScreen('.screen');
+    curScreen = new BulletScreen('.screen', { loopCount: 1 });
     coinDetailRandom().then(({ success, data }) => {
       if (success) {
         setBullets(data);
