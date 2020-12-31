@@ -34,7 +34,7 @@ const noMatch = (
 const navigationInfo = [
   {
     label: '个人主页',
-    router: '/personal-homepage',
+    router: '/yst-iwork-alpha/personal-homepage',
   },
   // {
   //   label: '账号设置',
@@ -128,9 +128,7 @@ const Navigation = (props) => {
       {navigationInfo.map((item, index) => (
         <div key={index}>
           {item.router !== 'logout' ? (
-            <Link to={item.router}>
-              <div className="navgtionInfo">{item.label}</div>
-            </Link>
+            <div className="navgtionInfo" onClick={() => imgDispatch(item.router)}>{item.label}</div>
           ) : (
               <div onClick={() => onMenuClick()} className="navgtionInfo">
                 {item.label}
