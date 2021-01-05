@@ -44,6 +44,12 @@ export default function Bullets(props) {
       const valuesType = item.valuesType + ' | ';
       const reason = item.reason;
 
+      if (bulletIndex === size - 1) {
+        curScreen.clear();
+        curScreen.pause();
+        curScreen.resume();
+      }
+
       curScreen.push(
         <StyledBullet
           head={item.avatar}
