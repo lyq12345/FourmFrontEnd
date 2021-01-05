@@ -1,4 +1,4 @@
-import { dayjs, useDebounceFn, useBBSGotoPost } from '@/utils/utilsBBS';
+import { dayjs, useDebounceFn, useBBSGotoPost, formatTextArea } from '@/utils/utilsBBS';
 import { Avatar, Input, message } from 'antd';
 import React, { useState } from 'react';
 import { Message, requestReply } from '../../api';
@@ -12,6 +12,7 @@ export type MessagePostProps = {
 export default React.memo<MessagePostProps>(({ message1 }) => {
   const [replyVisible, setReplyVisible] = useState(false);
   const [inputContent, setContent] = useState('');
+  const [isDisabled, setDisable] = useState(true);
 
   const { run: handleReply } = useDebounceFn(() => {
     //回复
@@ -19,9 +20,16 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
       return !visible;
     });
   });
+  const handleInputChange = (e) => {
+    setContent(e.target.value);
+    setDisable(false);
+    if ('' === e.target.value.trim()) {
+      setDisable(true);
+    }
+  };
   const handleSend = () => {
-    if (inputContent === '') {
-      message.warning('请输入评论内容');
+    if (inputContent.trim() === '') {
+      message.warning('评论不能（全）为空哦');
       return;
     } else {
       requestReply(inputContent, message1.threadId, message1.postId, message1.typeId).then(
@@ -47,7 +55,14 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
           <p className={styles['time']}>{dayjs(message1.createDate).fromNow()}</p>
           <div className={styles['main']}>
             <p className={styles['reply-content']}>
-              {message1.content}
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: formatTextArea(message1.content),
+                }}
+              ></span>
+              {/* {message1.infoType === 103 ? (
+                <img className={styles['thumb']} src={Thumb}></img>
+              ) : null} */}
               {message1.infoType === 103 ? (
                 <img className={styles['thumb']} src={Thumb}></img>
               ) : null}
@@ -57,7 +72,7 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                 className={`${styles['origin-content']} line-clamp-2`}
                 onClick={() => go(message1.threadId)}
                 dangerouslySetInnerHTML={{
-                  __html: message1.contentparent.replaceAll('<br />', ' '),
+                  __html: formatTextArea(message1.contentparent),
                 }}
               ></p>
             </div>
@@ -76,11 +91,14 @@ export default React.memo<MessagePostProps>(({ message1 }) => {
                       bordered={false}
                       value={inputContent}
                       onChange={(e) => {
-                        setContent(e.target.value);
+                        handleInputChange(e);
                       }}
                     />
                   </div>
-                  <span className={styles['send']} onClick={handleSend}>
+                  <span
+                    className={`${styles['send']} ${isDisabled ? styles['disabled'] : ''}`}
+                    onClick={handleSend}
+                  >
                     发送
                   </span>
                 </div>

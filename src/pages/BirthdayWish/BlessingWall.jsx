@@ -67,6 +67,11 @@ const BlessingWall = (props) => {
     setCheckedInfo(val)
   }
   const sendMessage = () => {
+    let str = replyContent.replace(/ /g, "")
+    if (!str) {
+      message.error('回复内容不能为空')
+      return
+    }
     let wishIdList = []
     if (checkedName === 'ta') {
       wishIdList = dataList.map(item => item.wishId)

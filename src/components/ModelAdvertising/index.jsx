@@ -111,7 +111,7 @@ const ModelAdvertising = (props) => {
   }
   const saveModalFun = (val) => {
     setSpinning(true)
-    html2canvas(document.getElementById('my-card'), {
+    html2canvas(document.getElementById(val == 2 ? `my-card2` : 'my-card3'), {
       useCORS: true
     }).then(canvas => {
       let saveUrl = canvas.toDataURL('image/png')
@@ -183,18 +183,20 @@ const ModelAdvertising = (props) => {
         <div className={styles.cardContent}>
           <div className={styles.modelGreetingCardContent}>
             <div className={styles.dialogBackGround}>
-              <span className={styles.closeModal}>
-                <img src={greetingCardClose} onClick={() => closeModalFun(2)} alt="" />
-                <img src={greetingCardCloseSave} onClick={() => saveModalFun(2)} alt="" alt="" />
-              </span>
-              <div id="my-card" className={styles.cardInfoContent}>
-                <img className={styles.cardBackgroundImg} src={birthdayCard} alt="" />
-                <div className={styles.modalContent}>
-                  {/* <img className={styles.headImg} src={headImg || loginheadimg}></img> */}
-                  <p className={`${styles.cardInfo} ${styles.birthdayText}`}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
-                  <p className={`${styles.cardInfo} ${styles.birthdayText}`}>生日快乐</p>
+              <Spin tip="Loading..." spinning={spinning}>
+                <span className={styles.closeModal}>
+                  <img src={greetingCardClose} onClick={() => closeModalFun(2)} alt="" />
+                  <img src={greetingCardCloseSave} onClick={() => saveModalFun(2)} alt="" alt="" />
+                </span>
+                <div id="my-card2" className={styles.cardInfoContent}>
+                  <img className={styles.cardBackgroundImg} src={birthdayCard} alt="" />
+                  <div className={styles.modalContent}>
+                    {/* <img className={styles.headImg} src={headImg || loginheadimg}></img> */}
+                    <p className={`${styles.cardInfo} ${styles.birthdayText}`}>亲爱的{loginUserInfo && loginUserInfo.userName}</p>
+                    <p className={`${styles.cardInfo} ${styles.birthdayText}`}>生日快乐</p>
+                  </div>
                 </div>
-              </div>
+              </Spin>
             </div>
           </div>
         </div>
@@ -216,9 +218,9 @@ const ModelAdvertising = (props) => {
               <Spin tip="Loading..." spinning={spinning}>
                 <span className={styles.closeModal}>
                   <img src={greetingCardClose} onClick={() => closeModalFun(3)} alt="" />
-                  <img src={greetingCardCloseSave} onClick={() => saveModalFun(3)} alt="" alt="" />
+                  <img src={greetingCardCloseSave} loading={spinning} onClick={() => saveModalFun(3)} alt="" alt="" />
                 </span>
-                <div id="my-card" className={styles.cardInfoContent}>
+                <div id="my-card3" className={styles.cardInfoContent}>
                   <img className={styles.cardBackgroundImg} src={anniversaryCelebration} id="my-card" alt="" />
                   <div className={styles.modalContent}>
                     {/* <img className={styles.headImg} src={headImg || loginheadimg}></img> */}
