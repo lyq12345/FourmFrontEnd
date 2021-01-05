@@ -19,6 +19,7 @@ const TangguobiRank = (porps) => {
 
   const [visible, setVisible] = useState(false);
   const [personCode, setPersonCode] = useState(null);
+  const [detailData, setDetailData] = useState([]);
 
   const handleClick = () => {
     queryDetail();
@@ -45,14 +46,19 @@ const TangguobiRank = (porps) => {
         {/*公司列表 */}
         <div>
           <h2>堂果币排行榜</h2>
-          <modalContext.Provider value={{ setVisible, setPersonCode }}>
+          <modalContext.Provider value={{ setVisible, setPersonCode, setDetailData }}>
             <RankingList handleClick={handleClick} />
           </modalContext.Provider>
         </div>
 
         {/*榜单 */}
       </div>
-      <TGBDetail visible={visible} handleCancel={handleCancel} personCode={personCode} />
+      <TGBDetail
+        visible={visible}
+        handleCancel={handleCancel}
+        personCode={personCode}
+        detailData={detailData}
+      />
     </div>
   );
 };
