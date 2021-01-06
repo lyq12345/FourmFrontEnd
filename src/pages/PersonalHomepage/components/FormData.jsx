@@ -91,6 +91,11 @@ const FormData = (props) => {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    const reg = /^[0-9]+$/;
+    if (!reg.test(values.ANZKD)) {
+      message.error('子女数目只能输入数字且不能为负')
+      return
+    }
     values = infoAssemble('personalInfoSubmit', values)
     values.ZZHUKOL = personageDetailInfo.ZZHUKOL
     values.HOME_ADD = personageDetailInfo.HOME_ADD
@@ -115,6 +120,10 @@ const FormData = (props) => {
       } else {
         setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
       }
+    }).catch(() => {
+      let loadingList = [...loadings]
+      loadingList[1] = false
+      setLoadings(loadingList)
     })
   }
   // 联系方式
@@ -211,6 +220,7 @@ const FormData = (props) => {
     values.PERNR = detailInfo.FID
     values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
     values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
+    values.FAMSA = '7'
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
@@ -607,17 +617,19 @@ const FormData = (props) => {
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="紧急联络人：" name="FAMSA">
+              <Form.Item label="紧急联络人：" name="FANAM">
                 {
                   isEmergencyContact ?
-                    <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
-                      {famsaList &&
-                        famsaList.map((item) => (
-                          <Option key={item.FDateNum} value={item.FDateNum}>
-                            {item.FDateName}
-                          </Option>
-                        ))}
-                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr ? exigenceDetailInfo.FAMSAStr : '--'}</span>
+                    <Input autoComplete="off" placeholder="请输入" />
+                    // <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
+                    //   {famsaList &&
+                    //     famsaList.map((item) => (
+                    //       <Option key={item.FDateNum} value={item.FDateNum}>
+                    //         {item.FDateName}
+                    //       </Option>
+                    //     ))}
+                    // </Select>
+                    : <span>{exigenceDetailInfo && exigenceDetailInfo.FANAM ? exigenceDetailInfo.FANAM : '--'}</span>
                 }
               </Form.Item>
             </Col>

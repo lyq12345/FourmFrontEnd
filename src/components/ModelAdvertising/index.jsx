@@ -90,17 +90,17 @@ const ModelAdvertising = (props) => {
         let data = {}
         if (isAnniversary || isBirthday || advert) {
           if (isAnniversary) {
-            setIsAnniversaryModel(true)
+            // setIsAnniversaryModel(true)
             data.isAnniversaryOpend = true
             setIsAnniversaryVisible(true)
           } else if (isBirthday) {
-            setIsBirthdayModel(true)
+            // setIsBirthdayModel(true)
             setIsBirthdayVisible(true)
             data.isBirthday = true
-          } else if (advertModel) {
-            setAdvertModel(true)
-            isAdvertVisible(isBirthdayVisible)
-            // data.test = true
+          } else if (advert) {
+            // setAdvertModel(true)
+            // isAdvertVisible(isBirthdayVisible)
+            setIsAdvertVisible(true)
           }
           setIsVisible(true)
           localStorage.setItem(`refresh_tokenTs`, JSON.stringify(refresh_token));
