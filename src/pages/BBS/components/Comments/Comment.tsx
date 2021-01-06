@@ -29,7 +29,7 @@ export default React.memo<CommentProps>(
     return (
       <div className={styles['comment']} id={id}>
         <span>{comment.floorNumber}楼</span>
-        <Avatar size={24} src={comment.avatarPath} style={{ verticalAlign: 'top' }} />
+        <Avatar size={24} src={comment.avatarPath} style={{ verticalAlign: 'top', marginTop: 7 }} />
         <div className={styles['right']}>
           <p>{comment.createName}</p>
           <p>{dayjs(comment.createDate).format('MM月DD日')}</p>

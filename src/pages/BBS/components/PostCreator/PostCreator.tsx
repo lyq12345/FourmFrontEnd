@@ -6,7 +6,7 @@ import { FormProps } from 'antd/lib/form';
 import { InputProps, TextAreaProps } from 'antd/lib/input';
 import { SelectProps, SelectValue } from 'antd/lib/select';
 import { UploadFile } from 'antd/lib/upload/interface';
-import React, { CSSProperties, useCallback, useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { CreatePostParams, Post, requestCreatePost, requestType } from '../../api';
 import ImageUpload from './ImageUpload';
 import styles from './PostCreator.less';
