@@ -27,17 +27,34 @@ const RankingList = () => {
 
   const handleChange = (e) => {
     setSelectedOrg(() => {
-      queryRankData(e.target.value, 1, 30);
+      queryRankDataOnce(e.target.value, 1, 30);
       return e.target.value;
     });
   };
 
+  const queryRankDataOnce = (deptNumber, page, pageSize) => {
+    setLoading(true);
+    const date = new Date();
+    const year = date.getFullYear();
+
+    const curMonth = date.getMonth() + 1;
+    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
+    coinRankPaging({ deptNumber, year, page: 1, pageSize: 40 }).then(({ success, data }) => {
+      if (success) {
+        setYearRank({ top10Rank: data.records.slice(0, 10), otherRank: data.records.slice(10) });
+        setTotal(data.total);
+        setPageIndex(1);
+        setLoading(false);
+      }
+    });
+  };
   const queryRankData = (deptNumber, page, pageSize) => {
     setLoading(true);
     const date = new Date();
-    const year = date.getFullYear().toString();
-    const lastMonth = date.getMonth().toString();
-    const curMonth = (date.getMonth() + 1).toString();
+    const year = date.getFullYear();
+
+    const curMonth = date.getMonth() + 1;
+    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
 
     // 年度榜单
     // 前十
@@ -66,64 +83,6 @@ const RankingList = () => {
       });
     });
 
-    // let p3 = new Promise(function (resolve, reject) {
-    //   // 上月榜单
-    //   coinRankPaging({ deptNumber, year, month: lastMonth, page: 1, pageSize: 10 }).then(
-    //     ({ success, data }) => {
-    //       if (success) {
-    //         setLastMonthRank((pre) => {
-    //           return { ...pre, top10Rank: data.records };
-    //         });
-    //         resolve();
-    //       }
-    //     },
-    //   );
-    // });
-
-    // let p4 = new Promise(function (resolve, reject) {
-    //   coinRankPaging({ deptNumber, year, month: lastMonth, page, pageSize, offset: 10 }).then(
-    //     ({ success, data }) => {
-    //       if (success) {
-    //         setLastMonthRank((pre) => {
-    //           return { ...pre, otherRank: data.records };
-    //         });
-    //         setTotal(data.total);
-    //         setPageIndex(page);
-    //         resolve();
-    //       }
-    //     },
-    //   );
-    // });
-
-    // let p5 = new Promise(function (resolve, reject) {
-    //   // 本月榜单
-    //   coinRankPaging({ deptNumber, year, month: curMonth, page: 1, pageSize: 10 }).then(
-    //     ({ success, data }) => {
-    //       if (success) {
-    //         setCurMonthRank((pre) => {
-    //           return { ...pre, top10Rank: data.records };
-    //         });
-    //         resolve();
-    //       }
-    //     },
-    //   );
-    // });
-
-    // let p6 = new Promise(function (resolve, reject) {
-    //   coinRankPaging({ deptNumber, year, month: curMonth, page, pageSize, offset: 10 }).then(
-    //     ({ success, data }) => {
-    //       if (success) {
-    //         setCurMonthRank((pre) => {
-    //           return { ...pre, otherRank: data.records };
-    //         });
-    //         setTotal(data.total);
-    //         setPageIndex(page);
-    //         resolve();
-    //       }
-    //     },
-    //   );
-    // });
-
     Promise.all([p1, p2]).then(() => {
       setLoading(false);
     });
@@ -138,8 +97,9 @@ const RankingList = () => {
   const handleTabChange = (key) => {
     const date = new Date();
     const year = date.getFullYear();
-    const lastMonth = date.getMonth();
+
     const curMonth = date.getMonth() + 1;
+    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
     setLoading(true);
     switch (key) {
       case '1':
@@ -170,7 +130,7 @@ const RankingList = () => {
       case '2':
         coinRankPaging({
           deptNumber: selectedOrg,
-          year,
+          year: curMonth === 1 ? year - 1 : year,
           month: lastMonth,
           page: 1,
           pageSize: 10,
@@ -183,7 +143,7 @@ const RankingList = () => {
         });
         coinRankPaging({
           deptNumber: selectedOrg,
-          year,
+          year: curMonth === 1 ? year - 1 : year,
           month: lastMonth,
           page: 1,
           pageSize: 30,
@@ -251,7 +211,7 @@ const RankingList = () => {
       if (success) {
         setPersonInfo(data);
         setSelectedOrg(() => {
-          queryRankData(data.comCode, 1, 30);
+          queryRankDataOnce(data.comCode, 1, 40);
 
           return data.comCode;
         });

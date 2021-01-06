@@ -42,11 +42,18 @@ export default React.memo<NormalPostProps>(
 
     // 高度控制是否显示按钮
     const contentRef = useRef<HTMLParagraphElement>(null);
-    const [isGoPostVisible, setIsGoPostVisible] = useState(false);
+    const [isOverflow, setIsOverflow] = useState(false);
     useLayoutEffect(() => {
       // 一行 26px
-      if (contentRef?.current?.offsetHeight > 26 * 3) {
-        setIsGoPostVisible(true);
+      const dom = contentRef.current;
+      if (dom) {
+        const computedStyle = getComputedStyle(dom);
+        const lineCount = Math.floor(
+          +computedStyle.height.replace('px', '') / +computedStyle.lineHeight.replace('px', ''),
+        );
+        if (lineCount > 4) {
+          setIsOverflow(true);
+        }
       }
     }, [contentRef]);
 
@@ -73,7 +80,7 @@ export default React.memo<NormalPostProps>(
                 {/* {post.title} */}
               </p>
               <p
-                className={`${styles['content']} line-clamp-4`}
+                className={`${styles['content']} ${isOverflow ? 'line-clamp-4' : ''}`}
                 ref={contentRef}
                 dangerouslySetInnerHTML={{ __html: post.content }}
               >
@@ -84,7 +91,7 @@ export default React.memo<NormalPostProps>(
           </div>
         </div>
 
-        {isGoPostVisible ? (
+        {isOverflow ? (
           <p style={{ textAlign: 'right' }}>
             <a onClick={() => go(post.threadId)} className={styles['go-post']}>
               查看全文

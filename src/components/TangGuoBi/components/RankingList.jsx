@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 13:23:56
- * @LastEditTime: 2020-12-18 09:54:38
+ * @LastEditTime: 2021-01-05 14:30:27
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/components/TangGuoBi/components/RankingList.jsx
@@ -65,7 +65,7 @@ export default function RankingList() {
     const date = new Date();
     const year = date.getFullYear();
     const currentMonth = date.getMonth() + 1;
-    const lastMonth = date.getMonth();
+    const lastMonth = currentMonth === 1 ? 12 : currentMonth - 1;
     switch (key) {
       case '1':
         setLoading(true);
@@ -79,15 +79,17 @@ export default function RankingList() {
         break;
       case '2':
         setLoading(true);
-        coinRankPaging({ month: lastMonth, deptNumber: personInfo.comCode }).then(
-          ({ success, data }) => {
-            if (success) {
-              const top10Data = data.records.slice(0, 10);
-              setLastMonthRank(top10Data);
-              setLoading(false);
-            }
-          },
-        );
+        coinRankPaging({
+          month: lastMonth,
+          year: currentMonth === 1 ? year - 1 : year,
+          deptNumber: personInfo.comCode,
+        }).then(({ success, data }) => {
+          if (success) {
+            const top10Data = data.records.slice(0, 10);
+            setLastMonthRank(top10Data);
+            setLoading(false);
+          }
+        });
         break;
       case '3':
         setLoading(true);
