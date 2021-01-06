@@ -34,14 +34,18 @@
     .select {
       :global {
         .ant-select-selector {
-          color: #0091ff;
+          color: var(--bbs-primary-color);
+          .ant-select-selection-item {
+            color: var(--bbs-primary-color);
+          }
 
           .ant-select-selection-placeholder {
             opacity: initial;
+            color: var(--bbs-primary-color);
           }
 
           & + span {
-            color: #0091ff;
+            color: var(--bbs-primary-color);
           }
         }
       }

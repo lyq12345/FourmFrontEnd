@@ -17,9 +17,10 @@ const InputStyle: InputProps = {
   bordered: false,
   placeholder: '标题',
   autoComplete: 'off',
+  style: { caretColor: 'red' },
 };
 const TextAreaStyle: TextAreaProps = {
-  style: { resize: 'none' },
+  style: { resize: 'none', caretColor: 'red' },
   bordered: false,
   placeholder: '有什么新鲜事想告诉大家？',
   autoSize: { minRows: 4, maxRows: 13 },
