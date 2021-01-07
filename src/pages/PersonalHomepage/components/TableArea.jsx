@@ -134,6 +134,7 @@ const TableArea = (props) => {
       style={{ width: 136 }}
       defaultValue={record.FAMSA || null}
       placeholder="请选择"
+      disabled={record.Type === 1 ? true : false}
     >
       {famsaList &&
         famsaList.map(item => (
