@@ -30,8 +30,9 @@ export default React.memo(() => {
           style={{
             margin: 20,
             marginBottom: 0,
-            background: '#f6f6f6',
+            background: 'hsl(0, 0%, 97%)',
           }}
+          textAreaProps={{ autoSize: { minRows: 4, maxRows: 4 } }}
         />
       </div>
       <div className={styles['list']}>
