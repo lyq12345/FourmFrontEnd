@@ -7,7 +7,7 @@ import styles from './BBSCard.less';
 export default React.memo(() => {
   return (
     <div className={styles.container}>
-      <div style={{ position: 'sticky', top: 0, zIndex: 10, background: 'white', paddingTop: 20 }}>
+      <div style={{ background: 'white', paddingTop: 20, borderRadius: 6 }}>
         <div
           style={{
             display: 'flex',
@@ -29,11 +29,14 @@ export default React.memo(() => {
           isInnerPrimaryColorUsed={false}
           style={{
             margin: 20,
+            marginBottom: 0,
             background: '#f6f6f6',
           }}
         />
       </div>
-      <NormalPostList requestFn={requestLatestPosts} isInnerPrimaryColorUsed={false} />
+      <div className={styles['list']}>
+        <NormalPostList requestFn={requestLatestPosts} isInnerPrimaryColorUsed={false} />
+      </div>
     </div>
   );
 });
