@@ -68,12 +68,7 @@ const HallNews = (props) => {
       GetTask().then(response => {
         if (response.success) {
           setToDoTasksNumList(response.data.tasks || [])
-          setToDoTasksNum(response.data.Total)
-          // if (response.data.total && response.data.total > 0) {
-          //   setIsToDoTasksVisible(true)
-          // } else {
-          //   setIsToDoTasksVisible(false)
-          // }
+          setToDoTasksNum(response.data.total)
         }
       })
       // 获取堂里新鲜事
@@ -93,11 +88,6 @@ const HallNews = (props) => {
         if (response.success) {
           setUnreadInfoList(response.data.messages || [])
           setUnreadMessagesNum(response.data.total)
-          // if (response.data.total && response.data.total > 0) {
-          //   setIsUnreadVisible(true)
-          // } else {
-          //   setIsUnreadVisible(false)
-          // }
         }
       })
     }

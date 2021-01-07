@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from './styles.less';
 import { Carousel } from 'antd';
 import SwiperCore, { Autoplay } from 'swiper';
@@ -14,6 +14,10 @@ const Birthday = (props) => {
   const [dataList, setDataList] = useState([]);
   const [userInfo, setUserInfo] = useState({});
   const [isDialog, setIsDialog] = useState(false);
+  const [size, setSize] = useState({
+    width: document.documentElement.clientWidth,
+    height: document.documentElement.clientHeight
+  })
   useEffect(() => {
     GetBirthdayIndex().then(res => {
       if (res.success) {
@@ -21,12 +25,33 @@ const Birthday = (props) => {
       }
     })
   }, [])
+  useEffect(() => {
+    window.addEventListener('resize', onResize)
+    return () => {
+      window.removeEventListener('resize', onResize)
+    }
+  }, [size.width || size.height])
+  const onResize = useCallback(() => {
+    setSize({
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight
+    })
+    swiper ? swiper.params.width = document.documentElement.clientWidth : null
+    swiper ? swiper.params.height = document.documentElement.clientHeight : null
+  }, [swiper])
   const sendWishClick = (val) => {
     setUserInfo(val)
     setIsDialog(true)
   }
   const closeDialog = () => {
     setIsDialog(false)
+  }
+  const changeSwiper = (swiper) => {
+    setSwiper(swiper)
+    // resize: function() {
+    //   this.update(); //窗口变化时，更新Swiper的一些属性，如宽高等
+    // }
+    // console.log()
   }
   return (
     <div className={styles.birthday}>
@@ -43,10 +68,12 @@ const Birthday = (props) => {
               spaceBetween={20}
               slidesPerView={1}
               direction='vertical'
-              onSwiper={(swiper) => setSwiper(swiper)}
+              onSwiper={(swiper) => changeSwiper(swiper)}
               autoplay={{ delay: 3000 }}
               loop
               speed={500}
+              updateOnWindowResize={true}
+              observer={true}
             >
               {
                 dataList && dataList.map((item, index) => (
