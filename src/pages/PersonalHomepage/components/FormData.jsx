@@ -114,11 +114,11 @@ const FormData = (props) => {
       if (res.success) {
         message.success('操作成功')
         // const creatData = saveSucAssignment(values, personageDetailInfo)
-        setPersonageDetailInfo(values)
-        setPersonageStorgeInfo(JSON.parse(JSON.stringify(values)))
+        setPersonageDetailInfo(values || {})
+        setPersonageStorgeInfo(JSON.parse(JSON.stringify(values || {})))
         setIsPersonageInfo(false)
       } else {
-        setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
+        setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo || {})))
       }
     }).catch(() => {
       let loadingList = [...loadings]
@@ -312,11 +312,11 @@ const FormData = (props) => {
   const cascaderChange = (value, selectedOptions, variables, val) => {
     let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
     if (variables == 'exigenceDetailInfo') {
-      let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo))
+      let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo || {}))
       exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
       setExigenceDetailInfo(exigenceDetail)
     } else {
-      let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo))
+      let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo || {}))
       personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
       personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
       personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
