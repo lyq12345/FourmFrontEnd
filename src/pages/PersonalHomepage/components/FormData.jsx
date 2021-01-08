@@ -219,7 +219,6 @@ const FormData = (props) => {
   const emergencyContactSubmit = (values) => {
     values.PERNR = detailInfo.FID
     values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
-    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     values.FAMSA = '7'
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
@@ -229,6 +228,7 @@ const FormData = (props) => {
       message.error('手机号码格式不正确')
       return false
     }
+    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     let data = []
     data.push(values)
     let loadingList = [...loadings]
@@ -269,7 +269,8 @@ const FormData = (props) => {
         setIsPersonageInfo(true)
         break;
       case 3:
-        let tempData = { ...exigenceDetailInfo, FGBDT: moment(exigenceDetailInfo.FGBDT) }
+        let tempData = { ...exigenceDetailInfo, FGBDT: exigenceDetailInfo.FGBDT ? moment(exigenceDetailInfo.FGBDT) : null }
+        // let tempData = { ...exigenceDetailInfo }
         setExigenceDetailInfo(tempData)
         emergencyContactForm.setFieldsValue(tempData)
         emergencyContactForm.setFieldsValue({
@@ -336,12 +337,14 @@ const FormData = (props) => {
   }
   // 个人信息取消
   const cancelPersonageSaveInfo = () => {
+    personageInfoForm.resetFields();
     setIsPersonageInfo(!isPersonageInfo)
     personageInfoForm.setFieldsValue(personageStorgeInfo)
     setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
   }
   // 紧急联络人取消
   const cancelEmergency = () => {
+    emergencyContactForm.resetFields();
     setIsEmergencyContact(!isEmergencyContact)
     emergencyContactForm.setFieldsValue(exigenceStorgeInfo)
     setExigenceDetailInfo(JSON.parse(JSON.stringify(exigenceStorgeInfo)))
