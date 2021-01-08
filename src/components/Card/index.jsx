@@ -20,7 +20,7 @@ const Card = (props) => {
     // 我的祝福墙
     if (val.classTypeId == '400000099') {
       readMessage(val.id)
-      w.location.href = `/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&userId=${userInfo && userInfo.account}&type=${2}`
+      w.location.href = `/yst-iwork-alpha/birthday-wish/myReceiveWish?wishType=${2}&type=${2}`
       return
     }
     // 回复我的出祝福墙
