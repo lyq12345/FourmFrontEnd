@@ -22,7 +22,7 @@ const PersonalHomepage = (props) => {
   useEffect(() => {
     getMyRank({ userId: userInfo.account }).then(res => {
       if (res.success) {
-        setPersonInfo(res.data[0])
+        setPersonInfo(res.data)
       }
     })
     GetEmpInfo({ userId: userInfo.account }).then(res => {
@@ -56,7 +56,7 @@ const PersonalHomepage = (props) => {
         <div className={styles.contentClassifie}>
           <div className={styles.classifie}>
             <img src={candyCurrency} alt="" />
-            <p className={styles.classifieNum}>{(personInfo && personInfo.coinAll) || 0}</p>
+            <p className={styles.classifieNum}>{(personInfo && personInfo.coinYear) || 0}</p>
             <p className={styles.classifieNum}>堂果币</p>
           </div>
           <div className={styles.classifie}>
