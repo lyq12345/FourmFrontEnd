@@ -9,7 +9,7 @@ import FormData from './components/FormData';
 import study from '@/assets/img/study.png';
 import invitation from '@/assets/img/invitation.png';
 import candyCurrency from '@/assets/img/candy-currency.png';
-import { getMyRank, GetEmpInfo } from '@/api/personalHomepage'
+import { getMyCoin, GetEmpInfo } from '@/api/personalHomepage'
 import loginheadimg from '@/assets/img/login-head-img.png';
 
 
@@ -20,7 +20,7 @@ const PersonalHomepage = (props) => {
   const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
   const [headImage, setHeadImage] = useState(loginheadimg);
   useEffect(() => {
-    getMyRank({ userId: userInfo.account }).then(res => {
+    getMyCoin({ userId: userInfo.account }).then(res => {
       if (res.success) {
         setPersonInfo(res.data)
       }
