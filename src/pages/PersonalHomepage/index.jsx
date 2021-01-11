@@ -9,7 +9,7 @@ import FormData from './components/FormData';
 import study from '@/assets/img/study.png';
 import invitation from '@/assets/img/invitation.png';
 import candyCurrency from '@/assets/img/candy-currency.png';
-import { getMyRank, GetEmpInfo } from '@/api/personalHomepage'
+import { getMyCoin, GetEmpInfo } from '@/api/personalHomepage'
 import loginheadimg from '@/assets/img/login-head-img.png';
 
 
@@ -20,9 +20,9 @@ const PersonalHomepage = (props) => {
   const [loginInUserInfo, setLoginInUserInfo] = useState(JSON.parse(localStorage.getItem('userInfoLogin')) || {})
   const [headImage, setHeadImage] = useState(loginheadimg);
   useEffect(() => {
-    getMyRank({ userId: userInfo.account }).then(res => {
+    getMyCoin({ userId: userInfo.account }).then(res => {
       if (res.success) {
-        setPersonInfo(res.data[0])
+        setPersonInfo(res.data)
       }
     })
     GetEmpInfo({ userId: userInfo.account }).then(res => {
@@ -56,7 +56,7 @@ const PersonalHomepage = (props) => {
         <div className={styles.contentClassifie}>
           <div className={styles.classifie}>
             <img src={candyCurrency} alt="" />
-            <p className={styles.classifieNum}>{(personInfo && personInfo.coinAll) || 0}</p>
+            <p className={styles.classifieNum}>{(personInfo && personInfo.coinYear) || 0}</p>
             <p className={styles.classifieNum}>堂果币</p>
           </div>
           <div className={styles.classifie}>

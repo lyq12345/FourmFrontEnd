@@ -55,8 +55,8 @@ export const updateFamilyInfo = async (data) =>
     prefixType: 'home-page'
   });
 // 查询员工的堂果币信息
-export const getMyRank = async (data) =>
-  request('/default/getMyRank', {
+export const getMyCoin = async (data) =>
+  request('/default/getMyCoin', {
     method: 'get',
     params: data,
     prefixType: 'home-page'

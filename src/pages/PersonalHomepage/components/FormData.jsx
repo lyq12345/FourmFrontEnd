@@ -91,6 +91,11 @@ const FormData = (props) => {
       message.error('您有信息未填写，请补充完整')
       return false
     }
+    const reg = /^[0-9]+$/;
+    if (!reg.test(values.ANZKD)) {
+      message.error('子女数目只能输入数字且不能为负')
+      return
+    }
     values = infoAssemble('personalInfoSubmit', values)
     values.ZZHUKOL = personageDetailInfo.ZZHUKOL
     values.HOME_ADD = personageDetailInfo.HOME_ADD
@@ -109,12 +114,16 @@ const FormData = (props) => {
       if (res.success) {
         message.success('操作成功')
         // const creatData = saveSucAssignment(values, personageDetailInfo)
-        setPersonageDetailInfo(values)
-        setPersonageStorgeInfo(JSON.parse(JSON.stringify(values)))
+        setPersonageDetailInfo(values || {})
+        setPersonageStorgeInfo(JSON.parse(JSON.stringify(values || {})))
         setIsPersonageInfo(false)
       } else {
-        setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
+        setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo || {})))
       }
+    }).catch(() => {
+      let loadingList = [...loadings]
+      loadingList[1] = false
+      setLoadings(loadingList)
     })
   }
   // 联系方式
@@ -210,7 +219,7 @@ const FormData = (props) => {
   const emergencyContactSubmit = (values) => {
     values.PERNR = detailInfo.FID
     values.STRAS = exigenceDetailInfo.STRAS + values.STRAS_DETAIL_ADD
-    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
+    values.FAMSA = '7'
     if (!isObjEmpty(values)) {
       message.error('您有信息未填写，请补充完整')
       return false
@@ -219,6 +228,7 @@ const FormData = (props) => {
       message.error('手机号码格式不正确')
       return false
     }
+    values.FGBDT = values.FGBDT.format('YYYY-MM-DD')
     let data = []
     data.push(values)
     let loadingList = [...loadings]
@@ -259,7 +269,8 @@ const FormData = (props) => {
         setIsPersonageInfo(true)
         break;
       case 3:
-        let tempData = { ...exigenceDetailInfo, FGBDT: moment(exigenceDetailInfo.FGBDT) }
+        let tempData = { ...exigenceDetailInfo, FGBDT: exigenceDetailInfo.FGBDT ? moment(exigenceDetailInfo.FGBDT) : null }
+        // let tempData = { ...exigenceDetailInfo }
         setExigenceDetailInfo(tempData)
         emergencyContactForm.setFieldsValue(tempData)
         emergencyContactForm.setFieldsValue({
@@ -302,11 +313,11 @@ const FormData = (props) => {
   const cascaderChange = (value, selectedOptions, variables, val) => {
     let addressDeatil = selectedOptions[selectedOptions.length - 1].mergeName
     if (variables == 'exigenceDetailInfo') {
-      let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo))
+      let exigenceDetail = JSON.parse(JSON.stringify(exigenceDetailInfo || {}))
       exigenceDetail.STRAS = addressDeatil.replace(/,/g, '')
       setExigenceDetailInfo(exigenceDetail)
     } else {
-      let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo))
+      let personageDetail = JSON.parse(JSON.stringify(personageDetailInfo || {}))
       personageDetail.ZZHUKOL = val == 'hukouLocation' ? addressDeatil.replace(/,/g, '') : personageDetail.ZZHUKOL
       personageDetail.HOME_ADD = val == 'homeAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.HOME_ADD
       personageDetail.POST_ADD = val == 'mailAddress' ? addressDeatil.replace(/,/g, '') : personageDetail.POST_ADD
@@ -326,12 +337,14 @@ const FormData = (props) => {
   }
   // 个人信息取消
   const cancelPersonageSaveInfo = () => {
+    personageInfoForm.resetFields();
     setIsPersonageInfo(!isPersonageInfo)
     personageInfoForm.setFieldsValue(personageStorgeInfo)
     setPersonageDetailInfo(JSON.parse(JSON.stringify(personageStorgeInfo)))
   }
   // 紧急联络人取消
   const cancelEmergency = () => {
+    emergencyContactForm.resetFields();
     setIsEmergencyContact(!isEmergencyContact)
     emergencyContactForm.setFieldsValue(exigenceStorgeInfo)
     setExigenceDetailInfo(JSON.parse(JSON.stringify(exigenceStorgeInfo)))
@@ -607,17 +620,19 @@ const FormData = (props) => {
         >
           <Row gutter={24} style={{ textAlign: 'left' }}>
             <Col span={9}>
-              <Form.Item label="紧急联络人：" name="FAMSA">
+              <Form.Item label="紧急联络人：" name="FANAM">
                 {
                   isEmergencyContact ?
-                    <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
-                      {famsaList &&
-                        famsaList.map((item) => (
-                          <Option key={item.FDateNum} value={item.FDateNum}>
-                            {item.FDateName}
-                          </Option>
-                        ))}
-                    </Select> : <span>{exigenceDetailInfo && exigenceDetailInfo.FAMSAStr ? exigenceDetailInfo.FAMSAStr : '--'}</span>
+                    <Input autoComplete="off" placeholder="请输入" />
+                    // <Select style={{ width: '210px' }} allowClear placeholder='请选择'>
+                    //   {famsaList &&
+                    //     famsaList.map((item) => (
+                    //       <Option key={item.FDateNum} value={item.FDateNum}>
+                    //         {item.FDateName}
+                    //       </Option>
+                    //     ))}
+                    // </Select>
+                    : <span>{exigenceDetailInfo && exigenceDetailInfo.FANAM ? exigenceDetailInfo.FANAM : '--'}</span>
                 }
               </Form.Item>
             </Col>

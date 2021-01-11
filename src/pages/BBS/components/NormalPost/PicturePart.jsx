@@ -13,9 +13,9 @@ const picSize = {
 
 const normalStyle = {
   displayPic: { width: picSize['normalSmall'], height: picSize['normalSmall'] },
-  displayBorder: { width: '450px', margin: '12px 0 0 82px' },
+  displayBorder: { width: '450px', margin: '12px 0 0 74px' },
   zoomedUpperPic: { width: picSize['normalBig'], height: picSize['normalBig'] },
-  zoomedBorder: { padding: '20px 20px  12px 82px', margin: '0 0 10px 0' },
+  zoomedBorder: { padding: '20px 20px  12px 74px', margin: '0 0 10px 0' },
   zoomedBottomPic: { width: picSize['normalOther'], height: picSize['normalOther'] },
   zoomedBottomGutter: 5,
 };

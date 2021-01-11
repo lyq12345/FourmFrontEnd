@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2020-12-11 10:59:54
+ * @LastEditTime: 2021-01-07 16:24:32
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -92,10 +92,10 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/candy-api': '' },
     },
-    '/homePage': {
+    '/home-page': {
       target: 'http://10.213.3.39:8093',
       changeOrigin: true,
-      pathRewrite: { '^/homePage': '' },
+      pathRewrite: { '^/home-page': '' },
     },
     '/study-core': {
       target: 'http://10.213.4.220:8080',

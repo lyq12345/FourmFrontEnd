@@ -73,7 +73,7 @@ const BlessingWall = (props) => {
       return
     }
     let wishIdList = []
-    if (checkedName === 'ta') {
+    if (checkedName === '全部') {
       wishIdList = dataList.map(item => item.wishId)
     }
     let params = {

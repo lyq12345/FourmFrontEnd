@@ -60,7 +60,7 @@ export default React.memo<NormalPostProps>(
     return (
       <div className={styles['container']} id={id}>
         <div className={styles['top']}>
-          <Avatar size={50} src={post.avatarPath} className={styles['avatar']} />
+          <Avatar size={42} src={post.avatarPath} className={styles['avatar']} />
           <div className={styles['center']}>
             <p className={styles['author']}>{post.createName}</p>
 
@@ -92,7 +92,7 @@ export default React.memo<NormalPostProps>(
         </div>
 
         {isOverflow ? (
-          <p style={{ textAlign: 'right' }}>
+          <p style={{ textAlign: 'left', paddingLeft: 74 }}>
             <a onClick={() => go(post.threadId)} className={styles['go-post']}>
               查看全文
             </a>
