@@ -69,11 +69,12 @@ const Birthday = (props) => {
               slidesPerView={1}
               direction='vertical'
               onSwiper={(swiper) => changeSwiper(swiper)}
-              autoplay={{ delay: 3000 }}
+              autoplay={{ delay: 5000 }}
               loop
               speed={500}
               updateOnWindowResize={true}
               observer={true}
+              lazy={true}
             >
               {
                 dataList && dataList.map((item, index) => (
@@ -83,7 +84,7 @@ const Birthday = (props) => {
                         item.map((val, _index) => (
                           <div style={{ display: 'flex', justifyContent: 'space-between' }} key={_index}>
                             <p className={styles.birthdayContent}>
-                              <img src={val.avater} alt="" />
+                              <img src={val.avater} alt="" class="swiper-lazy" />
                               <span className={styles.name}>{val.userName} {val.deptName}</span>
                             </p>
                             <p className={styles.sendBlessings} onClick={() => sendWishClick(val)}>送祝福</p>

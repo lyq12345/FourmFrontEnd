@@ -2,40 +2,53 @@
   display: flex;
   justify-content: space-between;
   flex-flow: wrap;
+
   :global(.ant-list) {
     width: 100%;
   }
+
   .studyContent {
     display: flex;
     margin-bottom: 12px;
     cursor: pointer;
+
     .leftStudyImg {
       width: 160px;
       height: 90px;
       background-color: #ccc;
+
       img {
         width: 100%;
         height: 100%;
       }
     }
+
     .rightStudyContentInfo {
       margin-left: 12px;
+
       // padding: 6px 0;
       >img {
         width: 26px;
         height: 14px;
       }
+
       .title {
         width: 200px;
         font-size: 14px;
         line-height: 20px;
         margin-top: 6px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-box-orient: vertical;
       }
+
       .intro {
         font-size: 12px;
         line-height: 12px;
         color: #666;
-        margin-top: 11px;
+        margin-top: 10px;
       }
     }
   }
