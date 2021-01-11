@@ -68,6 +68,7 @@ class TagItem extends React.Component {
             <div style={{ display: 'flex' }}>
               <Avatar size={26} icon={<img src={this.props.icon} />} />
               <span
+                title={this.props.title}
                 style={{
                   fontSize: '13px',
                   fontFamily: 'PingFangSC-Regular, PingFang SC',
@@ -76,16 +77,18 @@ class TagItem extends React.Component {
                   marginLeft: '9px',
                   maxWidth: '9em',
                   overflow: 'hidden',
-                  textOverflow: 'hidden',
+                  textOverflow: 'ellipsis',
                   whiteSpace: 'nowrap',
                 }}
               >
                 {this.props.title}
               </span>
               <div style={{ flex: 1 }}></div>
-              <div>
-                <CloseOutlined onClick={this.props.handleCancel} />
-              </div>
+              {this.props.type === '常用' ? null : (
+                <div>
+                  <CloseOutlined onClick={this.props.handleCancel} />
+                </div>
+              )}
             </div>
           </Card>
         </div>,

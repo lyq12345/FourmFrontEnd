@@ -50,6 +50,7 @@ const MyNav = () => {
               <TagItem
                 index={index}
                 value={item.title}
+                type={item.classType}
                 moveSort={moveSort}
                 title={item.title}
                 icon={item.icon}
