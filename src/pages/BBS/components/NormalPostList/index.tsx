@@ -1,5 +1,6 @@
 import { PostEventContext } from '@/layouts/BBSLayout/store';
-import { useInViewport, useToggle, useUpdateEffect, useWhyDidYouUpdate } from 'ahooks';
+import { useInViewport, useToggle, useUpdateEffect } from 'ahooks';
+import styles from './styles.less';
 import React, { useContext, useEffect, useState } from 'react';
 import { Post } from '../../api';
 import BBSLoading from '../BBSLoading';
@@ -97,6 +98,7 @@ const List: List = ({
       ))}
       <div style={{ textAlign: 'center' }}>
         <BBSLoading loading={loading} />
+        {isStopLoadMore && <span className={styles['divider']}>我是有底线的</span>}
       </div>
       {!loading && (!data || data?.length === 0) && (
         <div
