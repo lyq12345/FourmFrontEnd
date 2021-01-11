@@ -37,7 +37,7 @@ const StudyHome = (props) => {
             </div>
             <div className={styles.rightStudyContentInfo}>
               <img src={item.hotOrNew == 1 ? hotStudy : newStudy} alt="" />
-              <p className={styles.title}>{item.courseName}</p>
+              <p className={styles.title} title={item.courseName}>{item.courseName}</p>
               <p className={styles.intro}>{item.studyMemberCount}加入学习</p>
             </div>
           </div>

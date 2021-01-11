@@ -47,6 +47,8 @@ const WishDialog = (props) => {
     if (!isDialog) {
       return
     }
+    setTemplateList([])
+    setIsSelected(0)
     setIsVisible(isDialog)
     GetWishIconList().then(res => {
       if (res.success) {
@@ -162,13 +164,14 @@ const WishDialog = (props) => {
                     onSwiper={(swiper) => setSwiper(swiper)}
                     // autoplay={{ delay: 5000 }}
                     loop
+                    allowTouchMove={false}
                   >
                     {
                       templateList && templateList.map((item, index) => (
                         <SwiperSlide key={index}>
                           <div key={index} className={styles.defaultBlessing}>
                             {
-                              item.map((val, _index) => (
+                              item.length && item.map((val, _index) => (
                                 <p key={_index} className={isSelected === _index ? `${styles.dayCheck}` : ""} title={val} onClick={() => templateClick(val, _index)}>{val}</p>
                               ))
                             }

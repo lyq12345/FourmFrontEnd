@@ -35,7 +35,7 @@ const Birthday = (props) => {
     swiper ? (swiper.params.width = document.documentElement.clientWidth) : null;
     swiper ? (swiper.params.height = document.documentElement.clientHeight) : null;
   }, [swiper]);
-  
+
   const onResize = useCallback(() => {
     setSize({
       width: document.documentElement.clientWidth,
@@ -73,11 +73,12 @@ const Birthday = (props) => {
             slidesPerView={1}
             direction="vertical"
             onSwiper={(swiper) => changeSwiper(swiper)}
-            autoplay={{ delay: 3000 }}
+            autoplay={{ delay: 5000 }}
             loop
             speed={500}
             updateOnWindowResize={true}
             observer={true}
+            lazy={true}
           >
             {dataList &&
               dataList.map((item, index) => (
@@ -89,7 +90,7 @@ const Birthday = (props) => {
                         key={_index}
                       >
                         <p className={styles.birthdayContent}>
-                          <img src={val.avater} alt="" />
+                          <img src={val.avater} alt="" class="swiper-lazy" />
                           <span className={styles.name}>
                             {val.userName} {val.deptName}
                           </span>

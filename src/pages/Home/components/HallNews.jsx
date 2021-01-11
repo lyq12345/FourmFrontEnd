@@ -203,12 +203,21 @@ const HallNews = (props) => {
             <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:9002/portal/AutoLogin.aspx?type=2&token=${accessToken}`) }}>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>我的消息</span>
-              <Badge
+              {
+                unreadMessagesNum ? unreadMessagesNum.toString().length > 1 ?
+                  <p className={styles.messageTag1}>
+                    {unreadMessagesNum > 99 ? '99+' : unreadMessagesNum}
+                  </p> :
+                  <p className={styles.messageTag2}>
+                    {unreadMessagesNum}
+                  </p> : <></>
+              }
+              {/* <Badge
                 className={styles.messageTost1}
-                style={{ backgroundColor: '#CE1925' }}
+                style={{ backgroundColor: '#CE1925', padding: '0 6px', lineHeight: '12px', height: '14px' }}
                 size="default"
                 count={unreadMessagesNum}
-              />
+              /> */}
             </div>
           </Popover>
           <Popover placement="bottomRight"
@@ -221,12 +230,21 @@ const HallNews = (props) => {
             <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:9002/portal/AutoLogin.aspx?type=1&token=${accessToken}`) }}>
               <img src={toDoTasksImg} alt="" />
               <span className={styles.messageText}>待办任务</span>
-              <Badge
+              {
+                toDoTasksNum ? toDoTasksNum.toString().length > 1 ?
+                  <p className={styles.messageTag1}>
+                    {toDoTasksNum > 99 ? '99+' : toDoTasksNum}
+                  </p> :
+                  <p className={styles.messageTag2}>
+                    {toDoTasksNum}
+                  </p> : <></>
+              }
+              {/* <Badge
                 className={styles.messageTost2}
                 style={{ backgroundColor: '#CE1925' }}
                 size="default"
                 count={toDoTasksNum}
-              />
+              /> */}
             </div>
           </Popover >
         </div >
@@ -244,6 +262,7 @@ const HallNews = (props) => {
                   onSwiper={(swiper) => setSwiper(swiper)}
                   autoplay={{ delay: 2000 }}
                   loop
+                  allowTouchMove={false}
                   onSlideChange={handleChange}
                 >
                   {carouselList.map((v, i) => {

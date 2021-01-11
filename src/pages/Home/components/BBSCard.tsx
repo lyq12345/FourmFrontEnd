@@ -25,6 +25,8 @@ export default React.memo(() => {
             更多
           </p>
         </div>
+      </div>
+      <div className={styles['list']}>
         <PostCreator
           isInnerPrimaryColorUsed={false}
           style={{
@@ -34,8 +36,6 @@ export default React.memo(() => {
           }}
           textAreaProps={{ autoSize: { minRows: 4, maxRows: 4 } }}
         />
-      </div>
-      <div className={styles['list']}>
         <NormalPostList requestFn={requestLatestPosts} isInnerPrimaryColorUsed={false} />
       </div>
     </div>
