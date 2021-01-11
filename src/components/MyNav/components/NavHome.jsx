@@ -2,26 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { List, Avatar } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
 import { GetMenuMy } from '@/api/navigation';
+import styles from '../style.less';
 
-const data = [
-  { title: '集团邮箱', icon: '', href: '' },
-  { title: '流程中心', icon: '', href: '' },
-  { title: '考勤系统', icon: '', href: '' },
-  { title: 'IMS业务系统', icon: '', href: '' },
-  { title: '招聘系统', icon: '', href: '' },
-  { title: '会议室预定', icon: '', href: '' },
-  { title: '添加', icon: '', href: '' },
-];
 export default function NavHome(props) {
   return (
-    <div style={{ marginTop: '10px' }}>
+    <div className={styles['nav-home-container']}>
       <List
         dataSource={props.data}
         grid={{ gutter: 16, column: 5 }}
         renderItem={(item) => (
           <List.Item style={{ textAlign: 'left' }}>
             <a target="_blank" href={item.href} style={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar style={{ marginRight: '9px' }} size={26} icon={<img src={item.icon} />} />
+              {/* <Avatar style={{ marginRight: '9px' }} size={26} icon={<img src={item.icon} />} /> */}
+              <img style={{ marginRight: '9px',width:'26px',height:'26px' }} src={item.icon} />
               <a
                 title={item.title}
                 style={{

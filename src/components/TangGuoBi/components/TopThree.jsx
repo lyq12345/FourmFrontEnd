@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col } from 'antd';
 import Light from '@/assets/img/light.png';
-import No1 from '@/assets/img/no1.png';
-import No2 from '@/assets/img/no2.png';
-import No3 from '@/assets/img/no3.png';
+import No1 from '@/assets/img/no.1.png';
+import No2 from '@/assets/img/no.2.png';
+import No3 from '@/assets/img/no.3.png';
 import avatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
 
@@ -39,7 +39,7 @@ export default function TopThree(props) {
                 backgroundColor: '#aaa',
               }}
             >
-              <img src={No1}></img>
+              <img style={{ width: 80, height: 80 }} src={No1}></img>
             </div>
           </div>
           <div>
@@ -71,7 +71,7 @@ export default function TopThree(props) {
                 backgroundColor: '#aaa',
               }}
             >
-              <img src={No2}></img>
+              <img style={{ width: 80, height: 80 }} src={No2}></img>
             </div>
           </div>
           <div>
@@ -103,7 +103,7 @@ export default function TopThree(props) {
                 backgroundColor: '#aaa',
               }}
             >
-              <img src={No3}></img>
+              <img style={{ width: 80, height: 80 }} src={No3}></img>
             </div>
           </div>
           <div>

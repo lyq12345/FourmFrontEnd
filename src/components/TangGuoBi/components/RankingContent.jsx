@@ -48,7 +48,7 @@ const RankingContent = (props) => {
                 style={{ margin: '10px 0 10px 20px', display: 'flex', alignItems: 'center' }}
               >
                 <span className={styles.last7Order}>{item.coinOrder}</span>
-                <Avatar icon={<img src={item.avatar} size={30} />} />
+                <Avatar size={30} style={{ minWidth: 30 }} icon={<img src={item.avatar} />} />
                 <span className={styles.last7Name}>{item.personName}</span>
                 <span className={styles.last7Num}>{item.coin}</span>
               </li>

@@ -66,7 +66,7 @@ class TagItem extends React.Component {
             size="small"
           >
             <div style={{ display: 'flex' }}>
-              <Avatar size={26} icon={<img src={this.props.icon} />} />
+              <img style={{ width: '26px', height: '26px' }} src={this.props.icon} />
               <span
                 title={this.props.title}
                 style={{

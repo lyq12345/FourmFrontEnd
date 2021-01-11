@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
 import styles from './style.less';
 import Light from '@/assets/img/light.png';
-import No1 from '@/assets/img/no1.png';
-import No2 from '@/assets/img/no2.png';
-import No3 from '@/assets/img/no3.png';
-import No4 from '@/assets/img/no4.png';
-import No5 from '@/assets/img/no5.png';
-import No6 from '@/assets/img/no6.png';
-import No7 from '@/assets/img/no7.png';
-import No8 from '@/assets/img/no8.png';
-import No9 from '@/assets/img/no9.png';
-import No10 from '@/assets/img/no10.png';
-import x2No1 from '@/assets/img/2xno1.png';
+import No1 from '@/assets/img/no.1.png';
+import No2 from '@/assets/img/no.2.png';
+import No3 from '@/assets/img/no.3.png';
+import No4 from '@/assets/img/No.4.png';
+import No5 from '@/assets/img/No.5.png';
+import No6 from '@/assets/img/No.6.png';
+import No7 from '@/assets/img/No.7.png';
+import No8 from '@/assets/img/No.8.png';
+import No9 from '@/assets/img/No.9.png';
+import No10 from '@/assets/img/No.10.png';
+// import x2No1 from '@/assets/img/2xno1.png';
 import avatar from '@/assets/img/avatar.jpg';
 import { modalContext } from './context';
 
@@ -54,7 +54,7 @@ const Top10Item = (props) => {
             backgroundColor: '#aaa',
           }}
         >
-          <img src={nos[props.content.coinOrder - 1]}></img>
+          <img style={{ width: 80, height: 80 }} src={nos[props.content.coinOrder - 1]}></img>
         </div>
       </div>
       <div>

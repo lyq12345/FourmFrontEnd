@@ -81,7 +81,8 @@ const AllNav = () => {
           <List.Item>
             <Card bordered={false} size="small">
               <div style={{ display: 'flex' }}>
-                <Avatar size={26} icon={<img src={item.icon} />} />
+                {/* <Avatar size={26} icon={<img src={item.icon} />} /> */}
+                <img style={{ width: '26px', height: '26px' }} src={item.icon} />
                 <a
                   title={item.title}
                   style={{
@@ -94,6 +95,7 @@ const AllNav = () => {
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
+                    lineHeight: '25px',
                   }}
                 >
                   {item.title}
