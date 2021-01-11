@@ -115,13 +115,19 @@ const PictureDetail = (props) => {
         {props.picList.map((item, index) => (
           <Col key={index}>
             <div
+              onClick={() => {
+                handleBottomClick(index);
+              }}
               style={{
-                backgroundColor: '#FFFFFF',
+                background: `url(${item}) #ffffff no-repeat center center / cover`,
+                ...props.detailStyle.zoomedBottomPic,
                 opacity: index === curZoomed ? '100%' : '51%',
                 userSelect: 'none',
+                cursor: 'pointer',
+                border: index === curZoomed ? '1px solid #FF5000' : 'none',
               }}
             >
-              <img
+              {/* <img
                 onClick={() => {
                   handleBottomClick(index);
                 }}
@@ -131,7 +137,7 @@ const PictureDetail = (props) => {
                   cursor: 'pointer',
                   border: index === curZoomed ? '1px solid #FF5000' : 'none',
                 }}
-              />
+              /> */}
             </div>
           </Col>
         ))}

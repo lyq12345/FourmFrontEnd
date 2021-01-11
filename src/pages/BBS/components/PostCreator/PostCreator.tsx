@@ -247,6 +247,7 @@ export default React.memo<{
               htmlType="submit"
               className={`${styles['submit-button']} ${isButtonDisabled ? styles['disabled'] : ''}`}
               loading={isButtonLoading}
+              size="middle"
             >
               发送
             </Button>
