@@ -1,0 +1,158 @@
+.companyTag {
+  span {
+  }
+}
+
+.top10Name {
+  overflow: hidden;
+  text-overflow: ellipsis; /* 加省略号 */
+  white-space: nowrap; /* 强制不换行 */
+  max-width: 5em;
+  height: 20px;
+  margin: 0 auto;
+  color: #333;
+  font-weight: 400;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  line-height: 20px;
+  text-align: center;
+}
+
+.top10Depart {
+  height: 12px;
+  margin: 10px auto;
+  width: 7em;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #666;
+  font-weight: 400;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  line-height: 12px;
+  text-align: center;
+}
+
+.top10Amount {
+  text-align: center;
+  margin: 10px auto;
+  width: 44px;
+  height: 12px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 12px;
+}
+
+.bottomOrder {
+  display: inline-block;
+  text-align: center;
+  margin-left: 30px;
+  margin-right: 17px;
+  width: 15px;
+  height: 17px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 17px;
+}
+
+.bottomDept {
+  display: inline-block;
+  text-align: left;
+  margin: 0 10px;
+  width: 7em;
+  height: 12px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bottomAmount {
+  display: inline-block;
+  text-align: left;
+  margin-left: 10px;
+  width: 36px;
+  height: 17px;
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #666666;
+  line-height: 17px;
+}
+
+.bottomName {
+  overflow: hidden;
+  text-overflow: ellipsis; /* 加省略号 */
+  white-space: nowrap; /* 强制不换行 */
+  max-width: 5em;
+  display: inline-block;
+  text-align: left;
+  margin-left: 17px;
+  margin-right: 10px;
+  width: 42px;
+  height: 14px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  line-height: 14px;
+}
+.companyRadioGroup {
+  .companyRadio {
+    display: inline-flex;
+    margin: 10px 10px 14px 0;
+    border-left: 1px;
+    border-radius: 16px;
+    background-color: #eeeeee;
+    font-size: 14px;
+    font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    color: #999999;
+  }
+  :global(.ant-radio-button-wrapper.antd-pro-pages-tangguobi-rank-components-style-companyRadio) {
+    border: 0;
+    &::before {
+      width: 0;
+    }
+  }
+}
+
+.detailModal {
+  :global(.ant-modal-footer) {
+    border: 0;
+  }
+}
+
+.detailTable {
+  :global(.ant-table-cell) {
+    background: #fff;
+  }
+}
+
+.detalTabletext {
+  font-size: 12px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #333333;
+  line-height: 20px;
+}
+.rankTabContainer {
+  :global(.ant-tabs-nav) {
+    margin-bottom: 0;
+    :global(.ant-tabs-tab) {
+      background-color: #ffffff;
+      border: 0;
+    }
+    :global(.ant-tabs-tab.ant-tabs-tab-active) {
+      background-color: #fafafa;
+    }
+  }
+}

@@ -1,0 +1,97 @@
+.container {
+  background: #fff;
+  margin-bottom: 13px;
+  border-radius: 4px;
+
+  .top {
+    padding: 16px 20px 0;
+    position: relative;
+
+    .avatar {
+      margin-right: 12px;
+      vertical-align: top;
+    }
+
+    .center {
+      display: inline-block;
+      width: 568px;
+
+      .author {
+        margin-top: 4px;
+        line-height: 1;
+      }
+      .type {
+        position: absolute;
+        line-height: 17px;
+        top: 37px;
+        right: 20px;
+        color: #0091ff;
+        cursor: pointer;
+
+        &.type-disabled {
+          cursor: default;
+          pointer-events: none;
+          color: #6d7278;
+        }
+      }
+      .time {
+        margin-top: 10px;
+        margin-bottom: 8px;
+        font-size: 12px;
+        line-height: 1;
+        color: #6d7278;
+      }
+      .hot-area {
+        font-size: 14px;
+        color: #333;
+        .title {
+          margin-top: 8px;
+          line-height: 22px;
+          font-weight: 600;
+          cursor: pointer;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          &:hover {
+            color: var(--bbs-primary-color);
+            transition: color 0.3s;
+          }
+        }
+        .content {
+          margin-top: 4px;
+          line-height: 26px;
+        }
+      }
+    }
+  }
+  .go-post {
+    color: #0091ff;
+    margin-right: 20px;
+  }
+
+  .action {
+    display: flex;
+    align-items: center;
+    color: #6d7278;
+    height: 44px;
+    padding-left: 74px;
+
+    span {
+      font-size: 13px;
+      line-height: 1;
+    }
+    .bottom-icon {
+      height: 20px;
+      font-size: 20px;
+      line-height: 1;
+      & ~ .bottom-icon {
+        margin-left: 43px;
+      }
+    }
+    .type {
+      margin-left: 4px;
+      margin-right: 11px;
+      cursor: pointer;
+    }
+  }
+}

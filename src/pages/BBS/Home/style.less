@@ -1,0 +1,32 @@
+.tab {
+  margin-top: 21px;
+
+  :global {
+    .ant-tabs-nav {
+      &::before {
+        border: none;
+      }
+    }
+
+    .ant-tabs-tab {
+      padding: 5px 0;
+
+      span {
+        font-size: 14px;
+        font-weight: 400;
+        color: #666666;
+        line-height: 22px;
+      }
+
+      &.ant-tabs-tab-active {
+        span {
+          color: #ff5000;
+        }
+      }
+    }
+
+    .ant-tabs-ink-bar {
+      background: #ff5000;
+    }
+  }
+}

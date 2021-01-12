@@ -46,6 +46,7 @@ export default {
   navTheme: 'dark',
   // 主题色设置 默认拂晓蓝
   primaryColor: '#CE1925',
+  modalMaskBg: 'rgba(0, 0, 0, 0.6)',
   layout: 'sidemenu',
   contentWidth: 'Fluid',
   fixedHeader: false,

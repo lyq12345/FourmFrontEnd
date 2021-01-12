@@ -1,17 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './styles.less'
 import ListData from '@/components/ListData'
 import { Pagination } from 'antd';
+import { withRouter } from 'umi';
+import { GetAffairPerson } from '@/api/common'
 
-const HallSomething = () => {
+const HallPeople = (props) => {
+  const [ListDataInfo, setListDataInfo] = useState({})
+  const [currentPage, setCurrentPage] = useState(1)
+  const [total, setTotal] = useState(1)
 
+  useEffect(() => {
+    getGetAffairPersonList(1)
+  }, [])
+  const onChangePage = (page) => {
+    setCurrentPage(page)
+    getGetAffairPersonList(page)
+  }
+  const getGetAffairPersonList = (page) => {
+    GetAffairPerson({ pageIndex: page }).then(response => {
+      if (response.success) {
+        setListDataInfo(response.data)
+        setTotal(response.data.total)
+      }
+    })
+  }
+  const routerLink = (val) => {
+    window.open(`/yst-iwork-alpha/hall-people/detail?id=${val.id}`)
+  }
   return (
     <div className={styles.hallPeople}>
-      <ListData isShowWeek isLine isInfoIntro />
+      <ListData isShowWeek isLine isInfoIntro routerLink={routerLink} ListDataInfo={ListDataInfo} />
       <div className={styles.pagination}>
-        <Pagination className={styles.paginationNum} size="small" total={50} />
+        <Pagination className={styles.paginationNum} onChange={onChangePage} current={currentPage} size="small" total={total} />
       </div>
     </div >
   )
 }
-export default HallSomething
+export default HallPeople

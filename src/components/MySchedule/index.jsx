@@ -2,25 +2,22 @@ import React, { useState, useEffect } from 'react';
 import styles from './styles.less';
 import downArrows from '@/assets/img/down.png';
 import upArrows from '@/assets/img/up.png';
+import { GetCalendar } from '@/api/common'
 
-const data = [
-  {
-    time: '10:00-12:00',
-    title: '领取优惠券页面视觉评审',
-  },
-  {
-    time: '10:00-12:00',
-    title: '领取优惠券页面视觉评审',
-  },
-  {
-    time: '10:00-12:00',
-    title: '领取优惠券页面视觉评审',
-  },
-  {
-    time: '10:00-12:00',
-    title: '领取优惠券页面视觉评审',
-  },
-]
+// const dataList = [
+//   {
+//     time: '10:00-12:00',
+//     title: '领取优惠券页面视觉评审',
+//   },
+//   {
+//     time: '10:00-12:00',
+//     title: '领取优惠券页面视觉评审',
+//   },
+//   {
+//     time: '10:00-12:00',
+//     title: '领取优惠券页面视觉评审',
+//   },
+// ]
 const myDate = new Date();
 const MySchedule = (props) => {
   const [weekArr, setWeekArr] = useState([])
@@ -30,6 +27,7 @@ const MySchedule = (props) => {
     month: myDate.getMonth() + 1,
     myDate: myDate.getDate(),
   })
+  const [dataList, setDataList] = useState([])
 
   useEffect(() => {
     setDate();
@@ -55,7 +53,16 @@ const MySchedule = (props) => {
       item.day = weekFirstDay.getDate()
     })
     setWeekArr(week)
+    const date = `${fullYearMonth.fullYear}-${fullYearMonth.month}-${fullYearMonth.myDate}`
+    getCalendarList(date)
   };
+  const getCalendarList = (date) => {
+    GetCalendar({ date: date }).then(response => {
+      if (response.success) {
+        setDataList(response.data)
+      }
+    })
+  }
   const showMoreSchedule = () => {
     setIsShowMore(!isShowMore)
   }
@@ -68,7 +75,10 @@ const MySchedule = (props) => {
         item.isCheck = false
       }
     })
+    let date = `${fullYearMonth.fullYear}-${fullYearMonth.month}-${dateArr[val].day}`
+    getCalendarList(date)
     setWeekArr(dateArr)
+    // setDate(dateArr[val].day)
   }
 
   return (
@@ -81,8 +91,7 @@ const MySchedule = (props) => {
         {
           weekArr && weekArr.map((item, index) => (
             <div key={index} className={styles.dayText} onClick={() => { checkDate(index) }}>
-              <p>{item.title}</p>
-              {item.isCheck}
+              <p className={item.isCheck ? `${styles.selectedWeek}` : ''}>{item.title}</p>
               <p className={item.isCheck ? `${styles.day} ${styles.dayCheck}` : styles.day}>{item.day}</p>
             </div>
           ))
@@ -90,26 +99,26 @@ const MySchedule = (props) => {
       </div>
       <div className={styles.scheduleInfo}>
         <div className={styles.scheduleStatistics}>
-          <p className={styles.totalData}>共<span>{data.length}</span>个日程</p>
+          <p className={styles.totalData}>共<span>{dataList.length}</span>个日程</p>
           {
-            data && data.length ? <p onClick={showMoreSchedule}>
+            dataList && dataList.length && dataList.length > 3 ? <p onClick={showMoreSchedule}>
               <img src={isShowMore ? downArrows : upArrows} alt="" />
             </p> : <></>
           }
         </div>
         {
-          data && data.length ? data.map((item, index) => (
-            <div className={styles.infoContent} key={index}>
+          dataList && dataList.length ? dataList.map((item, index) => (
+            <>
               {
-                (isShowMore ? index < 3 : data.length) ?
+                (isShowMore ? index < 3 : dataList.length) ? <div className={styles.infoContent} key={index}>
                   <p key={index}>
                     <span className={styles.dot}></span>
                     <span className={styles.time}>{item.time}</span>
                     <span>{item.title}</span>
-                  </p> : <></>
+                  </p>
+                </div> : <></>
               }
-
-            </div>
+            </>
           )) :
             <div className={styles.noData}>
               今天无日程

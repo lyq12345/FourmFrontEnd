@@ -1,9 +1,40 @@
-span {
-  width: 108px;
-  height: 18px;
-  font-size: 18px;
-  font-family: PingFangSC-Semibold, PingFang SC;
-  font-weight: 600;
-  color: #333333;
-  line-height: 18px;
+.tgbContainer {
+  background-color: #fff;
+  border-radius: 6px;
+  margin: 10px 0;
+  :global(.ant-tabs-ink-bar.ant-tabs-ink-bar-animated) {
+    visibility: visible;
+  }
+  .navHead {
+    display: flex;
+    padding: 20px;
+    .title {
+      font-size: 18px;
+      font-family: PingFangSC-Semibold, PingFang SC;
+      font-weight: 600;
+      color: #333333;
+      line-height: 18px;
+    }
+    .comName {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 20px;
+      margin: 0 20px;
+    }
+    .orgName {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+      line-height: 20px;
+    }
+    .tgbmore {
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #666666;
+    }
+  }
 }

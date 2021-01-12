@@ -1,0 +1,190 @@
+p {
+  padding: 0;
+  margin: 0;
+}
+@keyframes UpbelowYY {
+  16.65% { transform: translateY(8px); }
+  33.3% { transform: translateY(-6px); }
+  49.95% { transform: translateY(4px); }
+  66.6% { transform: translateY(-2px); }
+  83.25% { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
+.modelAdvertising {
+  width: 100%;
+  height: 100%;
+  .footerActivity {
+    // width: 50px;
+    // height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: rgba(128, 145, 139, 0.267);
+    display: block;
+    z-index: 10001;
+    position: fixed;
+    left: 93.69vw;
+    bottom: 1.69vw;
+    img {
+      width: 52px;
+      height: 52px;
+    }
+    // &:hover {
+    //   box-shadow: 5px 5px 5px #888888;
+    // }
+  }
+  .footerActivity:hover, .footerActivity:focus, .footerActivity:active {
+    animation: UpbelowYY 1s ease-in-out 1;
+  }
+}
+.modalStyle {
+  .ant-modal-content {
+    position: relative;
+    background-color: #00000000 !important;
+    border: 0;
+  }
+}
+.ant-modal {
+  .ant-modal-content {
+    background-color: initial;
+  }
+}
+.moalComponent {
+  width: 100%;
+  height: calc(100vh);
+  .modalAdvertisingContent {
+    width: 49.58vw;
+    height: 33.33vw;
+    position: relative;
+    top:50%;
+    transform:translateY(-50%);
+    margin:auto;
+    display: flex;
+    .advertisingContent {
+      width: 46.66vw;
+      height: 33.33vw;
+      background-color: #fff;
+      border-radius: 0.83vw;
+      .backgroundCard {
+        position: absolute;
+        z-index: 10;
+        img {
+          width: 46.66vw;
+          height: 33.33vw;
+          border-radius: 0.83vw;
+        }
+      }
+      .buttomBtnCard {
+        position: absolute;
+        bottom: 0;
+        cursor: pointer;
+        img {
+          width: 46.66vw;
+          height: 7.5vw;
+        }
+        z-index: 20;
+      }
+    }
+    .closeMoal {
+      margin-left: 13.8vw;
+      img {
+        width: 1.52vw;
+        height: 1.52vw;
+        cursor: pointer;
+      }
+    }
+  }
+}
+.cardContent {
+  width: 100%;
+  height: calc(100vh);
+  // background-color: #FDF6FC;
+  .modelGreetingCardContent {
+    width: 76.73vw;
+    position: relative;
+    top:50%;
+    transform:translateY(-50%);
+    margin:auto;
+    display: flex;
+    .dialogBackGround {
+      width: 76.73vw;
+      border-radius: 0.83vw;
+      .closeModal {
+        position: absolute;
+        right: 0;
+        top: 1vw;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        img {
+          width: 1.73vw;
+          height: 4vw;
+        }
+      }
+    }
+    // .backgroundCard {
+    //   position: absolute;
+      
+    // }
+    .cardInfoContent {
+      width: 75vw;
+      border-radius: 0.41vw 0 0.41vw 0.41vw;
+      .cardBackgroundImg {
+        width: 75vw;
+        border-radius: 0.41vw 0 0.41vw 0.41vw;
+      }
+    }
+    .modalContent {
+      position: absolute;
+      left: 3vw;
+      top: 14vw;
+      .headImg {
+        width: 5.9vw;
+        height: 5.9vw;
+        background-color: #ccc;
+        border-radius: 50%;
+        margin-bottom: 0.9vw;
+      }
+      .cardInfo {
+        // font-size: 2.291vw;
+        font-size: 2.5vw;
+        font-weight: 100;
+        // margin-top: 1.25vw;
+        // line-height: 2.291vw;
+        line-height: 3.2vw;
+        color: #EB0029;
+        font-weight: 100;
+        letter-spacing: 0.5vw;
+      }
+      .birthdayText {
+        color: #333333;
+      }
+      .cardInfoEn {
+        font-size: 3vw;
+        color: #F82C55;
+        line-height: 3.1vw;
+        font-weight: 800;
+        letter-spacing: 0.2vw;
+      }
+      .enText {
+        margin-top: 1.5vw
+        ;
+      }
+    }
+  }
+}
+// 首页弹窗广告修改样式
+.homeModalStyle {
+  :global(.zoom-leave) {
+    animation-duration: 0.7s !important;
+  }
+  :global {
+    .ant-modal-content {
+      position: relative;
+      background-color: initial !important;
+      box-shadow: initial !important;
+    }
+    .ant-modal-body {
+      padding: 0 !important;
+    }
+  }
+}

@@ -89,7 +89,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
     authority: undefined,
   };
   const { formatMessage } = useIntl();
-  console.log(props, settings);
+  // console.log(props, settings);
 
   return (
     <ProLayout
@@ -120,8 +120,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = (props) => {
         return first ? (
           <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
         ) : (
-          <span>{route.breadcrumbName}</span>
-        );
+            <span>{route.breadcrumbName}</span>
+          );
       }}
       menuDataRender={() => fliterRouter(menuDataApi)}
       rightContentRender={() => <RightContent />}

@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-08-31 15:52:32
- * @LastEditTime: 2020-09-01 17:56:30
+ * @LastEditTime: 2020-11-11 16:45:21
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/router/demo-router.ts
@@ -13,13 +13,13 @@ module.exports = {
   router: [
     {
       path: '/nav-setting',
-      name: '导航设置',
+      name: '常用导航',
       component: './NavSetting',
     },
     {
-      path: '/tangguobi',
-      name: '堂果币主页',
-      component: '@/components/TangGuoBi',
+      path: '/tangguobi-rank',
+      name: '堂果币排行榜',
+      component: './TangguobiRank',
     },
   ],
 };

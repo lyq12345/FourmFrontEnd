@@ -1,0 +1,26 @@
+
+.paginationModule {
+  padding: 30px 0;
+  text-align: center;
+  .pagination {
+    text-align: center;
+    margin-top: 30px;
+    .paginationNum {
+      .ant-pagination-disabled {
+        display: none;
+      }
+      .ant-pagination-item-active {
+        background-color: #CE1925;
+        a {
+          color: #fff !important;
+        }
+        .ant-pagination-item-active a {
+          color: #fff !important;
+        }
+      }
+    }
+  }
+  :global(.ant-pagination-options) {
+    display: none;
+  }
+}

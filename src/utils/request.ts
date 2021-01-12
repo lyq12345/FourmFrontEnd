@@ -26,14 +26,14 @@ const codeMessage = {
 /**
  * 异常处理程序
  */
-interface ERROR  {
-  response:{
-    statusText:any,
-    status:any,
-    url:String,
-  }
+interface ERROR {
+  response: {
+    statusText: any;
+    status: any;
+    url: String;
+  };
 }
-const errorHandler = (error:ERROR) => {
+const errorHandler = (error: ERROR) => {
   const { response } = error;
 
   if (response && response.status) {
@@ -68,21 +68,45 @@ request.interceptors.request.use((url, options) => {
   const Authorization = sessionStorage.getItem('Authorization');
   let URL;
   let headers = null;
-  if (options.prefixType === 'sso') {
-    URL = `${REACT_APP_SSO_API}${url}`;
-  } else {
-    // eslint-disable-next-line no-undef
-    URL = `${REACT_APP_BASIC_API}${url}`;
+  switch (options.prefixType) {
+    case 'sso':
+      URL = `${REACT_APP_SSO_API}${url}`;
+      break;
+    case 'candy':
+      URL = `/candy-api${url}`;
+      break;
+    case 'basic':
+      URL = `/basic-address${url}`;
+      break;
+    case 'home-page':
+      URL = `/home-page${url}`;
+      break;
+    case 'mock':
+      URL = `/mock/yst-iwork-alpha-api${url}`;
+      break;
+    case 'study-core':
+      URL = `/study-core${url}`;
+      break;
+    default:
+      // eslint-disable-next-line no-undef
+      URL = `${REACT_APP_BASIC_API}${url}`;
   }
+  // if (options.prefixType === 'sso') {
+  //   URL = `${REACT_APP_SSO_API}${url}`;
+  // } else {
+  //   // eslint-disable-next-line no-undef
+  //   URL = `${REACT_APP_BASIC_API}${url}`;
+  // }
   if (Authorization) {
     headers = {
       Authorization,
       Accept: 'application/json',
+      // 'content-type': 'application/json'
     };
   }
   return {
     url: URL,
-    options: { ...options,...headers  },
+    options: { ...options, ...headers },
   };
 });
 
@@ -145,4 +169,3 @@ request.interceptors.response.use(async (response) => {
 // });
 
 export default request;
-

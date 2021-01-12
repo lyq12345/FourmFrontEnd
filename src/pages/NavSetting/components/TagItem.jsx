@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Tag, Card } from 'antd';
+import { Tag, Card, Avatar } from 'antd';
 import { CloseOutlined, TrophyOutlined } from '@ant-design/icons';
 import { DragSource, DropTarget } from 'react-dnd';
 import { findDOMNode } from 'react-dom';
@@ -66,11 +66,29 @@ class TagItem extends React.Component {
             size="small"
           >
             <div style={{ display: 'flex' }}>
-              <span>{this.props.title}</span>
+              <img style={{ width: '26px', height: '26px' }} src={this.props.icon} />
+              <span
+                title={this.props.title}
+                style={{
+                  fontSize: '13px',
+                  fontFamily: 'PingFangSC-Regular, PingFang SC',
+                  fontWeight: 400,
+                  color: '#333',
+                  marginLeft: '9px',
+                  maxWidth: '9em',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {this.props.title}
+              </span>
               <div style={{ flex: 1 }}></div>
-              <div>
-                <CloseOutlined onClick={this.props.handleCancel} />
-              </div>
+              {this.props.type === '常用' ? null : (
+                <div>
+                  <CloseOutlined onClick={this.props.handleCancel} />
+                </div>
+              )}
             </div>
           </Card>
         </div>,

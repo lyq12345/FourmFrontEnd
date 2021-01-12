@@ -5,7 +5,7 @@ p {
 .card {
   width: 372px;
   background-color: #fff;
-  padding: 20px 20px 22px 20px;
+  padding: 20px;
   margin-bottom: 12px;
   border-radius: 6px;
   &.noPadding{
@@ -23,7 +23,7 @@ p {
       line-height: 18px;
     }
     .lookMore {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 22px;
       color: #666666;
       cursor: pointer;
@@ -37,15 +37,10 @@ p {
     p {
       margin-bottom: 12px;
     }
-    p:first-child {
-      width: 278px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
     .contentTitle {
       display: flex;
       align-items: center;
+      width: 278px;
       .dot {
         width: 2px;
         height: 2px;
@@ -53,6 +48,14 @@ p {
         border-radius: 50%;
         background-color: #333;
         margin-right: 10px;
+        line-height: 14px;
+      }
+      .title {
+        width: 278px;
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
       &:hover {
         color: #CE1925;

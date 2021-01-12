@@ -32,12 +32,6 @@
     "test:component": "umi test ./src/components",
     "tsc": "tsc"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-commit": "npm run lint-staged"
-    }
-  },
   "lint-staged": {
     "**/*.less": "stylelint --syntax less",
     "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
@@ -55,10 +49,16 @@
     "@ant-design/pro-layout": "^5.0.0",
     "@ant-design/pro-table": "^2.0.0",
     "@umijs/hooks": "^1.8.0",
-    "antd": "^4.0.0",
+    "ahooks": "^2.8.1",
+    "antd": "^4.7.0",
+    "axios": "^0.20.0",
     "classnames": "^2.2.6",
+    "dayjs": "^1.9.6",
+    "dom-to-image": "^2.6.0",
     "hash.js": "^1.1.7",
+    "he": "^1.2.0",
     "history": "^4.10.1",
+    "html2canvas": "^1.0.0-rc.7",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.11",
     "memoize-one": "^5.1.1",
@@ -75,14 +75,18 @@
     "react-dom": "^16.8.6",
     "react-helmet-async": "^1.0.4",
     "react-router-dom": "^5.1.2",
+    "react-slick": "^0.27.11",
     "react-use": "^13.27.0",
     "redux-persist": "^6.0.0",
+    "swiper": "^6.3.5",
     "umi": "^3.0.16",
     "umi-request": "^1.0.8",
     "unstated-next": "^1.1.0",
     "use-json-comparison": "^1.0.5",
     "use-media-antd-query": "^1.0.1",
     "use-merge-value": "^1.0.1",
+    "video-react": "^0.14.1",
+    "videojs-contrib-hls": "^5.15.0",
     "warning": "^4.0.3"
   },
   "devDependencies": {
@@ -91,6 +95,7 @@
     "@commitlint/config-angular": "^9.1.1",
     "@types/classnames": "^2.2.7",
     "@types/express": "^4.17.0",
+    "@types/he": "^1.1.1",
     "@types/history": "^4.7.2",
     "@types/jest": "^25.1.0",
     "@types/lodash": "^4.14.144",

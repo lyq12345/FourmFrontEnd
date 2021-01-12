@@ -5,7 +5,8 @@
   padding: 20px;
   margin-bottom: 12px;
   .scheduleDate {
-    margin-bottom: 36px;
+    // margin-bottom: 36px;
+    padding: 6px 0;
     span:first-child {
       font-size: 18px;
       font-weight: 600;
@@ -21,6 +22,7 @@
     display: flex;
     justify-content: space-between;
     text-align: center;
+    padding: 9px 0;
     .dayText {
       .day {
         width: 24px;
@@ -36,15 +38,26 @@
           border-radius: 50%;
         }
       }
+      .selectedWeek {
+        color: #CE1925;
+      }
       .dayCheck {
         color: #fff;
         background-color: #CE1925;
         border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+          background-color: #CE1925;
+          border-radius: 50%;
+        }
       }
     }
   }
   .scheduleInfo {
-    margin-top: 30px;
+    // margin-top: 30px;
+    padding-top: 9px;
     .scheduleStatistics {
       display: flex;
       justify-content: space-between;
