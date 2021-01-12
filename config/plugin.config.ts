@@ -1,6 +1,6 @@
 import path from 'path';
 const CompressionPlugin = require('compression-webpack-plugin');
-const WebpackZipPlugin = require('webpack-zip-plugin');
+const ZipPlugin = require('zip-webpack-plugin');
 import * as IWebpackChainConfig from 'webpack-chain';
 let packageJson = require('../package.json');
 
@@ -96,11 +96,10 @@ const webpackPlugin = (config: IWebpackChainConfig) => {
 
   if (process.env.NODE_ENV.includes('test') || process.env.NODE_ENV.includes('prod')) {
     //zip包
-    config.plugin('webpack-zip-plugin').use(WebpackZipPlugin, [
+    config.plugin('zip-webpack-plugin').use(ZipPlugin, [
       {
-        initialFile: './dist',
-        endPath: './',
-        zipName: `${packageJson.name}.zip`,
+        filename: packageJson.name + '.zip',
+        path: '../',
       },
     ]);
 

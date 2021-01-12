@@ -87,7 +87,8 @@
     "use-merge-value": "^1.0.1",
     "video-react": "^0.14.1",
     "videojs-contrib-hls": "^5.15.0",
-    "warning": "^4.0.3"
+    "warning": "^4.0.3",
+    "zip-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^1.0.18",
@@ -127,8 +128,7 @@
     "mockjs": "^1.0.1-beta3",
     "prettier": "^2.0.1",
     "pro-download": "1.0.1",
-    "stylelint": "^13.0.0",
-    "webpack-zip-plugin": "^0.1.6"
+    "stylelint": "^13.0.0"
   },
   "optionalDependencies": {
     "puppeteer": "^2.0.0"
