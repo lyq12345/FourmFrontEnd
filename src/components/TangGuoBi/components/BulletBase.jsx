@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import BulletScreen from 'rc-bullets';
 import StyledBullet from './StyledBullet';
 import Banner from '@/assets/img/banner.png';
-import No1 from '@/assets/img/no1.png';
+import No1 from '@/assets/img/no.1.png';
 import { coinDetailRandom } from '@/api/tangguobi';
 import { message } from 'antd';
 const headUrl = 'https://zerosoul.github.io/rc-bullets/assets/img/heads/girl.jpg';
