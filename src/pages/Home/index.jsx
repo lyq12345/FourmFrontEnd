@@ -84,27 +84,27 @@ const Home = (props) => {
           <CardComponent
             dataList={noticeList}
             titlePaperwork="公告通知"
-            moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=3"
+            moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=3"
           />
           <CardComponent
             dataList={newsList}
             titlePaperwork="新闻动态"
-            moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=4"
+            moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=4"
           />
           <CardComponent
             dataList={institutionList}
             titlePaperwork="制度流程"
-            moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=5"
+            moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=5"
           />
           <CardComponent
             dataList={competitionList}
             titlePaperwork="内部招聘"
-            moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=7"
+            moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=7"
           />
           <CardComponent
             dataList={publicityList}
             titlePaperwork="信息公示"
-            moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=6"
+            moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=6"
           />
         </div>
       </div>
