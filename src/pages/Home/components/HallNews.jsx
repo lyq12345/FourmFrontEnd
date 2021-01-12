@@ -195,12 +195,12 @@ const HallNews = (props) => {
         <div className={styles.task}>
           <Popover placement="bottomRight"
             content={
-              <CardComponent title noPadding bottomLookMore dataList={unreadInfoList} moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=2" />
+              <CardComponent title noPadding bottomLookMore dataList={unreadInfoList} moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2" />
             }
             visible={isUnreadVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 1)}
             trigger='hover'>
-            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:9002/portal/AutoLogin.aspx?type=2&token=${accessToken}`) }}>
+            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2&token=${accessToken}`) }}>
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>我的消息</span>
               {
@@ -222,12 +222,12 @@ const HallNews = (props) => {
           </Popover>
           <Popover placement="bottomRight"
             content={
-              <CardComponent title noPadding bottomLookMore dataList={toDoTasksList} moreUrl="http://10.213.3.39:9002/portal/AutoLogin.aspx?type=1" />
+              <CardComponent title noPadding bottomLookMore dataList={toDoTasksList} moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1" />
             }
             visible={isToDoTasksVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 2)}
             trigger="hover">
-            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.213.3.39:9002/portal/AutoLogin.aspx?type=1&token=${accessToken}`) }}>
+            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1&token=${accessToken}`) }}>
               <img src={toDoTasksImg} alt="" />
               <span className={styles.messageText}>待办任务</span>
               {
