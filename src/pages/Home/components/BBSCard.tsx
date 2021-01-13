@@ -22,7 +22,7 @@ export default React.memo(() => {
               open(`${origin}/yst-iwork-alpha/bbs`);
             }}
           >
-            更多
+            进入论坛
           </p>
         </div>
       </div>
