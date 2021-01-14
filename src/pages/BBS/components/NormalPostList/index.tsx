@@ -98,7 +98,7 @@ const List: List = ({
       ))}
       <div style={{ textAlign: 'center' }}>
         <BBSLoading loading={loading} />
-        {isStopLoadMore && <span className={styles['divider']}>我是有底线的</span>}
+        {isStopLoadMore && !!data.length && <span className={styles['divider']}>我是有底线的</span>}
       </div>
       {!loading && (!data || data?.length === 0) && (
         <div
