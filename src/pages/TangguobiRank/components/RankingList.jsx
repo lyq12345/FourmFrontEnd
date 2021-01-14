@@ -39,7 +39,7 @@ const RankingList = () => {
   const queryRankDataOnce = (deptNumber, page, pageSize) => {
     setLoading(true);
     let params = {};
-    if (deptNumber === '50001575') {
+    if (deptNumber === '50000025') {
       params = {
         deptNumber,
         year: curYearDate.getFullYear(),
@@ -68,7 +68,7 @@ const RankingList = () => {
   const queryRankData = (deptNumber, page, pageSize) => {
     setLoading(true);
     let params = {};
-    if (deptNumber === '50001575') {
+    if (deptNumber === '50000025') {
       params = {
         deptType: 1,
       };
@@ -130,7 +130,7 @@ const RankingList = () => {
   const handleTabChange = (key) => {
     setLoading(true);
     let params = {};
-    if (selectedOrg === '50001575') {
+    if (selectedOrg === '50000025') {
       params = {
         deptType: 1,
       };
