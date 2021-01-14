@@ -18,7 +18,7 @@ import { modalContext } from './context';
 const nos = [No1, No2, No3, No4, No5, No6, No7, No8, No9, No10];
 
 const Top10Item = (props) => {
-  const { setVisible, setPersonCode, setDetailData } = useContext(modalContext);
+  const { setVisible, setPersonCode, setDetailData, setYear, setMonth } = useContext(modalContext);
   const handleClick = () => {
     setVisible(true);
     setPersonCode(props.content.personCode);
@@ -27,6 +27,8 @@ const Top10Item = (props) => {
       personName: props.content.personName,
       deptName: props.content.deptName,
     });
+    setYear(props.year);
+    setMonth(props.month);
   };
   return (
     <div

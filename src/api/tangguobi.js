@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-12-18 09:27:31
- * @LastEditTime: 2021-01-05 16:19:02
+ * @LastEditTime: 2021-01-14 15:45:04
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/src/api/tangguobi.js
@@ -19,6 +19,13 @@ export const coinDetailRandom = async (data) =>
 // 分页查询堂果币明细
 export const coinDetailPaging = async (data) =>
   request('/coinDetail/coinDetailPaging', {
+    method: 'POST',
+    data,
+    prefixType: 'candy',
+  });
+
+export const coinDetailRangePaging = async (data) =>
+  request('/coinDetail/coinDetailRangePaging', {
     method: 'POST',
     data,
     prefixType: 'candy',

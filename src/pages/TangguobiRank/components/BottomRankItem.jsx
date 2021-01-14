@@ -4,7 +4,7 @@ import myAvatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
 import { modalContext } from './context';
 const BottomRankItem = (props) => {
-  const { setVisible, setPersonCode, setDetailData } = useContext(modalContext);
+  const { setVisible, setPersonCode, setDetailData, setYear, setMonth } = useContext(modalContext);
 
   const handleClick = () => {
     setVisible(true);
@@ -14,6 +14,8 @@ const BottomRankItem = (props) => {
       personName: props.content.personName,
       deptName: props.content.deptName,
     });
+    setYear(props.year);
+    setMonth(props.month);
   };
   return (
     <div style={{ margin: '10px 0', cursor: 'pointer' }} onClick={handleClick}>

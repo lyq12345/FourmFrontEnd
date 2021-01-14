@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Modal, Button, Table, Avatar, Spin } from 'antd';
 import myAvatar from '@/assets/img/avatar.jpg';
 import styles from './style.less';
-import { coinDetailPaging, getPersonInfo, getMyRank, getMCoin } from '@/api/tangguobi';
+import {
+  coinDetailPaging,
+  coinDetailRangePaging,
+  getPersonInfo,
+  getMyRank,
+  getMCoin,
+} from '@/api/tangguobi';
 import { LeftOutlined } from '@ant-design/icons';
 
 const columns = [
@@ -80,34 +86,41 @@ const TGBDetail = (props) => {
     const year = date.getFullYear();
     if (props.personCode !== null) {
       let p1 = new Promise(function (resolve, reject) {
-        coinDetailPaging({ personCode: props.personCode, year, type: 0 }).then(
-          ({ success, data }) => {
-            if (success) {
-              const records = data.records;
-              const arr = [];
-              // let yearCoin = 0;
-              records.forEach((item) => {
-                // yearCoin += item.coin;
-                const info = {
-                  key: item.id,
-                  fromPerInfo: {
-                    personNameFrom: item.personNameFrom,
-                    comNameFrom: item.comNameFrom,
-                    deptNameFrom: item.deptNameFrom,
-                  },
-                  coin: item.coin,
-                  giveDate: item.giveDateStr,
-                  valuesType: item.valuesType,
-                  reason: item.reason,
-                };
-                arr.push(info);
-              });
-              // setCoins(yearCoin);
-              setGiveData(arr);
-              resolve();
-            }
-          },
-        );
+        coinDetailRangePaging({
+          personCode: props.personCode,
+          year: props.rankYear - 1,
+          month: props.rankMonth,
+          yearEnd: props.rankYear,
+          monthEnd: props.rankMonth,
+          type: 0,
+        }).then(({ success, data }) => {
+          if (success) {
+            const records = data.records;
+            const arr = [];
+            // let yearCoin = 0;
+            records.forEach((item) => {
+              // yearCoin += item.coin;
+              const giveYear = new Date(item.giveDate).getFullYear();
+
+              const info = {
+                key: item.id,
+                fromPerInfo: {
+                  personNameFrom: item.personNameFrom,
+                  comNameFrom: item.comNameFrom,
+                  deptNameFrom: item.deptNameFrom,
+                },
+                coin: item.coin,
+                giveDate: item.giveDateStr,
+                valuesType: item.valuesType,
+                reason: item.reason,
+              };
+              arr.push(info);
+            });
+            // setCoins(yearCoin);
+            setGiveData(arr);
+            resolve();
+          }
+        });
       });
 
       let p2 = new Promise((resolve, reject) => {
@@ -188,7 +201,8 @@ const TGBDetail = (props) => {
                 lineHeight: '22px',
               }}
             >
-              {`截止今天${new Date().getFullYear()}年度累计获得堂果币`}
+              {/* {`截止今天${new Date().getFullYear()}年度累计获得堂果币`} */}
+              {`累计获得堂果币`}
             </p>
           </div>
         </div>

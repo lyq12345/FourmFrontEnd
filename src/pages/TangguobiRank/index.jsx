@@ -4,6 +4,7 @@ import banner from '@/assets/img/banner.png';
 import RankingList from './components/RankingList';
 import TGBDetail from './components/TGBDetail';
 import { modalContext } from './components/context';
+import { isNull } from 'lodash';
 
 const TangguobiRank = (porps) => {
   const bulSetting = {
@@ -20,6 +21,8 @@ const TangguobiRank = (porps) => {
   const [visible, setVisible] = useState(false);
   const [personCode, setPersonCode] = useState(null);
   const [detailData, setDetailData] = useState([]);
+  const [rankYear, setYear] = useState(null);
+  const [rankMonth, setMonth] = useState(null);
 
   const handleClick = () => {
     queryDetail();
@@ -46,7 +49,7 @@ const TangguobiRank = (porps) => {
         {/*公司列表 */}
         <div>
           <h2>堂果币排行榜</h2>
-          <modalContext.Provider value={{ setVisible, setPersonCode, setDetailData }}>
+          <modalContext.Provider value={{ setVisible, setPersonCode, setDetailData, setYear, setMonth }}>
             <RankingList handleClick={handleClick} />
           </modalContext.Provider>
         </div>
@@ -58,6 +61,8 @@ const TangguobiRank = (porps) => {
         handleCancel={handleCancel}
         personCode={personCode}
         detailData={detailData}
+        rankYear={rankYear}
+        rankMonth={rankMonth}
       />
     </div>
   );

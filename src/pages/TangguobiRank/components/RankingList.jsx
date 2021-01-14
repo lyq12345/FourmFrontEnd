@@ -13,11 +13,15 @@ const RankingList = () => {
   const [yearRank, setYearRank] = useState({ top10Rank: [], otherRank: [] });
   const [lastMonthRank, setLastMonthRank] = useState({ top10Rank: [], otherRank: [] });
   const [currentMonthRank, setCurMonthRank] = useState({ top10Rank: [], otherRank: [] });
+  const [isHead, setIsHead] = useState(false);
 
   const [pageSize, setPageSize] = useState(30);
   const [total, setTotal] = useState(50);
   const [pageIndex, setPageIndex] = useState(1);
   const [loading, setLoading] = useState(false);
+  const curYearDate = new Date(); // 目前日期
+  const lastMonthDate = new Date(); // 上月日期
+  lastMonthDate.setMonth(lastMonthDate.getMonth() - 1);
 
   const renderTabBar = (props, DefaultTabBar) => {
     ({ style }) => {
@@ -27,19 +31,32 @@ const RankingList = () => {
 
   const handleChange = (e) => {
     setSelectedOrg(() => {
-      queryRankDataOnce(e.target.value, 1, 30);
+      queryRankData(e.target.value, 1, 30);
       return e.target.value;
     });
   };
 
   const queryRankDataOnce = (deptNumber, page, pageSize) => {
     setLoading(true);
-    const date = new Date();
-    const year = date.getFullYear();
+    let params = {};
+    if (deptNumber === '50001575') {
+      params = {
+        deptNumber,
+        year: curYearDate.getFullYear(),
+        page: 1,
+        pageSize: 40,
+        deptType: 1,
+      };
+    } else {
+      params = {
+        deptNumber,
+        year: curYearDate.getFullYear(),
+        page: 1,
+        pageSize: 40,
+      };
+    }
 
-    const curMonth = date.getMonth() + 1;
-    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
-    coinRankPaging({ deptNumber, year, page: 1, pageSize: 40 }).then(({ success, data }) => {
+    coinRankPaging(params).then(({ success, data }) => {
       if (success) {
         setYearRank({ top10Rank: data.records.slice(0, 10), otherRank: data.records.slice(10) });
         setTotal(data.total);
@@ -50,16 +67,25 @@ const RankingList = () => {
   };
   const queryRankData = (deptNumber, page, pageSize) => {
     setLoading(true);
-    const date = new Date();
-    const year = date.getFullYear();
-
-    const curMonth = date.getMonth() + 1;
-    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
+    let params = {};
+    if (deptNumber === '50001575') {
+      params = {
+        deptType: 1,
+      };
+    } else {
+      params = {};
+    }
 
     // 年度榜单
     // 前十
     let p1 = new Promise(function (resolve, reject) {
-      coinRankPaging({ deptNumber, year, page: 1, pageSize: 10 }).then(({ success, data }) => {
+      coinRankPaging({
+        ...params,
+        deptNumber,
+        year: curYearDate.getFullYear(),
+        page: 1,
+        pageSize: 10,
+      }).then(({ success, data }) => {
         if (success) {
           setYearRank((pre) => {
             return { ...pre, top10Rank: data.records };
@@ -71,7 +97,14 @@ const RankingList = () => {
 
     // 其他
     let p2 = new Promise(function (resolve, reject) {
-      coinRankPaging({ deptNumber, year, page, pageSize, offset: 10 }).then(({ success, data }) => {
+      coinRankPaging({
+        ...params,
+        deptNumber,
+        year: curYearDate.getFullYear(),
+        page,
+        pageSize,
+        offset: 10,
+      }).then(({ success, data }) => {
         if (success) {
           setYearRank((pre) => {
             return { ...pre, otherRank: data.records };
@@ -95,43 +128,56 @@ const RankingList = () => {
 
   // 标签变化回调
   const handleTabChange = (key) => {
-    const date = new Date();
-    const year = date.getFullYear();
-
-    const curMonth = date.getMonth() + 1;
-    const lastMonth = curMonth === 1 ? 12 : curMonth - 1;
     setLoading(true);
+    let params = {};
+    if (selectedOrg === '50001575') {
+      params = {
+        deptType: 1,
+      };
+    } else {
+      params = {};
+    }
     switch (key) {
-      case '1':
+      case '1': // 年度榜单
         // 前十
-        coinRankPaging({ deptNumber: selectedOrg, year, page: 1, pageSize: 10 }).then(
-          ({ success, data }) => {
-            if (success) {
-              setYearRank((pre) => {
-                return { ...pre, top10Rank: data.records };
-              });
-            }
-          },
-        );
-        // 其他
-        coinRankPaging({ deptNumber: selectedOrg, year, page: 1, pageSize: 30, offset: 10 }).then(
-          ({ success, data }) => {
-            if (success) {
-              setYearRank((pre) => {
-                return { ...pre, otherRank: data.records };
-              });
-              setTotal(data.total);
-              setPageIndex(1);
-              setLoading(false);
-            }
-          },
-        );
-        break;
-      case '2':
         coinRankPaging({
+          ...params,
           deptNumber: selectedOrg,
-          year: curMonth === 1 ? year - 1 : year,
-          month: lastMonth,
+          year: curYearDate.getFullYear(),
+          page: 1,
+          pageSize: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setYearRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+          }
+        });
+        // 其他
+        coinRankPaging({
+          ...params,
+          deptNumber: selectedOrg,
+          year: curYearDate.getFullYear(),
+          page: 1,
+          pageSize: 30,
+          offset: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setYearRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(1);
+            setLoading(false);
+          }
+        });
+        break;
+      case '2': // 上月榜单
+        coinRankPaging({
+          ...params,
+          deptNumber: selectedOrg,
+          year: lastMonthDate.getFullYear(),
+          month: lastMonthDate.getMonth() + 1,
           page: 1,
           pageSize: 10,
         }).then(({ success, data }) => {
@@ -142,9 +188,10 @@ const RankingList = () => {
           }
         });
         coinRankPaging({
+          ...params,
           deptNumber: selectedOrg,
-          year: curMonth === 1 ? year - 1 : year,
-          month: lastMonth,
+          year: lastMonthDate.getFullYear(),
+          month: lastMonthDate.getMonth() + 1,
           page: 1,
           pageSize: 30,
           offset: 10,
@@ -159,11 +206,12 @@ const RankingList = () => {
           }
         });
         break;
-      case '3':
+      case '3': // 本月榜单
         coinRankPaging({
+          ...params,
           deptNumber: selectedOrg,
-          year,
-          month: curMonth,
+          year: curYearDate.getFullYear(),
+          month: curYearDate.getMonth() + 1,
           page: 1,
           pageSize: 10,
         }).then(({ success, data }) => {
@@ -174,9 +222,10 @@ const RankingList = () => {
           }
         });
         coinRankPaging({
+          ...params,
           deptNumber: selectedOrg,
-          year,
-          month: curMonth,
+          year: curYearDate.getFullYear(),
+          month: curYearDate.getMonth() + 1,
           page: 1,
           pageSize: 30,
           offset: 10,
@@ -268,13 +317,25 @@ const RankingList = () => {
             }
           >
             <Tabs.TabPane tab={<span>年度榜单</span>} key="1">
-              <RankingContent content={yearRank} />
+              <RankingContent
+                content={yearRank}
+                year={curYearDate.getFullYear()}
+                month={curYearDate.getMonth() + 1}
+              />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<span>上月榜单</span>} key="2">
-              <RankingContent content={lastMonthRank} />
+              <RankingContent
+                content={lastMonthRank}
+                year={lastMonthDate.getFullYear()}
+                month={lastMonthDate.getMonth() + 1}
+              />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<span>本月榜单</span>} key="3">
-              <RankingContent content={currentMonthRank} />
+              <RankingContent
+                content={currentMonthRank}
+                year={curYearDate.getFullYear()}
+                month={curYearDate.getMonth() + 1}
+              />
             </Tabs.TabPane>
           </Tabs>
         </Spin>

@@ -22,17 +22,17 @@ const BottomRank = (props) => {
       <Row>
         <Col style={{ textAlign: 'left' }} span={8}>
           {list1.map((item) => (
-            <BottomRankItem content={item} />
+            <BottomRankItem content={item} year={props.year} month={props.month}/>
           ))}
         </Col>
         <Col style={{ textAlign: 'center' }} span={8}>
           {list2.map((item) => (
-            <BottomRankItem content={item} />
+            <BottomRankItem content={item} year={props.year} month={props.month}/>
           ))}
         </Col>
         <Col style={{ textAlign: 'right', paddingRight: '20px' }} span={8}>
           {list3.map((item) => (
-            <BottomRankItem content={item} />
+            <BottomRankItem content={item} year={props.year} month={props.month}/>
           ))}
         </Col>
       </Row>
