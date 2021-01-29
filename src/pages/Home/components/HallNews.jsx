@@ -45,6 +45,7 @@ const HallNews = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const accessToken = Cookies.get('access_token');
   useEffect(() => {
+    console.log(carouselList)
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
     const month = myDate.getMonth() + 1;
@@ -256,7 +257,7 @@ const HallNews = (props) => {
           <div className={styles.leftCarousel} ref={ref}>
             <div className={styles.Carousel}>
               {
-                carouselList.length && <Swiper
+                carouselList && carouselList.length ? <Swiper
                   spaceBetween={20}
                   slidesPerView={1}
                   onSwiper={(swiper) => setSwiper(swiper)}
@@ -265,7 +266,7 @@ const HallNews = (props) => {
                   allowTouchMove={false}
                   onSlideChange={handleChange}
                 >
-                  {carouselList.map((v, i) => {
+                  {carouselList && carouselList.map((v, i) => {
                     return (
                       <SwiperSlide key={i}>
                         <div className={styles.container}>
@@ -288,7 +289,7 @@ const HallNews = (props) => {
                       </SwiperSlide>
                     );
                   })}
-                </Swiper>
+                </Swiper> : <></>
               }
             </div>
             <div className={styles.rightCarouselContent}>

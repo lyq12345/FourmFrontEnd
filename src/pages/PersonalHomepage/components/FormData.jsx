@@ -369,7 +369,7 @@ const FormData = (props) => {
             </Col>
             <Col span={16}>
               <Form.Item label="性别" name="operatorId">
-                <span>{detailInfo && detailInfo.FSex === 1 ? '男' : '女'}</span>
+                <span>{detailInfo && detailInfo.FSex ? (detailInfo.FSex === 1 ? '男' : '女') : '--'}</span>
               </Form.Item>
             </Col>
             <Col span={8}>
