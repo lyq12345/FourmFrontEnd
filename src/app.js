@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/es/storage/session';
 import { LoginIn } from '@/api/public';
+import { updateRefreshToken } from '@/services/user';
 
 const persistConfig = {
   key: 'yst-iwork-alpha',
@@ -24,6 +25,15 @@ export const dva = {
   },
 };
 
+// access_token刷新
+setTimeout(() => {
+  updateRefreshToken().then(res => {
+    if (res.success) {
+      Cookies.set('access_token', res.data.access_token)
+      Cookies.set('refresh_token', res.data.refresh_token)
+    }
+  })
+}, 1.5 * 60 * 60 * 1000)
 /**
  *
  * ###### @params  oldRender 表示原来的render方法
@@ -53,6 +63,8 @@ export async function render(oldRender) {
       ],
     },
   ];
+
+
 
   // 根据配置 是否使用本地权限
   const tenant_code = Cookies.get('tenant_code');

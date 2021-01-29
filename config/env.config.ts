@@ -15,7 +15,7 @@ function getConfig(name: String) {
 
   const currentEnvDomainFlag = name === 'prod' ? '' : `-${name}`;
   // sso配置
-  envConfig.REACT_APP_SSO_API = '/sso-api/';
+  envConfig.REACT_APP_SSO_API = '/sso/';
   envConfig.REACT_APP_SSO_DOMAIN = `sso${currentEnvDomainFlag}.yst.com.cn`;
   envConfig.REACT_APP_SSO_SDK_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_sdk.js`;
   envConfig.REACT_APP_SSO_CLIENT_PATH = `//sso${currentEnvDomainFlag}.yst.com.cn/open-api/oauth_client.js`;

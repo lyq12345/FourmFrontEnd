@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2020-09-02 09:56:09
- * @LastEditTime: 2021-01-07 16:24:32
+ * @LastEditTime: 2021-01-29 15:03:29
  * @LastEditors: xnwang02
  * @Description: In User Settings Edit
  * @FilePath: /yst-iwork-alpha/config/proxy.ts
@@ -42,10 +42,10 @@ export default {
       pathRewrite: { '^/basic-address': '' },
     },
     // sso接口转发
-    '/sso-api': {
+    '/sso': {
       target: 'http://sso-dev.yst.com.cn/sso/',
       changeOrigin: true,
-      pathRewrite: { '^/sso-api': '' },
+      pathRewrite: { '^/sso': '' },
     },
     '/candy': {
       target: 'http://10.213.10.49:8080',
@@ -82,10 +82,10 @@ export default {
       changeOrigin: true,
       pathRewrite: { '^/mock/yst-iwork-alpha-api': '' },
     },
-    '/sso-api': {
+    '/sso': {
       target: 'http://sso-test.yst.com.cn/sso/',
       changeOrigin: true,
-      pathRewrite: { '^/sso-api': '' },
+      pathRewrite: { '^/sso': '' },
     },
     '/candy': {
       target: 'http://10.213.10.49:8080',
