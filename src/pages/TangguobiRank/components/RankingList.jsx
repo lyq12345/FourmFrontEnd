@@ -14,6 +14,7 @@ const RankingList = () => {
   const [lastMonthRank, setLastMonthRank] = useState({ top10Rank: [], otherRank: [] });
   const [currentMonthRank, setCurMonthRank] = useState({ top10Rank: [], otherRank: [] });
   const [isHead, setIsHead] = useState(false);
+  const [curTabKey, setCurTabKey] = useState('1');
 
   const [pageSize, setPageSize] = useState(30);
   const [total, setTotal] = useState(50);
@@ -66,59 +67,174 @@ const RankingList = () => {
     });
   };
   const queryRankData = (deptNumber, page, pageSize) => {
+    // setLoading(true);
+    // let params = {};
+    // if (deptNumber === '50000025') {
+    //   params = {
+    //     deptType: 1,
+    //   };
+    // } else {
+    //   params = {};
+    // }
+
+    // // 年度榜单
+    // // 前十
+    // let p1 = new Promise(function (resolve, reject) {
+    //   coinRankPaging({
+    //     ...params,
+    //     deptNumber,
+    //     year: curYearDate.getFullYear(),
+    //     page: 1,
+    //     pageSize: 10,
+    //   }).then(({ success, data }) => {
+    //     if (success) {
+    //       setYearRank((pre) => {
+    //         return { ...pre, top10Rank: data.records };
+    //       });
+    //       resolve();
+    //     }
+    //   });
+    // });
+
+    // // 其他
+    // let p2 = new Promise(function (resolve, reject) {
+    //   coinRankPaging({
+    //     ...params,
+    //     deptNumber,
+    //     year: curYearDate.getFullYear(),
+    //     page,
+    //     pageSize,
+    //     offset: 10,
+    //   }).then(({ success, data }) => {
+    //     if (success) {
+    //       setYearRank((pre) => {
+    //         return { ...pre, otherRank: data.records };
+    //       });
+    //       setTotal(data.total);
+    //       setPageIndex(page);
+    //       resolve();
+    //     }
+    //   });
+    // });
+
+    // Promise.all([p1, p2]).then(() => {
+    //   setLoading(false);
+    // });
     setLoading(true);
     let params = {};
-    if (deptNumber === '50000025') {
+    if (selectedOrg === '50000025') {
       params = {
         deptType: 1,
       };
     } else {
       params = {};
     }
-
-    // 年度榜单
-    // 前十
-    let p1 = new Promise(function (resolve, reject) {
-      coinRankPaging({
-        ...params,
-        deptNumber,
-        year: curYearDate.getFullYear(),
-        page: 1,
-        pageSize: 10,
-      }).then(({ success, data }) => {
-        if (success) {
-          setYearRank((pre) => {
-            return { ...pre, top10Rank: data.records };
-          });
-          resolve();
-        }
-      });
-    });
-
-    // 其他
-    let p2 = new Promise(function (resolve, reject) {
-      coinRankPaging({
-        ...params,
-        deptNumber,
-        year: curYearDate.getFullYear(),
-        page,
-        pageSize,
-        offset: 10,
-      }).then(({ success, data }) => {
-        if (success) {
-          setYearRank((pre) => {
-            return { ...pre, otherRank: data.records };
-          });
-          setTotal(data.total);
-          setPageIndex(page);
-          resolve();
-        }
-      });
-    });
-
-    Promise.all([p1, p2]).then(() => {
-      setLoading(false);
-    });
+    switch (curTabKey) {
+      case '1': // 年度榜单
+        // 前十
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: curYearDate.getFullYear(),
+          page,
+          pageSize: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setYearRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+          }
+        });
+        // 其他
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: curYearDate.getFullYear(),
+          page,
+          pageSize: 30,
+          offset: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setYearRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(page);
+            setLoading(false);
+          }
+        });
+        break;
+      case '2': // 上月榜单
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: lastMonthDate.getFullYear(),
+          month: lastMonthDate.getMonth() + 1,
+          page,
+          pageSize: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setLastMonthRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+          }
+        });
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: lastMonthDate.getFullYear(),
+          month: lastMonthDate.getMonth() + 1,
+          page,
+          pageSize: 30,
+          offset: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setLastMonthRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(page);
+            setLoading(false);
+          }
+        });
+        break;
+      case '3': // 本月榜单
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: curYearDate.getFullYear(),
+          month: curYearDate.getMonth() + 1,
+          page,
+          pageSize: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setCurMonthRank((pre) => {
+              return { ...pre, top10Rank: data.records };
+            });
+          }
+        });
+        coinRankPaging({
+          ...params,
+          deptNumber,
+          year: curYearDate.getFullYear(),
+          month: curYearDate.getMonth() + 1,
+          page,
+          pageSize: 30,
+          offset: 10,
+        }).then(({ success, data }) => {
+          if (success) {
+            setCurMonthRank((pre) => {
+              return { ...pre, otherRank: data.records };
+            });
+            setTotal(data.total);
+            setPageIndex(page);
+            setLoading(false);
+          }
+        });
+        break;
+      default:
+        return;
+    }
   };
 
   // 页码变化回调
@@ -243,6 +359,8 @@ const RankingList = () => {
       default:
         return;
     }
+    setCurTabKey(key);
+    // queryRankData(selectedOrg,1);
   };
 
   // 仅显示部门选择回调

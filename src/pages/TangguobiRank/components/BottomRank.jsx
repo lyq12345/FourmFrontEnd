@@ -1,18 +1,7 @@
 import React from 'react';
 import BottomRankItem from './BottomRankItem';
 import { Row, Col } from 'antd';
-const data = [];
-for (let i = 0; i < 30; i++) {
-  let item = {
-    personCode: 'zhsong3',
-    personName: '张三',
-    deptName: '信息技术部',
-    coin: '10000',
-    coinOrder: i + 10 + 1,
-    headImg: '@/assets/img/avatar.jpg',
-  };
-  data.push(item);
-}
+
 const BottomRank = (props) => {
   const list1 = props.content.slice(0, 10);
   const list2 = props.content.slice(10, 20);
