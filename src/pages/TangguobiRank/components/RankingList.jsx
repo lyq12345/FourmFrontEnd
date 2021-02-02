@@ -136,7 +136,7 @@ const RankingList = () => {
           ...params,
           deptNumber,
           year: curYearDate.getFullYear(),
-          page,
+          page: 1,
           pageSize: 10,
         }).then(({ success, data }) => {
           if (success) {
@@ -170,7 +170,7 @@ const RankingList = () => {
           deptNumber,
           year: lastMonthDate.getFullYear(),
           month: lastMonthDate.getMonth() + 1,
-          page,
+          page: 1,
           pageSize: 10,
         }).then(({ success, data }) => {
           if (success) {
@@ -204,7 +204,7 @@ const RankingList = () => {
           deptNumber,
           year: curYearDate.getFullYear(),
           month: curYearDate.getMonth() + 1,
-          page,
+          page: 1,
           pageSize: 10,
         }).then(({ success, data }) => {
           if (success) {
