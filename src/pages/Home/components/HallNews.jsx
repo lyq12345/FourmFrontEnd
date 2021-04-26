@@ -11,12 +11,19 @@ import playImg from '@/assets/img/play.png';
 import styles from '../style.less';
 // import { carouselList } from '@/constants/mock';
 import { withRouter } from 'umi';
-import { GetUserTip, GetPortalTip, GetAffairIndex, GetAffairPersonIndex, GetTask, GetMessage } from '@/api/common'
+import {
+  GetUserTip,
+  GetPortalTip,
+  GetAffairIndex,
+  GetAffairPersonIndex,
+  GetTask,
+  GetMessage,
+} from '@/api/common';
 import SwiperCore, { Autoplay } from 'swiper';
 
-import Slider from "react-slick";
+import Slider from 'react-slick';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import SwiperComponent from '@/components/Swiper/Swiperv'
+import SwiperComponent from '@/components/Swiper/Swiperv';
 import Cookies from 'js-cookie';
 
 SwiperCore.use([Autoplay]);
@@ -27,17 +34,17 @@ const HallNews = (props) => {
   const [autoplay, setAutoplay] = useState(true);
   const [topVideo, setTopVideo] = useState({});
   // const swiperRef = useRef()
-  const [spinning, setSpinning] = useState(true)
-  const [entryTime, setEntryTime] = useState(null)
-  const [hallWordsText, setHallWordsText] = useState(null)
-  const [unreadMessagesNum, setUnreadMessagesNum] = useState(null)
-  const [toDoTasksNum, setToDoTasksNum] = useState(null)
-  const [carouselList, setCarouselList] = useState([])
-  const [unreadInfoList, setUnreadInfoList] = useState({})
-  const [toDoTasksList, setToDoTasksNumList] = useState({})
-  const [WeeklyChapelInfo, setWeeklyChapelInfo] = useState({})
-  const [isToDoTasksVisible, setIsToDoTasksVisible] = useState(false)
-  const [isUnreadVisible, setIsUnreadVisible] = useState(false)
+  const [spinning, setSpinning] = useState(true);
+  const [entryTime, setEntryTime] = useState(null);
+  const [hallWordsText, setHallWordsText] = useState(null);
+  const [unreadMessagesNum, setUnreadMessagesNum] = useState(null);
+  const [toDoTasksNum, setToDoTasksNum] = useState(null);
+  const [carouselList, setCarouselList] = useState([]);
+  const [unreadInfoList, setUnreadInfoList] = useState({});
+  const [toDoTasksList, setToDoTasksNumList] = useState({});
+  const [WeeklyChapelInfo, setWeeklyChapelInfo] = useState({});
+  const [isToDoTasksVisible, setIsToDoTasksVisible] = useState(false);
+  const [isUnreadVisible, setIsUnreadVisible] = useState(false);
   const [swiper, setSwiper] = useState(null);
   // 自动停止轮播
   const ref = React.useRef();
@@ -45,7 +52,7 @@ const HallNews = (props) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const accessToken = Cookies.get('access_token');
   useEffect(() => {
-    console.log(carouselList)
+    console.log(carouselList);
     const myDate = new Date();
     const fullYear = myDate.getFullYear();
     const month = myDate.getMonth() + 1;
@@ -54,45 +61,45 @@ const HallNews = (props) => {
 
     const info = () => {
       // 获取入职时间
-      GetUserTip({}).then(response => {
+      GetUserTip({}).then((response) => {
         if (response.success) {
-          setEntryTime(response.data)
+          setEntryTime(response.data);
         }
-      })
+      });
       // 获取堂里话
-      GetPortalTip({}).then(response => {
+      GetPortalTip({}).then((response) => {
         if (response.success) {
-          setHallWordsText(response.data)
+          setHallWordsText(response.data);
         }
-      })
+      });
       // 获取待办任务
-      GetTask().then(response => {
+      GetTask().then((response) => {
         if (response.success) {
-          setToDoTasksNumList(response.data.tasks || [])
-          setToDoTasksNum(response.data.total)
+          setToDoTasksNumList(response.data.tasks || []);
+          setToDoTasksNum(response.data.total);
         }
-      })
+      });
       // 获取堂里新鲜事
-      GetAffairIndex().then(response => {
+      GetAffairIndex().then((response) => {
         if (response.success) {
-          setCarouselList(response.data || [])
+          setCarouselList(response.data || []);
         }
-      })
+      });
       // 获取每周堂里人
-      GetAffairPersonIndex().then(response => {
+      GetAffairPersonIndex().then((response) => {
         if (response.success) {
-          setWeeklyChapelInfo(response.data)
+          setWeeklyChapelInfo(response.data);
         }
-      })
+      });
       // 获取未读接口
-      GetMessage().then(response => {
+      GetMessage().then((response) => {
         if (response.success) {
-          setUnreadInfoList(response.data.messages || [])
-          setUnreadMessagesNum(response.data.total)
+          setUnreadInfoList(response.data.messages || []);
+          setUnreadMessagesNum(response.data.total);
         }
-      })
-    }
-    info()
+      });
+    };
+    info();
   }, []);
   useEffect(() => {
     // if (carouselList.length === 0) {
@@ -103,8 +110,7 @@ const HallNews = (props) => {
     } else {
       swiper?.autoplay?.start();
     }
-
-  }, [isHovering, swiper, isPlaying])
+  }, [isHovering, swiper, isPlaying]);
 
   const getYearWeek = (a, b, c) => {
     /*  
@@ -125,25 +131,25 @@ const HallNews = (props) => {
   );
 
   const lookMoreHallPeople = (val) => {
-    window.open('/yst-iwork-alpha/hall-people')
+    window.open('/yst-iwork-alpha/hall-people');
   };
   const lookMoreHallSomething = (val) => {
-    window.open('/yst-iwork-alpha/hall-something')
+    window.open('/yst-iwork-alpha/hall-something');
   };
   const detailRouter = (val) => {
-    window.open(`/yst-iwork-alpha/hall-something/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-something/detail?id=${val.id}`);
   };
   const detailHallPeople = (val) => {
-    window.open(`/yst-iwork-alpha/hall-people/detail?id=${val.id}`)
+    window.open(`/yst-iwork-alpha/hall-people/detail?id=${val.id}`);
   };
   const handleVisibleChange = (event, val) => {
     if (val === 1 && unreadMessagesNum) {
-      setIsUnreadVisible(event)
+      setIsUnreadVisible(event);
     }
     if (val === 2 && toDoTasksNum) {
-      setIsToDoTasksVisible(event)
+      setIsToDoTasksVisible(event);
     }
-  }
+  };
   const handleEnded = React.useCallback((e) => {
     e.target.load();
     setIsPlaying(false);
@@ -154,65 +160,82 @@ const HallNews = (props) => {
     const video = e.target;
     if (video.paused || video.ended) {
       video.play();
-      e.target.controlsStand = true
+      e.target.controlsStand = true;
     } else {
       video.pause();
-      e.target.controlsStand = false
+      e.target.controlsStand = false;
     }
   }, []);
   // 播放控制 - 样式
   const handleCanPlay = React.useCallback((e) => {
-    e.target.parentElement.dataset.state = "pause";
+    e.target.parentElement.dataset.state = 'pause';
   }, []);
   const handlePause = React.useCallback((e) => {
-    e.target.controlsStand = true
-    e.target.parentElement.dataset.state = "pause";
+    e.target.controlsStand = true;
+    e.target.parentElement.dataset.state = 'pause';
     setIsPlaying(false);
   }, []);
   const handlePlaying = React.useCallback((e) => {
     e.target.controls = e.target.controlsStand;
-    e.target.parentElement.dataset.state = "";
+    e.target.parentElement.dataset.state = '';
     setIsPlaying(true);
   }, []);
   const handleChange = (val) => {
-    setCarouselCurrent(val.realIndex)
-  }
+    setCarouselCurrent(val.realIndex);
+  };
 
   return (
     <div>
       <div className={styles.infoTitle}>
         <div className={styles.titleText}>
           <span className={styles.name}>
-            {/* 亲爱的王佳佳，这是你在堂里的第<i className={styles.today}>{entryTime}</i>天 */}
-            {entryTime}
+            亲爱的李雨峤，这是你学习的第41天
+            {/* {entryTime} */}
           </span>
           <Divider className={styles.dividerVertical} type="vertical" />
           <img src={hallWords} alt="" />
           <span className={styles.HallWords}>
-            {hallWordsText}
-            {/* 能正确的提出问题就是迈出创新第一步能正确的提出问题就是迈出创最多出创最多三九字 */}
+            {/* {hallWordsText} */}
+            能正确的提出问题就是迈出创新第一步能正确的提出问题就是迈出创最多出创最多三九字
           </span>
         </div>
         <div className={styles.task}>
-          <Popover placement="bottomRight"
+          <Popover
+            placement="bottomRight"
             content={
-              <CardComponent title noPadding bottomLookMore dataList={unreadInfoList} moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2" />
+              <CardComponent
+                title
+                noPadding
+                bottomLookMore
+                dataList={unreadInfoList}
+                moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2"
+              />
             }
             visible={isUnreadVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 1)}
-            trigger='hover'>
-            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2&token=${accessToken}`) }}>
+            trigger="hover"
+          >
+            <div
+              className={styles.popoverStyle}
+              onClick={() => {
+                window.open(
+                  `http://10.210.2.9:9002/portal/AutoLogin.aspx?type=2&token=${accessToken}`,
+                );
+              }}
+            >
               <img src={unreadMessages} alt="" />
               <span className={styles.messageText}>我的消息</span>
-              {
-                unreadMessagesNum ? unreadMessagesNum.toString().length > 1 ?
+              {unreadMessagesNum ? (
+                unreadMessagesNum.toString().length > 1 ? (
                   <p className={styles.messageTag1}>
                     {unreadMessagesNum > 99 ? '99+' : unreadMessagesNum}
-                  </p> :
-                  <p className={styles.messageTag2}>
-                    {unreadMessagesNum}
-                  </p> : <></>
-              }
+                  </p>
+                ) : (
+                  <p className={styles.messageTag2}>{unreadMessagesNum}</p>
+                )
+              ) : (
+                <></>
+              )}
               {/* <Badge
                 className={styles.messageTost1}
                 style={{ backgroundColor: '#CE1925', padding: '0 6px', lineHeight: '12px', height: '14px' }}
@@ -221,25 +244,40 @@ const HallNews = (props) => {
               /> */}
             </div>
           </Popover>
-          <Popover placement="bottomRight"
+          <Popover
+            placement="bottomRight"
             content={
-              <CardComponent title noPadding bottomLookMore dataList={toDoTasksList} moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1" />
+              <CardComponent
+                title
+                noPadding
+                bottomLookMore
+                dataList={toDoTasksList}
+                moreUrl="http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1"
+              />
             }
             visible={isToDoTasksVisible}
             onVisibleChange={(val) => handleVisibleChange(val, 2)}
-            trigger="hover">
-            <div className={styles.popoverStyle} onClick={() => { window.open(`http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1&token=${accessToken}`) }}>
+            trigger="hover"
+          >
+            <div
+              className={styles.popoverStyle}
+              onClick={() => {
+                window.open(
+                  `http://10.210.2.9:9002/portal/AutoLogin.aspx?type=1&token=${accessToken}`,
+                );
+              }}
+            >
               <img src={toDoTasksImg} alt="" />
               <span className={styles.messageText}>待办任务</span>
-              {
-                toDoTasksNum ? toDoTasksNum.toString().length > 1 ?
-                  <p className={styles.messageTag1}>
-                    {toDoTasksNum > 99 ? '99+' : toDoTasksNum}
-                  </p> :
-                  <p className={styles.messageTag2}>
-                    {toDoTasksNum}
-                  </p> : <></>
-              }
+              {toDoTasksNum ? (
+                toDoTasksNum.toString().length > 1 ? (
+                  <p className={styles.messageTag1}>{toDoTasksNum > 99 ? '99+' : toDoTasksNum}</p>
+                ) : (
+                  <p className={styles.messageTag2}>{toDoTasksNum}</p>
+                )
+              ) : (
+                <></>
+              )}
               {/* <Badge
                 className={styles.messageTost2}
                 style={{ backgroundColor: '#CE1925' }}
@@ -247,17 +285,17 @@ const HallNews = (props) => {
                 count={toDoTasksNum}
               /> */}
             </div>
-          </Popover >
-        </div >
-      </div >
-      {/* 堂里新鲜事 */}
-      < div className={styles.somethingHall} >
+          </Popover>
+        </div>
+      </div>
+      {/* 热门技术帖 */}
+      <div className={styles.somethingHall}>
         <div className={styles.leftContent}>
-          <p className={styles.somethingHallTitle}>堂里新鲜事</p>
+          <p className={styles.somethingHallTitle}>热门技术帖</p>
           <div className={styles.leftCarousel} ref={ref}>
             <div className={styles.Carousel}>
-              {
-                carouselList && carouselList.length ? <Swiper
+              {carouselList && carouselList.length ? (
+                <Swiper
                   spaceBetween={20}
                   slidesPerView={1}
                   onSwiper={(swiper) => setSwiper(swiper)}
@@ -266,31 +304,43 @@ const HallNews = (props) => {
                   allowTouchMove={false}
                   onSlideChange={handleChange}
                 >
-                  {carouselList && carouselList.map((v, i) => {
-                    return (
-                      <SwiperSlide key={i}>
-                        <div className={styles.container}>
-                          {v.href.videoMP4 ? (
-                            <video
-                              src={v.href.videoMP4}
-                              poster={v.href.src}
-                              onEnded={handleEnded}
-                              onClick={handleClick}
-                              onCanPlay={handleCanPlay}
-                              onPause={handlePause}
-                              onPlaying={handlePlaying}
-                              preload="metadata"
-                              muted
-                            />
-                          ) : (
-                              <img onClick={() => detailRouter(v)} style={{ width: '487px', height: '278px', borderRadius: '3px 0 0 3px' }} src={v.href.src} alt="pic" />
+                  {carouselList &&
+                    carouselList.map((v, i) => {
+                      return (
+                        <SwiperSlide key={i}>
+                          <div className={styles.container}>
+                            {v.href.videoMP4 ? (
+                              <video
+                                src={v.href.videoMP4}
+                                poster={v.href.src}
+                                onEnded={handleEnded}
+                                onClick={handleClick}
+                                onCanPlay={handleCanPlay}
+                                onPause={handlePause}
+                                onPlaying={handlePlaying}
+                                preload="metadata"
+                                muted
+                              />
+                            ) : (
+                              <img
+                                onClick={() => detailRouter(v)}
+                                style={{
+                                  width: '487px',
+                                  height: '278px',
+                                  borderRadius: '3px 0 0 3px',
+                                }}
+                                src={v.href.src}
+                                alt="pic"
+                              />
                             )}
-                        </div>
-                      </SwiperSlide>
-                    );
-                  })}
-                </Swiper> : <></>
-              }
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })}
+                </Swiper>
+              ) : (
+                <></>
+              )}
             </div>
             <div className={styles.rightCarouselContent}>
               {carouselList &&
@@ -304,8 +354,12 @@ const HallNews = (props) => {
                     }
                     key={index}
                   >
-                    <p className={styles.content} title={item.title}>{item.title}</p>
-                    <p className={styles.content} title={item.content}>{item.content}</p>
+                    <p className={styles.content} title={item.title}>
+                      {item.title}
+                    </p>
+                    <p className={styles.content} title={item.content}>
+                      {item.content}
+                    </p>
                   </div>
                 ))}
               <div onClick={lookMoreHallSomething} className={styles.lookMore}>
@@ -327,15 +381,18 @@ const HallNews = (props) => {
               <span>— {WeeklyChapelInfo && WeeklyChapelInfo.company}</span>
             </p>
             <p className={styles.hallPeopleImg}>
-              <img src={WeeklyChapelInfo && WeeklyChapelInfo.href && WeeklyChapelInfo.href.src} alt="" />
+              <img
+                src={WeeklyChapelInfo && WeeklyChapelInfo.href && WeeklyChapelInfo.href.src}
+                alt=""
+              />
             </p>
           </div>
           <div className={styles.lookMore} onClick={() => lookMoreHallPeople()}>
             查看更多
           </div>
         </div>
-      </div >
-    </div >
+      </div>
+    </div>
   );
 };
 export default withRouter(HallNews);

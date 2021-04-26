@@ -3,7 +3,7 @@ import { Layout, Result, Button, Popover, Breadcrumb, Divider } from 'antd';
 import Authorized from '@/utils/Authorized';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import loginheadimg from '@/assets/img/login-head-img.png';
-import logo from '@/assets/img/logo.png';
+import logo from '@/assets/img/joelee-logo.png';
 import ystLogoMax from '@/assets/img/yst-logo-max.png';
 import NFSQlogo from '@/assets/img/NFSQ-logo.png';
 import YSTLogo from '@/assets/img/YST-logo.png';
@@ -146,6 +146,7 @@ const Navigation = (props) => {
             <Link to="/">
               <div className={styles.leftContent}>
                 <img src={logo} alt="" />
+                {/* <span>JoeLee</span> */}
               </div>
             </Link>
             <div className={styles.rightContent}>
@@ -211,30 +212,23 @@ const Navigation = (props) => {
               <div className={styles.leftContent}>
                 <div className={styles.companyName}>
                   <div className={styles.groupName}>
-                    <a href="http://www.yst.com.cn" target="_Blank">
-                      养生堂集团有限公司
+                    <a href="https://www.seu.edu.cn/" target="_Blank">
+                      东南大学
                     </a>
                   </div>
                   <div className={styles.son1CompanyName}>
-                    <a href="http://www.yst.com.cn" target="_Blank">
-                      养生堂有限公司
+                    <a href="https://cose.seu.edu.cn/" target="_Blank">
+                      东南大学软件学院
                     </a>
                     <Divider className={styles.linkDivider} type="vertical" />
-                    <a href="https://www.nongfuspring.com" target="_Blank">
-                      农夫山泉股份有限公司
+                    <a href="https://cse.seu.edu.cn/" target="_Blank">
+                      东南大学计算机科学与工程学院
                     </a>
-                    <Divider className={styles.linkDivider} type="vertical" />
-                    <a href="http://www.ystco.com.cn" target="_Blank">
-                      养生堂浙江食品有限公司
-                    </a>
-                    <Divider className={styles.linkDivider} type="vertical" />
-                    <a href="http://yoseido.yst.com.cn" target="_Blank">
-                      养生堂化妆品有限公司
-                    </a>
+                    
                   </div>
                   <div className={styles.son2CompanyName}>
                     <a href="https://www.ystwt.com" target="_Blank">
-                      北京万泰生物药业股份有限公司
+                      联系开发者
                     </a>
                   </div>
                 </div>
@@ -262,19 +256,8 @@ const Navigation = (props) => {
           <div className={styles.footerCompanyLogo}>
             <div className={styles.footerLeftContent}>
               <div className={styles.leftLogo}>
-                <img src={ystLogoMax} alt="" onClick={() => imgDispatch('http://www.yst.com.cn')} />
-                <img
-                  src={NFSQlogo}
-                  alt=""
-                  onClick={() => imgDispatch('https://www.nongfuspring.com')}
-                />
-                <img
-                  src={YSTLogo}
-                  alt=""
-                  style={{ width: '188px' }}
-                  onClick={() => imgDispatch('http://yoseido.yst.com.cn')}
-                />
-                <img style={{ width: '144px' }} src={WTSWLogo} alt="" onClick={() => imgDispatch('https://www.ystwt.com')} />
+                <img src={logo} alt="" onClick={() => imgDispatch('http://www.yst.com.cn')} />
+                
               </div>
               <div className={styles.rightLogo}>
                 <p className={styles.remark}>All Rights Reserved.浙ICP备10201315号-3</p>

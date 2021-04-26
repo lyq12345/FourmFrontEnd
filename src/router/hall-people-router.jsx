@@ -14,28 +14,28 @@ module.exports = {
           name: '每周堂里人详情',
           component: './HallPeople/Detail',
         },
-      ]
+      ],
     },
     {
       path: '/hall-something',
-      name: '堂里新鲜事',
+      name: '热门技术帖',
       routes: [
         {
           path: '/hall-something',
-          name: '堂里新鲜事',
+          name: '热门技术帖',
           component: './HallSomething',
         },
         {
           path: '/hall-something/detail',
-          name: '堂里新鲜事详情',
+          name: '热门技术帖详情',
           component: './HallSomething/Detail',
         },
-      ]
+      ],
     },
     {
       path: '/personal-homepage',
       name: '个人主页',
       component: './PersonalHomepage',
     },
-  ]
-}
+  ],
+};
